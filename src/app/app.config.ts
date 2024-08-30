@@ -10,5 +10,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { firebaseCredentials } from './firebase-credentials';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideFirebaseApp(() => initializeApp(firebaseCredentials)), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideStorage(() => getStorage()), provideAnimationsAsync(), provideAnimationsAsync()]
+  providers: [
+    provideRouter(routes),
+    provideFirebaseApp(() => initializeApp(firebaseCredentials)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    provideAnimationsAsync()]
 };
