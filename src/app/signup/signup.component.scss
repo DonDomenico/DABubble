@@ -1,3 +1,45 @@
 .signup-container {
     margin: 75px;
 }
+
+
+mat-card {
+    padding: 40px;
+    border-radius: 30px;
+    align-items: center;
+    gap: 40px;
+    max-width: 600px;
+
+    a {
+        position: absolute;
+        left: 32px;
+        top: 45px;
+    }
+
+    mat-card-title {
+        font-family: "Nunito";
+        font-weight: 700;
+        color: #444DF2;
+        font-size: 46px;
+    }
+
+    mat-card-subtitle {
+        font-family: "Nunito";
+        font-size: 20px;
+        text-align: center;
+        font-weight: 400;
+        color: black;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+
+        input {
+            width: 500px;
+            height: 60px;
+            gap: 6px;
+        }
+    }
+}
