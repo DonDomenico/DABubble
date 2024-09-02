@@ -1,13 +1,49 @@
-mat-toolbar {
-    background-color: #eceefe;
+header {
     height: 100px;
-    >img {
-        height: 70px;
-        padding-left: 50px;
-        padding-top: 25px;
-    }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+mat-toolbar {
+  background-color: #eceefe;
+  width: 25%;
+  height: 100px;
+  > img {
+    height: 70px;
+    padding-left: 50px;
+    padding-top: 25px;
+  }
 }
 
 mat-form-field {
-    width: 989px;
+  width: 45%;
+  height: 50px;
+  input {
+    border-radius: 30px;
+    background-color: white;
+    height: 40px;
+  }
+}
+
+.header-aktiv-user {
+  width: 30%;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding-right: 50px;
+  > p {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 43.65px;
+    text-align: left;
+  }
+  .user-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+  }
 }
