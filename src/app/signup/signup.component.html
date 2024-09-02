@@ -1,10 +1,25 @@
-<p>signup works!</p>
-<form>
-    <input type="text" placeholder="username" [(ngModel)]="user.username" name="username">
-    <input type="email" placeholder="email" [(ngModel)]="user.email" name="email">
-    <input type="password" placeholder="password" [(ngModel)]="user.password" name="password">
-    <input type="submit" (click)="registerUser()">
-</form>
-
-<button (click)="authService.showCurrentUser()">Show current user</button>
-<button (click)="authService.logout()">Logout</button>
+<div class="signup-container">
+    <div class="head">
+        <img src="./assets/img/logo-dabubble.svg" alt="">
+    </div>
+    
+    <mat-card>
+        <mat-card-title>Konto erstellen</mat-card-title>
+        <mat-card-subtitle>Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</mat-card-subtitle>
+    
+        <mat-card-content>
+            <form #registerForm>
+                <input type="text" placeholder="Name und Nachname" [(ngModel)]="user.username" name="username">
+                <input type="email" placeholder="email" [(ngModel)]="user.email" name="email">
+                <!-- Fehlermeldung anzeigen, falls schon ein Account mit der Emailadresse existiert -->
+                <input type="password" placeholder="password" [(ngModel)]="user.password" name="password">
+                <!-- Fehlermeldung anzeigen, wenn das Passwort zu schwach ist -->
+                <input type="submit" (click)="registerUser()">
+                <!-- Toast-Message anzeigen, wenn Registrierung erfolgreich war -->
+            </form>
+        </mat-card-content>
+    </mat-card>
+    
+    <button (click)="authService.showCurrentUser()">Show current user</button>
+    <button (click)="authService.logout()">Logout</button>
+</div>
