@@ -1,7 +1,10 @@
 <p>signup works!</p>
-<form onsubmit="registerUser()">
+<form>
     <input type="text" placeholder="username" [(ngModel)]="user.username" name="username">
     <input type="email" placeholder="email" [(ngModel)]="user.email" name="email">
     <input type="password" placeholder="password" [(ngModel)]="user.password" name="password">
-    <input type="submit">
+    <input type="submit" (click)="registerUser()">
 </form>
+
+<button (click)="authService.showCurrentUser()">Show current user</button>
+<button (click)="authService.logout()">Logout</button>
