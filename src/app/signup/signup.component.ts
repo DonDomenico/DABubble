@@ -3,11 +3,12 @@ import { AuthenticationService } from '../services/authentication.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../users/user.interface';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, MatCardModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
@@ -23,6 +24,6 @@ export class SignupComponent {
 
   async registerUser() {
     await this.authService.createUser(this.user.email, this.user.username, this.user.password);
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('general-view');
   }
 }
