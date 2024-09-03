@@ -1,14 +1,59 @@
 .side-nav {
   width: 366px;
-  background-color: white;
   padding: 32px 30px 32px 30px;
-  gap: 25px;
-  border-radius: 30px;
-  
+
+  // border-radius: 30px;
 }
 .side-nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  > p {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 32.74px;
+    text-align: left;
+  }
+  .workspace-logo {
+    height: 60px;
+    width: 60px;
+  }
+  .edit-icon {
+    height: 20.5px;
+    width: 20.5px;
+  }
+}
+.channels-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0px 3px 0px;
+  .left-side {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background-color: white;
+    align-items: baseline;
+    gap: 15px;
+    >img {
+      width: 9px;
+      height: 5.75px;
+    }
+    .channels-headline {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      > p {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 27.28px;
+        text-align: right;
+      }
+    }
+   
   }
+  img {
+      height: 14px;
+      width: 14px;
+}
+}

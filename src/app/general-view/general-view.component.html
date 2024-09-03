@@ -1,11 +1,12 @@
 <app-header></app-header>
 
-<mat-drawer-container class="sidenav-container" autosize>
+<mat-drawer-container autosize>
 
-    <mat-drawer #drawer mode="side">
-        <app-sidenav></app-sidenav>
-     
-    </mat-drawer>
+
+  <mat-drawer class="sidenav-container" #drawer mode="side">
+      <app-sidenav></app-sidenav>
+      
+  </mat-drawer>
 
     <div class="main-chat-container">
       <button type="button" mat-button (click)="drawer.toggle()">
