@@ -1,7 +1,6 @@
 .side-nav {
   width: 366px;
   padding: 32px 30px 32px 30px;
-
   // border-radius: 30px;
 }
 .side-nav-header {
@@ -9,51 +8,65 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
-  > p {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 32.74px;
-    text-align: left;
-  }
-  .workspace-logo {
-    height: 60px;
-    width: 60px;
+  .header-left-side {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 15px;
+    > p {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32.74px;
+      text-align: left;
+    }
+    .workspace-logo {
+      height: 60px;
+      width: 60px;
+    }
   }
   .edit-icon {
     height: 20.5px;
     width: 20.5px;
   }
 }
+
 .channels-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 3px 0px 3px 0px;
+  margin-bottom: 25px;
   .left-side {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
     gap: 15px;
-    >img {
-      width: 9px;
-      height: 5.75px;
+    .channels-arrow {
+      transform: rotate(270deg);
     }
-    .channels-headline {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 10px;
-      > p {
-        font-size: 20px;
-        font-weight: 700;
-        line-height: 27.28px;
-        text-align: right;
+  }
+
+  .channels-headline {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    > p {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 27.28px;
+      text-align: right;
+      &:hover {
+        color: rgba(83, 90, 241, 1);
       }
     }
-   
   }
-  img {
-      height: 14px;
-      width: 14px;
 }
+.add-channel-icon {
+  height: 14px;
+  width: 14px;
+  &:hover {
+    width: 28px;
+    height: 28px;
+  }
 }

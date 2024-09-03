@@ -1,20 +1,24 @@
 <div class="side-nav">
   <div class="side-nav-header">
-    <img class="workspace-logo" src="./assets/img/Workspace logo.svg" />
-    <p>Devspace</p>
+    <div class="header-left-side">
+      <img class="workspace-logo" src="./assets/img/Workspace logo.svg" />
+      <p>Devspace</p>
+
+    </div>
     <img class="edit-icon" src="./assets/img/edit_square.svg" />
   </div>
 
 
   <div class="channels-container">
-    <div class="left-side">
-      <img src="./assets/img/arrow-down.svg" alt="">
+    <div class="left-side" >
+  
+      <img class="channels-arrow" src="./assets/img/arrow-dropdown.svg" onmouseover="this.src='./assets/img/arrow-dropdown-hover.svg'" onmouseout="this.src='./assets/img/arrow-dropdown.svg'" >
       <div class="channels-headline">
-        <img src="./assets/img/channels.svg" alt="">
+        <img src="./assets/img/channels.svg" onmouseover="this.src='./assets/img/channels-hover.svg'" onmouseout="this.src='./assets/img/channels.svg'">
         <p>Channels</p>
       </div>
     </div>
-    <img src="./assets/img/plus-icon.svg" alt="">
+    <img class="add-channel-icon" src="./assets/img/plus-icon.svg"  onmouseover="this.src='./assets/img/plus-hover.svg'" onmouseout="this.src='./assets/img/plus-icon.svg'">
     
   </div>
   
@@ -22,5 +26,20 @@
     channels 
   </app-channel-list>
 
+  <div class="channels-container">
+    <div class="left-side">
+      <img src="./assets/img/arrow-dropdown.svg" onmouseover="this.src='./assets/img/arrow-dropdown-hover.svg'" onmouseout="this.src='./assets/img/arrow-dropdown.svg'">
+      <div class="channels-headline">
+        <img src="./assets/img/account-circle.svg" onmouseover="this.src='./assets/img/account-circle-hover.svg'" onmouseout="this.src='./assets/img/account-circle.svg'" alt="">
+        <p>Direktnachrichten</p>
+      </div>
+    </div>
+  
+    
+  </div>
+
+  <app-users>
+    User List
+  </app-users>
 
 </div>
