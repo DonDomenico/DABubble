@@ -1,19 +1,19 @@
 <app-header></app-header>
 
-<mat-drawer-container autosize>
+<section>
+  <div class="side-nav-container">
+    <app-sidenav></app-sidenav>
+  </div>
 
+  <div class="main-chat-container">
+    <app-chat></app-chat>
+  </div>
 
-  <mat-drawer class="sidenav-container" #drawer mode="side">
-      <app-sidenav></app-sidenav>
-      
-  </mat-drawer>
+  <div class="thread-container">
+    <app-thread></app-thread>
+  </div>
+</section>
 
-    <div class="main-chat-container">
-      <button type="button" mat-button (click)="drawer.toggle()">
-        Workspace-Menü schließen
-      </button>
-    </div>
-  
-  </mat-drawer-container> 
-
-  
+<div>
+  <button type="button" mat-button>Workspace-Menü schließen</button>
+</div>
