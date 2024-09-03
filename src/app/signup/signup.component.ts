@@ -1,53 +1,36 @@
 import { Component, inject } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { FormsModule, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { User } from '../users/user.interface';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { merge } from 'rxjs';
+
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule, MatCardModule, RouterLink, MatIconModule, MatButtonModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule],
+  imports: [FormsModule, MatCardModule, RouterLink, ReactiveFormsModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
 export class SignupComponent {
-  user: User = {
-    username: '',
-    email: '',
-    password: ''
-  }
 
   authService = inject(AuthenticationService);
   router = inject(Router);
-  hide = true;
-  email = new FormControl('', [Validators.required, Validators.email]);
-  errorMessage = '';
+  fb = inject(FormBuilder);
 
-  constructor() {
-    merge(this.email.statusChanges, this.email.valueChanges).pipe(takeUntilDestroyed()).subscribe(() => 
-    this.updateErrorMessage());
+  registerForm = this.fb.nonNullable.group({
+    username: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  })
+
+  registerUser() {
+      this.authService.createUser(this.registerForm.getRawValue());
+      this.router.navigateByUrl('general-view');
   }
 
-  async registerUser() {
-    await this.authService.createUser(this.user.email, this.user.username, this.user.password);
-    this.router.navigateByUrl('general-view');
-  }
-
-  updateErrorMessage() {
-    if (this.email.hasError('required')) {
-      this.errorMessage = 'You must enter a value';
-    } else if (this.email.hasError('email')) {
-      this.errorMessage = 'Not a valid email';
-    } else {
-      this.errorMessage = '';
-    }
+  onSubmit() {
+    console.log('submitted form', this.registerForm.value, this.registerForm.valid);
+    // this.registerUser();
   }
 }

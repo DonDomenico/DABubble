@@ -10,29 +10,35 @@
             DABubble-Konto.</mat-card-subtitle>
 
         <mat-card-content>
-            <form>
-                <input type="text" placeholder="Name und Nachname" [(ngModel)]="user.username" name="username">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="form-field">
+                    <div class="input-container">
+                        <img src="./assets/img/person_filled.svg" alt="">
+                        <input type="text" placeholder="Name und Nachname" formControlName="username">
+                    </div>
+                </div>
                 
-                <mat-form-field>
-                    <mat-label>Enter your email</mat-label>
-                    <input matInput placeholder="pat@example.com" [formControl]="email" (blur)="updateErrorMessage()"
-                        required [(ngModel)]="user.email" name="email">
-                    @if (email.invalid) {
-                    <mat-error>{{errorMessage}}</mat-error>
+
+                <div class="form-field">
+                    <div class="input-container">
+                        <img src="./assets/img/mail.svg" alt="">
+                        <input placeholder="beispielname@email.com" formControlName="email">
+                    </div>
+                    @if (registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)) {
+                        <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
                     }
-                </mat-form-field>
+                </div>
                 <!-- Fehlermeldung anzeigen, falls schon ein Account mit der Emailadresse existiert -->
 
-                <mat-form-field>
-                    <mat-label>Enter your password</mat-label>
-                    <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="user.password" name="password">
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                        [attr.aria-pressed]="hide">
-                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                </mat-form-field>
+                <div class="form-field">
+                    <div class="input-container">
+                        <img src="./assets/img/lock.svg" alt="">
+                        <input type="password" formControlName="password" placeholder="Passwort">
+                    </div>
+                </div>
                 <!-- Fehlermeldung anzeigen, wenn das Passwort zu schwach ist -->
-                <input type="submit" (click)="registerUser()">
+
+                <input type="submit" [disabled]="registerForm.invalid">
                 <!-- Toast-Message anzeigen, wenn Registrierung erfolgreich war -->
             </form>
         </mat-card-content>

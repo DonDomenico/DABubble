@@ -36,10 +36,37 @@ mat-card {
         flex-direction: column;
         gap: 40px;
 
+        .form-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+
+        }
+
         input {
             width: 500px;
             height: 60px;
-            gap: 6px;
+            padding: 10px;
+            text-indent: 40px;
+            font-size: 18px;
+            font-weight: 500;
+
+        }
+
+        img {
+            position: relative;
+            left: 40px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .error {
+            color: #ED1E79;
         }
     }
 }
