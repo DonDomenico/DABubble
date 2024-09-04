@@ -16,12 +16,21 @@ header {
     padding-top: 15px;
   }
 }
+.search-container {
 
-mat-form-field {
   width: 45%;
-  height: 50px;
+  height: 70px;
   background-color: white;
-  border-radius: 30px;
+  border-radius: 42px;
+  input {
+    width: 100%;
+    padding: 17px 45px 17px 45px;
+    font-size: 24px;
+    border: 0;
+    outline: none;
+    // background: url(./../../assets/img/search-icon.svg) no-repeat scroll 427px 15px;
+    background: url(./../../assets/img/search-icon.svg) no-repeat right 16px;
+  }
 }
 
 .header-aktiv-user {
@@ -44,3 +53,8 @@ mat-form-field {
     border-radius: 50%;
   }
 }
+
+::ng-deep .mat-form-field-appearance-outline {
+  // opacity: 0;
+  border: none;
+  }
