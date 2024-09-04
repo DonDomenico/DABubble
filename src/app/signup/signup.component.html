@@ -14,7 +14,8 @@
                 <div class="form-field">
                     <div class="input-container">
                         <img src="./assets/img/person_filled.svg" alt="">
-                        <input type="text" placeholder="Name und Nachname" formControlName="username" [style.color]="registerForm.get('username')?.dirty ? 'black' : '#686868'">
+                        <input type="text" placeholder="Name und Nachname" formControlName="username"
+                            [style.color]="registerForm.get('username')?.dirty ? 'black' : '#686868'">
                     </div>
                     @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
                         <span class="error">Bitte geben Sie ihren Namen ein.</span>
@@ -25,7 +26,8 @@
                 <div class="form-field">
                     <div class="input-container">
                         <img src="./assets/img/mail.svg" alt="">
-                        <input placeholder="beispielname@email.com" formControlName="email" [style.color]="registerForm.get('email')?.dirty ? 'black' : '#686868'">
+                        <input placeholder="beispielname@email.com" formControlName="email"
+                            [style.color]="registerForm.get('email')?.dirty ? 'black' : '#686868'">
                     </div>
                     @if (registerForm.get('email')?.invalid && registerForm.get('email')?.dirty) {
                         <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
@@ -38,12 +40,19 @@
                 <div class="form-field">
                     <div class="input-container">
                         <img src="./assets/img/lock.svg" alt="">
-                        <input type="password" formControlName="password" placeholder="Passwort">
+                        <input type="password" formControlName="password" placeholder="Passwort" #password>
                     </div>
+                    @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched && !registerForm.get('password')?.dirty) {
+                        <span class="error">Bitte geben Sie ein Passwort ein. Es sollte aus mindestens 6 Zeichen
+                            bestehen.</span>
+                    } @else if (registerForm.get('password')?.dirty && registerForm.get('password')?.invalid) {
+                        <span class="error">Das Passwort muss aus mindestens 6 Zeichen bestehen.</span>
+                    }
                 </div>
                 <!-- Fehlermeldung anzeigen, wenn das Passwort zu schwach ist -->
 
-                <button type="submit" [disabled]="registerForm.invalid" [style.cursor]="registerForm.invalid ? 'not-allowed' : 'pointer'">Senden</button>
+                <button type="submit" [disabled]="registerForm.invalid"
+                    [style.cursor]="registerForm.invalid ? 'not-allowed' : 'pointer'">Senden</button>
                 <!-- Toast-Message anzeigen, wenn Registrierung erfolgreich war -->
             </form>
         </mat-card-content>
