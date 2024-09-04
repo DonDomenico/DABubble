@@ -35,37 +35,53 @@ mat-card {
         display: flex;
         flex-direction: column;
         gap: 40px;
+        
 
         .form-field {
             display: flex;
             flex-direction: column;
+            
         }
 
         .input-container {
             display: flex;
             align-items: center;
-            width: 100%;
-
         }
 
         input {
             width: 500px;
             height: 60px;
-            padding: 10px;
+            padding: 18px 32px;
             text-indent: 40px;
             font-size: 18px;
             font-weight: 500;
+            background-color: #ECEEFE;
+            // use border transparent, else the text in the inputfield will be moved on hover due to the added border
+            border: 1px solid transparent;
+            border-radius: 100px;
+            // outline: none is needed here, because when the element is focussed, the User Agent (browser) by default sets an outline.
+            // So, to prevent it, we need to override it
+            outline: none;
 
+            &:hover {
+                border: 1px solid #686868;
+            }
+
+            &:focus-visible {
+                border: 1px solid #535AF1;
+                color: black;
+            }
         }
 
         img {
             position: relative;
-            left: 40px;
+            left: 48px;
             width: 24px;
             height: 24px;
         }
 
         .error {
+            font-family: "Nunito";
             color: #ED1E79;
         }
     }
