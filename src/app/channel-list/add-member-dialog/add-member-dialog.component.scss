@@ -1,0 +1,65 @@
+.mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 30px 0px 30px 30px;
+}
+
+section {
+  width: 514px;
+  height: 294px;
+  padding: 40px;
+  overflow: hidden;
+  border-radius: 30px 0px 30px 30px;
+
+//   background-color: aqua;
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+ 
+    > h2 {
+      font-family: "Nunito";
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32.74px;
+      margin: 0;
+      padding: 0;
+    }
+    > span {
+        cursor: pointer;
+    }
+  }
+  > p {
+    font-family: Nunito;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24.55px;
+    text-align: left;
+    color: rgba(121, 126, 243, 1);
+    margin-top: 10px;
+  }
+  > input {
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 30px;
+    padding: 15px 20px 15px 20px;
+    outline: none;
+  }
+  mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 15px;
+    > button {
+      width: 147px;
+      height: 49px;
+      padding: 12px 25px 12px 25px;
+      border-radius: 25px;
+      background-color: rgba(104, 104, 104, 1);
+      font-family: Nunito;
+      font-size: 18px;
+      font-weight: 400;
+      color: white;
+      &:hover {
+        background-color: rgba(121, 126, 243, 1);
+      }
+    }
+  }
+}
