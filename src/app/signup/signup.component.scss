@@ -10,7 +10,7 @@ mat-card {
     gap: 40px;
     max-width: 600px;
 
-    a {
+    .back-arrow {
         position: absolute;
         left: 32px;
         top: 45px;
@@ -91,6 +91,19 @@ mat-card {
         .error {
             font-family: "Nunito";
             color: #ED1E79;
+        }
+
+        .privacy-policy {
+            display: flex;
+            align-items: center;
+            height: 32px;
+            font-size: 16px;
+            gap: 8px;
+
+            .checkbox {
+                width: 24px;
+                height: 24px;
+            }
         }
     }
 }

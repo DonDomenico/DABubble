@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { FormsModule, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { NgStyle } from '@angular/common';
@@ -18,6 +18,7 @@ export class SignupComponent {
   authService = inject(AuthenticationService);
   router = inject(Router);
   fb = inject(FormBuilder);
+  checkbox = new FormControl(false, Validators.requiredTrue);
 
   registerForm = this.fb.nonNullable.group({
     username: ['', Validators.required],
@@ -32,6 +33,7 @@ export class SignupComponent {
 
   onSubmit() {
     console.log('submitted form', this.registerForm.value, this.registerForm.valid);
+    this.router.navigateByUrl('signup/select-avatar');
     // this.registerUser();
   }
 }
