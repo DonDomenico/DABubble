@@ -34,25 +34,20 @@ mat-card {
     form {
         display: flex;
         flex-direction: column;
-        gap: 40px;
-        
+        gap: 48px;
+
 
         .form-field {
             display: flex;
             flex-direction: column;
-            
-        }
-
-        .input-container {
-            display: flex;
-            align-items: center;
+            height: 60px;
         }
 
         input {
             width: 500px;
             height: 60px;
             padding: 18px 32px;
-            text-indent: 40px;
+            text-indent: 48px;
             font-size: 18px;
             font-weight: 500;
             background-color: #ECEEFE;
@@ -73,11 +68,24 @@ mat-card {
             }
         }
 
-        img {
-            position: relative;
-            left: 48px;
-            width: 24px;
-            height: 24px;
+        .background-image {
+            background-repeat: no-repeat;
+            background-position-y: center;
+            background-position-x: 24px;
+            background-size: 24px 24px;
+        }
+
+        .name-input {
+            background-image: url('../../assets/img/person_filled.svg');
+            
+        }
+
+        .mail-input {
+            background-image: url('../../assets/img/mail.svg');
+        }
+
+        .password-input {
+            background-image: url('../../assets/img/lock.svg');
         }
 
         .error {

@@ -13,8 +13,8 @@
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <div class="form-field">
                     <div class="input-container">
-                        <img src="./assets/img/person_filled.svg" alt="">
-                        <input type="text" placeholder="Name und Nachname" formControlName="username"
+                        <!-- <img src="./assets/img/person_filled.svg" alt=""> -->
+                        <input type="text" class="background-image name-input" placeholder="Name und Nachname" formControlName="username"
                             [style.color]="registerForm.get('username')?.dirty ? 'black' : '#686868'">
                     </div>
                     @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
@@ -25,8 +25,8 @@
 
                 <div class="form-field">
                     <div class="input-container">
-                        <img src="./assets/img/mail.svg" alt="">
-                        <input placeholder="beispielname@email.com" formControlName="email"
+                        <!-- <img src="./assets/img/mail.svg" alt=""> -->
+                        <input class="background-image mail-input" placeholder="beispielname@email.com" formControlName="email"
                             [style.color]="registerForm.get('email')?.dirty ? 'black' : '#686868'">
                     </div>
                     @if (registerForm.get('email')?.invalid && registerForm.get('email')?.dirty) {
@@ -39,12 +39,11 @@
 
                 <div class="form-field">
                     <div class="input-container">
-                        <img src="./assets/img/lock.svg" alt="">
-                        <input type="password" formControlName="password" placeholder="Passwort" #password>
+                        <!-- <img src="./assets/img/lock.svg" alt=""> -->
+                        <input class="background-image password-input" type="password" formControlName="password" placeholder="Passwort" #password>
                     </div>
                     @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched && !registerForm.get('password')?.dirty) {
-                        <span class="error">Bitte geben Sie ein Passwort ein. Es sollte aus mindestens 6 Zeichen
-                            bestehen.</span>
+                        <span class="error">Bitte geben Sie ein Passwort ein. Es sollte aus mindestens 6 Zeichen bestehen.</span>
                     } @else if (registerForm.get('password')?.dirty && registerForm.get('password')?.invalid) {
                         <span class="error">Das Passwort muss aus mindestens 6 Zeichen bestehen.</span>
                     }
