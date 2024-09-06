@@ -43,7 +43,7 @@
                         <input class="background-image password-input" type="password" formControlName="password" placeholder="Passwort" #password>
                     </div>
                     @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched && !registerForm.get('password')?.dirty) {
-                        <span class="error">Bitte geben Sie ein Passwort ein. Es sollte aus mindestens 6 Zeichen bestehen.</span>
+                        <span class="error">Bitte geben Sie ein Passwort ein. Es muss aus mindestens 6 Zeichen bestehen.</span>
                     } @else if (registerForm.get('password')?.dirty && registerForm.get('password')?.invalid) {
                         <span class="error">Das Passwort muss aus mindestens 6 Zeichen bestehen.</span>
                     }
@@ -54,7 +54,7 @@
                     <span>Ich stimme der <a href="#">Datenschutzerklärung</a> zu.</span>
                 </div>
 
-                <button type="submit" [disabled]="registerForm.invalid || checkbox.invalid"
+                <button class="button-primary" type="submit" [disabled]="registerForm.invalid || checkbox.invalid"
                     [style.cursor]="registerForm.invalid || checkbox.invalid ? 'not-allowed' : 'pointer'">Weiter</button>
                 <!-- Toast-Message anzeigen, wenn Registrierung erfolgreich war -->
             </form>

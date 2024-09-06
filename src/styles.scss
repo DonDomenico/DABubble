@@ -9,6 +9,7 @@
 button {
   cursor: pointer;
 }
+
 /* nunito-300 - latin */
 @font-face {
   font-display: swap;
@@ -176,4 +177,51 @@ body {
   background-color: #eceefe;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.button-primary {
+  background-color: #444DF2;
+  color: white;
+  border-radius: 25px;
+  padding: 12px 25px;
+  font-size: 18px;
+  font-family: "Nunito";
+  font-weight: 700;
+  border: none;
+
+  &:hover {
+    background-color: #797EF3;
+    // animation: hover 100ms ease-out;
+
+    // @keyframes hover {
+    //   from { background-color: #444DF2;}
+    //   to { background-color: #797EF3;}
+    // }
+  }
+
+  &:disabled {
+    background-color: #686868;
+  }
+}
+
+.button-secondary {
+  color: #797EF3;
+  border-radius: 25px;
+  padding: 12px 25px;
+  font-size: 18px;
+  font-family: "Nunito";
+  font-weight: 700;
+  border: none;
+
+  &:hover {
+    background-color: #535AF1;
+  }
+
+  &:disabled {
+    color: #686868;
+  }
+
+  &:active {
+    background-color: #444DF2;
+  }
 }

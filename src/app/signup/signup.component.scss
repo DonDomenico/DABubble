@@ -77,7 +77,7 @@ mat-card {
 
         .name-input {
             background-image: url('../../assets/img/person_filled.svg');
-            
+
         }
 
         .mail-input {
@@ -104,6 +104,11 @@ mat-card {
                 width: 24px;
                 height: 24px;
             }
+        }
+
+        button {
+            width: fit-content;
+            align-self: end;
         }
     }
 }
