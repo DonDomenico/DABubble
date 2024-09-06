@@ -1,0 +1,11 @@
+@import url('../signup.component.scss');
+
+.avatar-frame {
+    width: 168px;
+    height: 168px;
+    background-color: #797EF3;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -28,12 +28,11 @@ export class SignupComponent {
 
   registerUser() {
       this.authService.createUser(this.registerForm.getRawValue());
-      this.router.navigateByUrl('general-view');
   }
 
   onSubmit() {
     console.log('submitted form', this.registerForm.value, this.registerForm.valid);
     this.router.navigateByUrl('signup/select-avatar');
-    // this.registerUser();
+    this.registerUser();
   }
 }

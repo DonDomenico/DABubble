@@ -1,1 +1,20 @@
-<p>choose-profile-image works!</p>
+<div class="content-container">
+    <div class="head">
+        <img src="./assets/img/logo-dabubble.svg" alt="">
+    </div>
+
+    <mat-card>
+        <a [routerLink]="['/signup']" class="back-arrow"><img src="./assets/img/arrow_back.svg" alt=""></a>
+        <mat-card-title>Wähle deinen Avatar</mat-card-title>
+
+        <mat-card-content>
+            <div class="avatar-frame">
+                <img src="./assets/img/person.svg" alt="" class="avatar-image">
+            </div>
+            <p>{{ authService.currentUser }}</p>
+        </mat-card-content>
+
+        <button (click)="authService.showCurrentUser()">Show current user</button>
+        <button (click)="authService.logout()">Logout</button>
+    </mat-card>
+</div>

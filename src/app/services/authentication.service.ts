@@ -10,6 +10,7 @@ export class AuthenticationService {
   constructor() { }
 
   firebaseAuth = inject(Auth);
+  currentUser = '';
 
   async createUser(user: User) {
     await createUserWithEmailAndPassword(this.firebaseAuth, user.email, user.password).then((response) => {
@@ -18,13 +19,14 @@ export class AuthenticationService {
   }
 
   showCurrentUser() {
-    onAuthStateChanged(this.firebaseAuth, (user) => {
-      if(user) {
-        console.log(user.uid, user.displayName);
-      } else {
-        console.log('No user signed in');
-      }
-    })
+    const user = this.firebaseAuth.currentUser;
+    
+    if(user !== null) {
+      console.log(user.displayName);
+      this.currentUser = user.displayName!;
+    } else {
+      console.log('No user signed in');
+    }
   }
 
   async logout() {
