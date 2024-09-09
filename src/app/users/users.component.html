@@ -1,1 +1,7 @@
-<p>users works!</p>
+@for (user of users; track $index) {
+
+<div class="user-container">
+  <img src="{{ user.img }}" />
+  <p>{{ user.username }}</p>
+</div>
+}
