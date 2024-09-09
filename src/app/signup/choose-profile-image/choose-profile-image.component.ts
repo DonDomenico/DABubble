@@ -13,5 +13,10 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class ChooseProfileImageComponent {
   authService = inject(AuthenticationService);
 
-  
+  profileImg = './assets/img/person.svg';
+  avatars = ['./assets/img/avatar1.svg', './assets/img/avatar2.svg', './assets/img/avatar3.svg', './assets/img/avatar4.svg', './assets/img/avatar5.svg', './assets/img/avatar6.svg'];
+
+  changeAvatarImg(url: string) {
+    this.profileImg = url;
+  }
 }

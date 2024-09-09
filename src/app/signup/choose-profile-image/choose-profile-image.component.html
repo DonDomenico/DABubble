@@ -8,15 +8,32 @@
         <mat-card-title>Wähle deinen Avatar</mat-card-title>
 
         <mat-card-content>
-            <div class="avatar-frame">
-                <img src="./assets/img/person.svg" alt="" class="avatar-image">
-            </div>
-            @if (authService.currentUser) {
-                <p>{{ authService.currentUser.displayName }}</p>
+            @if (profileImg == './assets/img/person.svg') {
+                <div class="avatar-frame-big">
+                    <img [src]="profileImg" alt="">
+                </div>
+            } @else {
+                <img [src]="profileImg" alt="" class="avatar-image-big">
             }
+
+            @if (authService.currentUser) {
+                <p class="username">{{ authService.currentUser.displayName }}</p>
+            } @else {
+                <p class="username">Test</p>
+            }
+
+            <p style="align-self: start; font-size: 20px;">Aus der Liste wählen</p>
+
+            <div class="avatars">
+                @for (item of avatars; track $index) {
+                    <img [src]="item" alt="" class="avatar-image" (click)="changeAvatarImg(item)">
+                }
+            </div>
         </mat-card-content>
 
-        <button (click)="authService.showCurrentUser()">Show current user</button>
-        <button (click)="authService.logout()">Logout</button>
+        <div class="test-buttons">
+            <button (click)="authService.showCurrentUser()">Show current user</button>
+            <button (click)="authService.logout()">Logout</button>
+        </div>
     </mat-card>
 </div>
