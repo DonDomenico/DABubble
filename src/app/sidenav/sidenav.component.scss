@@ -23,8 +23,16 @@
     }
   }
   .edit-icon {
-    height: 20.5px;
-    width: 20.5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      color: #535af1;
+      background-color: #eceefe;
+    }
   }
 }
 

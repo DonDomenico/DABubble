@@ -11,7 +11,9 @@
             <div class="avatar-frame">
                 <img src="./assets/img/person.svg" alt="" class="avatar-image">
             </div>
-            <p>{{ authService.currentUser }}</p>
+            @if (authService.currentUser) {
+                <p>{{ authService.currentUser.displayName }}</p>
+            }
         </mat-card-content>
 
         <button (click)="authService.showCurrentUser()">Show current user</button>

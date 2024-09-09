@@ -1,1 +1,20 @@
+.add-channel {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 10px;
+    cursor: pointer;
+  > p {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24.55px;
+  }
+  mat-icon {
+    width: 24px;
+    height: 24px;
+  }
 
+  &:hover {
+    color: #535AF1;
+  }
+}

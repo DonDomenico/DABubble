@@ -1,22 +1,21 @@
 <section>
   <div class="chat-header">
-    <button mat-button>
-      <img
-        class="tag-icon"
-        src="./assets/img/tag.svg"
-        onmouseover="this.src='./assets/img/tag-hover.svg'"
-        onmouseout="this.src='./assets/img/tag.svg'"
-      />Entwicklerteam <img src="./assets/img/arrow-down.svg" />
-    </button>
+
+    <div  class="dev-team-container">
+      <mat-icon>tag</mat-icon>
+      <p>Entwicklerteam</p>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </div>
 
     <div class="add-member-container">
       <img class="avarar-icon" src="./assets/img/avatar1.svg" alt="" />
       <img class="avarar-icon" src="./assets/img/avatar2.svg" alt="" />
       <img class="avarar-icon" src="./assets/img/avatar3.svg" alt="" />
       <p>3</p>
-      <img src="./assets/img/add-members-btn.svg" (click)="openDialog()" />
+      <span class="material-symbols-outlined" (click)="addMemberDialog()">
+        <mat-icon>person_add</mat-icon>
+      </span>
     </div>
-
   </div>
 
   <div class="chat-container">

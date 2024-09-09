@@ -17,7 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class ChatComponent {
   readonly dialog = inject(MatDialog);
 
-  openDialog() {
+  addMemberDialog() {
     this.dialog.open(AddMemberDialogComponent);
   }
 }

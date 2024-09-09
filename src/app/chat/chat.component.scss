@@ -13,26 +13,24 @@ section {
   align-items: center;
   box-shadow: 0 3px 2px -2px rgb(0, 0, 0, 0.2);
 
-  > button {
-    width: 300px;
+  .dev-team-container {
+    padding: 6px 10px 6px 10px;
+    width: 278px;
     height: 45px;
-    padding: 6px 6px 6px 6px;
     border-radius: 30px;
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 32.74px;
-    text-align: left;
-    letter-spacing: -1px;
-
-    &:hover {
-      background-color: #eceefe;
-      color: #444df2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-left: 16px;
+    > p {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32.74px;
     }
-    .tag-icon {
-      width: 32px;
-      height: 32px;
-      padding-top: 8px;
-      margin-right: 10px;
+    &:hover {
+      color: #535af1;
+      background-color: #eceefe;
     }
   }
 
@@ -56,6 +54,21 @@ section {
       line-height: 27.28px;
       text-align: center;
       padding-top: 5px;
+    }
+
+    > span {
+      cursor: pointer;
+      background-color: rgba(236, 238, 254, 1);
+      border-radius: 50px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &:hover {
+        color: #535af1;
+        transform: scale(1.05);
+      }
     }
   }
 }
