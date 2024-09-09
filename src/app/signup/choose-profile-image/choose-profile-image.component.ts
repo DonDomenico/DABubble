@@ -13,5 +13,5 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class ChooseProfileImageComponent {
   authService = inject(AuthenticationService);
 
-
+  
 }
