@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-users',
@@ -8,5 +8,16 @@ import { Component } from '@angular/core';
   styleUrl: './users.component.scss'
 })
 export class UsersComponent {
+//  users: User[] = [
+//  {
+//      name: "Frederik Beck",
+//     img: "src/assets/img/avatar3.svg"
+//  }, 
+//  {
+
+//  }
+//  ]
+ 
+  
 
 }
