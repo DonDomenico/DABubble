@@ -43,7 +43,7 @@ export class UsersComponent {
     },
     {
       username: 'Steffen Hoffmann',
-      img: './assets/img/avatar1.svg',
+      img: './assets/img/avatar6.svg',
       email: '',
       password: '',
     },
