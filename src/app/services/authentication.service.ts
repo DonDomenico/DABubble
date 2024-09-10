@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signOut, updateProfile, user } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from '@angular/fire/auth';
 import { User } from '../users/user.interface';
 
 @Injectable({
@@ -22,9 +22,9 @@ export class AuthenticationService {
     onAuthStateChanged(this.firebaseAuth, (user) => {
       if (user) {
         this.currentUser = user;
-        console.log('current user: ', user.displayName);
+        console.log('current user: ', user.displayName, user.photoURL); //Testcode, später löschen
       } else {
-        console.log('No user signed in')
+        console.log('No user signed in'); //Testcode, später löschen
       }
     });
   }
@@ -32,9 +32,9 @@ export class AuthenticationService {
   async setProfilePhoto(userPhoto: string) {
     if(this.currentUser !== null) {
       updateProfile(this.currentUser, {photoURL: userPhoto}).then(() => {
-        console.log('Photo updated');
+        console.log('Photo updated'); //Testcode, später löschen
       }).catch(() => {
-        console.error('Something went wrong');
+        console.error('Something went wrong'); //Testcode, später löschen
       })
     }
   }

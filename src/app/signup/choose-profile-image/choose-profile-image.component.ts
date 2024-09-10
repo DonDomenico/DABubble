@@ -2,6 +2,11 @@ import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-choose-profile-image',
@@ -11,6 +16,11 @@ import { AuthenticationService } from '../../services/authentication.service';
   styleUrl: './choose-profile-image.component.scss'
 })
 export class ChooseProfileImageComponent {
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  constructor(private _snackBar: MatSnackBar) {}
+  
   authService = inject(AuthenticationService);
 
   profileImg = './assets/img/person.svg';
@@ -18,5 +28,14 @@ export class ChooseProfileImageComponent {
 
   changeAvatarImg(url: string) {
     this.profileImg = url;
+  }
+
+  showSnackBar() {
+    this._snackBar.open('Konto erfolgreich erstellt', '', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      // duration: 3000,
+      panelClass: 'snackbar'
+    });
   }
 }
