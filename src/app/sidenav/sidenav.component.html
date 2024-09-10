@@ -3,45 +3,46 @@
     <div class="header-left-side">
       <img class="workspace-logo" src="./assets/img/Workspace logo.svg" />
       <p>Devspace</p>
-
     </div>
     <span class="material-symbols-outlined edit-icon">
       <mat-icon>edit_square</mat-icon>
-      </span>
+    </span>
   </div>
-
-
-  <div class="channels-container">
-    <div class="left-side" >
-  
-      <img class="channels-arrow" src="./assets/img/arrow-dropdown.svg" onmouseover="this.src='./assets/img/arrow-dropdown-hover.svg'" onmouseout="this.src='./assets/img/arrow-dropdown.svg'" >
-      <div class="channels-headline">
-        <img src="./assets/img/channels.svg" onmouseover="this.src='./assets/img/channels-hover.svg'" onmouseout="this.src='./assets/img/channels.svg'">
-        <p>Channels</p>
-      </div>
-    </div>
-    <img class="add-channel-icon" src="./assets/img/plus-icon.svg"  onmouseover="this.src='./assets/img/plus-hover.svg'" onmouseout="this.src='./assets/img/plus-icon.svg'">
-    
-  </div>
-  
-  <app-channel-list>
-    channels 
-  </app-channel-list>
 
   <div class="channels-container">
     <div class="left-side">
-      <img src="./assets/img/arrow-dropdown.svg" onmouseover="this.src='./assets/img/arrow-dropdown-hover.svg'" onmouseout="this.src='./assets/img/arrow-dropdown.svg'">
+      <mat-icon>arrow_drop_down</mat-icon>
       <div class="channels-headline">
-        <img src="./assets/img/account-circle.svg" onmouseover="this.src='./assets/img/account-circle-hover.svg'" onmouseout="this.src='./assets/img/account-circle.svg'" alt="">
+        <mat-icon>workspaces</mat-icon>
+        <p>Channels</p>
+      </div>
+    </div>
+    <mat-icon class="add-channel-icon">add</mat-icon>
+  </div>
+<!-- Dropdown  content -->
+ <div class="dropdown-content">
+  <div class="team-container">
+    <mat-icon>tag</mat-icon>
+    <p>Entwicklerteam</p>
+  </div>
+
+   <div class="add-channel" (click)="addChannelDialog()">
+     <mat-icon class="material-icons-outlined">add_circle</mat-icon>
+     <p>Channel hinzufügen</p>
+  </div>
+ </div>
+
+
+  <div class="channels-container">
+    <div class="left-side">
+      <mat-icon>arrow_drop_down</mat-icon>
+     
+      <div class="channels-headline">
+        <mat-icon>account_circle</mat-icon>
         <p>Direktnachrichten</p>
       </div>
     </div>
-  
-    
   </div>
 
-  <app-users>
-    User List
-  </app-users>
-
+  <app-users> User List </app-users>
 </div>

@@ -11,8 +11,5 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './channel-list.component.scss'
 })
 export class ChannelListComponent {
-  readonly dialog = inject(MatDialog);
-  addChannelDialog() {
-    this.dialog.open(CreateChannelDialogComponent);
-  }
+
 }
