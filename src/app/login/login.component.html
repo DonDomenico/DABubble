@@ -1,4 +1,63 @@
-<p>login works!</p>
+<div class="content-container">
+    <div class="head">
+        <img src="./assets/img/logo-dabubble.svg" alt="">
+
+        <div class="create-account">
+            <span>Neu bei DABubble?</span>
+            <a [routerLink]="['/signup']">Konto erstellen</a>
+        </div>
+    </div>
+
+    <mat-card>
+        <mat-card-title>Anmeldung</mat-card-title>
+        <mat-card-subtitle>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</mat-card-subtitle>
+
+        <mat-card-content>
+            <form [formGroup]="loginForm">
+                
+                <div class="form-field">
+                    <div class="input-container">
+                        <input class="background-image mail-input" placeholder="beispielname@email.com" formControlName="email"
+                            [style.color]="loginForm.get('email')?.dirty ? 'black' : '#686868'">
+                    </div>
+                    @if (loginForm.get('email')?.invalid && loginForm.get('email')?.dirty) {
+                        <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
+                    } @else if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                        <span class="error">Bitte geben Sie eine E-Mail-Adresse ein.</span>
+                    }
+                </div>
+
+                <div class="form-field">
+                    <div class="input-container">
+                        <!-- <img src="./assets/img/lock.svg" alt=""> -->
+                        <input class="background-image password-input" type="password" formControlName="password" placeholder="Passwort" #password>
+                    </div>
+                    @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched && !loginForm.get('password')?.dirty) {
+                        <span class="error">Bitte geben Sie ein Passwort ein. Es muss aus mindestens 6 Zeichen bestehen.</span>
+                    } @else if (loginForm.get('password')?.dirty && loginForm.get('password')?.invalid) {
+                        <span class="error">Das Passwort muss aus mindestens 6 Zeichen bestehen.</span>
+                    }
+                </div>
+
+                <a [routerLink]="['']">Passwort vergessen?</a>
+
+                <div class="divider">
+                    <div class="line"><mat-divider></mat-divider></div>
+                    <div class="text mat-typography">ODER</div>
+                    <div class="line"><mat-divider></mat-divider></div>
+                </div>
+
+                <button class="button-primary" type="submit" [disabled]="loginForm.invalid"
+                    [style.cursor]="loginForm.invalid ? 'not-allowed' : 'pointer'">Anmelden</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <button (click)="authService.showCurrentUser()">Show current user</button>
+    <button (click)="authService.logout()">Logout</button>
+</div>
+
+
 <a [routerLink]="['/signup']" routerLinkActive="router-link-active" >Sign up</a> <br>
 
 <a [routerLink]="['/general-view']" routerLinkActive="router-link-active" >General View</a>
