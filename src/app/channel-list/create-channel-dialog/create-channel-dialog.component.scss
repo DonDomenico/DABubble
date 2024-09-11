@@ -20,6 +20,21 @@ section {
     line-height: 32.74px;
     font-family: 'Nunito';
   }
+  > span {
+    mat-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50px;
+      cursor: pointer;
+      &:hover {
+        color: #535af1;
+        background-color: #eceefe;
+      }
+    }
+  }
 }
 
 .dialog-content {
