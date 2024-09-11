@@ -1,3 +1,5 @@
+// dynamic width for input field: width: clamp(360px,309.09px + 15.91vw,500px);
+
 .content-container {
     padding: 75px 75px 0 75px;
     display: flex;
@@ -6,6 +8,10 @@
     height: 100vh;
 
     .head {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
         align-self: flex-start;
     }
 }
@@ -14,7 +20,7 @@ mat-card {
     padding: 40px;
     border-radius: 30px;
     align-items: center;
-    gap: 40px;
+    gap: 32px;
     max-width: 600px;
     max-height: 670px;
 
@@ -52,7 +58,7 @@ mat-card {
         }
 
         input {
-            width: 500px;
+            width: clamp(360px,309.09px + 15.91vw,500px);
             height: 60px;
             padding: 18px 32px;
             text-indent: 48px;
@@ -99,6 +105,7 @@ mat-card {
         .error {
             font-family: "Nunito";
             color: #ED1E79;
+            width: clamp(360px,309.09px + 15.91vw,500px);
         }
 
         .privacy-policy {

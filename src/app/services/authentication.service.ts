@@ -36,6 +36,8 @@ export class AuthenticationService {
       }).catch(() => {
         console.error('Something went wrong'); //Testcode, später löschen
       })
+    } else {
+      console.error('No user logged in')
     }
   }
 
