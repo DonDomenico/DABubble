@@ -1,21 +1,28 @@
 <app-header></app-header>
-<!-- <mat-drawer> -->
+
+<mat-drawer-container class="mat-drawer-container" autosize>
+  <div class="workspace-btn-wrapper">
+    <button
+      class="workspace-btn"
+      (click)="drawer.toggle()"
+      type="button"
+      mat-button
+    >
+      <mat-icon>dock_to_right</mat-icon>
+      <p>Workspace-Menü schließen</p>
+    </button>
+  </div>
+  <mat-drawer #drawer class="side-nav-container" [opened]="true" mode="side">
+    <app-sidenav></app-sidenav>
+  </mat-drawer>
 
   <section>
-    <div class="side-nav-container">
-      <app-sidenav></app-sidenav>
-    </div>
-  
     <div class="main-chat-container">
       <app-chat></app-chat>
     </div>
-  
+
     <div class="thread-container">
       <app-thread></app-thread>
     </div>
   </section>
-<!-- </mat-drawer> -->
-
-<div>
-  <button type="button" mat-button>Workspace-Menü schließen</button>
-</div>
+</mat-drawer-container>
