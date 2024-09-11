@@ -40,6 +40,10 @@ header {
   align-items: center;
   gap: 20px;
   padding-right: 50px;
+  cursor: pointer;
+  &:hover {
+    color: #535af1;
+  }
   > p {
     font-size: 32px;
     font-weight: 700;
