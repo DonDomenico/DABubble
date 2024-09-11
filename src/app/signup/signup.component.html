@@ -15,7 +15,7 @@
                     <div class="input-container">
                         <!-- <img src="./assets/img/person_filled.svg" alt=""> -->
                         <input type="text" class="background-image name-input" placeholder="Name und Nachname" formControlName="username"
-                            [style.color]="registerForm.get('username')?.dirty ? 'black' : '#686868'">
+                            [style.color]="registerForm.get('username')?.dirty ? 'black' : '#686868'" #username>
                     </div>
                     @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
                         <span class="error">Bitte geben Sie ihren Namen ein.</span>

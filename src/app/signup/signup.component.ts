@@ -26,8 +26,8 @@ export class SignupComponent {
     password: ['', [Validators.required, Validators.minLength(6)]]
   })
 
-  registerUser() {
-      this.authService.createUser(this.registerForm.getRawValue());
+  async registerUser() {
+      await this.authService.createUser(this.registerForm.getRawValue());
   }
 
   onSubmit() {

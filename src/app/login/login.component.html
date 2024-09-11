@@ -13,12 +13,12 @@
         <mat-card-subtitle>Wir empfehlen dir, die E-Mail-Adresse zu nutzen, die du bei der Arbeit verwendest.</mat-card-subtitle>
 
         <mat-card-content>
-            <form [formGroup]="loginForm">
+            <form [formGroup]="loginForm" (ngSubmit)="authService.login(email.value, password.value)">
                 
                 <div class="form-field">
                     <div class="input-container">
                         <input class="background-image mail-input" placeholder="beispielname@email.com" formControlName="email"
-                            [style.color]="loginForm.get('email')?.dirty ? 'black' : '#686868'">
+                            [style.color]="loginForm.get('email')?.dirty ? 'black' : '#686868'" #email>
                     </div>
                     @if (loginForm.get('email')?.invalid && loginForm.get('email')?.dirty) {
                         <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>

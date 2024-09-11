@@ -21,7 +21,6 @@ export class LoginComponent {
 
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.requiredTrue]]
+    password: ['', Validators.required]
   })
-
 }

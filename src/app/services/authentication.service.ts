@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from '@angular/fire/auth';
 import { User } from '../users/user.interface';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class AuthenticationService {
   async createUser(user: User) {
     await createUserWithEmailAndPassword(this.firebaseAuth, user.email, user.password).then((response) => {
       updateProfile(response.user, {displayName: user.username});
+      this.currentUser = response.user;
     })
   }
 
@@ -39,6 +40,14 @@ export class AuthenticationService {
     } else {
       console.error('No user logged in')
     }
+  }
+
+  async login(email: string, password: string) {
+    await signInWithEmailAndPassword(this.firebaseAuth, email, password).then((userCredential) => {
+      console.log('Sign in successful | Username: ', userCredential.user.displayName);
+    }).catch((error) => {
+      console.log(error);
+    })
   }
 
   async logout() {

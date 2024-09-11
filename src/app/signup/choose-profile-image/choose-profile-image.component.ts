@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import {
   MatSnackBar,
@@ -22,6 +22,7 @@ export class ChooseProfileImageComponent {
   constructor(private _snackBar: MatSnackBar) {}
   
   authService = inject(AuthenticationService);
+  router = inject(Router);
 
   profileImg = './assets/img/person.svg';
   avatars = ['./assets/img/avatar1.svg', './assets/img/avatar2.svg', './assets/img/avatar3.svg', './assets/img/avatar4.svg', './assets/img/avatar5.svg', './assets/img/avatar6.svg'];
@@ -30,11 +31,19 @@ export class ChooseProfileImageComponent {
     this.profileImg = url;
   }
 
+  submit() {
+    this.showSnackBar();
+    setTimeout(() => {
+      this.authService.setProfilePhoto(this.profileImg);
+      this.router.navigateByUrl('/');
+    }, 2000);
+  }
+
   showSnackBar() {
     this._snackBar.open('Konto erfolgreich erstellt', '', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
-      // duration: 3000,
+      duration: 2000,
       panelClass: 'snackbar'
     });
   }
