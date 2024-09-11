@@ -1,21 +1,24 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from '@angular/fire/auth';
 import { User } from '../users/user.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-
-  constructor() { }
-
   firebaseAuth = inject(Auth);
+  router = inject(Router);
+
   currentUser = this.firebaseAuth.currentUser;
 
   async createUser(user: User) {
     await createUserWithEmailAndPassword(this.firebaseAuth, user.email, user.password).then((response) => {
       updateProfile(response.user, {displayName: user.username});
       this.currentUser = response.user;
+      this.router.navigateByUrl('signup/select-avatar');
+    }).catch(error => {
+      console.log(error);
     })
   }
 

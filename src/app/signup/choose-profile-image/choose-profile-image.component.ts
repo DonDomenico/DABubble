@@ -36,6 +36,7 @@ export class ChooseProfileImageComponent {
     setTimeout(() => {
       this.authService.setProfilePhoto(this.profileImg);
       this.router.navigateByUrl('/');
+      this.authService.logout();
     }, 2000);
   }
 
@@ -43,7 +44,7 @@ export class ChooseProfileImageComponent {
     this._snackBar.open('Konto erfolgreich erstellt', '', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
-      duration: 2000,
+      duration: 1800,
       panelClass: 'snackbar'
     });
   }

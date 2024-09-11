@@ -30,9 +30,9 @@ export class SignupComponent {
       await this.authService.createUser(this.registerForm.getRawValue());
   }
 
-  onSubmit() {
-    console.log('submitted form', this.registerForm.value, this.registerForm.valid);
-    this.router.navigateByUrl('signup/select-avatar');
-    this.registerUser();
+  async onSubmit() {
+    console.log('submitted form', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
+    await this.registerUser();
+    this.registerForm.reset();
   }
 }
