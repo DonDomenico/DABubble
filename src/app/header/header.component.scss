@@ -36,7 +36,7 @@ header {
 
 .header-logo {
   background-color: #eceefe;
-  width: 25%;
+  width: 27%;
   > img {
     height: 70px;
     width: 242px;
@@ -45,7 +45,7 @@ header {
   }
 }
 .search-container {
-  width: 45%;
+  width: 40%;
   height: 70px;
   background-color: white;
   border-radius: 42px;
@@ -60,13 +60,13 @@ header {
 }
 
 .header-aktiv-user {
-  width: 30%;
+  width: 32%;
   height: 70px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   gap: 20px;
-  padding-right: 50px;
+  padding-right: 12px;
   cursor: pointer;
   &:hover {
     color: #535af1;
