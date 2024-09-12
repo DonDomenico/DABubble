@@ -1,3 +1,31 @@
+::ng-deep .mat-mdc-menu-panel {
+border-radius: 30px 0px 30px 30px !important;
+width: 282px;
+height: 181px;
+padding: 25px !important;
+margin-top: 50px;
+}
+
+::ng-deep .mat-mdc-menu-item-text {
+  font-family: "Nunito" !important;
+  color: black;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  line-height: 32.74px !important;
+  text-align: center;
+  border-radius: 30px 0px 30px 30px;
+  &:hover {
+    color: #535af1;
+  }
+}
+
+::ng-deep .mat-mdc-menu-item {
+  &:hover {
+    background-color: #eceefe !important;
+    border-radius: 30px;
+  }
+}
+
 header {
   height: 120px;
   display: flex;
@@ -17,7 +45,6 @@ header {
   }
 }
 .search-container {
-
   width: 45%;
   height: 70px;
   background-color: white;
@@ -57,3 +84,9 @@ header {
   }
 }
 
+// .menu-dropdown {
+//   position: absolute;
+//   top: -980px;
+//   left: -601px;
+
+// }
