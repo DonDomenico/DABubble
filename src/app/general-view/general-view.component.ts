@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -9,11 +10,16 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-general-view',
   standalone: true,
-  imports: [MatIconModule, HeaderComponent, SidenavComponent, ThreadComponent, MatSidenavModule, ChatComponent],
+  imports: [CommonModule, MatIconModule, HeaderComponent, SidenavComponent, ThreadComponent, MatSidenavModule, ChatComponent],
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss'
 })
 export class GeneralViewComponent {
-  // showFiller = true;
+  isSectionHidden = false;
+generalView: any;
+
+  toggleSection() {
+    this.isSectionHidden = !this.isSectionHidden;
+  }
 
 }

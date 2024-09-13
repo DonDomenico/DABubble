@@ -5,13 +5,13 @@
       <p>Devspace</p>
     </div>
     <span class="material-symbols-outlined edit-icon">
-      <mat-icon>edit_square</mat-icon>
+      <mat-icon (click)="toggleSection()">edit_square</mat-icon>
     </span>
   </div>
 
   <div class="channels-container">
     <div class="left-side">
-      <mat-icon>arrow_drop_down</mat-icon>
+      <mat-icon (click)="openChannelList()">arrow_drop_down</mat-icon>
       <div class="channels-headline">
         <mat-icon>workspaces</mat-icon>
         <p>Channels</p>
@@ -19,23 +19,25 @@
     </div>
     <mat-icon class="add-channel-icon" (click)="addChannelDialog()">add</mat-icon>
   </div>
-<!-- Dropdown  content -->
- <div class="dropdown-content">
-  <div class="team-container">
-    <mat-icon>tag</mat-icon>
-    <p>Entwicklerteam</p>
-  </div>
+@if (!isChannelListHidden) {
 
-   <div class="add-channel" (click)="addChannelDialog()">
-     <mat-icon class="material-icons-outlined">add_circle</mat-icon>
-     <p>Channel hinzufügen</p>
+  <div class="dropdown-content">
+   <div class="team-container">
+     <mat-icon>tag</mat-icon>
+     <p>Entwicklerteam</p>
+   </div>
+ 
+    <div class="add-channel" (click)="addChannelDialog()">
+      <mat-icon class="material-icons-outlined">add_circle</mat-icon>
+      <p>Channel hinzufügen</p>
+   </div>
   </div>
- </div>
+}
 
 
   <div class="channels-container">
     <div class="left-side">
-      <mat-icon>arrow_drop_down</mat-icon>
+      <mat-icon (click)="openMemberList()">arrow_drop_down</mat-icon>
      
       <div class="channels-headline">
         <mat-icon>account_circle</mat-icon>
@@ -43,6 +45,7 @@
       </div>
     </div>
   </div>
-
+  @if (!isMemberListHidden) {
   <app-users> User List </app-users>
+  }
 </div>

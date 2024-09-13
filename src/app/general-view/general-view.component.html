@@ -13,13 +13,18 @@
     </button>
   </div>
   <mat-drawer #drawer class="side-nav-container" [opened]="true" mode="side">
-    <app-sidenav></app-sidenav>
+    <app-sidenav (toggleEvent)="generalView.toggleSection()"></app-sidenav>
   </mat-drawer>
-
   <section>
-    <div class="main-chat-container">
-      <app-chat></app-chat>
-    </div>
+    <!-- funktioniert nicht! -->
+    @if (!isSectionHidden) {
+      <div class="main-chat-container" >
+        <app-chat></app-chat>
+      </div>
+    }
+    @else {
+      <h2>It works!</h2>
+    }
 
     <div class="thread-container">
       <app-thread></app-thread>
