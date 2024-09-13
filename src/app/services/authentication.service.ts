@@ -11,6 +11,9 @@ export class AuthenticationService {
   router = inject(Router);
 
   currentUser = this.firebaseAuth.currentUser;
+  // possibly not the best way to check if the password matches the email-address
+  passwordError = '';
+  tooManyRequests = '';
 
   async createUser(user: User) {
     await createUserWithEmailAndPassword(this.firebaseAuth, user.email, user.password).then((response) => {
@@ -41,7 +44,7 @@ export class AuthenticationService {
         console.error('Something went wrong'); //Testcode, später löschen
       })
     } else {
-      console.error('No user logged in')
+      console.error('No user logged in');
     }
   }
 
@@ -49,7 +52,13 @@ export class AuthenticationService {
     await signInWithEmailAndPassword(this.firebaseAuth, email, password).then((userCredential) => {
       console.log('Sign in successful | Username: ', userCredential.user.displayName);
     }).catch((error) => {
-      console.log(error);
+      if(error.code == 'auth/invalid-credential') {
+        this.passwordError = error.code;
+        console.log('Password Error: ', this.passwordError); //Testcode, später löschen
+      } else if(error.code == 'auth/too-many-requests') {
+        this.tooManyRequests = error.code;
+        console.log('Request Error: ', this.tooManyRequests);
+      }
     })
   }
 

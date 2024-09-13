@@ -33,9 +33,11 @@
                         <input class="background-image password-input" type="password" formControlName="password" placeholder="Passwort" #password>
                     </div>
                     @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched && !loginForm.get('password')?.dirty) {
-                        <span class="error">Bitte geben Sie ein Passwort ein. Es muss aus mindestens 6 Zeichen bestehen.</span>
-                    } @else if (loginForm.get('password')?.dirty && loginForm.get('password')?.invalid) {
-                        <span class="error">Das Passwort muss aus mindestens 6 Zeichen bestehen.</span>
+                        <span class="error">Bitte geben Sie ihr Passwort ein.</span>
+                    } @else if (authService.passwordError != '' && loginForm.get('password')?.value != null) {
+                        <span class="error">Passwort und E-Mail-Adresse stimmen nicht überein.</span>
+                    } @else if (authService.tooManyRequests != '' && loginForm.get('password')?.value != null) {
+                        <span class="error">Die maximale Anzahl an Anmeldeversuchen wurde erreicht. Bitte versuchen Sie es später nochmal.</span>
                     }
                 </div>
 
@@ -55,6 +57,7 @@
 
     <button (click)="authService.showCurrentUser()">Show current user</button>
     <button (click)="authService.logout()">Logout</button>
+    <button (click)="passwordMatchesEmail()">Password Test</button>
 </div>
 
 
