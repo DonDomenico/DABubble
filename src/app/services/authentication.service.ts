@@ -50,7 +50,7 @@ export class AuthenticationService {
 
   async login(email: string, password: string) {
     await signInWithEmailAndPassword(this.firebaseAuth, email, password).then((userCredential) => {
-      console.log('Sign in successful | Username: ', userCredential.user.displayName);
+      console.log('Sign in successful | Username: ', userCredential.user.displayName); //Testcode, später löschen
     }).catch((error) => {
       if(error.code == 'auth/invalid-credential') {
         this.passwordError = error.code;

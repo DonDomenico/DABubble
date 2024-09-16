@@ -3,10 +3,14 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { GeneralViewComponent } from './general-view/general-view.component';
 import { ChooseProfileImageComponent } from './signup/choose-profile-image/choose-profile-image.component';
+import { ResetPasswordComponent } from './login/reset-password/reset-password.component';
+import { ResetPasswordMailComponent } from './login/reset-password-mail/reset-password-mail.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent },
     { path: "signup", component: SignupComponent},
     { path: "signup/select-avatar", component: ChooseProfileImageComponent},
-    { path: "general-view", component: GeneralViewComponent}
+    { path: "general-view", component: GeneralViewComponent},
+    { path: "send-mail", component: ResetPasswordMailComponent},
+    { path: "reset-password", component: ResetPasswordComponent}
 ];
