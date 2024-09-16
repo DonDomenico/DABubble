@@ -4,7 +4,7 @@
   <div class="workspace-btn-wrapper">
     <button
       class="workspace-btn"
-      (click)="drawer.toggle()"
+      (click)="drawerSidenav.toggle()"
       type="button"
       mat-button
     >
@@ -12,8 +12,8 @@
       <p>Workspace-Menü schließen</p>
     </button>
   </div>
-  <mat-drawer #drawer class="side-nav-container" [opened]="true" mode="side">
-    <app-sidenav (toggleEvent)="generalView.toggleSection()"></app-sidenav>
+  <mat-drawer #drawerSidenav class="side-nav-container" [opened]="true" mode="side">
+    <app-sidenav></app-sidenav>
   </mat-drawer>
   <section>
     <!-- funktioniert nicht! -->
@@ -26,8 +26,13 @@
       <h2>It works!</h2>
     }
 
-    <div class="thread-container">
-      <app-thread></app-thread>
+  
+      <div class="thread-container">
+      <mat-sidenav #drawerThread position="end" [opened]="true" mode="side" >
+        <app-thread></app-thread>
+      </mat-sidenav>
     </div>
+
+
   </section>
 </mat-drawer-container>

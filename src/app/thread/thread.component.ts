@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -9,5 +9,7 @@ import { MatIcon } from '@angular/material/icon';
   styleUrl: './thread.component.scss'
 })
 export class ThreadComponent {
+
+  @Output() toggleThread: EventEmitter<any> = new EventEmitter();
 
 }
