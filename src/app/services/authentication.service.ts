@@ -27,10 +27,6 @@ export class AuthenticationService {
     }).catch(error => {
       this.emailAlreadyExists = error.code;
       console.log(error); //Testcode, später löschen
-      // find a better way to remove the error, if the user types in another e-mail-address (maybe via form Validation in signup-component)
-      setTimeout(() => {
-        this.emailAlreadyExists = '';
-      }, 2000);
     })
   }
 
@@ -46,7 +42,7 @@ export class AuthenticationService {
   }
 
   // delete account from auth and firestore, if user leaves "choose-avatar-page" or goes back via back-arrow
-  // or implement a function to cache the userdata and not create the account directly (maybe localStorage)
+  // or implement a function to cache the userdata and not create the account directly (maybe localStorage or sessionStorage)
   async setProfilePhoto(userPhoto: string) {
     if (this.currentUser !== null) {
       await updateProfile(this.currentUser, { photoURL: userPhoto }).then(() => {

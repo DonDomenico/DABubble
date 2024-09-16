@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms';
+import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { NgStyle } from '@angular/common';
@@ -22,7 +22,7 @@ export class SignupComponent {
 
   registerForm = this.fb.nonNullable.group({
     username: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email, this.emailAlreadyExists()]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   })
 
@@ -34,5 +34,16 @@ export class SignupComponent {
     console.log('submitted form', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
     await this.registerUser();
     // this.registerForm.reset();
+  }
+
+  emailAlreadyExists(): ValidatorFn {
+    return() : ValidationErrors | null => {
+      const emailValid = this.authService.emailAlreadyExists == '';
+
+      if(!emailValid) {
+        this.authService.emailAlreadyExists = '';
+      }
+      return !emailValid ? {emailExists: true} : null;
+    }
   }
 }
