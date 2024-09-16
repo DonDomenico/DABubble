@@ -33,6 +33,8 @@
                         <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
                     } @else if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
                         <span class="error">Bitte geben Sie eine E-Mail-Adresse ein.</span>
+                    } @else if (authService.emailAlreadyExists) {
+                        <span class="error">Ein Konto mit dieser E-Mail-Adresse existiert bereits.</span>
                     }
                 </div>
                 <!-- Fehlermeldung anzeigen, falls schon ein Account mit der Emailadresse existiert -->

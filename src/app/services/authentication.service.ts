@@ -16,15 +16,21 @@ export class AuthenticationService {
   // possibly not the best way to check if the password matches the email-address
   passwordError = '';
   tooManyRequests = '';
+  emailAlreadyExists = '';
 
   async createUser(user: User) {
     await createUserWithEmailAndPassword(this.firebaseAuth, user.email, user.password).then((response) => {
       updateProfile(response.user, { displayName: user.username });
-      this.firestore.saveUser(user.email, user.username);
       this.currentUser = response.user;
+      this.firestore.saveUser(user.email, user.username);
       this.router.navigateByUrl('signup/select-avatar');
     }).catch(error => {
-      console.log(error);
+      this.emailAlreadyExists = error.code;
+      console.log(error); //Testcode, später löschen
+      // find a better way to remove the error, if the user types in another e-mail-address (maybe via form Validation in signup-component)
+      setTimeout(() => {
+        this.emailAlreadyExists = '';
+      }, 2000);
     })
   }
 
@@ -39,15 +45,18 @@ export class AuthenticationService {
     });
   }
 
+  // delete account from auth and firestore, if user leaves "choose-avatar-page" or goes back via back-arrow
+  // or implement a function to cache the userdata and not create the account directly (maybe localStorage)
   async setProfilePhoto(userPhoto: string) {
     if (this.currentUser !== null) {
-      updateProfile(this.currentUser, { photoURL: userPhoto }).then(() => {
+      await updateProfile(this.currentUser, { photoURL: userPhoto }).then(() => {
         console.log('Photo updated'); //Testcode, später löschen
+        this.sendVerificationMail();
       }).catch(() => {
         console.error('Something went wrong'); //Testcode, später löschen
       })
     } else {
-      console.error('No user logged in');
+      console.error('No user logged in'); //Testcode, später löschen
     }
   }
 
@@ -60,7 +69,7 @@ export class AuthenticationService {
         console.log('Password Error: ', this.passwordError); //Testcode, später löschen
       } else if (error.code == 'auth/too-many-requests') {
         this.tooManyRequests = error.code;
-        console.log('Request Error: ', this.tooManyRequests);
+        console.log('Request Error: ', this.tooManyRequests); //Testcode, später löschen
       }
     })
   }
@@ -68,12 +77,12 @@ export class AuthenticationService {
   sendMailResetPassword(email: string) {
     sendPasswordResetEmail(this.firebaseAuth, email)
       .then(() => {
-        console.log('Email sent');
+        console.log('Email sent'); //Testcode, später löschen
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        console.log(errorCode, errorMessage); //Testcode, später löschen
       }
     );
   }
@@ -82,14 +91,9 @@ export class AuthenticationService {
     if(this.currentUser) {
       sendEmailVerification(this.currentUser)
       .then(() => {
-        console.log('Verification Mail sent');
+        console.log('Verification Mail sent'); //Testcode, später löschen
       });
     }
-  }
-
-  // create function to check if a user is already signed up
-  async checkEmailInDatabase() {
-    
   }
 
   async logout() {

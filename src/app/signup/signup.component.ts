@@ -33,6 +33,6 @@ export class SignupComponent {
   async onSubmit() {
     console.log('submitted form', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
     await this.registerUser();
-    this.registerForm.reset();
+    // this.registerForm.reset();
   }
 }
