@@ -3,6 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-reset-password-mail',
@@ -15,12 +16,40 @@ export class ResetPasswordMailComponent {
   authService = inject(AuthenticationService);
   router = inject(Router);
   fb = inject(FormBuilder);
+  horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  constructor(private _snackBar: MatSnackBar) { }
 
   sendMailForm = this.fb.group({
     email: ['', [Validators.required, Validators.email]]
   })
 
-  onSubmit(email: string) {
+  submit(email: string) {
     this.authService.sendMailResetPassword(email);
+    this.showSnackBar();
+  }
+
+  showSnackBar() {
+    this._snackBar.openFromComponent(SnackbarComponentEmailSent, {
+      duration: 2000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: 'snackbar'
+    });
   }
 }
+
+@Component({
+  selector: 'snack-bar-email-sent',
+  template: `
+    <div>
+      <img src="./assets/img/send_email.svg">
+      <span>Email versendet</span>
+    </div>`,
+  styles: `
+    div {display: flex; justify-content: center; align-items: center; gap: 20px}
+  `,
+  standalone: true,
+})
+export class SnackbarComponentEmailSent { }

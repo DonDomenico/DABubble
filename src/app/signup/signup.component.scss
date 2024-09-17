@@ -21,7 +21,7 @@ mat-card {
     border-radius: 30px;
     align-items: center;
     gap: 32px;
-    max-width: 600px;
+    max-width: 700px;
     max-height: 670px;
 
     .back-arrow {
@@ -35,7 +35,7 @@ mat-card {
         font-weight: 700;
         color: #444DF2;
         font-size: 46px;
-        text-indent: 30px;
+        text-align: center;
     }
 
     mat-card-subtitle {

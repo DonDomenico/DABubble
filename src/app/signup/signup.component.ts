@@ -23,7 +23,7 @@ export class SignupComponent {
   registerForm = this.fb.nonNullable.group({
     username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email, this.emailAlreadyExists()]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required]]
   })
 
   async registerUser() {

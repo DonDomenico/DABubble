@@ -13,7 +13,6 @@
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <div class="form-field">
                     <div class="input-container">
-                        <!-- <img src="./assets/img/person_filled.svg" alt=""> -->
                         <input type="text" class="background-image name-input" placeholder="Name und Nachname" formControlName="username"
                             [style.color]="registerForm.get('username')?.dirty ? 'black' : '#686868'" #username>
                     </div>
@@ -25,26 +24,23 @@
 
                 <div class="form-field">
                     <div class="input-container">
-                        <!-- <img src="./assets/img/mail.svg" alt=""> -->
                         <input class="background-image mail-input" placeholder="beispielname@email.com" formControlName="email"
                             [style.color]="registerForm.get('email')?.dirty ? 'black' : '#686868'">
                     </div>
-                    @if (registerForm.get('email')?.invalid && registerForm.get('email')?.dirty) {
+                    @if (registerForm.get('email')?.invalid && registerForm.get('email')?.value != '') {
                         <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
-                    } @else if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                    } @else if (registerForm.get('email')?.value == '' && registerForm.get('email')?.touched) {
                         <span class="error">Bitte geben Sie eine E-Mail-Adresse ein.</span>
                     } @else if (authService.emailAlreadyExists) {
                         <span class="error">Ein Konto mit dieser E-Mail-Adresse existiert bereits.</span>
                     }
                 </div>
-                <!-- Fehlermeldung anzeigen, falls schon ein Account mit der Emailadresse existiert -->
 
                 <div class="form-field">
                     <div class="input-container">
-                        <!-- <img src="./assets/img/lock.svg" alt=""> -->
-                        <input class="background-image password-input" type="password" formControlName="password" placeholder="Passwort" #password>
+                        <input class="background-image password-input" type="password" formControlName="password" placeholder="Passwort" minlength="6">
                     </div>
-                    @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched && !registerForm.get('password')?.dirty) {
+                    @if (registerForm.get('password')?.touched && registerForm.get('password')?.value == '') {
                         <span class="error">Bitte geben Sie ein Passwort ein. Es muss aus mindestens 6 Zeichen bestehen.</span>
                     } @else if (registerForm.get('password')?.dirty && registerForm.get('password')?.invalid) {
                         <span class="error">Das Passwort muss aus mindestens 6 Zeichen bestehen.</span>

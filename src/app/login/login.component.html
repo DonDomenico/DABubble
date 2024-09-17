@@ -20,9 +20,9 @@
                         <input class="background-image mail-input" placeholder="beispielname@email.com" formControlName="email"
                             [style.color]="loginForm.get('email')?.dirty ? 'black' : '#686868'" #email>
                     </div>
-                    @if (loginForm.get('email')?.invalid && loginForm.get('email')?.dirty) {
+                    @if (loginForm.get('email')?.invalid && loginForm.get('email')?.value != '') {
                         <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
-                    } @else if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                    } @else if (loginForm.get('email')?.value == '' && loginForm.get('email')?.touched) {
                         <span class="error">Bitte geben Sie eine E-Mail-Adresse ein.</span>
                     }
                 </div>
