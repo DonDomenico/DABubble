@@ -123,3 +123,17 @@
     background-color: #eceefe;
   }
 }
+.new-channel-container {
+  > p {
+    width: 201px;
+    height: 33px;
+    color: #535af1;
+    background-color: #eceefe;
+    border-radius: 30px;
+    padding: 4px 10px 4px 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+  }
+}

@@ -17,32 +17,36 @@
         <p>Channels</p>
       </div>
     </div>
-    <mat-icon class="add-channel-icon" (click)="addChannelDialog()">add</mat-icon>
-
-
-      <p>{{ channelModel.channelName }}</p>
-
+    <mat-icon class="add-channel-icon" (click)="addChannelDialog()"
+      >add</mat-icon
+    >
   </div>
-@if (!isChannelListHidden) {
+  @if (!isChannelListHidden) {
 
   <div class="dropdown-content">
-   <div class="team-container">
-     <mat-icon>tag</mat-icon>
-     <p>Entwicklerteam</p>
-   </div>
- 
+    <div class="team-container">
+      <mat-icon>tag</mat-icon>
+      <p>Entwicklerteam</p>
+    </div>
+
+    <div class="new-channel-container">
+      @if (channelName) {
+        
+        <p [ngStyle]="getChannelStyles()"><mat-icon>tag</mat-icon>{{ channelName }}</p>
+      }
+    </div>
+
     <div class="add-channel" (click)="addChannelDialog()">
       <mat-icon class="material-icons-outlined">add_circle</mat-icon>
       <p>Channel hinzufügen</p>
-   </div>
+    </div>
   </div>
-}
-
+  }
 
   <div class="channels-container">
     <div class="left-side">
       <mat-icon (click)="openMemberList()">arrow_drop_down</mat-icon>
-     
+
       <div class="channels-headline">
         <mat-icon>account_circle</mat-icon>
         <p>Direktnachrichten</p>

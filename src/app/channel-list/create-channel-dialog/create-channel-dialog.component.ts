@@ -7,7 +7,8 @@ import {MatDialogModule,  MatDialog,
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { Channel } from '../channel';
+import { ChannelService } from '../../services/channel.service';
+
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -19,15 +20,15 @@ import { Channel } from '../channel';
 export class CreateChannelDialogComponent {
   @Output() newChannelEvent = new EventEmitter<string>();
   
-  constructor(private dialog: MatDialog) {}
+  constructor(private channelService: ChannelService, private dialog: MatDialog) {}
 
+  channelModel = { channelName: '', channelDescription: "" };
 
-  channelModel: Channel = new Channel('', '');
 
   addChannel(channelName: string) {
     console.log(this.channelModel.channelName);
     console.log(this.channelModel.channelDescription);
-    this.newChannelEvent.emit(channelName);
+    this.channelService.changeChannelName(channelName);
     this.channelModel.channelName = "";
     this.channelModel.channelDescription = "";
     this.dialog.closeAll();
