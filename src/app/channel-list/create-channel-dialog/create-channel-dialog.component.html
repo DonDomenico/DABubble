@@ -6,6 +6,8 @@
     </span>
   </div>
 
+
+
   <div class="dialog-content">
     <span>
       Channels dienen deinem Team zur Kommunikation. Am besten sollten sie
@@ -14,18 +16,19 @@
       <div class="dialog-input">
 
         <p>Channel-Name</p>
-        <input type="text" placeholder="# z.B. Kooperationsprojekte" />
+        <input type="text" placeholder="# z.B. Kooperationsprojekte" [(ngModel)]="channelModel.channelName" name="channel" />
       </div>
 
       <div class="dialog-input">
 
         <p>Beschreibung <em>(optional)</em></p>
-        <input type="text" placeholder="Dein Text hier" />
+        <input type="text" placeholder="Dein Text hier" [(ngModel)]="channelModel.channelDescription" name="description"/>
       </div>
   </div>
 
 
   <mat-dialog-actions>
-    <button class="button-primary" mat-flat-button>Erstellen</button>
+    <button (click)="addChannel(channelModel.channelName)" class="button-primary" mat-flat-button>Erstellen</button>
   </mat-dialog-actions>
+
 </section>

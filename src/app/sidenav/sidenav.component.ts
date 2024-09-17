@@ -6,6 +6,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateChannelDialogComponent } from '../channel-list/create-channel-dialog/create-channel-dialog.component';
 import { GeneralViewComponent } from '../general-view/general-view.component';
+import { Channel } from '../channel-list/channel';
+
 
 @Component({
   selector: 'app-sidenav',
@@ -18,6 +20,10 @@ export class SidenavComponent {
   readonly dialog = inject(MatDialog);
   isChannelListHidden = false;
   isMemberListHidden = false;
+
+  channelModel: Channel = new Channel('', '');
+
+
   addChannelDialog() {
     this.dialog.open(CreateChannelDialogComponent);
   }
