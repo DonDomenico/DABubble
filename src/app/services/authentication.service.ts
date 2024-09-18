@@ -17,6 +17,7 @@ export class AuthenticationService {
   passwordError = '';
   tooManyRequests = '';
   emailAlreadyExists = '';
+  noAccountWithEmail = '';
 
   async createUser(user: User) {
     await createUserWithEmailAndPassword(this.firebaseAuth, user.email, user.password).then((response) => {
@@ -70,15 +71,14 @@ export class AuthenticationService {
     })
   }
 
-  sendMailResetPassword(email: string) {
-    sendPasswordResetEmail(this.firebaseAuth, email)
+  async sendMailResetPassword(email: string) {
+    await sendPasswordResetEmail(this.firebaseAuth, email)
       .then(() => {
         console.log('Email sent'); //Testcode, später löschen
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage); //Testcode, später löschen
+        this.noAccountWithEmail = error.code;
+        console.log(this.noAccountWithEmail); //Testcode, später löschen
       }
     );
   }

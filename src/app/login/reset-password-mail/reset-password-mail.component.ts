@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
-import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl } from '@angular/forms';
+import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
@@ -22,12 +22,14 @@ export class ResetPasswordMailComponent {
   constructor(private _snackBar: MatSnackBar) { }
 
   sendMailForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]]
+    email: ['', [Validators.required, Validators.email, this.noAccountWithEmail()]]
   })
 
-  submit(email: string) {
-    this.authService.sendMailResetPassword(email);
-    this.showSnackBar();
+  async submit(email: string) {
+    await this.authService.sendMailResetPassword(email);
+    if(this.authService.noAccountWithEmail == '') {
+      this.showSnackBar();
+    }
   }
 
   showSnackBar() {
@@ -37,6 +39,18 @@ export class ResetPasswordMailComponent {
       verticalPosition: this.verticalPosition,
       panelClass: 'snackbar'
     });
+  }
+
+  noAccountWithEmail(): ValidatorFn {
+    return() : ValidationErrors | null => {
+      const accountExists = this.authService.noAccountWithEmail == '';
+
+      if(!accountExists) {
+        this.authService.noAccountWithEmail = '';
+      }
+
+      return !accountExists ? {noAccount: true} : null;
+    }
   }
 }
 
