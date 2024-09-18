@@ -24,7 +24,7 @@ export class ResetPasswordComponent {
   resetPasswordForm = this.fb.nonNullable.group({
     password: ['', Validators.required],
     passwordConfirm: ['', Validators.required]
-  })
+  });
 
   showSnackBar() {
     this._snackBar.openFromComponent(SnackbarComponentResetPassword, {
@@ -37,9 +37,16 @@ export class ResetPasswordComponent {
 
   submit() {
     this.showSnackBar();
+    this.authService.resetPassword(this.resetPasswordForm.controls.password.value);
     setTimeout(() => {
       this.router.navigateByUrl('/');
     }, 2000);
+  }
+
+  disableSubmitButton() {
+    return this.resetPasswordForm.get('password')?.value != this.resetPasswordForm.get('passwordConfirm')?.value ||
+    this.resetPasswordForm.get('password')?.value == '' ||
+    this.resetPasswordForm.get('passwordConfirm')?.value == '';
   }
 }
 

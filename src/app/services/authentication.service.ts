@@ -1,5 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile,
+  updatePassword
+ } from '@angular/fire/auth';
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
 import { FirestoreService } from './firestore.service';
@@ -88,8 +90,19 @@ export class AuthenticationService {
       sendEmailVerification(this.currentUser)
       .then(() => {
         console.log('Verification Mail sent'); //Testcode, später löschen
+      }).catch(error => {
+        console.log(error.code);
       });
     }
+  }
+
+  resetPassword(newPassword: string) {
+    if(this.currentUser)
+    updatePassword(this.currentUser, newPassword).then(() => {
+      console.log('Password reseted, new Password is: ', newPassword);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
   async logout() {
