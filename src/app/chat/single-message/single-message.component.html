@@ -1,15 +1,23 @@
 <section>
-    <div class="message-box-container">
-        <input type="text" placeholder="Nachricht an #Entwicklerteam">
-        <div class="message-box">
-            <div class="message-box-icons">
-                <mat-icon>add</mat-icon>
-                <span class="vertical-line"></span>
-                <mat-icon>mood</mat-icon>
-                <mat-icon>alternate_email</mat-icon>
-            </div>
-            <mat-icon>send</mat-icon>
-        </div>
+  <div class="single-message-container">
+    <img src="{{ message.userAvatar }}" class="member-avatar" />
+    <div class="message-content">
+      <div class="name-time">
+        <span>{{ message.userName }}</span>
+        <p>{{ message.userTime }}</p>
+      </div>
 
+      <span class="user-message">
+        {{ message.userMessage }}
+      </span>
+      <div class="answer-time">
+        <p>
+          {{ message.answer }}
+        </p>
+        <span>
+          {{ message.lastAnswerTime }}
+        </span>
+      </div>
     </div>
+  </div>
 </section>
