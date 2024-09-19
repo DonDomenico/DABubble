@@ -1,21 +1,25 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-
-
+import { formatDate } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { fromEvent, timestamp } from 'rxjs';
 
 
 @Component({
   selector: 'app-single-message',
   standalone: true,
-  imports: [MatIconModule],
+  imports: [MatIconModule, CommonModule],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
 export class SingleMessageComponent {
-  @Output() newItemEvent = new EventEmitter<string>();
 
-@Input() index: number = 0;
+  currentDate = new Date();
+
+  
+//   @Output() newItemEvent = new EventEmitter<string>();
+
+// @Input() index: number = 0;
 
 @Input() message = {
   userName: "Noah Braun",
@@ -26,6 +30,10 @@ export class SingleMessageComponent {
   lastAnswerTime: "Letzte Antwort 14:56"
 }
 
+ngOnInit(): void {
+  this.currentDate = new Date();
+  
+}
 // const clickWithTimestamp = fromEvent(document, 'click').pipe(
 //   timestamp()
 // );
