@@ -1,23 +1,36 @@
 <section>
-  <div class="single-message-container">
-    <img src="{{ message.userAvatar }}" class="member-avatar" />
-    <div class="message-content">
-      <div class="name-time">
-        <span>{{ message.userName }}</span>
-        <p>{{ message.userTime }}</p>
+    <div class="divider">
+        <hr class="line">
+        @if (timestamp) {
+          <span class="date">{{ timestamp }}</span>
+          <!-- <span class="date">{{ currentDate | date: 'dd.MM.yyyy' }}</span> -->
+        }
+        <hr class="line">
       </div>
 
-      <span class="user-message">
-        {{ message.userMessage }}
-      </span>
-      <div class="answer-time">
-        <p>
-          {{ message.answer }}
-        </p>
-        <span>
-          {{ message.lastAnswerTime }}
+<div class="message-wrapper" [ngClass]="{'rowReverse':message.isRowReverse}">
+
+    <div class="single-message-container" [ngClass]="{'rowReverse':message.isRowReverse}">
+      <img src="{{ message.userAvatar }}" class="member-avatar" />
+      <div class="message-content">
+        <div class="name-time" [ngClass]="{'rowReverse':message.isRowReverse}">
+          <span>{{ message.userName }}</span>
+          <p>{{ message.userTime }}</p>
+        </div>
+    
+        <span class="user-message">
+          {{ message.userMessage }}
         </span>
+        <div class="answer-time">
+          <p>
+            {{ message.answer }}
+          </p>
+          <span>
+            {{ message.lastAnswerTime }}
+          </span>
+        </div>
       </div>
     </div>
-  </div>
+</div>
+
 </section>
