@@ -37,7 +37,6 @@ export class ResetPasswordComponent {
 
   submit() {
     this.showSnackBar();
-    this.authService.resetPassword(this.resetPasswordForm.controls.password.value);
     setTimeout(() => {
       this.router.navigateByUrl('/');
     }, 2000);

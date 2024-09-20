@@ -1,7 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile,
-  updatePassword
- } from '@angular/fire/auth';
+import {
+  Auth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile,
+  updatePassword, sendSignInLinkToEmail,
+  signInWithEmailLink,
+  isSignInWithEmailLink
+} from '@angular/fire/auth';
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
 import { FirestoreService } from './firestore.service';
@@ -82,28 +85,42 @@ export class AuthenticationService {
         this.noAccountWithEmail = error.code;
         console.log(this.noAccountWithEmail); //Testcode, später löschen
       }
-    );
+      );
   }
 
   sendVerificationMail() {
-    if(this.currentUser) {
+    if (this.currentUser) {
       sendEmailVerification(this.currentUser)
-      .then(() => {
-        console.log('Verification Mail sent'); //Testcode, später löschen
-      }).catch(error => {
-        console.log(error.code);
-      });
+        .then(() => {
+          console.log('Verification Mail sent'); //Testcode, später löschen
+        }).catch(error => {
+          console.log(error.code);
+        });
     }
   }
 
-  resetPassword(newPassword: string) {
-    if(this.currentUser)
-    updatePassword(this.currentUser, newPassword).then(() => {
-      console.log('Password reseted, new Password is: ', newPassword);
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
+  // async resetPassword(newPassword: string, url: string) {
+  //   let user = await this.getUserFromEmail(url);
+  //   if (user != null)
+  //     updatePassword(this.currentUser, newPassword).then(() => {
+  //       console.log('Password reseted, new Password is: ', newPassword);
+  //     }).catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
+
+  // async getUserFromEmail(url: string) {
+  //   const regex = /\/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\?/;
+  //   const match = url.match(regex);
+
+  //   if (match) {
+  //     console.log("user:", match[1]);
+  //     return match[1];
+  //   } else {
+  //     console.log("user nicht gefunden");
+  //     return null;
+  //   }
+  // }
 
   async logout() {
     await signOut(this.firebaseAuth);
