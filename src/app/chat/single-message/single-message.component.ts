@@ -14,33 +14,42 @@ import { fromEvent, timestamp } from 'rxjs';
 })
 export class SingleMessageComponent {
 
-  currentDate = new Date();
-
+  // currentDate = new Date();
+  timestamp: string | null = null;
   
 //   @Output() newItemEvent = new EventEmitter<string>();
 
 // @Input() index: number = 0;
 
-@Input() message = {
-  userName: "Noah Braun",
-  userAvatar: "./assets/img/avatar4.svg",
-  userMessage: "Welche Version ist aktuell von Angular?",
-  userTime: "12:00 Uhr",
-  answer: "2 Antworten",
-  lastAnswerTime: "Letzte Antwort 14:56"
-}
+  @Input() message = 
+  {
+    userName: "Noah Braun",
+    userAvatar: "./assets/img/avatar4.svg",
+    userMessage: "Welche Version ist aktuell von Angular?",
+    userTime: "12:00 Uhr",
+    answer: "2 Antworten",
+    lastAnswerTime: "Letzte Antwort 14:56",
+    isRowReverse: false
+  };
+
+
+
 
 ngOnInit(): void {
-  this.currentDate = new Date();
-  
-}
-// const clickWithTimestamp = fromEvent(document, 'click').pipe(
-//   timestamp()
-// );
+  // this.currentDate = new Date();
+  const now = new Date();
+    const today = new Date().setHours(0, 0, 0, 0);
+    const messageDate = now.setHours(0, 0, 0, 0);
 
-// Emits data of type { value: PointerEvent, timestamp: number }
-// clickWithTimestamp.subscribe((data: { value: PointerEvent, timestamp: number }) => {
-//   console.log(data);
-// });
+    if (messageDate === today) {
+      this.timestamp = 'Heute';
+    } else {
+      this.timestamp = now.toLocaleDateString();
+    }
+
+    // Hier kannst du die Nachricht weiterverarbeiten, z.B. an einen Server senden
+    console.log('Nachricht gesendet:', this.message);
+}
+
 
 }

@@ -1,16 +1,19 @@
 <section>
     <div class="divider">
         <hr class="line">
-        <span class="date">{{ currentDate | date: 'dd.MM.yyyy' }}</span>
+        @if (timestamp) {
+          <span class="date">{{ timestamp }}</span>
+          <!-- <span class="date">{{ currentDate | date: 'dd.MM.yyyy' }}</span> -->
+        }
         <hr class="line">
       </div>
 
-<div class="message-wrapper">
+<div class="message-wrapper" [ngClass]="{'rowReverse':message.isRowReverse}">
 
-    <div class="single-message-container">
+    <div class="single-message-container" [ngClass]="{'rowReverse':message.isRowReverse}">
       <img src="{{ message.userAvatar }}" class="member-avatar" />
       <div class="message-content">
-        <div class="name-time">
+        <div class="name-time" [ngClass]="{'rowReverse':message.isRowReverse}">
           <span>{{ message.userName }}</span>
           <p>{{ message.userTime }}</p>
         </div>
