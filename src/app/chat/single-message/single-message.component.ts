@@ -12,32 +12,30 @@ import { fromEvent, timestamp } from 'rxjs';
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss'
 })
-export class SingleMessageComponent {
+export class SingleMessageComponent implements OnInit {
 
-  // currentDate = new Date();
-  timestamp: string | null = null;
-  
-//   @Output() newItemEvent = new EventEmitter<string>();
-
-// @Input() index: number = 0;
 
   @Input() message = 
   {
     userName: "Noah Braun",
     userAvatar: "./assets/img/avatar4.svg",
     userMessage: "Welche Version ist aktuell von Angular?",
-    userTime: "12:00 Uhr",
     answer: "2 Antworten",
     lastAnswerTime: "Letzte Antwort 14:56",
     isRowReverse: false
   };
 
+  timestamp!: string;
 
+  messageDate: string = new Date().toLocaleTimeString();
 
+  ngOnInit(): void {
+    this.updateTimestamp();
+    setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
+  }
 
-ngOnInit(): void {
-  // this.currentDate = new Date();
-  const now = new Date();
+  updateTimestamp(): void {
+    const now = new Date();
     const today = new Date().setHours(0, 0, 0, 0);
     const messageDate = now.setHours(0, 0, 0, 0);
 
@@ -46,10 +44,6 @@ ngOnInit(): void {
     } else {
       this.timestamp = now.toLocaleDateString();
     }
-
-    // Hier kannst du die Nachricht weiterverarbeiten, z.B. an einen Server senden
-    console.log('Nachricht gesendet:', this.message);
-}
-
+  }
 
 }
