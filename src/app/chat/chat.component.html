@@ -1,28 +1,5 @@
 <section>
-  <div class="chat-header">
-
-    <div  class="dev-team-container">
-      <mat-icon>tag</mat-icon>
-      <p>Entwicklerteam</p>
-      <mat-icon>keyboard_arrow_down</mat-icon>
-    </div>
-
-    <div class="add-member-container">
-      <img class="avarar-icon" src="./assets/img/avatar1.svg" alt="" />
-      <img class="avarar-icon" src="./assets/img/avatar2.svg" alt="" />
-      <img class="avarar-icon" src="./assets/img/avatar3.svg" alt="" />
-      <p>3</p>
-      <span class="material-symbols-outlined" (click)="addMemberDialog()">
-        <mat-icon>person_add</mat-icon>
-      </span>
-    </div>
-  </div>
-@for (message of messages; track $index ) {
-
-  <div class="chat-container">
-    <app-single-message [message]="message" ></app-single-message>
-  </div>
-}
+  <app-single-channel></app-single-channel>
 
   <div class="message-box-container">
     <textarea
@@ -39,5 +16,4 @@
       <mat-icon (click)="sendMessage()">send</mat-icon>
     </div>
   </div>
-  
 </section>

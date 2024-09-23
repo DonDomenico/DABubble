@@ -1,1 +1,61 @@
-<p>single-channel works!</p>
+<section>
+
+  <div class="chat-header">
+
+    <div  class="dev-team-container">
+      <mat-icon>tag</mat-icon>
+      <p>Entwicklerteam</p>
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </div>
+
+    <div class="add-member-container">
+      <img class="avarar-icon" src="./assets/img/avatar1.svg" alt="" />
+      <img class="avarar-icon" src="./assets/img/avatar2.svg" alt="" />
+      <img class="avarar-icon" src="./assets/img/avatar3.svg" alt="" />
+      <p>3</p>
+      <span class="material-symbols-outlined" (click)="addMemberDialog()">
+        <mat-icon>person_add</mat-icon>
+      </span>
+    </div>
+  </div>
+
+
+    <div class="divider">
+      <hr class="line" />
+      @if (timestamp) {
+      <span class="date">{{ timestamp }}</span>
+      }
+      <hr class="line" />
+    </div>
+
+    @for (message of messages; track $index ) {
+  
+    <div class="message-wrapper" [ngClass]="{ rowReverse: message.isRowReverse }">
+      <div
+        class="single-message-container"
+        [ngClass]="{ rowReverse: message.isRowReverse }"
+      >
+        <img src="{{ message.userAvatar }}" class="member-avatar" />
+        <div class="message-content">
+          <div class="name-time" [ngClass]="{ rowReverse: message.isRowReverse }">
+            <span>{{ message.userName }}</span>
+            <p>{{ messageDate }}</p>
+          </div>
+  
+          <span class="user-message">
+            {{ message.userMessage }}
+          </span>
+          <div class="answer-time">
+            <p>
+              {{ message.answer }}
+            </p>
+            <span>
+              {{ message.lastAnswerTime }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  </section>
+  

@@ -8,12 +8,13 @@ import { CreateChannelDialogComponent } from '../channel-list/create-channel-dia
 import { GeneralViewComponent } from '../general-view/general-view.component';
 import { ChannelService } from '../services/channel.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [CommonModule, MatIcon, MatSidenavModule, ChannelListComponent, UsersComponent, GeneralViewComponent],
+  imports: [RouterModule, CommonModule, MatIcon, MatSidenavModule, ChannelListComponent, UsersComponent, GeneralViewComponent],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
@@ -47,7 +48,4 @@ export class SidenavComponent {
   }
 
 
-  toggleSection() {
-    this.toggleEvent.emit();
-  }
 }
