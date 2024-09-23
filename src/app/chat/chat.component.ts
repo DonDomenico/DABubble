@@ -5,12 +5,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { AddMemberDialogComponent } from '../channel-list/add-member-dialog/add-member-dialog.component';
 import { SingleChannelComponent } from "../channel-list/single-channel/single-channel.component";
-
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule, SingleMessageComponent, MatButtonModule, MatIconModule, AddMemberDialogComponent, SingleChannelComponent],
+  imports: [RouterModule, CommonModule, SingleMessageComponent, MatButtonModule, MatIconModule, AddMemberDialogComponent, SingleChannelComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })

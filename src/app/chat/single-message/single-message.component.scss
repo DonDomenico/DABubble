@@ -1,0 +1,25 @@
+.chat-header {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: transparent;
+    padding: 32px 45px 20px 45px;
+    box-shadow: 0 3px 2px -2px rgb(0, 0, 0, 0.2);
+    > p {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32.74px;
+      }
+      input {
+        width: 100%;
+        padding: 15px 20px 15px 20px;
+        font-size: 18px;
+        border: 1px solid #c1c3e2;
+        outline: none;
+        border-radius: 30px;
+        cursor: pointer;
+      }
+}

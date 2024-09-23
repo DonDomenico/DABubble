@@ -24,7 +24,7 @@
   @if (!isChannelListHidden) {
 
   <div class="dropdown-content">
-    <div class="team-container">
+    <div class="team-container" [routerLink]="['/chat/single-channel']" routerLinkActive="router-link-active">
       <mat-icon>tag</mat-icon>
       <p>Entwicklerteam</p>
     </div>
