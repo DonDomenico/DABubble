@@ -55,7 +55,7 @@
                 <div class="sign-in-buttons">
                     <button class="button-primary" type="submit" [disabled]="loginForm.invalid"
                         [style.cursor]="loginForm.invalid ? 'not-allowed' : 'pointer'">Anmelden</button>
-                    <button class="button-secondary">Gäste-Login</button>
+                    <button class="button-secondary" (click)="authService.guestLogIn()">Gäste-Login</button>
                 </div>
             </form>
         </mat-card-content>

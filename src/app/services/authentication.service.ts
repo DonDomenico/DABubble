@@ -3,7 +3,8 @@ import {
   Auth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile,
   updatePassword,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  signInAnonymously
 } from '@angular/fire/auth';
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
@@ -102,9 +103,18 @@ export class AuthenticationService {
 
   signInWithGoogle() {
     signInWithPopup(this.firebaseAuth, this.google).then(result => {
-      console.log(result);
+      console.log(result); //Testcode, später löschen
     }).catch(error => {
-      console.log(error);
+      console.log(error); //Testcode, später löschen
+    })
+  }
+
+  guestLogIn() {
+    signInAnonymously(this.firebaseAuth).then(result => {
+      console.log(result); //Testcode, später löschen
+      updateProfile(result.user, { displayName: 'Guest' });
+    }).catch(error => {
+      console.log(error); //Testcode, später löschen
     })
   }
 
