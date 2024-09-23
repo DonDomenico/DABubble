@@ -48,12 +48,20 @@
                     <div class="line"><mat-divider></mat-divider></div>
                 </div>
 
-                <button class="button-primary" type="submit" [disabled]="loginForm.invalid"
-                    [style.cursor]="loginForm.invalid ? 'not-allowed' : 'pointer'">Anmelden</button>
+                <div class="input-container">
+                    <input type="submit" class="background-image google-logo google-signin" value="Anmelden mit Google" (click)="authService.signInWithGoogle()">
+                </div>
+
+                <div class="sign-in-buttons">
+                    <button class="button-primary" type="submit" [disabled]="loginForm.invalid"
+                        [style.cursor]="loginForm.invalid ? 'not-allowed' : 'pointer'">Anmelden</button>
+                    <button class="button-secondary">Gäste-Login</button>
+                </div>
             </form>
         </mat-card-content>
     </mat-card>
 
+    <br><br><br>
     <button (click)="authService.showCurrentUser()">Show current user</button>
     <button (click)="authService.logout()">Logout</button>
 </div>

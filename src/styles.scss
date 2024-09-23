@@ -205,20 +205,22 @@ body {
 }
 
 .button-secondary {
-  color: #797EF3;
+  color: #444DF2;
+  border: 1px solid #797EF3;
   border-radius: 25px;
   padding: 12px 25px;
   font-size: 18px;
   font-family: "Nunito";
   font-weight: 700;
-  border: none;
 
   &:hover {
     background-color: #535AF1;
+    color: white;
   }
 
   &:disabled {
     color: #686868;
+    border: 1px solid #686868;
   }
 
   &:active {

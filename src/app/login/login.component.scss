@@ -28,6 +28,20 @@ form {
     }
 }
 
+.google-logo {
+    background-image: url('../../assets/img/google_logo.svg');
+}
+
+.google-signin {
+    text-indent: 0 !important;
+    background-size: 38px 38px !important;
+    color: #444DF2;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 
 .logo-modal {
     display: flex;

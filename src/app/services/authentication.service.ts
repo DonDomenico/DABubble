@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import {
   Auth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile,
-  updatePassword, sendSignInLinkToEmail,
-  signInWithEmailLink,
-  isSignInWithEmailLink
+  updatePassword,
+  GoogleAuthProvider,
+  signInWithPopup
 } from '@angular/fire/auth';
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
@@ -16,6 +16,7 @@ export class AuthenticationService {
   firebaseAuth = inject(Auth);
   firestore = inject(FirestoreService);
   router = inject(Router);
+  google = new GoogleAuthProvider();
 
   currentUser = this.firebaseAuth.currentUser;
   // possibly not the best way to check if the password matches the email-address
@@ -94,9 +95,17 @@ export class AuthenticationService {
         .then(() => {
           console.log('Verification Mail sent'); //Testcode, später löschen
         }).catch(error => {
-          console.log(error.code);
+          console.log(error.code); //Testcode, später löschen
         });
     }
+  }
+
+  signInWithGoogle() {
+    signInWithPopup(this.firebaseAuth, this.google).then(result => {
+      console.log(result);
+    }).catch(error => {
+      console.log(error);
+    })
   }
 
   // async resetPassword(newPassword: string, url: string) {
