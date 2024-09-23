@@ -67,6 +67,7 @@ export class AuthenticationService {
   async login(email: string, password: string) {
     await signInWithEmailAndPassword(this.firebaseAuth, email, password).then((userCredential) => {
       console.log('Sign in successful | Username: ', userCredential.user.displayName); //Testcode, später löschen
+      this.router.navigateByUrl('general-view');
     }).catch((error) => {
       if (error.code == 'auth/invalid-credential') {
         this.passwordError = error.code;
@@ -101,18 +102,20 @@ export class AuthenticationService {
     }
   }
 
-  signInWithGoogle() {
-    signInWithPopup(this.firebaseAuth, this.google).then(result => {
+  async signInWithGoogle() {
+    await signInWithPopup(this.firebaseAuth, this.google).then(result => {
       console.log(result); //Testcode, später löschen
     }).catch(error => {
       console.log(error); //Testcode, später löschen
     })
+    this.router.navigateByUrl('general-view');
   }
 
   guestLogIn() {
     signInAnonymously(this.firebaseAuth).then(result => {
       console.log(result); //Testcode, später löschen
       updateProfile(result.user, { displayName: 'Guest' });
+      this.router.navigateByUrl('general-view');
     }).catch(error => {
       console.log(error); //Testcode, später löschen
     })

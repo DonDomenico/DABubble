@@ -12,7 +12,11 @@
 
 
   <div class="header-aktiv-user">
-    <p>User Name</p>
+    @if (authService.currentUser) {
+      <p>{{ authService.currentUser.displayName }}</p>
+    } @else {
+      <p>User Name</p>
+    }
     <img src="./assets/img/avatar1.svg" class="user-avatar" />
     <mat-icon [matMenuTriggerFor]="menu">keyboard_arrow_down</mat-icon>
 
