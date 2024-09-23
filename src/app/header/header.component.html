@@ -17,12 +17,17 @@
     } @else {
       <p>User Name</p>
     }
-    <img src="./assets/img/avatar1.svg" class="user-avatar" />
+
+    @if (authService.currentUser) {
+      <img src="{{ authService.currentUser.photoURL }}" class="user-avatar">
+    } @else {
+      <img src="./assets/img/avatar1.svg" class="user-avatar" />
+    }
     <mat-icon [matMenuTriggerFor]="menu">keyboard_arrow_down</mat-icon>
 
     <mat-menu #menu="matMenu" class="menu-dropdown">
       <button mat-menu-item>Profil</button>
-      <button mat-menu-item>Log out</button>
+      <button mat-menu-item (click)="authService.logout()">Log out</button>
     </mat-menu>
   </div>
 </header>

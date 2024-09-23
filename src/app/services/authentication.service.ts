@@ -144,7 +144,9 @@ export class AuthenticationService {
   //   }
   // }
 
-  async logout() {
-    await signOut(this.firebaseAuth);
+  logout() {
+    this.currentUser = null;
+    signOut(this.firebaseAuth);
+    this.router.navigateByUrl('');
   }
 }
