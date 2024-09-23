@@ -105,6 +105,12 @@ export class AuthenticationService {
   async signInWithGoogle() {
     await signInWithPopup(this.firebaseAuth, this.google).then(result => {
       console.log(result); //Testcode, später löschen
+      // User should only be saved, if not already in database
+      if(result.user.email && result.user.displayName && result.user.email !in this.firestore) {
+        this.firestore.saveUser(result.user.displayName, result.user.email);
+      } else {
+        console.log('User already in database'); //Testcode, später löschen
+      }
     }).catch(error => {
       console.log(error); //Testcode, später löschen
     })
