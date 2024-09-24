@@ -6,6 +6,7 @@ import { ChooseProfileImageComponent } from './signup/choose-profile-image/choos
 import { ResetPasswordMailComponent } from './login/reset-password-mail/reset-password-mail.component';
 import { ChatComponent } from './chat/chat.component';
 import { SingleMessageComponent } from './chat/single-message/single-message.component';
+import { SingleChannelComponent } from './channel-list/single-channel/single-channel.component';
 
 
 export const routes: Routes = [
@@ -16,6 +17,7 @@ export const routes: Routes = [
     { path: "send-mail", component: ResetPasswordMailComponent},
     { path: "chat", component: ChatComponent, 
         children: [
-        { path: "single-message", component: SingleMessageComponent }
+        { path: "single-message", component: SingleMessageComponent },
+        { path: "single-channel", component: SingleChannelComponent }
       ]}
 ];
