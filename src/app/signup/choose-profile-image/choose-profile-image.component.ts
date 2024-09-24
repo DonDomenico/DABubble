@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -18,11 +18,14 @@ import {
 export class ChooseProfileImageComponent {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  formData;
 
-  constructor(private _snackBar: MatSnackBar) {}
-  
+  constructor(private _snackBar: MatSnackBar, private router: Router) {
+    console.log('form data received: ', this.router.getCurrentNavigation()?.extras.state);
+    this.formData = this.router.getCurrentNavigation()?.extras.state;
+  }
+
   authService = inject(AuthenticationService);
-  router = inject(Router);
 
   profileImg = './assets/img/person.svg';
   avatars = ['./assets/img/avatar1.svg', './assets/img/avatar2.svg', './assets/img/avatar3.svg', './assets/img/avatar4.svg', './assets/img/avatar5.svg', './assets/img/avatar6.svg'];
@@ -31,13 +34,23 @@ export class ChooseProfileImageComponent {
     this.profileImg = url;
   }
 
-  submit() {
+  showFormData() {
+    if(this.formData) {
+      console.log(this.formData['username'], this.formData['email']);
+    }
+  }
+
+  async submit() {
     this.showSnackBar();
-    setTimeout(() => {
-      this.authService.setProfilePhoto(this.profileImg);
-      this.router.navigateByUrl('/');
-      this.authService.logout();
-    }, 2000);
+    if(this.formData) {
+        await this.authService.createUser(this.formData!['email'], this.formData!['username'], this.formData!['password'])
+        await this.authService.setProfilePhoto(this.profileImg);
+
+        setTimeout(() => {
+          this.router.navigateByUrl('/');
+          this.authService.logout();
+        }, 2000);
+    }
   }
 
   showSnackBar() {

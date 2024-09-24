@@ -16,8 +16,8 @@
                 <img [src]="profileImg" alt="" class="avatar-image-big">
             }
 
-            @if (authService.currentUser) {
-                <p class="username">{{ authService.currentUser.displayName }}</p>
+            @if (formData) {
+                <p class="username">{{ formData['username'] }}</p>
             } @else {
                 <p class="username">Test</p>
             }
@@ -35,7 +35,7 @@
         <!-- Toast-Message anzeigen, wenn Registrierung erfolgreich war -->
 
         <div class="test-buttons">
-            <button (click)="authService.showCurrentUser()">Show current user</button>
+            <button (click)="showFormData()">Show form data</button>
             <button (click)="authService.logout()">Logout</button>
         </div>
     </mat-card>

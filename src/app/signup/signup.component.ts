@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Output, output } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -26,14 +26,12 @@ export class SignupComponent {
     password: ['', [Validators.required]]
   })
 
-  async registerUser() {
-      await this.authService.createUser(this.registerForm.getRawValue());
-  }
+  @Output() formData = {};
 
   async onSubmit() {
-    console.log('submitted form', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
-    await this.registerUser();
-    // this.registerForm.reset();
+    console.log('form data sent: ', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
+    this.formData = this.registerForm.getRawValue();
+    this.router.navigate(['signup/select-avatar'], {  state: this.formData } );
   }
 
   emailAlreadyExists(): ValidatorFn {

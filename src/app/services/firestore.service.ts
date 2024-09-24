@@ -16,15 +16,15 @@ export class FirestoreService {
   }
 
   async saveUser(username: string, email: string) {
-      await addDoc(collection(this.firestore, "users"), {
-        username: username,
-        email: email
-      }).catch(
-        (err) => { console.error(err) }
-      ).then(
-        () => {
-          console.log('User added to database');
-        }
-      );
+    await addDoc(collection(this.firestore, "users"), {
+      username: username,
+      email: email
+    }).catch(
+      (err) => { console.error(err) }
+    ).then(
+      () => {
+        console.log('User added to database');
+      }
+    );
   }
 }

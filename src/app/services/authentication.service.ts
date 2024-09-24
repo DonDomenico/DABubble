@@ -26,12 +26,12 @@ export class AuthenticationService {
   emailAlreadyExists = '';
   noAccountWithEmail = '';
 
-  async createUser(user: User) {
-    await createUserWithEmailAndPassword(this.firebaseAuth, user.email, user.password).then((response) => {
-      updateProfile(response.user, { displayName: user.username });
+  async createUser(email: string, username: string, password: string) {
+    await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then((response) => {
+      updateProfile(response.user, { displayName: username });
       this.currentUser = response.user;
-      this.firestore.saveUser(user.email, user.username);
-      this.router.navigateByUrl('signup/select-avatar');
+      this.firestore.saveUser(email, username);
+      this.router.navigateByUrl('');
     }).catch(error => {
       this.emailAlreadyExists = error.code;
       console.log(error); //Testcode, später löschen
