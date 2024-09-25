@@ -29,9 +29,15 @@ export class SignupComponent {
   @Output() formData = {};
 
   async onSubmit() {
-    console.log('form data sent: ', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
-    this.formData = this.registerForm.getRawValue();
-    this.router.navigate(['signup/select-avatar'], {  state: this.formData } );
+    // find a way to check, if an account with the email-address already exists before directing to next page
+    // maybe use firestore to check if email exists
+    if(this.registerForm.get('email')?.value !in this.authService.firebaseAuth) {
+      console.log('form data sent: ', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
+      this.formData = this.registerForm.getRawValue();
+      this.router.navigate(['signup/select-avatar'], {  state: this.formData } );
+    } else {
+      this.authService.emailAlreadyExists = 'error';
+    }
   }
 
   emailAlreadyExists(): ValidatorFn {

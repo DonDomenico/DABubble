@@ -31,6 +31,7 @@ export class AuthenticationService {
       updateProfile(response.user, { displayName: username });
       this.currentUser = response.user;
       this.firestore.saveUser(email, username);
+      this.sendVerificationMail();
       this.router.navigateByUrl('');
     }).catch(error => {
       this.emailAlreadyExists = error.code;
@@ -55,7 +56,6 @@ export class AuthenticationService {
     if (this.currentUser !== null) {
       await updateProfile(this.currentUser, { photoURL: userPhoto }).then(() => {
         console.log('Photo updated'); //Testcode, später löschen
-        this.sendVerificationMail();
       }).catch(() => {
         console.error('Something went wrong'); //Testcode, später löschen
       })

@@ -8,8 +8,16 @@ import { User } from '../users/user.interface';
 })
 export class FirestoreService {
   firestore = inject(Firestore);
+  users: User [] = [];
+  unsubUserList;
 
-  constructor() { }
+  constructor() { 
+    this.unsubUserList = this.subUserList();
+  }
+
+  ngOnDestroy() {
+    this.unsubUserList();
+  }
 
   getUserRef() {
     return collection(this.firestore, 'users');
@@ -25,6 +33,23 @@ export class FirestoreService {
       () => {
         console.log('User added to database');
       }
-    );
+    )
+  }
+
+  subUserList() {
+    return onSnapshot(this.getUserRef(), userList => {
+      userList.forEach(user => {
+        console.log(this.toJson(user.data(), user.id));
+        this.users.push(this.toJson(user.data(), user.id));
+      })
+    })
+  }
+
+  toJson(obj: any, id?: string): User {
+    return {
+      id: id || "",
+      username: obj.username || "",
+      email: obj.email || ""
+    }
   }
 }
