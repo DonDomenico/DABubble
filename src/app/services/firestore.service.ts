@@ -23,8 +23,9 @@ export class FirestoreService {
     return collection(this.firestore, 'users');
   }
 
-  async saveUser(username: string, email: string) {
+  async saveUser(uid: string, username: string, email: string) {
     await addDoc(collection(this.firestore, "users"), {
+      uid: uid,
       username: username,
       email: email
     }).catch(

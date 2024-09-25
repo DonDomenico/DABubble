@@ -30,7 +30,7 @@ export class AuthenticationService {
     await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then((response) => {
       updateProfile(response.user, { displayName: username });
       this.currentUser = response.user;
-      this.firestore.saveUser(email, username);
+      this.firestore.saveUser(response.user.uid, username, email);
       this.sendVerificationMail();
       this.router.navigateByUrl('');
     }).catch(error => {
@@ -107,7 +107,7 @@ export class AuthenticationService {
       console.log(result); //Testcode, später löschen
       // User should only be saved, if not already in database
       if(result.user.email && result.user.displayName && result.user.email !in this.firestore) {
-        this.firestore.saveUser(result.user.displayName, result.user.email);
+        this.firestore.saveUser(result.user.uid, result.user.displayName, result.user.email);
       } else {
         console.log('User already in database'); //Testcode, später löschen
       }

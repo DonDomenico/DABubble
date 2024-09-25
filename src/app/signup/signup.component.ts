@@ -4,6 +4,7 @@ import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl,
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { NgStyle } from '@angular/common';
+import { FirestoreService } from '../services/firestore.service';
 
 
 @Component({
@@ -14,11 +15,12 @@ import { NgStyle } from '@angular/common';
   styleUrl: './signup.component.scss'
 })
 export class SignupComponent {
-
+  firestore = inject(FirestoreService);
   authService = inject(AuthenticationService);
   router = inject(Router);
   fb = inject(FormBuilder);
   checkbox = new FormControl(false, Validators.requiredTrue);
+  emailInDatabase = false;
 
   registerForm = this.fb.nonNullable.group({
     username: ['', Validators.required],
@@ -31,13 +33,23 @@ export class SignupComponent {
   async onSubmit() {
     // find a way to check, if an account with the email-address already exists before directing to next page
     // maybe use firestore to check if email exists
-    if(this.registerForm.get('email')?.value !in this.authService.firebaseAuth) {
+    await this.searchEmailInDatabase();
+    if(this.emailInDatabase == false) {
       console.log('form data sent: ', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
       this.formData = this.registerForm.getRawValue();
       this.router.navigate(['signup/select-avatar'], {  state: this.formData } );
-    } else {
-      this.authService.emailAlreadyExists = 'error';
     }
+  }
+
+  async searchEmailInDatabase() {
+    const emailFound = this.firestore.users.filter(user => user.email == this.registerForm.get('email')?.value);
+    if(emailFound.length != 0) {
+      this.emailInDatabase = true;
+    }
+  }
+
+  onInputChange() {
+    this.emailInDatabase = false;
   }
 
   emailAlreadyExists(): ValidatorFn {

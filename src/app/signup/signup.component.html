@@ -25,13 +25,13 @@
                 <div class="form-field">
                     <div class="input-container">
                         <input class="background-image mail-input" placeholder="beispielname@email.com" formControlName="email"
-                            [style.color]="registerForm.get('email')?.dirty ? 'black' : '#686868'">
+                            [style.color]="registerForm.get('email')?.dirty ? 'black' : '#686868'" (ngModelChange)="onInputChange()">
                     </div>
                     @if (registerForm.get('email')?.invalid && registerForm.get('email')?.value != '') {
                         <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
                     } @else if (registerForm.get('email')?.value == '' && registerForm.get('email')?.touched) {
                         <span class="error">Bitte geben Sie eine E-Mail-Adresse ein.</span>
-                    } @else if (authService.emailAlreadyExists) {
+                    } @else if (emailInDatabase) {
                         <span class="error">Ein Konto mit dieser E-Mail-Adresse existiert bereits.</span>
                     }
                 </div>
