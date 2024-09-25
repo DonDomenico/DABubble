@@ -2,6 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { onSnapshot } from "firebase/firestore";
 import { addDoc, collection, Firestore } from '@angular/fire/firestore';
 import { User } from '../users/user.interface';
+import { Conversation } from '../interfaces/conversation';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +11,9 @@ import { User } from '../users/user.interface';
 export class FirestoreService {
   firestore = inject(Firestore);
   users: User [] = [];
+
+  conversations: Conversation [] = [];
+
   unsubUserList;
 
   constructor() { 
@@ -22,6 +27,11 @@ export class FirestoreService {
   getUserRef() {
     return collection(this.firestore, 'users');
   }
+
+  getConversationRef () {
+    return collection(this.firestore, 'conversations');
+  }
+
 
   async saveUser(username: string, email: string) {
     await addDoc(collection(this.firestore, "users"), {
