@@ -35,6 +35,7 @@ export class FirestoreService {
 
   async saveUser(username: string, email: string) {
     await addDoc(collection(this.firestore, "users"), {
+      uid: uid,
       username: username,
       email: email
     }).catch(
