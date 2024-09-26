@@ -67,9 +67,8 @@ export class FirestoreService {
   }
 
   subUserList() {
-    this.users = [];
     return onSnapshot(this.getUserRef(), userList => {
-
+      this.users = [];
       userList.forEach(user => {
         console.log(this.toJson(user.data(), user.id));
         this.users.push(this.toJson(user.data(), user.id));
@@ -77,7 +76,7 @@ export class FirestoreService {
     })
   }
 
-  toJson(obj: any, id?: string, photoURL?: any): User {
+  toJson(obj: any, id?: string): User {
     return {
       id: id || "",
       username: obj.username || "",
@@ -89,6 +88,7 @@ export class FirestoreService {
 
   subConversation() {
     return onSnapshot(this.getConversationRef(), conversationList => {
+      this.conversations = [];
       conversationList.forEach(conversation => {
         console.log(this.toJson(conversation.data(), conversation.id));
         this.conversations.push(this.toJsonConversation(conversation.data(), conversation.id));
