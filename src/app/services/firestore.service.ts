@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { onSnapshot } from "firebase/firestore";
-import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import { addDoc, collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { User } from '../users/user.interface';
 import { Conversation } from '../interfaces/conversation';
 
@@ -10,6 +10,7 @@ import { Conversation } from '../interfaces/conversation';
 })
 export class FirestoreService {
   firestore = inject(Firestore);
+  docRefId = "";
   users: User [] = [];
 
   conversations: Conversation [] = [];
@@ -37,19 +38,32 @@ export class FirestoreService {
     return collection(this.firestore, 'conversations');
   }
 
+  getDocRef(uid: string) {
+    return doc(this.firestore, "users", uid);
+  }
+
 
   async saveUser(uid: string, username: string, email: string) {
     await addDoc(collection(this.firestore, "users"), {
       uid: uid,
       username: username,
-      email: email
-    }).catch(
-      (err) => { console.error(err) }
-    ).then(
-      () => {
+      email: email,
+      photoURL: "",
+      active: false
+    }).then((docRef) => {
         console.log('User added to database');
+        this.docRefId = docRef.id;
+      }
+    ).catch((err) => { 
+      console.error(err) 
       }
     )
+  }
+
+  async updateUserPhoto(photoURL: string, docRefId: string) {
+    await updateDoc(doc(this.firestore, "users", docRefId), {
+      photoURL: photoURL
+    })
   }
 
   subUserList() {

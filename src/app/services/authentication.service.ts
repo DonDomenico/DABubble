@@ -50,8 +50,6 @@ export class AuthenticationService {
     });
   }
 
-  // delete account from auth and firestore, if user leaves "choose-avatar-page" or goes back via back-arrow
-  // or implement a function to cache the userdata and not create the account directly (maybe localStorage or sessionStorage)
   async setProfilePhoto(userPhoto: string) {
     if (this.currentUser !== null) {
       await updateProfile(this.currentUser, { photoURL: userPhoto }).then(() => {
@@ -105,10 +103,7 @@ export class AuthenticationService {
   async signInWithGoogle() {
     await signInWithPopup(this.firebaseAuth, this.google).then(result => {
       console.log(result); //Testcode, später löschen
-      // User should only be saved, if not already in database
-      // Doesn't work this way
       const emailFound = this.firestore.users.filter(user => user.email == result.user.email);
-      
       if(result.user.email && result.user.displayName && result.user.email && emailFound.length == 0) {
         this.firestore.saveUser(result.user.uid, result.user.displayName, result.user.email);
       } else {
