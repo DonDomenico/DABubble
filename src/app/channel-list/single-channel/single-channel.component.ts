@@ -3,6 +3,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { AddMemberDialogComponent } from '../add-member-dialog/add-member-dialog.component';
+import { FirestoreService } from '../../services/firestore.service';
+import { Conversation } from '../../interfaces/conversation';
 import { Message } from '../../interfaces/message.interface';
 
 @Component({
@@ -13,6 +15,16 @@ import { Message } from '../../interfaces/message.interface';
   styleUrl: './single-channel.component.scss'
 })
 export class SingleChannelComponent implements OnInit {
+
+  conversationList: Conversation[] = [];
+
+  constructor(private conversationService: FirestoreService) {
+ 
+  }
+
+  getList(): Conversation[] {
+  return this.conversationService.conversations;
+  }
 
   messages: Message[] = [
     {
