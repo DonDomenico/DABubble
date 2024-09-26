@@ -16,12 +16,17 @@ export class FirestoreService {
 
   unsubUserList;
 
+  unsubConversation;
+
   constructor() { 
     this.unsubUserList = this.subUserList();
+
+    this.unsubConversation = this.subConversation();
   }
 
   ngOnDestroy() {
     this.unsubUserList();
+    this.unsubConversation();
   }
 
   getUserRef() {
@@ -61,6 +66,40 @@ export class FirestoreService {
       id: id || "",
       username: obj.username || "",
       email: obj.email || ""
+    }
+  }
+
+  subConversation() {
+    return onSnapshot(this.getConversationRef(), conversationList => {
+      conversationList.forEach(conversation => {
+        console.log(this.toJson(conversation.data(), conversation.id));
+        this.conversations.push(this.toJsonConversation(conversation.data(), conversation.id));
+      })
+    })
+  }
+
+  toJsonConversation(obj: any, id?: string): Conversation {
+    return {
+      docId: id || "",
+      initiatedAt: obj.initiatedAt || "",
+      initiatedBy: obj.initiatedBy || "",
+      lastMessage: [{
+      message: obj.message || "",
+      messageType: obj.messageType || "",
+      recipientId: obj.recipientId || "",
+      senderId: obj.senderId || "",
+      status: obj.status || "",
+      timestamp: obj.timestamp || ""
+    }],
+      messages: [{
+        message: obj.message || "",
+        messageType: obj.messageType || "",
+        recipientId: obj.recipientId || "",
+        senderId: obj.senderId || "",
+        status: obj.status || "",
+        timestamp: obj.timestamp || "",
+        url: null
+      }],
     }
   }
 }
