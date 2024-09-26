@@ -107,7 +107,9 @@ export class AuthenticationService {
       console.log(result); //Testcode, später löschen
       // User should only be saved, if not already in database
       // Doesn't work this way
-      if(result.user.email && result.user.displayName && result.user.email !in this.firestore.users) {
+      const emailFound = this.firestore.users.filter(user => user.email == result.user.email);
+      
+      if(result.user.email && result.user.displayName && result.user.email && emailFound.length == 0) {
         this.firestore.saveUser(result.user.uid, result.user.displayName, result.user.email);
       } else {
         console.log('User already in database'); //Testcode, später löschen
