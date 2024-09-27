@@ -10,7 +10,7 @@ import { Conversation } from '../interfaces/conversation';
 })
 export class FirestoreService {
   firestore = inject(Firestore);
-  docRefId = "";
+  userId = "";
   users: User [] = [];
 
   conversations: Conversation [] = [];
@@ -47,7 +47,7 @@ export class FirestoreService {
       active: false
     }).then((docRef) => {
         console.log('User added to database');
-        this.docRefId = docRef.id;
+        this.userId = docRef.id;
       }
     ).catch((err) => { 
       console.error(err) 
@@ -55,8 +55,8 @@ export class FirestoreService {
     )
   }
 
-  async updateUserPhoto(photoURL: string, docRefId: string) {
-    await updateDoc(doc(this.firestore, "users", docRefId), {
+  async updateUserPhoto(photoURL: string, userId: string) {
+    await updateDoc(doc(this.firestore, "users", userId), {
       photoURL: photoURL
     })
   }
@@ -105,7 +105,7 @@ export class FirestoreService {
         timestamp: obj.lastMessage.timestamp || ""
     }],
       messages: [{
-        message: obj.subcollection.messages || "",
+        message: obj.message || "",
         messageType: obj.messageType || "",
         recipientId: obj.recipientId || "",
         senderId: obj.senderId || "",
