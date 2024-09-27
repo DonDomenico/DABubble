@@ -10,7 +10,7 @@ import { Conversation } from '../interfaces/conversation';
 })
 export class FirestoreService {
   firestore = inject(Firestore);
-  docRefId = "";
+  userId = "";
   users: User [] = [];
 
   conversations: Conversation [] = [];
@@ -34,14 +34,9 @@ export class FirestoreService {
     return collection(this.firestore, 'users');
   }
 
-  getConversationRef () {
+  getConversationsRef () {
     return collection(this.firestore, 'conversations');
   }
-
-  getDocRef(uid: string) {
-    return doc(this.firestore, "users", uid);
-  }
-
 
   async saveUser(uid: string, username: string, email: string) {
     await addDoc(collection(this.firestore, "users"), {
@@ -52,7 +47,7 @@ export class FirestoreService {
       active: false
     }).then((docRef) => {
         console.log('User added to database');
-        this.docRefId = docRef.id;
+        this.userId = docRef.id;
       }
     ).catch((err) => { 
       console.error(err) 
@@ -60,8 +55,8 @@ export class FirestoreService {
     )
   }
 
-  async updateUserPhoto(photoURL: string, docRefId: string) {
-    await updateDoc(doc(this.firestore, "users", docRefId), {
+  async updateUserPhoto(photoURL: string, userId: string) {
+    await updateDoc(doc(this.firestore, "users", userId), {
       photoURL: photoURL
     })
   }
@@ -87,10 +82,10 @@ export class FirestoreService {
   }
 
   subConversation() {
-    return onSnapshot(this.getConversationRef(), conversationList => {
+    return onSnapshot(this.getConversationsRef(), conversationList => {
       this.conversations = [];
       conversationList.forEach(conversation => {
-        console.log(this.toJsonConversation(conversation.data(), conversation.id));
+        console.log(this.toJsonConversation(conversation.data(), conversation.id), conversation.data());
         this.conversations.push(this.toJsonConversation(conversation.data(), conversation.id));
       })
     })

@@ -46,7 +46,7 @@ export class ChooseProfileImageComponent {
     if(this.formData) {
         await this.authService.createUser(this.formData!['email'], this.formData!['username'], this.formData!['password'])
         await this.authService.setProfilePhoto(this.profileImg);
-        await this.firestore.updateUserPhoto(this.profileImg, this.firestore.docRefId);
+        await this.firestore.updateUserPhoto(this.profileImg, this.firestore.userId);
         this.showSnackBar();
         setTimeout(() => {
           this.router.navigateByUrl('/');
