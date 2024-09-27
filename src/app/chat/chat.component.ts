@@ -16,18 +16,5 @@ import { RouterModule } from '@angular/router';
 })
 export class ChatComponent {
 
-  timestamp: string | null = null;
-
-
-  sendMessage() {
-    const now = new Date();
-    const today = new Date().setHours(0, 0, 0, 0);
-    const messageDate = now.setHours(0, 0, 0, 0);
-
-    if (messageDate === today) {
-      this.timestamp = 'Heute';
-    } else {
-      this.timestamp = now.toLocaleDateString();
-    }
-  }
+  
 }

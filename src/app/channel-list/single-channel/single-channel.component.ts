@@ -1,29 +1,42 @@
 import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { AddMemberDialogComponent } from '../add-member-dialog/add-member-dialog.component';
 import { FirestoreService } from '../../services/firestore.service';
 import { Conversation } from '../../interfaces/conversation';
 import { Message } from '../../interfaces/message.interface';
+import { User } from '../../users/user.interface';
 
 @Component({
   selector: 'app-single-channel',
   standalone: true,
-  imports: [MatIconModule, CommonModule, AddMemberDialogComponent],
+  imports: [FormsModule, MatIconModule, CommonModule, AddMemberDialogComponent],
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss'
 })
 export class SingleChannelComponent implements OnInit {
 
   conversationList: Conversation[] = [];
+message = "";
+
 
   constructor(private conversationService: FirestoreService) {
  
   }
 
-  getList(): Conversation[] {
+  getConversationList(): Conversation[] {
   return this.conversationService.conversations;
+ 
+  }
+
+  addMessage() {
+    // let message = {
+    //   initiatedAt: string;
+    //   initiatedBy: string;
+    // }
+    this.conversationService
   }
 
   messages: Message[] = [
@@ -69,6 +82,21 @@ export class SingleChannelComponent implements OnInit {
   
     }
   }
+
+
+
+
+  // sendMessage() {
+  //   const now = new Date();
+  //   const today = new Date().setHours(0, 0, 0, 0);
+  //   const messageDate = now.setHours(0, 0, 0, 0);
+
+  //   if (messageDate === today) {
+  //     this.timestamp = 'Heute';
+  //   } else {
+  //     this.timestamp = now.toLocaleDateString();
+  //   }
+  // }
   addMemberDialog() {
     this.dialog.open(AddMemberDialogComponent);
   }
