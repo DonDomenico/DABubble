@@ -106,7 +106,7 @@ export class AuthenticationService {
       const emailFound = this.firestore.users.filter(user => user.email == result.user.email);
       if(result.user.email && result.user.displayName && result.user.email && emailFound.length == 0) {
         this.firestore.saveUser(result.user.uid, result.user.displayName, result.user.email);
-        this.firestore.updateUserPhoto(result.user.photoURL!, this.firestore.docRefId);
+        this.firestore.updateUserPhoto(result.user.photoURL!+".svg", this.firestore.docRefId);
       } else {
         console.log('User already in database'); //Testcode, später löschen
       }

@@ -90,7 +90,7 @@ export class FirestoreService {
     return onSnapshot(this.getConversationRef(), conversationList => {
       this.conversations = [];
       conversationList.forEach(conversation => {
-        console.log(this.toJson(conversation.data(), conversation.id));
+        console.log(this.toJsonConversation(conversation.data(), conversation.id));
         this.conversations.push(this.toJsonConversation(conversation.data(), conversation.id));
       })
     })
@@ -102,12 +102,12 @@ export class FirestoreService {
       initiatedAt: obj.initiatedAt || "",
       initiatedBy: obj.initiatedBy || "",
       lastMessage: [{
-      message: obj.message || "",
-      messageType: obj.messageType || "",
-      recipientId: obj.recipientId || "",
-      senderId: obj.senderId || "",
-      status: obj.status || "",
-      timestamp: obj.timestamp || ""
+        message: obj.lastMessage.message || "",
+        messageType: obj.lastMessage.messageType || "",
+        recipientId: obj.lastMessage.recipientId || "",
+        senderId: obj.lastMessage.senderId || "",
+        status: obj.lastMessage.status || "",
+        timestamp: obj.lastMessage.timestamp || ""
     }],
       messages: [{
         message: obj.message || "",
