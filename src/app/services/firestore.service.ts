@@ -34,14 +34,9 @@ export class FirestoreService {
     return collection(this.firestore, 'users');
   }
 
-  getConversationRef () {
+  getConversationsRef () {
     return collection(this.firestore, 'conversations');
   }
-
-  getDocRef(uid: string) {
-    return doc(this.firestore, "users", uid);
-  }
-
 
   async saveUser(uid: string, username: string, email: string) {
     await addDoc(collection(this.firestore, "users"), {
@@ -87,10 +82,10 @@ export class FirestoreService {
   }
 
   subConversation() {
-    return onSnapshot(this.getConversationRef(), conversationList => {
+    return onSnapshot(this.getConversationsRef(), conversationList => {
       this.conversations = [];
       conversationList.forEach(conversation => {
-        console.log(this.toJsonConversation(conversation.data(), conversation.id));
+        console.log(this.toJsonConversation(conversation.data(), conversation.id), conversation.data());
         this.conversations.push(this.toJsonConversation(conversation.data(), conversation.id));
       })
     })
@@ -110,7 +105,7 @@ export class FirestoreService {
         timestamp: obj.lastMessage.timestamp || ""
     }],
       messages: [{
-        message: obj.message || "",
+        message: obj.subcollection.messages || "",
         messageType: obj.messageType || "",
         recipientId: obj.recipientId || "",
         senderId: obj.senderId || "",
