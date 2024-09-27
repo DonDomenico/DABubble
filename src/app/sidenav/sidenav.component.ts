@@ -1,4 +1,4 @@
-import { Component, inject, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, inject, Output, EventEmitter } from '@angular/core';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { ChannelListComponent } from '../channel-list/channel-list.component';
 import { UsersComponent } from '../users/users.component';
@@ -9,6 +9,7 @@ import { GeneralViewComponent } from '../general-view/general-view.component';
 import { ChannelService } from '../services/channel.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Channel } from '../interfaces/channel.interface';
 
 
 @Component({
@@ -31,9 +32,10 @@ export class SidenavComponent {
 
   constructor(private channelService: ChannelService) {}
 
-  ngOnInit() {
-    this.channelService.currentChannelName.subscribe(name => this.channelName = name);
+  getChannelList(): Channel[] {
+    return this.channelService.channels;
   }
+
 
   addChannelDialog() {
     this.dialog.open(CreateChannelDialogComponent);

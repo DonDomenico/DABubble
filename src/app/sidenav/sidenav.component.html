@@ -30,10 +30,11 @@
     </div>
 
     <div class="new-channel-container">
-      @if (channelName) {
-        
-        <p ><mat-icon>tag</mat-icon>{{ channelName }}</p>
+      @for (channel of getChannelList(); track $index) {
+
+        <p ><mat-icon>tag</mat-icon>{{ channel.name }}</p>
       }
+   
     </div>
 
     <div class="add-channel" (click)="addChannelDialog()">

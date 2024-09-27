@@ -3,4 +3,5 @@ export interface Channel {
     name: string;
     description: string;
     owner: string;
+    member: string[];
 }

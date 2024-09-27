@@ -1,5 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { onSnapshot } from "firebase/firestore";
 import { addDoc, collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { Channel } from '../interfaces/channel.interface';
@@ -10,12 +9,7 @@ export class ChannelService {
   firestore = inject(Firestore);
 
   channels: Channel[] = [];
-  // private channelNameSource = new BehaviorSubject<string>('');
-  // currentChannelName = this.channelNameSource.asObservable();
-
-  // changeChannelName(name: string) {
-  //   this.channelNameSource.next(name);
-  // }
+  docRefId = "";
 
   unsubChannelList;
 
@@ -27,6 +21,19 @@ export class ChannelService {
     this.unsubChannelList();
   }
 
+  async saveChannel(name: string, description: string, owner: string) {
+    await addDoc(collection(this.firestore, "channels"), {
+      name: name,
+      description: description,
+      owner: owner,
+      member: [owner]
+    }).then((docRef) => {
+      console.log('Channel added to database');
+      this.docRefId = docRef.id;
+    }).catch((err) => {
+      console.error(err)
+    })
+  }
   subChannelList() {
     return onSnapshot(this.getChannelRef(), channelList => {
       this.channels = [];
@@ -43,6 +50,7 @@ export class ChannelService {
       name: obj.name,
       description: obj.description,
       owner: obj.owner,
+      member: obj.member,
     };
   }
 
