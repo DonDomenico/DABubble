@@ -2,7 +2,9 @@
   <div class="dialog-header">
     <div class="channel-name-container">
       <mat-icon>tag</mat-icon>
-      <p>Entwicklerteam</p>
+      <p>Entwicklerteam
+        {{channelName}}
+      </p>
     </div>
     <span class="material-symbols-outlined" mat-dialog-close>
       <mat-icon>close</mat-icon>
@@ -10,30 +12,52 @@
   </div>
 
   <div class="dialog-content">
+      @if (!isChannelNameHidden) {
+            <div class="channel-name-wrapper">
+        <div class="first-line">
+            <p>Channel-Name</p>
+            <span (click)="updateChannelName()">Bearbeiten</span>
+        </div>
+            <p>
+            # Entwicklerteam
+            {{channelName}}
+          </p>
+        </div>
+        }
+@if (isChannelNameHidden) {
     <div class="channel-name-wrapper">
-      <div class="first-line">
-        <p>Channel-Name</p>
-        <span>Bearbeiten</span>
-
-        <!-- onclick wird ein input angezeigt & "speichern BTN"+ chanel name update funktion -->
-      </div>
-      <p>
-        # Entwicklerteam
-        <!-- {{channel.name}} -->
-      </p>
+            <div class="first-line">
+                <p>Channel-Name</p>
+                <span (click)="changeChannelName()">Speichern</span>
+            </div>
+            <input type="text">
+        </div>
+            }     
+    
     </div>
-
     <div class="channel-data">
+    @if (!isChannelDescriptionHidden) {
+      
       <div class="first-line">
         <p>Beschreibung</p>
-        <span>Bearbeiten</span>
+        <span (click)="updateChannelDescription()">Bearbeiten</span>
 
         <!-- onclick wird ein input angezeigt & "speichern BTN"+ chanel description update funktion -->
-      </div>
+     
+    </div>
       <span>
         Dieser Channel ist für alles!
-        <!-- {{channel.description}} -->
+        {{channelDescription}}
       </span>
+    }
+
+    @if (isChannelDescriptionHidden) {
+      <div class="first-line">
+        <p>Beschreibung</p>
+        <span (click)="changeChannelDescription()">Speichern</span>
+      </div>
+      <input class="change-description-input" type="text" >
+    }
       <hr />
       <div class="owner-wrapper">
         <p>Erstellt von</p>
@@ -43,7 +67,7 @@
         </span>
       </div>
     </div>
-  </div>
+
 <div class="btn-wrapper">
 
     <button class="button-primary">Channel verlassen</button>
