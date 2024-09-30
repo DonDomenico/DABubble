@@ -8,11 +8,12 @@ import { FirestoreService } from '../../services/firestore.service';
 import { Conversation } from '../../interfaces/conversation';
 import { Message } from '../../interfaces/message.interface';
 import { User } from '../../users/user.interface';
+import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 
 @Component({
   selector: 'app-single-channel',
   standalone: true,
-  imports: [FormsModule, MatIconModule, CommonModule, AddMemberDialogComponent],
+  imports: [UpdateChannelDialogComponent, FormsModule, MatIconModule, CommonModule, AddMemberDialogComponent],
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss'
 })
@@ -97,6 +98,10 @@ message = "";
   //     this.timestamp = now.toLocaleDateString();
   //   }
   // }
+
+  updateChannel() {
+    this.dialog.open(UpdateChannelDialogComponent);
+  }
   addMemberDialog() {
     this.dialog.open(AddMemberDialogComponent);
   }
