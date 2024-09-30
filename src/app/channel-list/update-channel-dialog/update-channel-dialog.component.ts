@@ -12,7 +12,8 @@ import {
 @Component({
   selector: 'app-update-channel-dialog',
   standalone: true,
-  imports: [MatIconModule,],
+  imports: [ MatIconModule, MatDialogActions, MatDialogClose,  MatDialogModule,
+    MatDialogContent, MatDialogTitle],
   templateUrl: './update-channel-dialog.component.html',
   styleUrl: './update-channel-dialog.component.scss'
 })
