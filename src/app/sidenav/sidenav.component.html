@@ -24,15 +24,11 @@
   @if (!isChannelListHidden) {
 
   <div class="dropdown-content">
-    <div class="team-container" [routerLink]="['/chat/single-channel']" routerLinkActive="router-link-active">
-      <mat-icon>tag</mat-icon>
-      <p>Entwicklerteam</p>
-    </div>
-
+   
     <div class="new-channel-container">
       @for (channel of getChannelList(); track $index) {
 
-        <p ><mat-icon>tag</mat-icon>{{ channel.name }}</p>
+        <p [routerLink]="['/chat/single-channel']" routerLinkActive="router-link-active"><mat-icon>tag</mat-icon>{{ channel.name }}</p>
       }
    
     </div>

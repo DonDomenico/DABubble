@@ -2,21 +2,26 @@
 
   <div class="chat-header">
 
+    @for (channel of getChannelList(); track $index) {
     <div  class="dev-team-container" (click)="updateChannel()">
       <mat-icon>tag</mat-icon>
-      <p>Entwicklerteam</p>
+      <p>{{ channel.name }}</p> 
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
-
+  }
     <div class="add-member-container">
+      <!-- {{ user.photoURL }} -->
       <img class="avarar-icon" src="./assets/img/avatar1.svg" alt="" />
       <img class="avarar-icon" src="./assets/img/avatar2.svg" alt="" />
       <img class="avarar-icon" src="./assets/img/avatar3.svg" alt="" />
-      <p>3</p>
+      <p>3
+        <!-- {{ number of channel member }} -->
+      </p>
       <span class="material-symbols-outlined" (click)="addMemberDialog()">
         <mat-icon>person_add</mat-icon>
       </span>
     </div>
+
   </div>
 
 

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, inject } from '@angular/core';
 import {
   MatDialogModule,
   MatDialog,
@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -31,7 +32,7 @@ import { Channel } from '../../interfaces/channel.interface';
 })
 export class CreateChannelDialogComponent {
   @Output() newChannelEvent = new EventEmitter<string>();
-
+  authService = inject(AuthenticationService);
   constructor(
     private channelService: ChannelService,
     private dialog: MatDialog
@@ -45,8 +46,8 @@ export class CreateChannelDialogComponent {
       docId: '',
       name: this.name,
       description: this.description,
-      owner: '',
-      member: [],
+      owner: this.authService.currentUser !== null ? this.authService.currentUser.uid : '',
+      member: [this.authService.currentUser !== null ? this.authService.currentUser.uid : ''],
     };
     this.channelService.saveChannel(
       channel.name,

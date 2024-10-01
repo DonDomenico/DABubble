@@ -2,8 +2,9 @@
   <div class="dialog-header">
     <div class="channel-name-container">
       <mat-icon>tag</mat-icon>
-      <p>Entwicklerteam
-        {{channelName}}
+      <p>
+        Entwicklerteam
+        {{ channelName }}
       </p>
     </div>
     <span class="material-symbols-outlined" mat-dialog-close>
@@ -12,65 +13,57 @@
   </div>
 
   <div class="dialog-content">
-      @if (!isChannelNameHidden) {
-            <div class="channel-name-wrapper">
-        <div class="first-line">
-            <p>Channel-Name</p>
-            <span (click)="updateChannelName()">Bearbeiten</span>
-        </div>
-            <p>
-            # Entwicklerteam
-            {{channelName}}
-          </p>
-        </div>
-        }
-@if (isChannelNameHidden) {
+    @if (!isChannelNameHidden) {
     <div class="channel-name-wrapper">
-            <div class="first-line">
-                <p>Channel-Name</p>
-                <span (click)="changeChannelName()">Speichern</span>
-            </div>
-            <input type="text">
-        </div>
-            }     
-    
+      <div class="first-line">
+        <p>Channel-Name</p>
+        <span (click)="updateChannelName()">Bearbeiten</span>
+      </div>
+      <p>
+        # Entwicklerteam
+        {{ channelName }}
+      </p>
     </div>
-    <div class="channel-data">
+    } @if (isChannelNameHidden) {
+    <div class="channel-name-wrapper">
+      <div class="first-line">
+        <p>Channel-Name</p>
+        <span (click)="changeChannelName()">Speichern</span>
+      </div>
+      <input type="text" />
+    </div>
+    }
+  </div>
+  <div class="channel-data">
     @if (!isChannelDescriptionHidden) {
-      
-      <div class="first-line">
-        <p>Beschreibung</p>
-        <span (click)="updateChannelDescription()">Bearbeiten</span>
 
-        <!-- onclick wird ein input angezeigt & "speichern BTN"+ chanel description update funktion -->
-     
+    <div class="first-line">
+      <p>Beschreibung</p>
+      <span (click)="updateChannelDescription()">Bearbeiten</span>
     </div>
+    <span>
+      Dieser Channel ist für alles!
+      {{ channelDescription }}
+    </span>
+    } @if (isChannelDescriptionHidden) {
+    <div class="first-line">
+      <p>Beschreibung</p>
+      <span (click)="changeChannelDescription()">Speichern</span>
+    </div>
+    <input class="change-description-input" type="text" />
+    }
+    <hr />
+    <div class="owner-wrapper">
+      <p>Erstellt von</p>
       <span>
-        Dieser Channel ist für alles!
-        {{channelDescription}}
+        Noah
+        <!-- {{ channel.owner }} -->
       </span>
-    }
-
-    @if (isChannelDescriptionHidden) {
-      <div class="first-line">
-        <p>Beschreibung</p>
-        <span (click)="changeChannelDescription()">Speichern</span>
-      </div>
-      <input class="change-description-input" type="text" >
-    }
-      <hr />
-      <div class="owner-wrapper">
-        <p>Erstellt von</p>
-        <span>
-          Noah
-          <!-- {{ channel.owner }} -->
-        </span>
-      </div>
     </div>
+  </div>
 
-<div class="btn-wrapper">
-
+  <div class="btn-wrapper">
     <button class="button-primary">Channel verlassen</button>
     <!-- onclick wird owner aus dem Arrey entfernt -->
-</div>
+  </div>
 </section>

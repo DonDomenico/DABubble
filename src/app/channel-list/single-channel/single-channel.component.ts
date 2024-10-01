@@ -9,7 +9,8 @@ import { Conversation } from '../../interfaces/conversation';
 import { Message } from '../../interfaces/message.interface';
 import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
-
+import { ChannelService } from '../../services/channel.service';
+import { Channel } from '../../interfaces/channel.interface';
 @Component({
   selector: 'app-single-channel',
   standalone: true,
@@ -18,13 +19,17 @@ import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-ch
   styleUrl: './single-channel.component.scss'
 })
 export class SingleChannelComponent implements OnInit {
-
+channel: Channel [] = [];
   conversationList: Conversation[] = [];
 message = "";
 
 
-  constructor(private conversationService: FirestoreService) {
+  constructor(private conversationService: FirestoreService, private channelService: ChannelService) {
  
+  }
+
+  getChannelList(): Channel[] {
+    return this.channelService.channels;
   }
 
   getConversationList(): Conversation[] {
@@ -67,6 +72,8 @@ message = "";
   messageDate: string = new Date().toLocaleTimeString();
 
   ngOnInit(): void {
+    
+
     this.updateTimestamp();
     setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
   }
