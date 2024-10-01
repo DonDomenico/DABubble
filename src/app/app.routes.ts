@@ -18,6 +18,6 @@ export const routes: Routes = [
     { path: "chat", component: ChatComponent, 
         children: [
         { path: "single-message", component: SingleMessageComponent },
-        { path: "single-channel", component: SingleChannelComponent }
+        { path: "single-channel/:id", component: SingleChannelComponent }
       ]}
 ];

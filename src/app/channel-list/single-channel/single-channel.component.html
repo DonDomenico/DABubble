@@ -2,13 +2,13 @@
 
   <div class="chat-header">
 
-    @for (channel of getChannelList(); track $index) {
+
     <div  class="dev-team-container" (click)="updateChannel()">
       <mat-icon>tag</mat-icon>
-      <p>{{ channel.name }}</p> 
+      <p>{{ getSingleChannel() }}</p> 
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
-  }
+  
     <div class="add-member-container">
       <!-- {{ user.photoURL }} -->
       <img class="avarar-icon" src="./assets/img/avatar1.svg" alt="" />

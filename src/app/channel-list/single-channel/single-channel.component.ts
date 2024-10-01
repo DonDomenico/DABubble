@@ -11,6 +11,9 @@ import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-single-channel',
   standalone: true,
@@ -22,14 +25,31 @@ export class SingleChannelComponent implements OnInit {
 channel: Channel [] = [];
   conversationList: Conversation[] = [];
 message = "";
+private sub: Subscription | undefined; 
+  id!: number;
 
+  constructor(private conversationService: FirestoreService, private channelService: ChannelService, private route: ActivatedRoute) {
 
-  constructor(private conversationService: FirestoreService, private channelService: ChannelService) {
- 
   }
-
+  
+  ngOnInit(): void {
+    // this.sub = this.route.params.subscribe(params => {
+    //   this.id = params['id'];
+    // });
+    console.log(this.route);
+    this.updateTimestamp();
+    setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
+  }
   getChannelList(): Channel[] {
     return this.channelService.channels;
+  }
+  getSingleChannel() {
+    if(this.id) {
+
+      return this.channelService.channels[this.id]['name'];
+    } else {
+      return this.channelService.channels[1]['name'];
+    }
   }
 
   getConversationList(): Conversation[] {
@@ -71,11 +91,11 @@ message = "";
 
   messageDate: string = new Date().toLocaleTimeString();
 
-  ngOnInit(): void {
-    
 
-    this.updateTimestamp();
-    setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
+  ngOnDestroy(): void {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   updateTimestamp(): void {
