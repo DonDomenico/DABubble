@@ -9,6 +9,8 @@ export class ChannelService {
   firestore = inject(Firestore);
 
   channels: Channel[] = [];
+
+  // channels: Map<string, Channel> = new Map();
   docRefId = "";
 
   unsubChannelList;
@@ -23,6 +25,7 @@ export class ChannelService {
 
   async saveChannel(name: string, description: string, owner: string, member: string[]) {
     await addDoc(collection(this.firestore, "channels"), {
+
       name: name,
       description: description,
       owner: owner,
