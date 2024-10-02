@@ -42,17 +42,20 @@ export class CreateChannelDialogComponent {
   description = '';
 
   addChannel() {
+    let currentUser = this.authService.currentUser;
     let channel: Channel = {
+      id: '',
       docId: '',
       name: this.name,
       description: this.description,
-      owner: this.authService.currentUser !== null ? this.authService.currentUser.uid : '',
-      member: [this.authService.currentUser !== null ? this.authService.currentUser.uid : ''],
-    };
+      owner: currentUser?.displayName ?? '',
+      member: [currentUser?.displayName ?? ''],
+  }; 
     this.channelService.saveChannel(
       channel.name,
       channel.description,
-      channel.owner
+      channel.owner,
+      channel.member
     );
 
     this.dialog.closeAll();

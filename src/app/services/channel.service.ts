@@ -21,7 +21,7 @@ export class ChannelService {
     this.unsubChannelList();
   }
 
-  async saveChannel(name: string, description: string, owner: string) {
+  async saveChannel(name: string, description: string, owner: string, member: string[]) {
     await addDoc(collection(this.firestore, "channels"), {
       name: name,
       description: description,
@@ -46,6 +46,7 @@ export class ChannelService {
 
   toJson(obj: any, id: string): Channel {
     return {
+      id,
       docId: id,
       name: obj.name,
       description: obj.description,

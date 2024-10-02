@@ -10,11 +10,12 @@ import {
 } from '@angular/material/dialog';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
+import { SingleChannelComponent } from '../single-channel/single-channel.component';
 
 @Component({
   selector: 'app-update-channel-dialog',
   standalone: true,
-  imports: [ MatIconModule, MatDialogActions, MatDialogClose,  MatDialogModule,
+  imports: [SingleChannelComponent, MatIconModule, MatDialogActions, MatDialogClose,  MatDialogModule,
     MatDialogContent, MatDialogTitle],
   templateUrl: './update-channel-dialog.component.html',
   styleUrl: './update-channel-dialog.component.scss'

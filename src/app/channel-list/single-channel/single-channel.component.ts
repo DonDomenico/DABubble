@@ -26,16 +26,22 @@ channel: Channel [] = [];
   conversationList: Conversation[] = [];
 message = "";
 private sub: Subscription | undefined; 
-  id!: number;
+  // id!: number;
+
+
+  id: string | null = null;
+  channelName: string = '';
 
   constructor(private conversationService: FirestoreService, private channelService: ChannelService, private route: ActivatedRoute) {
 
   }
   
   ngOnInit(): void {
-    // this.sub = this.route.params.subscribe(params => {
-    //   this.id = params['id'];
-    // });
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id');
+      this.channelName = this.getSingleChannel();
+    });
+
     console.log(this.route);
     this.updateTimestamp();
     setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
@@ -43,15 +49,15 @@ private sub: Subscription | undefined;
   getChannelList(): Channel[] {
     return this.channelService.channels;
   }
-  getSingleChannel() {
-    if(this.id) {
-
-      return this.channelService.channels[this.id]['name'];
+  
+  getSingleChannel(): string {
+    if (this.id! && this.channelService.channels[Number(this.id!)]) {
+      return this.channelService.channels[Number(this.id!)]['name'];
     } else {
-      return this.channelService.channels[1]['name'];
+      return 'Channel not found';
     }
   }
-
+  
   getConversationList(): Conversation[] {
   return this.conversationService.conversations;
  
