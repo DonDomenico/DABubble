@@ -16,10 +16,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-single-channel',
   standalone: true,
-  imports: [UpdateChannelDialogComponent, FormsModule, MatIconModule, CommonModule, AddMemberDialogComponent],
+  imports: [
+    UpdateChannelDialogComponent,
+    FormsModule,
+    MatIconModule,
+    CommonModule,
+    AddMemberDialogComponent,
+  ],
   templateUrl: './single-channel.component.html',
-  styleUrl: './single-channel.component.scss'
+  styleUrl: './single-channel.component.scss',
 })
+
+
 export class SingleChannelComponent implements OnInit {
   // channel: Channel [] = [];
   conversationList: Conversation[] = [];
@@ -62,29 +70,30 @@ export class SingleChannelComponent implements OnInit {
     //   initiatedAt: string;
     //   initiatedBy: string;
     // }
-    this.conversationService
+    this.conversationService;
   }
 
   messages: Message[] = [
     {
-      userName: "Noah Braun",
-      userAvatar: "./assets/img/avatar4.svg",
-      userMessage: "Welche Version ist aktuell von Angular?",
-      userTime: "12:00 Uhr",
-      answer: "2 Antworten",
-      lastAnswerTime: "Letzte Antwort 14:56",
-      isRowReverse: false
+      userName: 'Noah Braun',
+      userAvatar: './assets/img/avatar4.svg',
+      userMessage: 'Welche Version ist aktuell von Angular?',
+      userTime: '12:00 Uhr',
+      answer: '2 Antworten',
+      lastAnswerTime: 'Letzte Antwort 14:56',
+      isRowReverse: false,
     },
     {
-      userName: "Frederik Beck",
-      userAvatar: "./assets/img/avatar3.svg",
-      userMessage: "Die aktuellste stabile Version von Angular ist Angular 16, die im Mai 2023 veröffentlicht wurde. Diese Version bringt viele neue Features und Verbesserungen mit sich, darunter optimierte Leistung, verbesserte Entwicklerwerkzeuge und neue APIs.",
-      userTime: "15:06 Uhr",
-      answer: "",
-      lastAnswerTime: "",
-      isRowReverse: true
+      userName: 'Frederik Beck',
+      userAvatar: './assets/img/avatar3.svg',
+      userMessage:
+        'Die aktuellste stabile Version von Angular ist Angular 16, die im Mai 2023 veröffentlicht wurde. Diese Version bringt viele neue Features und Verbesserungen mit sich, darunter optimierte Leistung, verbesserte Entwicklerwerkzeuge und neue APIs.',
+      userTime: '15:06 Uhr',
+      answer: '',
+      lastAnswerTime: '',
+      isRowReverse: true,
     },
-  ]
+  ];
 
   timestamp!: string;
   readonly dialog = inject(MatDialog);
@@ -100,7 +109,6 @@ export class SingleChannelComponent implements OnInit {
       this.timestamp = 'Heute';
     } else {
       this.timestamp = now.toLocaleDateString();
-  
     }
   }
 

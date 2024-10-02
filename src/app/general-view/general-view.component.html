@@ -12,27 +12,22 @@
       <p>Workspace-Menü schließen</p>
     </button>
   </div>
-  <mat-drawer #drawerSidenav class="side-nav-container" [opened]="true" mode="side">
+  <mat-drawer
+    #drawerSidenav
+    class="side-nav-container"
+    [opened]="true"
+    mode="side"
+  >
     <app-sidenav></app-sidenav>
   </mat-drawer>
   <section>
-    <!-- funktioniert nicht! -->
-    @if (!isSectionHidden) {
-      <div class="main-chat-container" >
-        <app-chat></app-chat>
-      </div>
-    }
-    @else {
-      <h2>It works!</h2>
-    }
-
-  
-      <div class="thread-container">
-      <!-- <mat-sidenav #drawerThread position="end" [opened]="true" mode="side" > -->
-        <app-thread></app-thread>
-      <!-- </mat-sidenav> -->
+    <div class="main-chat-container">
+      <app-chat></app-chat>
+      <!-- <router-outlet></router-outlet> -->
     </div>
 
-
+    <div class="thread-container">
+      <app-thread></app-thread>
+    </div>
   </section>
 </mat-drawer-container>
