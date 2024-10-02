@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { AddMemberDialogComponent } from '../add-member-dialog/add-member-dialog.component';
-import { FirestoreService } from '../../services/firestore.service';
 import { Conversation } from '../../interfaces/conversation';
 import { Message } from '../../interfaces/message.interface';
 import { User } from '../../users/user.interface';
@@ -12,6 +11,7 @@ import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-ch
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConversationsService } from '../../services/conversations.service';
 
 @Component({
   selector: 'app-single-channel',
@@ -35,7 +35,7 @@ export class SingleChannelComponent implements OnInit {
   channelId: string = "";
   currentChannel: Channel | undefined;
 
-  constructor(private conversationService: FirestoreService, private channelService: ChannelService, private route: ActivatedRoute, private router: Router) {
+  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private route: ActivatedRoute, private router: Router) {
     this.channelId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
     console.log(this.channelId);
   }

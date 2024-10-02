@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from './user.interface';
 import { CommonModule } from '@angular/common';
-import { FirestoreService } from '../services/firestore.service';
+import { UserService } from '../services/users.service';
 
 @Component({
   selector: 'app-users',
@@ -11,15 +11,14 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent {
-
   userList: User[] = [];
 
-  constructor(private userService: FirestoreService) {
+  constructor(private userService: UserService) {
  
   }
 
   getList(): User[] {
-return this.userService.users;
+    return this.userService.users;
   }
 
 }

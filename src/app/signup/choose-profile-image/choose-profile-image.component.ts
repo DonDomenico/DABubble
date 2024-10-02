@@ -7,7 +7,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition
 } from '@angular/material/snack-bar';
-import { FirestoreService } from '../../services/firestore.service';
+import { UserService } from '../../services/users.service';
 
 @Component({
   selector: 'app-choose-profile-image',
@@ -19,7 +19,7 @@ import { FirestoreService } from '../../services/firestore.service';
 export class ChooseProfileImageComponent {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  firestore = inject(FirestoreService);
+  userService = inject(UserService);
   authService = inject(AuthenticationService);
   formData;
 
@@ -45,7 +45,7 @@ export class ChooseProfileImageComponent {
     if(this.formData) {
         await this.authService.createUser(this.formData!['email'], this.formData!['username'], this.formData!['password'])
         await this.authService.setProfilePhoto(this.profileImg);
-        await this.authService.updateUserPhoto(this.profileImg, this.firestore.userId);
+        await this.authService.updateUserPhoto(this.profileImg, this.userService.userId);
         this.showSnackBar();
         setTimeout(() => {
           this.router.navigateByUrl('/');
