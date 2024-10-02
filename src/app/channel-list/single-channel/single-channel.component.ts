@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -11,8 +11,7 @@ import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-single-channel',
@@ -22,39 +21,40 @@ import { Subscription } from 'rxjs';
   styleUrl: './single-channel.component.scss'
 })
 export class SingleChannelComponent implements OnInit {
-channel: Channel [] = [];
+  // channel: Channel [] = [];
   conversationList: Conversation[] = [];
-message = "";
-private sub: Subscription | undefined; 
-  id!: number;
+  message = "";
+  channelId: string = "";
+  currentChannel: Channel | undefined;
 
-  constructor(private conversationService: FirestoreService, private channelService: ChannelService, private route: ActivatedRoute) {
-
+  constructor(private conversationService: FirestoreService, private channelService: ChannelService, private route: ActivatedRoute, private router: Router) {
+    this.channelId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+    console.log(this.channelId);
   }
   
   ngOnInit(): void {
-    // this.sub = this.route.params.subscribe(params => {
-    //   this.id = params['id'];
-    // });
-    console.log(this.route);
+    this.currentChannel = this.getSingleChannel();
+    console.log(this.currentChannel?.name);
     this.updateTimestamp();
     setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
   }
+
   getChannelList(): Channel[] {
     return this.channelService.channels;
   }
-  getSingleChannel() {
-    if(this.id) {
 
-      return this.channelService.channels[this.id]['name'];
+  getSingleChannel() {
+    if(this.channelId != undefined) {
+      return this.channelService.channels.find(item => {
+        return item.docId == this.channelId;
+      });
     } else {
-      return this.channelService.channels[1]['name'];
+      return this.channelService.channels[0];
     }
   }
 
   getConversationList(): Conversation[] {
-  return this.conversationService.conversations;
- 
+    return this.conversationService.conversations;
   }
 
   addMessage() {
@@ -91,13 +91,6 @@ private sub: Subscription | undefined;
 
   messageDate: string = new Date().toLocaleTimeString();
 
-
-  ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-  }
-
   updateTimestamp(): void {
     const now = new Date();
     const today = new Date().setHours(0, 0, 0, 0);
@@ -110,9 +103,6 @@ private sub: Subscription | undefined;
   
     }
   }
-
-
-
 
   // sendMessage() {
   //   const now = new Date();

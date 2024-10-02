@@ -9,15 +9,18 @@ import {
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
 import { FirestoreService } from './firestore.service';
+import { addDoc, collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   firebaseAuth = inject(Auth);
-  firestore = inject(FirestoreService);
+  firestoreService = inject(FirestoreService);
   router = inject(Router);
   google = new GoogleAuthProvider();
+  firestore = inject(Firestore);
+  userId = "";
 
   currentUser = this.firebaseAuth.currentUser;
   // possibly not the best way to check if the password matches the email-address
@@ -30,12 +33,35 @@ export class AuthenticationService {
     await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then((response) => {
       updateProfile(response.user, { displayName: username });
       this.currentUser = response.user;
-      this.firestore.saveUser(response.user.uid, username, email);
+      this.saveUserInFirestore(response.user.uid, username, email);
       this.sendVerificationMail();
       this.router.navigateByUrl('');
     }).catch(error => {
       this.emailAlreadyExists = error.code;
       console.log(error); //Testcode, später löschen
+    })
+  }
+
+  async saveUserInFirestore(uid: string, username: string, email: string) {
+    await addDoc(collection(this.firestore, "users"), {
+      uid: uid,
+      username: username,
+      email: email,
+      photoURL: "",
+      active: false
+    }).then((docRef) => {
+        console.log('User added to database');
+        this.userId = docRef.id;
+      }
+    ).catch((err) => { 
+      console.error(err) 
+      }
+    )
+  }
+
+  async updateUserPhoto(photoURL: string, userId: string) {
+    await updateDoc(doc(this.firestore, "users", userId), {
+      photoURL: photoURL
     })
   }
 
@@ -103,10 +129,10 @@ export class AuthenticationService {
   async signInWithGoogle() {
     await signInWithPopup(this.firebaseAuth, this.google).then(result => {
       console.log(result); //Testcode, später löschen
-      const emailFound = this.firestore.users.filter(user => user.email == result.user.email);
+      const emailFound = this.firestoreService.users.filter(user => user.email == result.user.email);
       if(result.user.email && result.user.displayName && result.user.email && emailFound.length == 0) {
-        this.firestore.saveUser(result.user.uid, result.user.displayName, result.user.email);
-        this.firestore.updateUserPhoto(result.user.photoURL!+".svg", this.firestore.userId);
+        this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email);
+        this.updateUserPhoto(result.user.photoURL!+".svg", this.userId);
       } else {
         console.log('User already in database'); //Testcode, später löschen
       }

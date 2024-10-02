@@ -20,14 +20,13 @@ export class ChooseProfileImageComponent {
   horizontalPosition: MatSnackBarHorizontalPosition = 'end';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   firestore = inject(FirestoreService);
+  authService = inject(AuthenticationService);
   formData;
 
   constructor(private _snackBar: MatSnackBar, private router: Router) {
     console.log('form data received: ', this.router.getCurrentNavigation()?.extras.state);
     this.formData = this.router.getCurrentNavigation()?.extras.state;
   }
-
-  authService = inject(AuthenticationService);
 
   profileImg = './assets/img/person.svg';
   avatars = ['./assets/img/avatar1.svg', './assets/img/avatar2.svg', './assets/img/avatar3.svg', './assets/img/avatar4.svg', './assets/img/avatar5.svg', './assets/img/avatar6.svg'];
@@ -46,7 +45,7 @@ export class ChooseProfileImageComponent {
     if(this.formData) {
         await this.authService.createUser(this.formData!['email'], this.formData!['username'], this.formData!['password'])
         await this.authService.setProfilePhoto(this.profileImg);
-        await this.firestore.updateUserPhoto(this.profileImg, this.firestore.userId);
+        await this.authService.updateUserPhoto(this.profileImg, this.firestore.userId);
         this.showSnackBar();
         setTimeout(() => {
           this.router.navigateByUrl('/');

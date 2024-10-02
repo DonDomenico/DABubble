@@ -1,4 +1,4 @@
-import { Component, inject, Output, output } from '@angular/core';
+import { Component, inject, Output } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -31,8 +31,6 @@ export class SignupComponent {
   @Output() formData = {};
 
   async onSubmit() {
-    // find a way to check, if an account with the email-address already exists before directing to next page
-    // maybe use firestore to check if email exists
     await this.searchEmailInDatabase();
     if(this.emailInDatabase == false) {
       console.log('form data sent: ', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen

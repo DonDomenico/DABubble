@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { onSnapshot } from "firebase/firestore";
-import { addDoc, collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
 import { User } from '../users/user.interface';
 import { Conversation } from '../interfaces/conversation';
-
 
 @Injectable({
   providedIn: 'root'
@@ -12,54 +11,45 @@ export class FirestoreService {
   firestore = inject(Firestore);
   userId = "";
   users: User [] = [];
-
   conversations: Conversation [] = [];
 
   unsubUserList;
-
-  unsubConversation;
+  unsubConversations;
 
   constructor() { 
     this.unsubUserList = this.subUserList();
-
-    this.unsubConversation = this.subConversation();
+    this.unsubConversations = this.subConversations();
   }
 
   ngOnDestroy() {
     this.unsubUserList();
-    this.unsubConversation();
+    this.unsubConversations();
   }
 
   getUserRef() {
     return collection(this.firestore, 'users');
   }
 
+  getSingleUserRef(uid: string) {
+    return doc(this.getUserRef(), uid);
+  }
+
   getConversationsRef () {
     return collection(this.firestore, 'conversations');
   }
 
-  async saveUser(uid: string, username: string, email: string) {
-    await addDoc(collection(this.firestore, "users"), {
-      uid: uid,
-      username: username,
-      email: email,
-      photoURL: "",
-      active: false
-    }).then((docRef) => {
-        console.log('User added to database');
-        this.userId = docRef.id;
-      }
-    ).catch((err) => { 
-      console.error(err) 
-      }
-    )
+  getSingleConversationRef(conversationId: string) {
+    return doc(this.getConversationsRef(), conversationId);
   }
 
-  async updateUserPhoto(photoURL: string, userId: string) {
-    await updateDoc(doc(this.firestore, "users", userId), {
-      photoURL: photoURL
-    })
+  getConversationMessagesRef(conversationId: string) {
+    return collection(this.getConversationsRef(), conversationId, 'messages');
   }
+
+  // Möglichkeit finden, an den aktuellen Nutzer heranzukommen
+  // queryUserConversations = query(this.getConversationsRef(), where('participants', 'array-contains', this.authService.currentUser?.uid));
+
+  
 
   subUserList() {
     return onSnapshot(this.getUserRef(), userList => {
@@ -81,12 +71,13 @@ export class FirestoreService {
     }
   }
 
-  subConversation() {
+  subConversations() {
     return onSnapshot(this.getConversationsRef(), conversationList => {
       this.conversations = [];
       conversationList.forEach(conversation => {
-        console.log(this.toJsonConversation(conversation.data(), conversation.id), conversation.data());
-        this.conversations.push(this.toJsonConversation(conversation.data(), conversation.id));
+        const currentConversation = conversation.id;
+        console.log(this.toJsonConversation(conversation.data(), currentConversation));
+        this.conversations.push(this.toJsonConversation(conversation.data(), currentConversation));
       })
     })
   }
@@ -103,16 +94,20 @@ export class FirestoreService {
         senderId: obj.lastMessage.senderId || "",
         status: obj.lastMessage.status || "",
         timestamp: obj.lastMessage.timestamp || ""
-    }],
-      messages: [{
-        message: obj.message || "",
-        messageType: obj.messageType || "",
-        recipientId: obj.recipientId || "",
-        senderId: obj.senderId || "",
-        status: obj.status || "",
-        timestamp: obj.timestamp || "",
-        url: null
       }],
+      messages: []
+    }
+  }
+
+  toJsonConversationMessage(obj: any) {
+    return {
+      message: obj.message || "",
+      messageType: obj.messageType || "",
+      recipientId: obj.recipientId || "",
+      senderId: obj.senderId || "",
+      status: obj.status || "",
+      timestamp: obj.timestamp || "",
+      url: null
     }
   }
 }

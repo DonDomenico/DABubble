@@ -14,15 +14,5 @@ export interface Conversation {
         }
     ],
     // subcollection of conversations
-    messages: [ 
-        {
-            message: string;
-            messageType: string;
-            recipientId: string;
-            senderId: string;
-            status: string;
-            timestamp: string;
-            url: null
-        }
-    ]
+    messages: []
 }
