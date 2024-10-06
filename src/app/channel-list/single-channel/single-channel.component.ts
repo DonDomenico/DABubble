@@ -10,8 +10,10 @@ import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConversationsService } from '../../services/conversations.service';
+import { doc, Firestore, getDoc, getDocs, query } from '@angular/fire/firestore';
+import { collection, where } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-single-channel',
@@ -35,11 +37,11 @@ export class SingleChannelComponent implements OnInit {
   channelId: string = "";
   currentChannel: Channel | undefined;
 
-  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private router: Router) {
+  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private router: Router, private firestore: Firestore) {
     this.channelId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
     console.log(this.channelId);
   }
-  
+
   ngOnInit(): void {
     this.currentChannel = this.getSingleChannel();
     console.log(this.currentChannel?.name);
@@ -52,7 +54,7 @@ export class SingleChannelComponent implements OnInit {
   }
 
   getSingleChannel() {
-    if(this.channelId != undefined) {
+    if (this.channelId != undefined) {
       return this.channelService.channels.find(item => {
         return item.docId == this.channelId;
       });
@@ -60,6 +62,8 @@ export class SingleChannelComponent implements OnInit {
       return this.channelService.channels[0];
     }
   }
+
+  // find a way to get images of members from users collection
 
   getConversationList(): Conversation[] {
     return this.conversationService.conversations;

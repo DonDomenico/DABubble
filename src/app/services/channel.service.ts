@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { onSnapshot } from "firebase/firestore";
-import { addDoc, collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, doc, Firestore, updateDoc, where } from '@angular/fire/firestore';
 import { Channel } from '../interfaces/channel.interface';
+
 @Injectable({
   providedIn: 'root'
 })
