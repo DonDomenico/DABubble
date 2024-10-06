@@ -12,10 +12,8 @@ export class UserService {
   userId = "";
   users: User [] = [];
   conversations: Conversation [] = [];
-
   unsubUserList;
   
-
   constructor() { 
     this.unsubUserList = this.subUserList();
   }
@@ -31,9 +29,6 @@ export class UserService {
   getSingleUserRef(uid: string) {
     return doc(this.getUserRef(), uid);
   }
-
-  // Möglichkeit finden, an den aktuellen Nutzer heranzukommen
-  // queryUserConversations = query(this.getConversationsRef(), where('participants', 'array-contains', this.authService.currentUser?.uid));
 
   subUserList() {
     return onSnapshot(this.getUserRef(), userList => {
@@ -54,6 +49,4 @@ export class UserService {
       active: obj.active
     }
   }
-
-  
 }

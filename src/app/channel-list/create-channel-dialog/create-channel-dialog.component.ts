@@ -48,8 +48,8 @@ export class CreateChannelDialogComponent {
       docId: '',
       name: this.name,
       description: this.description,
-      owner: currentUser?.displayName ?? '',
-      member: [currentUser?.displayName ?? ''],
+      owner: currentUser?.uid ?? '',
+      member: [currentUser?.uid ?? '']
   }; 
     this.channelService.saveChannel(
       channel.name,

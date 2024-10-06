@@ -30,6 +30,9 @@ export class ConversationsService {
     return collection(this.getConversationsRef(), conversationId, 'messages');
   }
 
+  // Möglichkeit finden, an den aktuellen Nutzer heranzukommen
+  // queryUserConversations = query(this.getConversationsRef(), where('participants', 'array-contains', this.authService.currentUser?.uid));
+
   subConversations() {
     return onSnapshot(this.getConversationsRef(), conversationList => {
       this.conversations = [];

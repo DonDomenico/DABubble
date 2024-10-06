@@ -35,7 +35,7 @@ export class SingleChannelComponent implements OnInit {
   channelId: string = "";
   currentChannel: Channel | undefined;
 
-  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private route: ActivatedRoute, private router: Router) {
+  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private router: Router) {
     this.channelId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
     console.log(this.channelId);
   }

@@ -23,13 +23,12 @@ export class ChannelService {
     this.unsubChannelList();
   }
 
-  async saveChannel(name: string, description: string, owner: string, member: string[]) {
+  async saveChannel(name: string, description: string, ownerId: string, member: string[]) {
     await addDoc(collection(this.firestore, "channels"), {
-
       name: name,
       description: description,
-      owner: owner,
-      member: [owner]
+      owner: ownerId,
+      member: [ownerId]
     }).then((docRef) => {
       console.log('Channel added to database');
       this.docRefId = docRef.id;
@@ -37,6 +36,7 @@ export class ChannelService {
       console.error(err)
     })
   }
+
   subChannelList() {
     return onSnapshot(this.getChannelRef(), channelList => {
       this.channels = [];
