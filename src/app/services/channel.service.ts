@@ -44,6 +44,7 @@ export class ChannelService {
       channelList.forEach(channel => {
         console.log(this.toJson(channel.data(), channel.id));
         this.channels.push(this.toJson(channel.data(), channel.id));
+        this.docRefId = channel.id;
       })
     })
   }
