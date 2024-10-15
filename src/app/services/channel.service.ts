@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { onSnapshot } from "firebase/firestore";
 import { addDoc, collection, doc, Firestore, updateDoc, where } from '@angular/fire/firestore';
 import { Channel } from '../interfaces/channel.interface';
@@ -6,7 +6,7 @@ import { Channel } from '../interfaces/channel.interface';
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelService {
+export class ChannelService implements OnDestroy {
   firestore = inject(Firestore);
 
   channels: Channel[] = [];
@@ -14,7 +14,7 @@ export class ChannelService {
   // channels: Map<string, Channel> = new Map();
   docRefId = "";
 
-  unsubChannelList;
+  unsubChannelList: any;
 
   constructor() {
     this.unsubChannelList = this.subChannelList();
@@ -36,6 +36,10 @@ export class ChannelService {
     }).catch((err) => {
       console.error(err)
     })
+  }
+
+  getChannelRef() {
+    return collection(this.firestore, "channels");
   }
 
   subChannelList() {
@@ -60,7 +64,5 @@ export class ChannelService {
     };
   }
 
-  getChannelRef() {
-    return collection(this.firestore, "channels");
-  }
+  
 }

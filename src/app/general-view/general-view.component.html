@@ -22,8 +22,11 @@
   </mat-drawer>
   <section>
     <div class="main-chat-container">
-      <app-chat></app-chat>
-      <!-- <router-outlet></router-outlet> -->
+      @if (router.url == "/general-view") {
+        <h1>Create default view, if no Channel or Message is clicked</h1>
+      } @else {
+        <app-chat></app-chat>
+      }
     </div>
 
     <div class="thread-container">

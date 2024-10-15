@@ -6,7 +6,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { ChatComponent } from '../chat/chat.component';
 import { ThreadComponent } from '../thread/thread.component';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-general-view',
@@ -16,8 +16,6 @@ import { RouterModule } from '@angular/router';
   styleUrl: './general-view.component.scss'
 })
 export class GeneralViewComponent {
-
-
-
+  constructor(public router: Router) {}
 
 }

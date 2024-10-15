@@ -10,10 +10,11 @@ import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ConversationsService } from '../../services/conversations.service';
 import { doc, documentId, Firestore, getDoc, getDocs, query } from '@angular/fire/firestore';
 import { collection, where } from '@angular/fire/firestore';
+import { UserService } from '../../services/users.service';
 
 @Component({
   selector: 'app-single-channel',
@@ -29,24 +30,29 @@ import { collection, where } from '@angular/fire/firestore';
   styleUrl: './single-channel.component.scss',
 })
 export class SingleChannelComponent implements OnInit {
-  // channel: Channel [] = [];
   conversationList: Conversation[] = [];
   message = "";
   channelId: string = "";
   currentChannel: Channel | undefined;
   channelMembers: any = [];
+  memberPhotos: any = [];
 
-  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private router: Router, private firestore: Firestore) {
-    this.channelId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
-    console.log(this.channelId);
-  }
+  constructor(private conversationService: ConversationsService, private channelService: ChannelService,private route: ActivatedRoute, private firestore: Firestore, private userService: UserService) {  }
 
   ngOnInit() {
-    this.currentChannel = this.getSingleChannel();
-    console.log(this.currentChannel?.name);
-    this.getChannelMembers();
-    this.updateTimestamp();
-    setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
+    this.route.children[0].params.subscribe(async params => {
+      this.channelMembers = [];
+      this.memberPhotos = []; 
+      console.log(params); //Testcode, später löschen
+      this.channelId = params['id'];
+      console.log(this.channelId); //Testcode, später löschen
+      this.currentChannel = this.getSingleChannel();
+      console.log(this.currentChannel?.name); //Testcode, später löschen
+      await this.getChannelMembers();
+      // this.getMemberImages();
+      this.updateTimestamp();
+      setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
+    });
   }
 
   getChannelList(): Channel[] {
@@ -63,9 +69,7 @@ export class SingleChannelComponent implements OnInit {
     }
   }
 
-  // find a way to get images of members from users collection
   async getChannelMembers() {
-    
     const q = query(collection(this.firestore, "channels"), where(documentId(), "==", this.channelId));
 
     const querySnapshot = await getDocs(q);
@@ -76,7 +80,19 @@ export class SingleChannelComponent implements OnInit {
         this.channelMembers.push(member);
       })
     });
-    console.log("Channel members: ", this.channelMembers);
+    console.log("Channel members: ", this.channelMembers); //Testcode, später löschen
+  }
+
+  // find a way to get images of members from users collection
+  getMemberImages() {
+    this.userService.users.forEach(async user => {
+      const q = query(collection(this.firestore, "users"), where(this.channelMembers, "array-contains", user.uid));
+      
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+      })
+    })
   }
 
   getConversationList(): Conversation[] {
