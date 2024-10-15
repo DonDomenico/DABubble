@@ -1,22 +1,18 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
-import { onSnapshot } from "firebase/firestore";
+import { getDoc, getDocs, onSnapshot } from "firebase/firestore";
 import { addDoc, collection, doc, Firestore, updateDoc, where } from '@angular/fire/firestore';
 import { Channel } from '../interfaces/channel.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelService implements OnDestroy {
+export class ChannelService {
   firestore = inject(Firestore);
-
   channels: Channel[] = [];
-
-  // channels: Map<string, Channel> = new Map();
-  docRefId = "";
-
   unsubChannelList: any;
 
   constructor() {
+    this.getInitialChannelList();
     this.unsubChannelList = this.subChannelList();
   }
 
@@ -30,16 +26,22 @@ export class ChannelService implements OnDestroy {
       description: description,
       owner: ownerId,
       member: [ownerId]
-    }).then((docRef) => {
+    }).then(() => {
       console.log('Channel added to database');
-      this.docRefId = docRef.id;
     }).catch((err) => {
-      console.error(err)
+      console.error(err);
     })
   }
 
   getChannelRef() {
     return collection(this.firestore, "channels");
+  }
+
+  async getInitialChannelList() {
+    const querySnapshot = await getDocs(this.getChannelRef());
+    querySnapshot.forEach(doc => {
+      this.channels.push(this.toJson(doc.data(), doc.id));
+    })
   }
 
   subChannelList() {
@@ -48,7 +50,6 @@ export class ChannelService implements OnDestroy {
       channelList.forEach(channel => {
         console.log(this.toJson(channel.data(), channel.id));
         this.channels.push(this.toJson(channel.data(), channel.id));
-        this.docRefId = channel.id;
       })
     })
   }
