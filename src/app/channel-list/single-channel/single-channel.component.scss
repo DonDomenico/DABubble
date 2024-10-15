@@ -148,9 +148,9 @@ section {
     .add-member-container {
       width: 25%;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
-      gap: 5px;
+      gap: 18px;
       padding-right: 16px;
       .avarar-icon {
         width: 40px;
