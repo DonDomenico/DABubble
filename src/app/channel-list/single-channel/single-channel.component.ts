@@ -35,21 +35,21 @@ export class SingleChannelComponent implements OnInit {
   channelId: string = "";
   currentChannel: Channel | undefined;
   channelMembers: any = [];
-  memberPhotos: any = [];
+  memberInfos: any = [];
 
   constructor(private conversationService: ConversationsService, private channelService: ChannelService,private route: ActivatedRoute, private firestore: Firestore, private userService: UserService) {  }
 
   ngOnInit() {
     this.route.children[0].params.subscribe(async params => {
       this.channelMembers = [];
-      this.memberPhotos = []; 
+      this.memberInfos = []; 
       console.log(params); //Testcode, später löschen
       this.channelId = params['id'];
       console.log(this.channelId); //Testcode, später löschen
       this.currentChannel = this.getSingleChannel();
       console.log(this.currentChannel?.name); //Testcode, später löschen
       await this.getChannelMembers();
-      // this.getMemberImages();
+      await this.getMemberInfos();
       this.updateTimestamp();
       setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
     });
@@ -83,17 +83,19 @@ export class SingleChannelComponent implements OnInit {
     console.log("Channel members: ", this.channelMembers); //Testcode, später löschen
   }
 
-  // find a way to get images of members from users collection
-  getMemberImages() {
-    this.userService.users.forEach(async user => {
-      const q = query(collection(this.firestore, "users"), where(this.channelMembers, "array-contains", user.uid));
-      
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-      })
+  // add subscriptions for channel members to get realtime updates
+
+  async getMemberInfos() {
+    const q = query(collection(this.firestore, "users"), where("uid", "in", this.channelMembers));
+    
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // console.log(doc.data());
+      this.memberInfos.push(doc.data());
+      console.log(this.memberInfos);
     })
   }
+  
 
   getConversationList(): Conversation[] {
     return this.conversationService.conversations;

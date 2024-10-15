@@ -3,75 +3,62 @@
   <div class="chat-header">
 
 
-    <div  class="dev-team-container" (click)="updateChannel()">
+    <div class="dev-team-container" (click)="updateChannel()">
       <mat-icon>tag</mat-icon>
       <p>{{ getSingleChannel()?.name }}</p>
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
-  
+
     <div class="add-member-container">
-      @for (member of channelMembers; track $index) {
-        <p>{{ member }}</p>
+
+      @for (item of memberInfos; track $index) {
+      <img src="{{ item['photoURL'] }}" class="avarar-icon">
       }
-      <!-- {{ user.photoURL }} -->
-      <img class="avarar-icon" src="./assets/img/avatar1.svg" alt="" />
-      <img class="avarar-icon" src="./assets/img/avatar2.svg" alt="" />
-      <img class="avarar-icon" src="./assets/img/avatar3.svg" alt="" />
-      <p>3
-        <!-- {{ number of channel member }} -->
-      </p>
+
+      <p>{{ channelMembers.length }}</p>
       <span class="material-symbols-outlined" (click)="addMemberDialog()">
         <mat-icon>person_add</mat-icon>
       </span>
     </div>
-
+  </div>
+  
+  <div class="divider">
+    <hr class="line" />
+    @if (timestamp) {
+    <span class="date">{{ timestamp }}</span>
+    }
+    <hr class="line" />
   </div>
 
+  @for (message of messages; track $index ) {
 
-    <div class="divider">
-      <hr class="line" />
-      @if (timestamp) {
-      <span class="date">{{ timestamp }}</span>
-      }
-      <hr class="line" />
-    </div>
+  <div class="message-wrapper" [ngClass]="{ rowReverse: message.isRowReverse }">
+    <div class="single-message-container" [ngClass]="{ rowReverse: message.isRowReverse }">
+      <img src="{{ message.userAvatar }}" class="member-avatar" />
+      <div class="message-content">
+        <div class="name-time" [ngClass]="{ rowReverse: message.isRowReverse }">
+          <span>{{ message.userName }}</span>
+          <p>{{ messageDate }}</p>
+        </div>
 
-    @for (message of messages; track $index ) {
-  
-    <div class="message-wrapper" [ngClass]="{ rowReverse: message.isRowReverse }">
-      <div
-        class="single-message-container"
-        [ngClass]="{ rowReverse: message.isRowReverse }"
-      >
-        <img src="{{ message.userAvatar }}" class="member-avatar" />
-        <div class="message-content">
-          <div class="name-time" [ngClass]="{ rowReverse: message.isRowReverse }">
-            <span>{{ message.userName }}</span>
-            <p>{{ messageDate }}</p>
-          </div>
-  
-          <span class="user-message">
-            {{ message.userMessage }}
+        <span class="user-message">
+          {{ message.userMessage }}
+        </span>
+        <div class="answer-time">
+          <p>
+            {{ message.answer }}
+          </p>
+          <span>
+            {{ message.lastAnswerTime }}
           </span>
-          <div class="answer-time">
-            <p>
-              {{ message.answer }}
-            </p>
-            <span>
-              {{ message.lastAnswerTime }}
-            </span>
-          </div>
         </div>
       </div>
     </div>
+  </div>
   }
 
   <div class="message-box-container">
-    <textarea
-      name="message"
-      placeholder="Nachricht an #Entwicklerteam"
-      [(ngModel)]="message"
-    ></textarea>
+    <textarea name="message" placeholder="Nachricht an #Entwicklerteam" [(ngModel)]="message"></textarea>
     <div class="message-box">
       <div class="message-box-icons">
         <mat-icon>add</mat-icon>
@@ -82,5 +69,4 @@
       <mat-icon (click)="addMessage()">send</mat-icon>
     </div>
   </div>
-  </section>
-  
+</section>
