@@ -8,14 +8,14 @@ import { CreateChannelDialogComponent } from '../channel-list/create-channel-dia
 import { GeneralViewComponent } from '../general-view/general-view.component';
 import { ChannelService } from '../services/channel.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterLinkActive, RouterModule } from '@angular/router';
 import { Channel } from '../interfaces/channel.interface';
 
 
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [RouterModule, CommonModule, MatIcon, MatSidenavModule, ChannelListComponent, UsersComponent, GeneralViewComponent],
+  imports: [RouterModule, CommonModule, MatIcon, MatSidenavModule, ChannelListComponent, UsersComponent, GeneralViewComponent, RouterLinkActive],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })

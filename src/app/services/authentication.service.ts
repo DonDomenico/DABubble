@@ -9,14 +9,14 @@ import {
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
 import { UserService } from './users.service';
-import { addDoc, collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
+import { addDoc, collection, doc, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   firebaseAuth = inject(Auth);
-  firestoreService = inject(UserService);
+  userService = inject(UserService);
   router = inject(Router);
   google = new GoogleAuthProvider();
   firestore = inject(Firestore);
@@ -33,6 +33,7 @@ export class AuthenticationService {
     await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then((response) => {
       updateProfile(response.user, { displayName: username });
       this.currentUser = response.user;
+      this.userId = response.user.uid;
       this.saveUserInFirestore(response.user.uid, username, email);
       this.sendVerificationMail();
       this.router.navigateByUrl('');
@@ -43,15 +44,15 @@ export class AuthenticationService {
   }
 
   async saveUserInFirestore(uid: string, username: string, email: string) {
-    await addDoc(collection(this.firestore, "users"), {
+    await setDoc(doc(this.firestore, "users", uid), {
       uid: uid,
       username: username,
       email: email,
       photoURL: "",
       active: false
-    }).then((docRef) => {
+    }).then(() => {
         console.log('User added to database');
-        this.userId = docRef.id;
+        this.userService.userId = uid;
       }
     ).catch((err) => { 
         console.error(err);
@@ -62,7 +63,7 @@ export class AuthenticationService {
   async updateUserPhoto(photoURL: string, userId: string) {
     await updateDoc(doc(this.firestore, "users", userId), {
       photoURL: photoURL
-    })
+    });
   }
 
   showCurrentUser() {
@@ -129,7 +130,7 @@ export class AuthenticationService {
   async signInWithGoogle() {
     await signInWithPopup(this.firebaseAuth, this.google).then(result => {
       console.log(result); //Testcode, später löschen
-      const emailFound = this.firestoreService.users.filter(user => user.email == result.user.email);
+      const emailFound = this.userService.users.filter(user => user.email == result.user.email);
       if(result.user.email && result.user.displayName && result.user.email && emailFound.length == 0) {
         this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email);
         this.updateUserPhoto(result.user.photoURL!+".svg", this.userId);
@@ -176,8 +177,8 @@ export class AuthenticationService {
   // }
 
   logout() {
-    this.currentUser = null;
     signOut(this.firebaseAuth);
+    this.currentUser = null;
     this.router.navigateByUrl('');
   }
 }

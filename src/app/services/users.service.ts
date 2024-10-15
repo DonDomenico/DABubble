@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { onSnapshot } from "firebase/firestore";
 import { addDoc, collection, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
 import { User } from '../users/user.interface';
@@ -7,7 +7,7 @@ import { Conversation } from '../interfaces/conversation';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService implements OnDestroy {
   firestore = inject(Firestore);
   userId = "";
   users: User [] = [];
@@ -42,7 +42,7 @@ export class UserService {
 
   toJson(obj: any, id?: string): User {
     return {
-      id: id || "",
+      uid: id || "",
       username: obj.username || "",
       email: obj.email || "",
       photoURL: obj.photoURL || "",

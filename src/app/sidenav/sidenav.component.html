@@ -26,7 +26,7 @@
   <div class="dropdown-content">
     <div class="new-channel-container">
       @for (channel of getChannelList(); track $index) {
-        <p [routerLink]="['/chat/single-channel/'+ channel.docId]" [state]="{id: channel.docId}" routerLinkActive="router-link-active"><mat-icon>tag</mat-icon>{{ channel.name }}</p>
+        <p [routerLink]="['single-channel/'+ channel.docId]" [state]="{id: channel.docId}" routerLinkActive="active"><mat-icon>tag</mat-icon>{{ channel.name }}</p>
       }
     </div>
 
