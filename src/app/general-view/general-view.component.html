@@ -25,9 +25,10 @@
       <app-chat></app-chat>
       <!-- <router-outlet></router-outlet> -->
     </div>
-
+    @if(!isThreadHidden) {
     <div class="thread-container">
-      <app-thread></app-thread>
+      <app-thread (toggleThread)="onToggleThread($event)"></app-thread>
     </div>
+  }
   </section>
 </mat-drawer-container>

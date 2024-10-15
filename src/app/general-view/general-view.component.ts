@@ -16,7 +16,11 @@ import { RouterModule } from '@angular/router';
   styleUrl: './general-view.component.scss'
 })
 export class GeneralViewComponent {
+  isThreadHidden: boolean = false;
 
+  onToggleThread(isHidden: boolean) {
+    this.isThreadHidden = isHidden;
+  }
 
 
 

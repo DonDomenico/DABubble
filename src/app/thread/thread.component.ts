@@ -12,4 +12,10 @@ export class ThreadComponent {
 
   @Output() toggleThread: EventEmitter<any> = new EventEmitter();
 
+  isThreadHidden = false;
+  closeThread() {
+   this.isThreadHidden = !this.isThreadHidden;
+   this.toggleThread.emit(this.isThreadHidden);
+
+  }
 }
