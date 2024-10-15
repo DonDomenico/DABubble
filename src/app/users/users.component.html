@@ -1,6 +1,6 @@
 @for (user of  getList(); track $index) {
 
-<div class="user-container">
+<div class="user-container" (click)="showProfileDialog()">
   <img src="{{ user.photoURL }}" />
   <p>{{ user.username }}</p>
 </div>

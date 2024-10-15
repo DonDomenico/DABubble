@@ -1,15 +1,29 @@
 <section>
-    <div>
-      <h2 mat-dialog-title>Profil</h2>
-      <span class="material-symbols-outlined" mat-dialog-close>
-        <mat-icon>close</mat-icon>
-      </span>
+  <div class="profil-wrapper">
+    <h2>Profil</h2>
+    <span mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </span>
+  </div>
+
+  <div class="avatar-wrapper">
+    <img src="./assets/img/avatar2.svg" />
+  </div>
+
+  <!-- <p>{{user.username}}</p> -->
+  <p>Alicja Kwiaton</p>
+
+  <div class="email-wrapper">
+    <div class="icon-container">
+      <mat-icon>mail</mat-icon>
+      <p>E-Mail-Adresse</p>
     </div>
-  
-      <!-- <p>{{user.username}}</p> -->
-      
-  
-    <mat-dialog-actions>
-      <button mat-flat-button disabled >Nachricht</button>
-    </mat-dialog-actions>
-  </section>
+    <span>emailbeispiel.com</span>
+  </div>
+
+  <div class="btn-wrapper">
+    <button class="button-primary">
+      <mat-icon>mode_comment</mat-icon>Nachricht
+    </button>
+  </div>
+</section>
