@@ -8,7 +8,7 @@ import {
 } from '@angular/fire/auth';
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
-import { FirestoreService } from './firestore.service';
+import { UserService } from './users.service';
 import { addDoc, collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
@@ -16,7 +16,7 @@ import { addDoc, collection, doc, Firestore, updateDoc } from '@angular/fire/fir
 })
 export class AuthenticationService {
   firebaseAuth = inject(Auth);
-  firestoreService = inject(FirestoreService);
+  firestoreService = inject(UserService);
   router = inject(Router);
   google = new GoogleAuthProvider();
   firestore = inject(Firestore);
@@ -54,7 +54,7 @@ export class AuthenticationService {
         this.userId = docRef.id;
       }
     ).catch((err) => { 
-      console.error(err) 
+        console.error(err);
       }
     )
   }
@@ -103,8 +103,8 @@ export class AuthenticationService {
     })
   }
 
-  async sendMailResetPassword(email: string) {
-    await sendPasswordResetEmail(this.firebaseAuth, email)
+  sendMailResetPassword(email: string) {
+    sendPasswordResetEmail(this.firebaseAuth, email)
       .then(() => {
         console.log('Email sent'); //Testcode, später löschen
       })

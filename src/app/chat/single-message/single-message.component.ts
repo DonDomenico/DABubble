@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { FirestoreService } from '../../services/firestore.service';
-import { User } from '../../users/user.interface';
+import { ConversationsService } from '../../services/conversations.service';
 
 
 
@@ -15,7 +14,7 @@ import { User } from '../../users/user.interface';
 })
 export class SingleMessageComponent {
 
-constructor(private conversationService: FirestoreService) {
+constructor(private conversationService: ConversationsService) {
 
 }
   

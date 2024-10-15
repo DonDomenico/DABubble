@@ -4,14 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { AddMemberDialogComponent } from '../add-member-dialog/add-member-dialog.component';
-import { FirestoreService } from '../../services/firestore.service';
 import { Conversation } from '../../interfaces/conversation';
 import { Message } from '../../interfaces/message.interface';
 import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { ConversationsService } from '../../services/conversations.service';
+import { doc, documentId, Firestore, getDoc, getDocs, query } from '@angular/fire/firestore';
+import { collection, where } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-single-channel',
@@ -26,23 +28,23 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss',
 })
-
-
 export class SingleChannelComponent implements OnInit {
   // channel: Channel [] = [];
   conversationList: Conversation[] = [];
   message = "";
   channelId: string = "";
   currentChannel: Channel | undefined;
+  channelMembers: any = [];
 
-  constructor(private conversationService: FirestoreService, private channelService: ChannelService, private route: ActivatedRoute, private router: Router) {
+  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private router: Router, private firestore: Firestore) {
     this.channelId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
     console.log(this.channelId);
   }
-  
-  ngOnInit(): void {
+
+  ngOnInit() {
     this.currentChannel = this.getSingleChannel();
     console.log(this.currentChannel?.name);
+    this.getChannelMembers();
     this.updateTimestamp();
     setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
   }
@@ -52,13 +54,29 @@ export class SingleChannelComponent implements OnInit {
   }
 
   getSingleChannel() {
-    if(this.channelId != undefined) {
+    if (this.channelId != undefined) {
       return this.channelService.channels.find(item => {
         return item.docId == this.channelId;
       });
     } else {
       return this.channelService.channels[0];
     }
+  }
+
+  // find a way to get images of members from users collection
+  async getChannelMembers() {
+    
+    const q = query(collection(this.firestore, "channels"), where(documentId(), "==", this.channelId));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      // console.log(doc.id, " => ", doc.data()['member']);
+      doc.data()['member'].forEach((member: any) => {
+        this.channelMembers.push(member);
+      })
+    });
+    console.log("Channel members: ", this.channelMembers);
   }
 
   getConversationList(): Conversation[] {

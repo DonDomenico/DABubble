@@ -5,11 +5,14 @@
 
     <div  class="dev-team-container" (click)="updateChannel()">
       <mat-icon>tag</mat-icon>
-      <p>{{ getSingleChannel()?.name}}</p> 
+      <p>{{ getSingleChannel()?.name}}</p>
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
   
     <div class="add-member-container">
+      @for (member of getSingleChannel()?.member; track $index) {
+        <p>{{ member }}</p>
+      }
       <!-- {{ user.photoURL }} -->
       <img class="avarar-icon" src="./assets/img/avatar1.svg" alt="" />
       <img class="avarar-icon" src="./assets/img/avatar2.svg" alt="" />

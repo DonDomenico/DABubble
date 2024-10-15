@@ -4,7 +4,7 @@ import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl,
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { NgStyle } from '@angular/common';
-import { FirestoreService } from '../services/firestore.service';
+import { UserService } from '../services/users.service';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { FirestoreService } from '../services/firestore.service';
   styleUrl: './signup.component.scss'
 })
 export class SignupComponent {
-  firestore = inject(FirestoreService);
+  userService = inject(UserService);
   authService = inject(AuthenticationService);
   router = inject(Router);
   fb = inject(FormBuilder);
@@ -40,7 +40,7 @@ export class SignupComponent {
   }
 
   async searchEmailInDatabase() {
-    const emailFound = this.firestore.users.filter(user => user.email == this.registerForm.get('email')?.value);
+    const emailFound = this.userService.users.filter(user => user.email == this.registerForm.get('email')?.value);
     if(emailFound.length != 0) {
       this.emailInDatabase = true;
     }
