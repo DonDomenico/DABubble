@@ -1,7 +1,9 @@
 @for (user of  getList(); track $index) {
 
-<div class="user-container" (click)="showProfileDialog()">
+<div class="user-container" (click)="openSingleMessage(user)" >
   <img src="{{ user.photoURL }}" />
   <p>{{ user.username }}</p>
 </div>
 }
+
+<!-- [routerLink]="['single-channel/'+ channel.docId]" [state]="{id: channel.docId}" routerLinkActive="active" -->

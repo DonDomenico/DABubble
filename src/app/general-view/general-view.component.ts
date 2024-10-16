@@ -7,11 +7,12 @@ import { ChatComponent } from '../chat/chat.component';
 import { ThreadComponent } from '../thread/thread.component';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
+import { SingleMessageComponent } from "../chat/single-message/single-message.component";
 
 @Component({
   selector: 'app-general-view',
   standalone: true,
-  imports: [RouterModule, CommonModule, MatIconModule, HeaderComponent, SidenavComponent, ThreadComponent, MatSidenavModule, ChatComponent],
+  imports: [RouterModule, CommonModule, MatIconModule, HeaderComponent, SidenavComponent, ThreadComponent, MatSidenavModule, ChatComponent, SingleMessageComponent],
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss'
 })

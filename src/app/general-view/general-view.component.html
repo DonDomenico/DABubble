@@ -23,15 +23,17 @@
   <section>
     <div class="main-chat-container">
       @if (router.url == "/general-view") {
-        <h1>Create default view, if no Channel or Message is clicked</h1>
+
+      <app-single-message></app-single-message>
+     
       } @else {
-        <app-chat></app-chat>
+      <app-chat></app-chat>
       }
     </div>
-    @if(!isThreadHidden) {
+    @if(router.url != "/general-view" && !isThreadHidden) {
     <div class="thread-container">
       <app-thread (toggleThread)="onToggleThread($event)"></app-thread>
     </div>
-  }
+    }
   </section>
 </mat-drawer-container>
