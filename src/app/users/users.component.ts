@@ -32,8 +32,6 @@ export class UsersComponent {
     this.router.navigate(['general-view'], { state: { user } });
   }
 
-showProfileDialog() {
-    this.dialog.open(ShowProfileDialogComponent);
-  }
+
 
 }

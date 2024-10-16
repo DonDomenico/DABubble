@@ -1,9 +1,12 @@
 <section>
   <div class="chat-header">
-    <img src="./assets/img/avatar1.svg" alt="">
-    <p>Test Dude</p>
-    <!-- <img src="{{ user.photoURL }}" />
-    <p>{{ user.username }}</p> -->
+    <div class="hearder-content" (click)="showProfileDialog()">
+      <img src="./assets/img/avatar1.svg" alt="">
+      <p>Test Dude</p>
+      <!-- <img src="{{ user.photoURL }}" />
+      <p>{{ user.username }}</p> -->
+
+    </div>
   </div>
 
 
@@ -13,15 +16,15 @@
       <!-- {{ hier wird eine Nachricht angezeigt}} -->
     </div>
 
-    <div class="message-owner">
+    <div class="message-owner" (click)="showProfileDialog()">
       <img src="./assets/img/avatar1.svg" alt="">
       <p>Test Dude</p>
     </div>
-    <span>Diese Unterhaltung findet nur zwischen Noah Braun  user.username und dir statt.</span>
+    <p>Diese Unterhaltung findet nur zwischen <span (click)="showProfileDialog()">&#64; username</span> und dir statt.</p>
   </div>
 
   <div class="message-box-container">
-    <textarea name="message" placeholder="Nachricht an "></textarea>
+    <textarea name="message" placeholder="Nachricht an { user.name } "></textarea>
     <div class="message-box">
       <div class="message-box-icons">
         <mat-icon>add</mat-icon>
