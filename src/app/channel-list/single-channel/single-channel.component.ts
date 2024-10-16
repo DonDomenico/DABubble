@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { ActivatedRoute } from '@angular/router';
 import { ConversationsService } from '../../services/conversations.service';
-import { doc, documentId, Firestore, getDoc, getDocs, query } from '@angular/fire/firestore';
+import { doc, documentId, Firestore, getDoc, getDocs, onSnapshot, query } from '@angular/fire/firestore';
 import { collection, where } from '@angular/fire/firestore';
 import { UserService } from '../../services/users.service';
 
@@ -29,15 +29,19 @@ import { UserService } from '../../services/users.service';
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss',
 })
-export class SingleChannelComponent implements OnInit {
+export class SingleChannelComponent implements OnInit, OnDestroy {
   conversationList: Conversation[] = [];
   message = "";
   channelId: string = "";
-  currentChannel: Channel | undefined;
+  currentChannel: any;
   channelMembers: any = [];
   memberInfos: any = [];
+  unsubSingleChannel: any;
+  unsubMemberInfos: any;
 
-  constructor(private conversationService: ConversationsService, private channelService: ChannelService,private route: ActivatedRoute, private firestore: Firestore, private userService: UserService) {  }
+  constructor(private conversationService: ConversationsService, private channelService: ChannelService,private route: ActivatedRoute, private firestore: Firestore, private userService: UserService) { 
+    
+  }
 
   ngOnInit() {
     this.route.children[0].params.subscribe(async params => {
@@ -46,13 +50,18 @@ export class SingleChannelComponent implements OnInit {
       console.log(params); //Testcode, später löschen
       this.channelId = params['id'];
       console.log(this.channelId); //Testcode, später löschen
-      this.currentChannel = this.getSingleChannel();
-      console.log(this.currentChannel?.name); //Testcode, später löschen
       await this.getChannelMembers();
-      await this.getMemberInfos();
+      this.unsubSingleChannel = this.subSingleChannel();
+      this.unsubMemberInfos = this.subMemberInfos();
+      // await this.getMemberInfos();
       this.updateTimestamp();
       setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
     });
+  }
+
+  ngOnDestroy() {
+    this.unsubSingleChannel();
+    this.unsubMemberInfos();
   }
 
   getChannelList(): Channel[] {
@@ -83,19 +92,38 @@ export class SingleChannelComponent implements OnInit {
     console.log("Channel members: ", this.channelMembers); //Testcode, später löschen
   }
 
-  // add subscriptions for channel members to get realtime updates
+  // add subscriptions for channel to get realtime updates
+  subSingleChannel() {
+    return onSnapshot(doc(this.firestore, "channels", this.channelId), channel => {
+      console.log(channel.data());
+      this.channelMembers = [];
+      channel.data()!['member'].forEach((member: any) => {
+        this.channelMembers.push(member);
+      })
+      console.log(this.channelMembers);
+    })
+  }
 
-  async getMemberInfos() {
-    const q = query(collection(this.firestore, "users"), where("uid", "in", this.channelMembers));
+  // async getMemberInfos() {
+  //   const q = query(collection(this.firestore, "users"), where("uid", "in", this.channelMembers));
     
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      // console.log(doc.data());
-      this.memberInfos.push(doc.data());
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.forEach((doc) => {
+  //     this.memberInfos.push(doc.data());
+  //   })
+  //   console.log(this.memberInfos);
+  // }
+
+  // not working this way. Doesn't get called, if data gets changed
+  subMemberInfos() {
+    return onSnapshot(query(collection(this.firestore, "users"), where("uid", "in", this.channelMembers)), snapshot => {
+      this.memberInfos = [];
+      snapshot.forEach(doc => {
+        this.memberInfos.push(doc.data());
+      })
       console.log(this.memberInfos);
     })
   }
-  
 
   getConversationList(): Conversation[] {
     return this.conversationService.conversations;
