@@ -116,6 +116,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
 
   // not working this way. Doesn't get called, if data gets changed
   subMemberInfos() {
+    // wird nicht aktiviert, wenn im Firestore ein Nutzer hinzugefügt wird. Vermutlich, weil users-collection aufgerufen wird und nicht channels
     return onSnapshot(query(collection(this.firestore, "users"), where("uid", "in", this.channelMembers)), snapshot => {
       this.memberInfos = [];
       snapshot.forEach(doc => {

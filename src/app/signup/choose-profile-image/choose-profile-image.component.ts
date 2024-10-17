@@ -43,9 +43,7 @@ export class ChooseProfileImageComponent {
 
   async submit() {
     if(this.formData) {
-        await this.authService.createUser(this.formData!['email'], this.formData!['username'], this.formData!['password'])
-        await this.authService.setProfilePhoto(this.profileImg);
-        await this.authService.updateUserPhoto(this.profileImg, this.userService.userId);
+        await this.authService.createUser(this.formData!['email'], this.formData!['username'], this.formData!['password'], this.profileImg);
         this.showSnackBar();
         setTimeout(() => {
           this.router.navigateByUrl('/');

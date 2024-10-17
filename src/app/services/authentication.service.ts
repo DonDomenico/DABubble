@@ -29,12 +29,12 @@ export class AuthenticationService {
   emailAlreadyExists = '';
   noAccountWithEmail = '';
 
-  async createUser(email: string, username: string, password: string) {
-    await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then((response) => {
-      updateProfile(response.user, { displayName: username });
+  async createUser(email: string, username: string, password: string, photoUrl: string) {
+    await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(async (response) => {
+      updateProfile(response.user, { displayName: username, photoURL: photoUrl });
       this.currentUser = response.user;
       this.userId = response.user.uid;
-      this.saveUserInFirestore(response.user.uid, username, email);
+      await this.saveUserInFirestore(response.user.uid, username, email, photoUrl);
       this.sendVerificationMail();
       this.router.navigateByUrl('');
     }).catch(error => {
@@ -43,12 +43,12 @@ export class AuthenticationService {
     })
   }
 
-  async saveUserInFirestore(uid: string, username: string, email: string) {
-    await setDoc(doc(this.firestore, "users", uid), {
+  async saveUserInFirestore(uid: string, username: string, email: string, photoUrl: string) {
+    setDoc(doc(this.firestore, "users", uid), {
       uid: uid,
       username: username,
       email: email,
-      photoURL: "",
+      photoURL: photoUrl,
       active: false
     }).then(() => {
         console.log('User added to database');
@@ -60,11 +60,11 @@ export class AuthenticationService {
     )
   }
 
-  async updateUserPhoto(photoURL: string, userId: string) {
-    await updateDoc(doc(this.firestore, "users", userId), {
-      photoURL: photoURL
-    });
-  }
+  // async updateUserPhoto(photoURL: string, userId: string) {
+  //   await updateDoc(doc(this.firestore, "users", userId), {
+  //     photoURL: photoURL
+  //   });
+  // }
 
   showCurrentUser() {
     onAuthStateChanged(this.firebaseAuth, (user) => {
@@ -77,20 +77,20 @@ export class AuthenticationService {
     });
   }
 
-  async setProfilePhoto(userPhoto: string) {
-    if (this.currentUser !== null) {
-      await updateProfile(this.currentUser, { photoURL: userPhoto }).then(() => {
-        console.log('Photo updated'); //Testcode, später löschen
-      }).catch(() => {
-        console.error('Something went wrong'); //Testcode, später löschen
-      })
-    } else {
-      console.error('No user logged in'); //Testcode, später löschen
-    }
-  }
+  // async setProfilePhoto(userPhoto: string) {
+  //   if (this.currentUser !== null) {
+  //     await updateProfile(this.currentUser, { photoURL: userPhoto }).then(() => {
+  //       console.log('Photo updated'); //Testcode, später löschen
+  //     }).catch(() => {
+  //       console.error('Something went wrong'); //Testcode, später löschen
+  //     })
+  //   } else {
+  //     console.error('No user logged in'); //Testcode, später löschen
+  //   }
+  // }
 
-  async login(email: string, password: string) {
-    await signInWithEmailAndPassword(this.firebaseAuth, email, password).then((userCredential) => {
+  login(email: string, password: string) {
+    signInWithEmailAndPassword(this.firebaseAuth, email, password).then((userCredential) => {
       console.log('Sign in successful | Username: ', userCredential.user.displayName); //Testcode, später löschen
       this.router.navigateByUrl('general-view');
     }).catch((error) => {
@@ -128,12 +128,11 @@ export class AuthenticationService {
   }
 
   async signInWithGoogle() {
-    await signInWithPopup(this.firebaseAuth, this.google).then(result => {
+    await signInWithPopup(this.firebaseAuth, this.google).then(async result => {
       console.log(result); //Testcode, später löschen
       const emailFound = this.userService.users.filter(user => user.email == result.user.email);
-      if(result.user.email && result.user.displayName && result.user.email && emailFound.length == 0) {
-        this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email);
-        this.updateUserPhoto(result.user.photoURL!+".svg", this.userId);
+      if(result.user.email && result.user.displayName && result.user.photoURL && emailFound.length == 0) {
+        await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, result.user.photoURL);
       } else {
         console.log('User already in database'); //Testcode, später löschen
       }
