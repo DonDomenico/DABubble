@@ -9,7 +9,6 @@ import { Conversation } from '../interfaces/conversation';
 })
 export class UserService implements OnDestroy {
   firestore = inject(Firestore);
-  userId = "";
   users: User [] = [];
   conversations: Conversation [] = [];
   unsubUserList;

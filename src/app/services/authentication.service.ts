@@ -20,7 +20,6 @@ export class AuthenticationService {
   router = inject(Router);
   google = new GoogleAuthProvider();
   firestore = inject(Firestore);
-  userId = "";
 
   currentUser = this.firebaseAuth.currentUser;
   // possibly not the best way to check if the password matches the email-address
@@ -33,7 +32,6 @@ export class AuthenticationService {
     await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(async (response) => {
       updateProfile(response.user, { displayName: username, photoURL: photoUrl });
       this.currentUser = response.user;
-      this.userId = response.user.uid;
       await this.saveUserInFirestore(response.user.uid, username, email, photoUrl);
       this.sendVerificationMail();
       this.router.navigateByUrl('');
@@ -52,7 +50,6 @@ export class AuthenticationService {
       active: false
     }).then(() => {
         console.log('User added to database');
-        this.userService.userId = uid;
       }
     ).catch((err) => { 
         console.error(err);
@@ -151,29 +148,6 @@ export class AuthenticationService {
       console.log(error); //Testcode, später löschen
     })
   }
-
-  // async resetPassword(newPassword: string, url: string) {
-  //   let user = await this.getUserFromEmail(url);
-  //   if (user != null)
-  //     updatePassword(this.currentUser, newPassword).then(() => {
-  //       console.log('Password reseted, new Password is: ', newPassword);
-  //     }).catch((error) => {
-  //       console.log(error);
-  //     });
-  // }
-
-  // async getUserFromEmail(url: string) {
-  //   const regex = /\/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\?/;
-  //   const match = url.match(regex);
-
-  //   if (match) {
-  //     console.log("user:", match[1]);
-  //     return match[1];
-  //   } else {
-  //     console.log("user nicht gefunden");
-  //     return null;
-  //   }
-  // }
 
   logout() {
     signOut(this.firebaseAuth);
