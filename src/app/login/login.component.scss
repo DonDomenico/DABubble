@@ -26,6 +26,19 @@ form {
         padding-right: 10px;
         font-size: 18px;
     }
+
+    .input-container {
+        display: flex;
+    }
+
+    .visibility-icon {
+        position: relative;
+        left: -48px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 
 .google-logo {

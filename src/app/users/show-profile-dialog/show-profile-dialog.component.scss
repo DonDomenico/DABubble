@@ -2,6 +2,10 @@
   border-radius: 30px 30px 30px 30px;
 }
 
+h2 {
+  margin: 0;
+}
+
 section {
   width: 500px;
   height: 705px;
@@ -10,12 +14,13 @@ section {
   gap: 45px;
   padding: 40px;
   overflow: hidden;
+
   .profil-wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    > h2 {
+    >h2 {
       font-family: "Nunito";
       font-size: 24px;
       font-weight: 700;
@@ -23,8 +28,10 @@ section {
       margin: 0;
       padding: 0;
     }
-    > span {
+
+    >span {
       cursor: pointer;
+
       mat-icon {
         width: 40px;
         height: 40px;
@@ -33,6 +40,7 @@ section {
         justify-content: center;
         border-radius: 50px;
         cursor: pointer;
+
         &:hover {
           color: #535af1;
           background-color: #eceefe;
@@ -40,36 +48,46 @@ section {
       }
     }
   }
-  > p {
+
+  >p {
     font-size: 32px;
     font-weight: 700;
     line-height: 43.65px;
   }
 }
+
 .avatar-wrapper {
   display: flex;
   justify-content: center;
-  > img {
+
+  >img {
     width: 200px;
     height: 200px;
     border-radius: 50%;
   }
 }
+
 .email-wrapper {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+
   .icon-container {
     display: flex;
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items: center;
     gap: 15px;
-    > p {
-      font-size: 20px;
-      font-weight: 700;
-      line-height: 27.28px;
-    }
+
   }
-  > span {
+
+  >p {
+    color: #1381FF;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24.5px;
+  }
+
+  >span {
     font-size: 18px;
     font-weight: 400;
     line-height: 24.55px;
@@ -78,14 +96,42 @@ section {
   }
 }
 
+.username {
+  display: flex;
+  justify-content: space-between;
+
+  >button {
+    color: #797EF3;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 18px;
+
+    &:hover {
+      animation: hover 0.1s ease-in forwards;
+    }
+  }
+}
+
 .btn-wrapper {
   display: flex;
   justify-content: center;
-  > button {
+
+  >button {
     width: 164px;
     display: flex;
     justify-content: center;
     gap: 5px;
     border: none;
+  }
+}
+
+@keyframes hover {
+  from {
+    font-size: 18px;
+  }
+
+  to {
+    font-size: 19px;
   }
 }

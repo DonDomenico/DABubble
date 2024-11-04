@@ -22,12 +22,12 @@
   </mat-drawer>
   <section>
     <div class="main-chat-container">
-      @if (router.url.startsWith("/general-view/single-message")) {
-
+      @if (router.url.startsWith('/general-view/single-message/')) {
       <app-single-message></app-single-message>
-     
-      } @else if (router.url.startsWith("/general-view/single-channel"))  {
-      <app-chat></app-chat>
+      } @else if (router.url.startsWith('/general-view/single-channel/')) {
+      <app-single-channel></app-single-channel>
+      } @else {
+      <p>Klicken Sie auf einen Channel oder einen User in der Sidebar um einen Chat zu starten</p>
       }
       @else {
         <p>Klicken Sie auf einen Channel oder einen User in der Sidebar um einen Chat zu starten</p>
