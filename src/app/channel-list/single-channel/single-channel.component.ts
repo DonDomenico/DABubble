@@ -39,7 +39,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubSingleChannel: any;
   unsubMemberInfos: any;
 
-  constructor(private conversationService: ConversationsService, private channelService: ChannelService,private route: ActivatedRoute, private firestore: Firestore, private userService: UserService) { 
+  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private route: ActivatedRoute, private firestore: Firestore, private userService: UserService) { 
     
   }
 

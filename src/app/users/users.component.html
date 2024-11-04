@@ -1,8 +1,12 @@
-@for (user of  getList(); track $index) {
+@for (user of getList(); track user.uid) {
 
-<div class="user-container" (click)="openSingleMessage(user)" >
+<div
+  class="user-container"
+  [routerLink]="['single-message/' + user.uid]"
+  [state]="{ uid: user.uid }"
+  routerLinkActive="active"
+>
   <img src="{{ user.photoURL }}" />
   <p>{{ user.username }}</p>
 </div>
 }
-

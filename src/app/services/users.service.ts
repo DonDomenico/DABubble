@@ -17,6 +17,8 @@ export class UserService implements OnDestroy {
     this.unsubUserList = this.subUserList();
   }
 
+
+
   ngOnDestroy() {
     this.unsubUserList();
   }
