@@ -29,7 +29,8 @@
 
                 <div class="form-field">
                     <div class="input-container">
-                        <input class="background-image password-input" type="password" formControlName="password" placeholder="Passwort" #password>
+                        <input class="background-image password-input" [type]="passwordVisible ? 'text' : 'password'" formControlName="password" placeholder="Passwort" #password>
+                        <img class="visibility-icon" [src]="passwordVisible ? './assets/img/visibility-off.svg' : './assets/img/visibility.svg'" alt="Sichtbarkeit für Passwortanzeige umschalten" (click)="togglePasswordVisibility()">
                     </div>
                     @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched && !loginForm.get('password')?.dirty) {
                         <span class="error">Bitte geben Sie ihr Passwort ein.</span>

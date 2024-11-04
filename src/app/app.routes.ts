@@ -15,7 +15,7 @@ export const routes: Routes = [
     { path: "send-mail", component: ResetPasswordMailComponent},
     { path: "general-view", component: GeneralViewComponent,
       children: [
-        { path: "single-message/:id", component: SingleMessageComponent },
-        { path: "single-channel/:id", component: SingleChannelComponent }
+        { path: "single-channel/:id", component: SingleChannelComponent },
+        { path: "single-message/:id", component: SingleMessageComponent }
       ]}
     ];

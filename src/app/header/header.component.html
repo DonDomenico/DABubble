@@ -29,7 +29,7 @@
     <mat-icon [matMenuTriggerFor]="menu">keyboard_arrow_down</mat-icon>
 
     <mat-menu #menu="matMenu" class="menu-dropdown">
-      <button mat-menu-item>Profil</button>
+      <button mat-menu-item (click)="showUserProfile()">Profil</button>
       <button mat-menu-item (click)="authService.logout()">Log out</button>
     </mat-menu>
   </div>

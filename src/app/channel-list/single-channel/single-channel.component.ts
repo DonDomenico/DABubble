@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { AddMemberDialogComponent } from '../add-member-dialog/add-member-dialog.component';
 import { Conversation } from '../../interfaces/conversation';
 import { Message } from '../../interfaces/message.interface';
@@ -12,7 +12,7 @@ import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { ActivatedRoute } from '@angular/router';
 import { ConversationsService } from '../../services/conversations.service';
-import { doc, documentId, Firestore, getDoc, getDocs, onSnapshot, query } from '@angular/fire/firestore';
+import { addDoc, doc, documentId, Firestore, getDoc, getDocs, onSnapshot, query, updateDoc } from '@angular/fire/firestore';
 import { collection, where } from '@angular/fire/firestore';
 import { UserService } from '../../services/users.service';
 
@@ -24,10 +24,10 @@ import { UserService } from '../../services/users.service';
     FormsModule,
     MatIconModule,
     CommonModule,
-    AddMemberDialogComponent,
+    MatDialogModule
   ],
   templateUrl: './single-channel.component.html',
-  styleUrl: './single-channel.component.scss',
+  styleUrl: './single-channel.component.scss'
 })
 export class SingleChannelComponent implements OnInit, OnDestroy {
   conversationList: Conversation[] = [];
@@ -38,22 +38,22 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   memberInfos: any = [];
   unsubSingleChannel: any;
   unsubMemberInfos: any;
+  // newMember: string = "";
 
-  constructor(private conversationService: ConversationsService, private channelService: ChannelService,private route: ActivatedRoute, private firestore: Firestore, private userService: UserService) { 
-    
+  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private route: ActivatedRoute, private firestore: Firestore, private userService: UserService, public dialog: MatDialog) {
+
   }
 
   ngOnInit() {
     this.route.children[0].params.subscribe(async params => {
       this.channelMembers = [];
-      this.memberInfos = []; 
+      this.memberInfos = [];
       console.log(params); //Testcode, später löschen
       this.channelId = params['id'];
       console.log(this.channelId); //Testcode, später löschen
       await this.getChannelMembers();
       this.unsubSingleChannel = this.subSingleChannel();
       this.unsubMemberInfos = this.subMemberInfos();
-      // await this.getMemberInfos();
       this.updateTimestamp();
       setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
     });
@@ -85,39 +85,29 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       // console.log(doc.id, " => ", doc.data()['member']);
-      doc.data()['member'].forEach((member: any) => {
+      doc.data()['member'].forEach((member: User) => {
         this.channelMembers.push(member);
       })
     });
     console.log("Channel members: ", this.channelMembers); //Testcode, später löschen
   }
 
-  // add subscriptions for channel to get realtime updates
   subSingleChannel() {
     return onSnapshot(doc(this.firestore, "channels", this.channelId), channel => {
       console.log(channel.data());
       this.channelMembers = [];
-      channel.data()!['member'].forEach((member: any) => {
+      channel.data()!['member'].forEach((member: User) => {
         this.channelMembers.push(member);
       })
       console.log(this.channelMembers);
     })
   }
 
-  // async getMemberInfos() {
-  //   const q = query(collection(this.firestore, "users"), where("uid", "in", this.channelMembers));
-    
-  //   const querySnapshot = await getDocs(q);
-  //   querySnapshot.forEach((doc) => {
-  //     this.memberInfos.push(doc.data());
-  //   })
-  //   console.log(this.memberInfos);
-  // }
-
   // not working this way. Doesn't get called, if data gets changed
   subMemberInfos() {
+    const q = query(collection(this.firestore, "users"), where("uid", "in", this.channelMembers));
     // wird nicht aktiviert, wenn im Firestore ein Nutzer hinzugefügt wird. Vermutlich, weil users-collection aufgerufen wird und nicht channels
-    return onSnapshot(query(collection(this.firestore, "users"), where("uid", "in", this.channelMembers)), snapshot => {
+    return onSnapshot(q, snapshot => {
       this.memberInfos = [];
       snapshot.forEach(doc => {
         this.memberInfos.push(doc.data());
@@ -161,7 +151,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   ];
 
   timestamp!: string;
-  readonly dialog = inject(MatDialog);
+
 
   messageDate: string = new Date().toLocaleTimeString();
 
@@ -192,7 +182,13 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   updateChannel() {
     this.dialog.open(UpdateChannelDialogComponent);
   }
+
   addMemberDialog() {
-    this.dialog.open(AddMemberDialogComponent);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      channelId: this.channelId
+    }
+
+    this.dialog.open(AddMemberDialogComponent, dialogConfig);
   }
 }

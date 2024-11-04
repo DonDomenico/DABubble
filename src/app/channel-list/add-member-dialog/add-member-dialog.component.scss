@@ -1,5 +1,5 @@
 ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
-    border-radius: 30px 0px 30px 30px;
+  border-radius: 30px 0px 30px 30px;
 }
 
 section {
@@ -7,12 +7,13 @@ section {
   height: 294px;
   padding: 40px;
   overflow: hidden;
-  > div {
+
+  >div {
     display: flex;
     justify-content: space-between;
     align-items: center;
- 
-    > h2 {
+
+    >h2 {
       font-family: "Nunito";
       font-size: 24px;
       font-weight: 700;
@@ -20,31 +21,43 @@ section {
       margin: 0;
       padding: 0;
     }
-    > span {
-        cursor: pointer;
+
+    >span {
+      cursor: pointer;
     }
   }
-  > p {
-    font-family: Nunito;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 24.55px;
-    text-align: left;
-    color: rgba(121, 126, 243, 1);
-    margin-top: 10px;
+
+  >.user-input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 120px;
+
+    >p {
+      font-family: Nunito;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24.55px;
+      text-align: left;
+      color: rgba(121, 126, 243, 1);
+      margin-top: 10px;
+    }
+
+    >input {
+      width: 100%;
+      border: 1px solid black;
+      border-radius: 30px;
+      padding: 15px 20px 15px 20px;
+      outline: none;
+    }
   }
-  > input {
-    width: 100%;
-    border: 1px solid black;
-    border-radius: 30px;
-    padding: 15px 20px 15px 20px;
-    outline: none;
-  }
+
   mat-dialog-actions {
     display: flex;
     justify-content: flex-end;
     padding-top: 15px;
-    > button {
+
+    >button {
       width: 147px;
       height: 49px;
       padding: 12px 25px 12px 25px;
@@ -54,6 +67,7 @@ section {
       font-size: 18px;
       font-weight: 400;
       color: white;
+
       &:hover {
         background-color: rgba(121, 126, 243, 1);
       }

@@ -12,7 +12,7 @@ export class ChannelService {
   unsubChannelList: any;
 
   constructor() {
-    this.getInitialChannelList();
+    // this.getInitialChannelList();
     this.unsubChannelList = this.subChannelList();
   }
 
@@ -37,12 +37,12 @@ export class ChannelService {
     return collection(this.firestore, "channels");
   }
 
-  async getInitialChannelList() {
-    const querySnapshot = await getDocs(this.getChannelRef());
-    querySnapshot.forEach(doc => {
-      this.channels.push(this.toJson(doc.data(), doc.id));
-    })
-  }
+  // async getInitialChannelList() {
+  //   const querySnapshot = await getDocs(this.getChannelRef());
+  //   querySnapshot.forEach(doc => {
+  //     this.channels.push(this.toJson(doc.data(), doc.id));
+  //   })
+  // }
 
   subChannelList() {
     return onSnapshot(this.getChannelRef(), channelList => {

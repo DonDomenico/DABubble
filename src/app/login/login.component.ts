@@ -18,6 +18,7 @@ export class LoginComponent {
   router = inject(Router);
   fb = inject(FormBuilder);
   dividerText = 'ODER';
+  passwordVisible: boolean = false;
 
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -46,6 +47,14 @@ export class LoginComponent {
       }
 
       return !requestsValid ? {tooManyAttempts: true} : null;
+    }
+  }
+
+  togglePasswordVisibility() {
+    if(this.passwordVisible == false) {
+      this.passwordVisible = true;
+    } else {
+      this.passwordVisible = false;
     }
   }
 }
