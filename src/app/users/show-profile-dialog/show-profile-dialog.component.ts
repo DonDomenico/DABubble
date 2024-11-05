@@ -1,36 +1,47 @@
-import { Component, Inject } from '@angular/core';
-import {MatDialogModule,  MatDialog,
-  MatDialogActions,
+import { Component, Inject, OnInit } from '@angular/core';
+import {
+  MatDialogModule,
   MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle,
-  MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { UserService } from '../../services/users.service';
 import { User } from '../user.interface';
-import { AuthenticationService } from '../../services/authentication.service';
-
+import { getDoc } from '@angular/fire/firestore';
 @Component({
   selector: 'app-show-profile-dialog',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
+  imports: [MatIconModule, MatDialogModule, MatDialogClose, MatButtonModule],
   templateUrl: './show-profile-dialog.component.html',
-  styleUrl: './show-profile-dialog.component.scss'
+  styleUrl: './show-profile-dialog.component.scss',
 })
-export class ShowProfileDialogComponent {
-  user!: any;
+export class ShowProfileDialogComponent implements OnInit {
+  userId: string = '';
+  user: User | undefined;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {user: any}, private authService: AuthenticationService) {}
-
-  ngOnInit() {
-    this.user = this.data.user;
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { uid: string },
+    private userService: UserService
+  ) {
+    this.userId = data.uid;
   }
 
-  isOwnProfile() {
-    if(this.data.user.uid === this.authService.currentUser?.uid) {
-      return true;
+  ngOnInit(): void {
+    this.getSingleUser();
+  }
+
+  async getSingleUser() {
+    if (this.userId) {
+      const userRef = this.userService.getSingleUserRef(this.userId);
+      const userDoc = await getDoc(userRef);
+      if (userDoc.exists()) {
+        this.user = this.userService.toJson(userDoc.data(), userDoc.id);
+      } else {
+        console.log('No such document!');
+      }
     } else {
-      return false;
+      this.user = this.userService.users[2];
     }
   }
 }

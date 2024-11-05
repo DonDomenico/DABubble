@@ -40,7 +40,7 @@ export class SingleMessageComponent implements OnInit {
     this.route.children[0].params.subscribe(async (params) => {
       this.userId = params['id'] || '';
       this.getSingleUser();
-      console.log('GOT USER: ', this.userId);
+      // console.log('GOT USER: ', this.userId);
     });
   }
 
@@ -58,10 +58,9 @@ export class SingleMessageComponent implements OnInit {
     }
   }
 
-  getUserInfo(): User[] {
-    return this.userService.users;
-  }
-  showProfileDialog() {
-    this.dialog.open(ShowProfileDialogComponent);
+  showProfileDialog(userId: string) {
+    this.dialog.open(ShowProfileDialogComponent, {
+      data: { uid: userId },
+    });
   }
 }

@@ -1,6 +1,6 @@
 <section>
   <div class="chat-header">
-    <div class="hearder-content" (click)="showProfileDialog()">
+    <div class="hearder-content" (click)="showProfileDialog(userId)">
       @if(user) {
       <img src="{{ user.photoURL }}" />
       <p>{{ user.username }}</p>
@@ -13,21 +13,26 @@
       <!-- {{ hier wird eine Nachricht angezeigt}} -->
     </div>
 
-    <div class="message-owner" (click)="showProfileDialog()">
-      <img src="./assets/img/avatar1.svg" alt="" />
-      <p>Test Dude</p>
+    <div class="message-owner" (click)="showProfileDialog(userId)">
+      @if(user) {
+        <img src="{{ user.photoURL }}" />
+        <p>{{ user.username }}</p>
+        }
     </div>
     <p>
       Diese Unterhaltung findet nur zwischen
-      <span (click)="showProfileDialog()">&#64; username</span> und dir statt.
+      @if(user) {
+      <span (click)="showProfileDialog(userId)">&#64; {{ user.username }}</span>} und dir statt.
     </p>
   </div>
 
   <div class="message-box-container">
+    @if(user) {
     <textarea
       name="message"
-      placeholder="Nachricht an { user.name } "
+      placeholder="Nachricht an {{ user.username }}" 
     ></textarea>
+    }
     <div class="message-box">
       <div class="message-box-icons">
         <mat-icon>add</mat-icon>
