@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import {
   MatDialogModule,
   MatDialogClose,
@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '../../services/users.service';
 import { User } from '../user.interface';
 import { getDoc } from '@angular/fire/firestore';
+import { AuthenticationService } from '../../services/authentication.service';
 @Component({
   selector: 'app-show-profile-dialog',
   standalone: true,
@@ -17,6 +18,7 @@ import { getDoc } from '@angular/fire/firestore';
   styleUrl: './show-profile-dialog.component.scss',
 })
 export class ShowProfileDialogComponent implements OnInit {
+  authService = inject(AuthenticationService);
   userId: string = '';
   user: User | undefined;
 
@@ -41,7 +43,8 @@ export class ShowProfileDialogComponent implements OnInit {
         console.log('No such document!');
       }
     } else {
-      this.user = this.userService.users[2];
+      // this.user = this.userService.users[2];
+      this.authService.showCurrentUser();
     }
   }
 }
