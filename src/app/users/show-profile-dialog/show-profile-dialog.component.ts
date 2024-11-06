@@ -1,6 +1,7 @@
 import { Component, inject, Inject, OnInit } from '@angular/core';
 import {
   MatDialogModule,
+  MatDialog,
   MatDialogClose,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
@@ -10,6 +11,7 @@ import { UserService } from '../../services/users.service';
 import { User } from '../user.interface';
 import { getDoc } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
+import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 @Component({
   selector: 'app-show-profile-dialog',
   standalone: true,
@@ -24,7 +26,8 @@ export class ShowProfileDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { uid: string },
-    private userService: UserService
+    private userService: UserService,
+    public dialog: MatDialog
   ) {
     this.userId = data.uid;
   }
@@ -43,8 +46,17 @@ export class ShowProfileDialogComponent implements OnInit {
         console.log('No such document!');
       }
     } else {
-      // this.user = this.userService.users[2];
       this.authService.showCurrentUser();
     }
+  }
+
+  editUserProfile() {
+    this.authService.showCurrentUser();
+    this.dialog.open(EditProfileDialogComponent, {
+      data: {
+        user: this.authService.currentUser
+      }
+    })
+    // this.dialog.closeAll();
   }
 }

@@ -1,0 +1,34 @@
+<section>
+  <div class="profil-wrapper">
+    <h2>Dein Profil bearbeiten</h2>
+    <span mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </span>
+  </div>
+
+  @if (authService.currentUser) {
+  <div class="avatar-wrapper">
+    <img src="{{ authService.currentUser.photoURL }}" />
+  </div>
+  }
+
+  <div>
+
+      <div class="edit-username">
+        <mat-icon>account_circle</mat-icon>
+        <p>Vollständiger Name</p>
+      </div>
+      <input type="text" />
+    
+      <div class="edit-email">
+        <mat-icon>mail</mat-icon>
+        <p>E-Mail-Adresse</p>
+      </div>
+      <input type="text" />
+  </div>
+
+  <div class="btn-wrapper">
+    <button class="button-secondary">Abbrechen</button>
+    <button class="button-primary">Speichern</button>
+  </div>
+</section>
