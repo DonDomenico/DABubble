@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ConversationsService } from '../../services/conversations.service';
@@ -16,6 +16,7 @@ import {
   Firestore,
   onSnapshot,
 } from '@angular/fire/firestore';
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-single-message',
@@ -25,6 +26,7 @@ import {
   styleUrl: './single-message.component.scss',
 })
 export class SingleMessageComponent implements OnInit {
+  authService = inject(AuthenticationService);
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   constructor(
     private conversationService: ConversationsService,

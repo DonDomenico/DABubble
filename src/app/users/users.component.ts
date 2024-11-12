@@ -1,21 +1,21 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { User } from './user.interface';
 import { UserService } from '../services/users.service';
-import { ShowProfileDialogComponent } from './show-profile-dialog/show-profile-dialog.component';
+
 import { DialogModule } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { SingleMessageComponent } from '../chat/single-message/single-message.component';
-import { GeneralViewComponent } from '../general-view/general-view.component';
-import { Router, RouterModule } from '@angular/router';
 
+import { Router, RouterModule } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [ RouterModule,DialogModule, SingleMessageComponent, GeneralViewComponent],
+  imports: [ DialogModule, RouterModule],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent {
+  authService = inject(AuthenticationService);
   userList: User[] = [];
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   isSingleMessageHideen = false;
