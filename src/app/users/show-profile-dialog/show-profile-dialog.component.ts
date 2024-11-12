@@ -57,12 +57,8 @@ export class ShowProfileDialogComponent implements OnInit {
     this.authService.showCurrentUser();
     this.dialog.open(EditProfileDialogComponent, {
       data: {
-        currentuser: this.authService.currentUser, 
-        // user: this.userService.users
-        user: this.user,
-  
+        user: this.authService.currentUser
       }
     })
-    // this.dialog.closeAll();
   }
 }

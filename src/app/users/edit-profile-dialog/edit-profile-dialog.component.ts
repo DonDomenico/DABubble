@@ -10,6 +10,7 @@ import {
 import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/users.service';
 import { User } from '../user.interface';
+import { updateProfile } from '@angular/fire/auth';
 @Component({
   selector: 'app-edit-profile-dialog',
   standalone: true,
@@ -20,6 +21,7 @@ import { User } from '../user.interface';
 export class EditProfileDialogComponent implements OnInit {
   authService = inject(AuthenticationService);
   edit = false;
+  newUserName: string = "";
   // @Input() user!: User;
   user: User;
 
@@ -28,22 +30,36 @@ export class EditProfileDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<EditProfileDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { user: User }
   ) {
-    this.user = { ...data.user};
-
-   
+    this.user = data.user;
   }
 
-  ngOnInit(): void {
-   
+  ngOnInit(): void { }
+
+  async saveChanges() {
+    await this.updateUserInAuth();
+    await this.updateUserInFirestore();
+    this.dialogRef.close();
   }
 
-  async saveUserProfile() {
+  async updateUserInFirestore() {
     try {
-      await this.userService.updateUser(this.user as User);
+      await this.userService.updateUser(this.user as User, this.newUserName);
       console.log('User profile saved successfully');
-      this.dialogRef.close(this.user);
+      
     } catch (error) {
       console.error('Error saving user profile: ', error);
+    }
+  }
+
+  async updateUserInAuth() {
+    if(this.authService.currentUser !== null) {
+      updateProfile(this.authService.currentUser, {
+        displayName: this.newUserName
+      }).then(() => {
+        console.log('Profile updated')
+      }).catch((error) => {
+        console.error(error)
+      });
     }
   }
 
