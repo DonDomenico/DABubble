@@ -12,7 +12,10 @@
   </div>
 
   <div class="username">
-    <h2>{{ user.username }}</h2>
+    @if(!edit) {
+      
+      <h2>{{ user.username }}</h2>
+    }
   </div>
 
   <div class="email-wrapper">

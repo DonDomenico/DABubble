@@ -17,18 +17,59 @@ export class UserService implements OnDestroy {
     this.unsubUserList = this.subUserList();
   }
 
-
-
   ngOnDestroy() {
     this.unsubUserList();
   }
+
+//   async updateUser(user: User) { 
+//     if (user && user.uid) { 
+//       let userRef = this.getSingleUser(this.getColIdFromUser(user), user.uid); 
+//       try { 
+//         await updateDoc(userRef, this.getCleanJson(user)); 
+//         console.log('User updated successfully'); 
+//       } catch (error) { 
+//     console.error('Error updating user: ', error); 
+//   }
+
+//  }
+//  }
+
+  async updateUser(user: User) {
+if (user && user.uid) {
+  let userRef = this.getSingleUserRef(user.uid);
+  await updateDoc(userRef, this.getCleanJson(user)).catch
+  (error => console.log(error));
+} 
+  }
+
+
+
+
+getCleanJson(user: User) {
+  return {  
+    uid: user.uid,
+    username: user.username,
+    email: user.email,
+    photoURL: user.photoURL
+  };
+}
+
+getColIdFromUser(user: User) {
+  return user?.uid ?? '';
+}
 
   getUserRef() {
     return collection(this.firestore, 'users');
   }
 
+  getSingleUser(colId: string, docId: string) {
+ 
+    return doc(collection(this.firestore, colId), docId);
+  }
+
   getSingleUserRef(uid: string) {
     return doc(this.getUserRef(), uid);
+   
   }
 
   subUserList() {

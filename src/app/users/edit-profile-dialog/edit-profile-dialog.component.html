@@ -13,22 +13,26 @@
   }
 
   <div>
-
       <div class="edit-username">
         <mat-icon>account_circle</mat-icon>
         <p>Vollständiger Name</p>
       </div>
-      <input type="text" />
+
+
+
+  <input type="text" [(ngModel)]="user.username" />
+
+
     
       <div class="edit-email">
         <mat-icon>mail</mat-icon>
         <p>E-Mail-Adresse</p>
       </div>
-      <input type="text" />
+      <input type="email" [(ngModel)]="user.email" />
   </div>
 
   <div class="btn-wrapper">
     <button class="button-secondary">Abbrechen</button>
-    <button class="button-primary">Speichern</button>
+    <button (click)="saveUserProfile()" class="button-primary">Speichern</button>
   </div>
 </section>

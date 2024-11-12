@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit, Input } from '@angular/core';
 import {
   MatDialogModule,
   MatDialog,
@@ -22,7 +22,9 @@ import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-
 export class ShowProfileDialogComponent implements OnInit {
   authService = inject(AuthenticationService);
   userId: string = '';
-  user: User | undefined;
+  edit = false;
+  // user: User | undefined;
+  @Input() user!: User;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { uid: string },
@@ -51,10 +53,14 @@ export class ShowProfileDialogComponent implements OnInit {
   }
 
   editUserProfile() {
+    this.edit = true;
     this.authService.showCurrentUser();
     this.dialog.open(EditProfileDialogComponent, {
       data: {
-        user: this.authService.currentUser
+        currentuser: this.authService.currentUser, 
+        // user: this.userService.users
+        user: this.user,
+  
       }
     })
     // this.dialog.closeAll();
