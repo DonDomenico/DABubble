@@ -62,7 +62,4 @@ export class EditProfileDialogComponent implements OnInit {
       });
     }
   }
-
-  // async saveUserProfile() { await this.userService.updateUser(this.user);
-  //   this.dialogRef.close(this.user); }
 }
