@@ -3,14 +3,13 @@ import { User } from './user.interface';
 import { UserService } from '../services/users.service';
 
 import { DialogModule } from '@angular/cdk/dialog';
-import { MatDialog } from '@angular/material/dialog';
 
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [ DialogModule, RouterModule],
+  imports: [DialogModule, RouterModule],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
@@ -20,12 +19,12 @@ export class UsersComponent {
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   isSingleMessageHideen = false;
 
-  constructor(private userService: UserService, private dialog: MatDialog, private router: Router) {
- 
-  }
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute
+  ) {}
 
   getList(): User[] {
     return this.userService.users;
   }
-
 }

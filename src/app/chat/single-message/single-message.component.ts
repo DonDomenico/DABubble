@@ -1,8 +1,15 @@
-import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ConversationsService } from '../../services/conversations.service';
-import { UsersComponent } from '../../users/users.component';
+// import { UsersComponent } from '../../users/users.component';
 import { UserService } from '../../services/users.service';
 import { User } from '../../users/user.interface';
 import { ShowProfileDialogComponent } from '../../users/show-profile-dialog/show-profile-dialog.component';
@@ -21,7 +28,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 @Component({
   selector: 'app-single-message',
   standalone: true,
-  imports: [MatIconModule, CommonModule, UsersComponent],
+  imports: [MatIconModule, CommonModule],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss',
 })
@@ -38,25 +45,33 @@ export class SingleMessageComponent implements OnInit {
 
   userId: string = '';
   user: User | undefined;
+  isCurrentUser: boolean = false;
+  username: string | undefined = '';
+
   ngOnInit(): void {
     this.route.children[0].params.subscribe(async (params) => {
       this.userId = params['id'] || '';
-      this.getSingleUser();
-      // console.log('GOT USER: ', this.userId);
+
+      if (this.userId === this.authService.currentUser?.uid) {
+        this.isCurrentUser = true;
+      } else this.isCurrentUser = false;
+      this.username = await this.getSingleUser();
     });
   }
 
-  async getSingleUser() {
+  async getSingleUser(): Promise<string | undefined> {
     if (this.userId) {
       const userRef = this.userService.getSingleUserRef(this.userId);
       const userDoc = await getDoc(userRef);
       if (userDoc.exists()) {
         this.user = this.userService.toJson(userDoc.data(), userDoc.id);
+        return this.user.username;
       } else {
         console.log('No such document!');
+        return undefined;
       }
     } else {
-      this.user = this.userService.users[2];
+      return undefined;
     }
   }
 
