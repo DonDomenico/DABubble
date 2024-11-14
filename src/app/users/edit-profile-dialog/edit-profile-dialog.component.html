@@ -12,16 +12,47 @@
   </div>
   }
 
-  <div>
-    <div class="edit-username">
-      <mat-icon>account_circle</mat-icon>
-      <p>Vollständiger Name</p>
+  <form [formGroup]="editProfileForm">
+    <div>
+      <div class="edit-username">
+        <mat-icon>account_circle</mat-icon>
+        <p>Vollständiger Name</p>
+      </div>
+      
+      <div>
+        <div class="input-container">
+          <input type="text" class="background-image name-input" [placeholder]="authService.currentUser?.displayName"
+            formControlName="username" [style.color]="editProfileForm.get('username')?.dirty ? 'black' : '#686868'"
+            #username>
+        </div>
+      </div>
     </div>
-    <input type="text" [(ngModel)]="newUserName" [placeholder]="authService.currentUser?.displayName" />
-  </div>
 
-  <div class="btn-wrapper">
-    <button class="button-secondary">Abbrechen</button>
-    <button class="button-primary" (click)="saveChanges()">Speichern</button>
-  </div>
+    <div>
+      <div class="edit-email">
+        <mat-icon>account_circle</mat-icon>
+        <p>E-Mail-Adresse</p>
+      </div>
+
+      <div>
+        <div>
+          <input class="background-image mail-input" [placeholder]="authService.currentUser?.email"
+            formControlName="email" [style.color]="editProfileForm.get('email')?.dirty ? 'black' : '#686868'"
+            (ngModelChange)="onInputChange()">
+        </div>
+        @if (editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.value != '') {
+        <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
+        } @else if (emailInDatabase) {
+        <span class="error">Ein Konto mit dieser E-Mail-Adresse existiert bereits.</span>
+        }
+      </div>
+    </div>
+
+
+    <div class="btn-wrapper">
+      <button class="button-secondary" (click)="closeDialog()">Abbrechen</button>
+      <button class="button-primary" (click)="saveChanges()" [disabled]="checkFormValidity() || editProfileForm.get('email')?.invalid"
+      [style.cursor]="checkFormValidity() || editProfileForm.get('email')?.invalid ? 'not-allowed' : 'pointer'">Speichern</button>
+    </div>
+  </form>
 </section>

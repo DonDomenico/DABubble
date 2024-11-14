@@ -34,15 +34,15 @@ export class UserService implements OnDestroy {
   //  }
   //  }
 
-  async updateUser(user: User, newName: string) {
+  async updateUser(user: User, newName: string, newEmail: string) {
     if (user && user.uid) {
       let userRef = this.getSingleUserRef(user.uid);
-      await updateDoc(userRef, this.getCleanJson(user, newName)).catch
+      await updateDoc(userRef, this.getCleanJson(user, newName, newEmail)).catch
         (error => console.log(error));
     }
   }
 
-  getCleanJson(user: any, username: string) {
+  getCleanJson(user: any, username: string, email: string) {
     return {
       uid: user.uid,
       username: username,

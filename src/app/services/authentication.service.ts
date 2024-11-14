@@ -4,12 +4,13 @@ import {
   updatePassword,
   GoogleAuthProvider,
   signInWithPopup,
-  signInAnonymously
+  signInAnonymously,
+  updateEmail
 } from '@angular/fire/auth';
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
 import { UserService } from './users.service';
-import { addDoc, collection, doc, Firestore, setDoc, updateDoc } from '@angular/fire/firestore';
+import { doc, Firestore, setDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,6 @@ export class AuthenticationService {
   firestore = inject(Firestore);
 
   currentUser = this.firebaseAuth.currentUser;
-  // possibly not the best way to check if the password matches the email-address
   passwordError = '';
   tooManyRequests = '';
   emailAlreadyExists = '';
@@ -57,12 +57,6 @@ export class AuthenticationService {
     )
   }
 
-  // async updateUserPhoto(photoURL: string, userId: string) {
-  //   await updateDoc(doc(this.firestore, "users", userId), {
-  //     photoURL: photoURL
-  //   });
-  // }
-
   showCurrentUser() {
     onAuthStateChanged(this.firebaseAuth, (user) => {
       if (user) {
@@ -73,18 +67,6 @@ export class AuthenticationService {
       }
     });
   }
-
-  // async setProfilePhoto(userPhoto: string) {
-  //   if (this.currentUser !== null) {
-  //     await updateProfile(this.currentUser, { photoURL: userPhoto }).then(() => {
-  //       console.log('Photo updated'); //Testcode, später löschen
-  //     }).catch(() => {
-  //       console.error('Something went wrong'); //Testcode, später löschen
-  //     })
-  //   } else {
-  //     console.error('No user logged in'); //Testcode, später löschen
-  //   }
-  // }
 
   login(email: string, password: string) {
     signInWithEmailAndPassword(this.firebaseAuth, email, password).then((userCredential) => {
@@ -99,6 +81,10 @@ export class AuthenticationService {
         console.log('Request Error: ', this.tooManyRequests); //Testcode, später löschen
       }
     })
+  }
+
+  loginFromLocalStorage() {
+    
   }
 
   sendMailResetPassword(email: string) {
@@ -153,5 +139,27 @@ export class AuthenticationService {
     signOut(this.firebaseAuth);
     this.currentUser = null;
     this.router.navigateByUrl('');
+  }
+
+  async updateUsernameInAuth(newName: string) {
+    if (this.currentUser !== null && newName) {
+      updateProfile(this.currentUser, {
+        displayName: newName
+      }).then(() => {
+        console.log('Username updated')
+      }).catch((error) => {
+        console.error(error)
+      });
+    }
+  }
+
+  async updateEmailInAuth(newEmail: string) {
+    if (this.currentUser !== null && newEmail !== "") {
+      updateEmail(this.currentUser, newEmail).then(() => {
+        console.log('Email Adress changed');
+      }).catch((error) => {
+        console.log('An error occured: ', error);
+      })
+    }
   }
 }
