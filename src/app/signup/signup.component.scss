@@ -69,7 +69,7 @@ mat-card {
             border: 1px solid transparent;
             border-radius: 100px;
             // outline: none is needed here, because when the element is focussed, the User Agent (browser) by default sets an outline.
-            // So, to prevent it, we need to override it
+            // So, to prevent it, we need to overwright it
             outline: none;
 
             &:hover {

@@ -3,14 +3,13 @@ import { AuthenticationService } from '../services/authentication.service';
 import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { NgStyle } from '@angular/common';
 import { UserService } from '../services/users.service';
 
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule, MatCardModule, RouterLink, ReactiveFormsModule, NgStyle],
+  imports: [FormsModule, MatCardModule, RouterLink, ReactiveFormsModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })

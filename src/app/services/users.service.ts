@@ -21,24 +21,20 @@ export class UserService implements OnDestroy {
     this.unsubUserList();
   }
 
-  //   async updateUser(user: User) { 
-  //     if (user && user.uid) { 
-  //       let userRef = this.getSingleUser(this.getColIdFromUser(user), user.uid); 
-  //       try { 
-  //         await updateDoc(userRef, this.getCleanJson(user)); 
-  //         console.log('User updated successfully'); 
-  //       } catch (error) { 
-  //     console.error('Error updating user: ', error); 
-  //   }
-
-  //  }
-  //  }
-
-  async updateUser(user: User, newName: string, newEmail: string) {
+  async updateUsername(user: any, newName: string) {
     if (user && user.uid) {
       let userRef = this.getSingleUserRef(user.uid);
-      await updateDoc(userRef, this.getCleanJson(user, newName, newEmail)).catch
+      await updateDoc(userRef, this.getCleanJson(user, newName, user.email)).catch
         (error => console.log(error));
+    }
+  }
+  
+  async updateUserEmail(user: any, newEmail: string) {
+    if(user && user.uid) {
+      let userRef = this.getSingleUserRef(user.uid);
+      await updateDoc(userRef, this.getCleanJson(user, user.displayName, newEmail)).catch(error => {
+        console.log(error);
+      })
     }
   }
 
@@ -46,7 +42,7 @@ export class UserService implements OnDestroy {
     return {
       uid: user.uid,
       username: username,
-      email: user.email,
+      email: email,
       photoURL: user.photoURL
     };
   }
@@ -59,14 +55,13 @@ export class UserService implements OnDestroy {
     return collection(this.firestore, 'users');
   }
 
-  getSingleUser(colId: string, docId: string) {
+  // getSingleUser(colId: string, docId: string) {
 
-    return doc(collection(this.firestore, colId), docId);
-  }
+  //   return doc(collection(this.firestore, colId), docId);
+  // }
 
   getSingleUserRef(uid: string) {
     return doc(this.getUserRef(), uid);
-
   }
 
   subUserList() {

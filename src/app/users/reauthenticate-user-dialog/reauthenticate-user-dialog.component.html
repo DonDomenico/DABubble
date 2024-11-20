@@ -1,0 +1,41 @@
+<section>
+    <h3>Bitte melden Sie sich erneut an, um Ihre E-Mail-Adresse zu ändern</h3>
+
+    <form [formGroup]="reauthenticateForm" (ngSubmit)="reauthenticateUser(email.value, password.value)">
+        <div class="form-field">
+            <div class="input-container">
+                <input class="background-image mail-input" placeholder="beispielname@email.com" formControlName="email"
+                    [style.color]="reauthenticateForm.get('email')?.dirty ? 'black' : '#686868'" #email>
+            </div>
+            @if (reauthenticateForm.get('email')?.invalid && reauthenticateForm.get('email')?.value != '') {
+            <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
+            } @else if (reauthenticateForm.get('email')?.value == '' && reauthenticateForm.get('email')?.touched) {
+            <span class="error">Bitte geben Sie eine E-Mail-Adresse ein.</span>
+            }
+        </div>
+
+        <div class="form-field">
+            <div class="input-container">
+                <input class="background-image password-input" [type]="passwordVisible ? 'text' : 'password'"
+                    formControlName="password" placeholder="Passwort" #password>
+                <img class="visibility-icon"
+                    [src]="passwordVisible ? './assets/img/visibility-off.svg' : './assets/img/visibility.svg'"
+                    alt="Sichtbarkeit für Passwortanzeige umschalten" (click)="togglePasswordVisibility()">
+            </div>
+            @if (reauthenticateForm.get('password')?.invalid && reauthenticateForm.get('password')?.touched &&
+            !reauthenticateForm.get('password')?.dirty) {
+            <span class="error">Bitte geben Sie ihr Passwort ein.</span>
+            } @else if (authService.passwordError != '' && reauthenticateForm.get('password')?.value != null) {
+            <span class="error">Passwort und E-Mail-Adresse stimmen nicht überein.</span>
+            } @else if (authService.tooManyRequests != '' && reauthenticateForm.get('password')?.value != null) {
+            <span class="error">Die maximale Anzahl an Anmeldeversuchen wurde erreicht. Bitte versuchen Sie es später
+                nochmal.</span>
+            }
+        </div>
+
+        <div class="sign-in-buttons">
+            <button class="button-primary" type="submit" [disabled]="reauthenticateForm.invalid"
+                [style.cursor]="reauthenticateForm.invalid ? 'not-allowed' : 'pointer'">Anmelden</button>
+        </div>
+    </form>
+</section>

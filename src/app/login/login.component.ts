@@ -1,15 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
-import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { Validators, ReactiveFormsModule, FormBuilder, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { NgStyle } from '@angular/common';
 import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, MatCardModule, RouterLink, ReactiveFormsModule, NgStyle, MatDividerModule],
+  imports: [MatCardModule, RouterLink, ReactiveFormsModule, MatDividerModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
