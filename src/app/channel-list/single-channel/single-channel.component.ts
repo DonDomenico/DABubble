@@ -15,12 +15,13 @@ import { ConversationsService } from '../../services/conversations.service';
 import { addDoc, doc, documentId, Firestore, getDoc, getDocs, onSnapshot, query, updateDoc } from '@angular/fire/firestore';
 import { collection, where } from '@angular/fire/firestore';
 import { UserService } from '../../services/users.service';
+import { AuthenticationService } from '../../services/authentication.service';
+
 
 @Component({
   selector: 'app-single-channel',
   standalone: true,
   imports: [
-    UpdateChannelDialogComponent,
     FormsModule,
     MatIconModule,
     CommonModule,
@@ -38,9 +39,15 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   memberInfos: any = [];
   unsubSingleChannel: any;
   unsubMemberInfos: any;
-  // newMember: string = "";
 
-  constructor(private conversationService: ConversationsService, private channelService: ChannelService, private route: ActivatedRoute, private firestore: Firestore, private userService: UserService, public dialog: MatDialog) {
+
+  constructor(private authService: AuthenticationService,
+     private conversationService: ConversationsService,
+      public channelService: ChannelService,
+       private route: ActivatedRoute,
+        private firestore: Firestore,
+         private userService: UserService,
+          public dialog: MatDialog) {
 
   }
 
@@ -54,6 +61,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       await this.getChannelMembers();
       this.unsubSingleChannel = this.subSingleChannel();
       this.unsubMemberInfos = this.subMemberInfos();
+      this.channelService.subChannelChat();
       this.updateTimestamp();
       setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
     });
@@ -120,35 +128,44 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     return this.conversationService.conversations;
   }
 
-  addMessage() {
-    // let message = {
-    //   initiatedAt: string;
-    //   initiatedBy: string;
-    // }
-    this.conversationService;
-  }
 
-  messages: Message[] = [
-    {
-      userName: 'Noah Braun',
-      userAvatar: './assets/img/avatar4.svg',
-      userMessage: 'Welche Version ist aktuell von Angular?',
-      userTime: '12:00 Uhr',
-      answer: '2 Antworten',
-      lastAnswerTime: 'Letzte Antwort 14:56',
-      isRowReverse: false,
-    },
-    {
-      userName: 'Frederik Beck',
-      userAvatar: './assets/img/avatar3.svg',
-      userMessage:
-        'Die aktuellste stabile Version von Angular ist Angular 16, die im Mai 2023 veröffentlicht wurde. Diese Version bringt viele neue Features und Verbesserungen mit sich, darunter optimierte Leistung, verbesserte Entwicklerwerkzeuge und neue APIs.',
-      userTime: '15:06 Uhr',
+
+  addMessage() {
+
+    const newMessage: Message = {
+      userName: this.authService.currentUser?.displayName!, 
+      userAvatar: this.authService.currentUser?.photoURL!, 
+      userMessage: this.message,
+      userTime: new Date().toLocaleTimeString(),
       answer: '',
       lastAnswerTime: '',
-      isRowReverse: true,
-    },
-  ];
+      isRowReverse: false
+    };  
+    this.channelService.addText(newMessage);
+    this.message = '';
+  }
+
+  // messages: Message[] = [
+  //   {
+  //     userName: 'Noah Braun',
+  //     userAvatar: './assets/img/avatar4.svg',
+  //     userMessage: 'Welche Version ist aktuell von Angular?',
+  //     userTime: '12:00 Uhr',
+  //     answer: '2 Antworten',
+  //     lastAnswerTime: 'Letzte Antwort 14:56',
+  //     isRowReverse: false,
+  //   },
+  //   {
+  //     userName: 'Frederik Beck',
+  //     userAvatar: './assets/img/avatar3.svg',
+  //     userMessage:
+  //       'Die aktuellste stabile Version von Angular ist Angular 16, die im Mai 2023 veröffentlicht wurde. Diese Version bringt viele neue Features und Verbesserungen mit sich, darunter optimierte Leistung, verbesserte Entwicklerwerkzeuge und neue APIs.',
+  //     userTime: '15:06 Uhr',
+  //     answer: '',
+  //     lastAnswerTime: '',
+  //     isRowReverse: true,
+  //   },
+  // ];
 
   timestamp!: string;
 
@@ -167,17 +184,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  // sendMessage() {
-  //   const now = new Date();
-  //   const today = new Date().setHours(0, 0, 0, 0);
-  //   const messageDate = now.setHours(0, 0, 0, 0);
 
-  //   if (messageDate === today) {
-  //     this.timestamp = 'Heute';
-  //   } else {
-  //     this.timestamp = now.toLocaleDateString();
-  //   }
-  // }
 
   updateChannel() {
     this.dialog.open(UpdateChannelDialogComponent);

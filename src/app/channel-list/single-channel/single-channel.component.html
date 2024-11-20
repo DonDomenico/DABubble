@@ -30,7 +30,7 @@
     <hr class="line" />
   </div>
 
-  @for (message of messages; track $index ) {
+  @for (message of channelService.messages; track $index ) {
 
   <div class="message-wrapper" [ngClass]="{ rowReverse: message.isRowReverse }">
     <div class="single-message-container" [ngClass]="{ rowReverse: message.isRowReverse }">
@@ -43,6 +43,7 @@
 
         <span class="user-message">
           {{ message.userMessage }}
+      
         </span>
         <div class="answer-time">
           <p>
@@ -58,7 +59,8 @@
   }
 
   <div class="message-box-container">
-    <textarea name="message" placeholder="Nachricht an #Entwicklerteam" [(ngModel)]="message"></textarea>
+    <textarea name="message" placeholder="Nachricht an #Entwicklerteam" 
+    [(ngModel)]="message"></textarea>
     <div class="message-box">
       <div class="message-box-icons">
         <mat-icon>add</mat-icon>
