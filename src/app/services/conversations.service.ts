@@ -1,22 +1,27 @@
 import { inject, Injectable } from '@angular/core';
 import { Conversation } from '../interfaces/conversation';
-import { collection, doc, Firestore, onSnapshot } from '@angular/fire/firestore';
+import { addDoc, collection, doc, Firestore, onSnapshot } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConversationsService {
+  
+
   unsubConversations;
   firestore = inject(Firestore);
   conversations: Conversation[] = [];
 
   constructor() { 
     this.unsubConversations = this.subConversations();
+    
   }
 
   ngOnDestroy() {
     this.unsubConversations();
   }
+
+
 
   getConversationsRef () {
     return collection(this.firestore, 'conversations');
@@ -72,4 +77,5 @@ export class ConversationsService {
       url: null
     }
   }
+
 }

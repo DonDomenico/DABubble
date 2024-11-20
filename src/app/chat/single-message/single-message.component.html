@@ -1,13 +1,10 @@
 <section>
-
-
   <div class="chat-header">
     <div class="hearder-content" (click)="showProfileDialog(userId)">
       @if(user) {
       <img src="{{ user.photoURL }}" />
       <p>{{ user.username }}</p>
-      }
-       @else if(authService.currentUser) {
+      } @else if(authService.currentUser) {
       <img src="{{ authService.currentUser.photoURL }}" />
       <p>{{ authService.currentUser.displayName }} (Du)</p>
       }
@@ -23,11 +20,7 @@
       @if(user) {
       <img src="{{ user.photoURL }}" />
       <p>{{ username }}</p>
-      } 
-      <!-- @if(isCurrentUser && authService.currentUser) {
-      <img src="{{ authService.currentUser.photoURL }}" />
-      <p>{{ authService.currentUser.displayName }} (Du)</p>
-      } -->
+      }
     </div>
     @if(!isCurrentUser) {
     <p>
@@ -36,8 +29,7 @@
       <span (click)="showProfileDialog(userId)">&#64; {{ username }}</span>
       und dir statt.
     </p>
-    } 
-    @if (isCurrentUser)  {
+    } @if (isCurrentUser) {
     <p>
       Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf
       oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne
