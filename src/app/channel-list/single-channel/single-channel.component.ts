@@ -57,9 +57,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     private firestore: Firestore,
     private userService: UserService,
     public dialog: MatDialog
-  ) {
-   
-  }
+  ) {}
 
   ngOnInit() {
     this.route.children[0].params.subscribe(async (params) => {
@@ -76,8 +74,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.unsubChannelChat = this.channelService.subChannelChat(
         this.channelId
       );
-      this.updateTimestamp();
-      setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
     });
   }
 
@@ -122,12 +118,11 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     const q = query(
       collection(this.firestore, `channels/${this.channelId}/chatText`)
     );
-
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      // console.log(doc.id, " => ", doc.data()['member']);
-      this.channelService.messages.push(this.channelService.toJsonText(doc.data(), doc.id));
+      this.channelService.messages.push(
+        this.channelService.toJsonText(doc.data(), doc.id)
+      );
     });
     console.log('Channel message: ', this.channelMembers); //Testcode, später löschen
   }
@@ -173,6 +168,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       userAvatar: this.authService.currentUser?.photoURL!,
       userMessage: this.message,
       userTime: new Date().toLocaleTimeString(),
+      messageDate: new Date().toLocaleDateString(),
       answer: '',
       lastAnswerTime: '',
       isRowReverse: false,
@@ -202,22 +198,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   //     isRowReverse: true,
   //   },
   // ];
-
-  timestamp!: string;
-
-  messageDate: string = new Date().toLocaleTimeString();
-
-  updateTimestamp(): void {
-    const now = new Date();
-    const today = new Date().setHours(0, 0, 0, 0);
-    const messageDate = now.setHours(0, 0, 0, 0);
-
-    if (messageDate === today) {
-      this.timestamp = 'Heute';
-    } else {
-      this.timestamp = now.toLocaleDateString();
-    }
-  }
 
   updateChannel() {
     this.dialog.open(UpdateChannelDialogComponent);

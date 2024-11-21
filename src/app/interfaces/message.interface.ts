@@ -5,6 +5,7 @@ export interface Message {
   userAvatar?: string;
   userMessage: string;
   userTime: string;
+  messageDate: string;
   answer?: string;
   lastAnswerTime?: string;
   isRowReverse?: boolean;

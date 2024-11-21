@@ -22,15 +22,16 @@
     </div>
   </div>
   
-  <div class="divider">
-    <hr class="line" />
-    @if (timestamp) {
-    <span class="date">{{ timestamp }}</span>
-    }
-    <hr class="line" />
-  </div>
-
+  
   @for (message of channelService.messages; track $index ) {
+    
+    <div class="divider">
+      <hr class="line" />
+  
+      <span class="date">{{ message.messageDate }}</span>
+    
+      <hr class="line" />
+    </div>
 
   <div class="message-wrapper" [ngClass]="{ rowReverse: message.isRowReverse }">
     <div class="single-message-container" [ngClass]="{ rowReverse: message.isRowReverse }">
@@ -38,7 +39,7 @@
       <div class="message-content">
         <div class="name-time" [ngClass]="{ rowReverse: message.isRowReverse }">
           <span>{{ message.userName }}</span>
-          <p>{{ messageDate }}</p>
+          <p>{{ message.userTime }}</p>
         </div>
 
         <span class="user-message">
@@ -61,7 +62,7 @@
 <div class="message-box-wrapper">
 
   <div class="message-box-container">
-    <textarea name="message" placeholder="Nachricht an #Entwicklerteam" 
+    <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}" 
     [(ngModel)]="message"></textarea>
     <div class="message-box">
       <div class="message-box-icons">

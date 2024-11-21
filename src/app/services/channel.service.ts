@@ -63,6 +63,7 @@ export class ChannelService {
         userAvatar: message.userAvatar,
         userMessage: message.userMessage,
         userTime: message.userTime,
+        messageDate: message.messageDate,
         answer: '',
         lastAnswerTime: '',
         isRowReverse: false,
@@ -100,6 +101,7 @@ export class ChannelService {
       userAvatar: obj.userAvatar || '',
       userMessage: obj.userMessage || '',
       userTime: obj.userTime || '',
+      messageDate: obj.messageDate || '',
       answer: obj.answer || '',
     };
   }
