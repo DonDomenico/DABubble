@@ -58,25 +58,26 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     private userService: UserService,
     public dialog: MatDialog
   ) {
-
-   
-  }
-
-  ngOnInit() {
     this.route.children[0].params.subscribe(async (params) => {
       this.channelMembers = [];
       this.memberInfos = [];
+      this.channelService.messages = [];
       console.log(params); //Testcode, später löschen
       this.channelId = params['id'];
       console.log(this.channelId); //Testcode, später löschen
       await this.getChannelMembers();
+      await this.getChannelChats();
       this.unsubSingleChannel = this.subSingleChannel();
       this.unsubMemberInfos = this.subMemberInfos();
-      this.unsubChannelChat = this.channelService.subChannelChat(this.channelId);
+      this.unsubChannelChat = this.channelService.subChannelChat(
+        this.channelId
+      );
       this.updateTimestamp();
       setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
     });
   }
+
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.unsubSingleChannel();
@@ -113,6 +114,20 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       });
     });
     console.log('Channel members: ', this.channelMembers); //Testcode, später löschen
+  }
+
+  async getChannelChats() {
+    const q = query(
+      collection(this.firestore, `channels/${this.channelId}/chatText`)
+    );
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      // console.log(doc.id, " => ", doc.data()['member']);
+      this.channelService.messages.push(this.channelService.toJsonText(doc.data(), doc.id));
+    });
+    console.log('Channel message: ', this.channelMembers); //Testcode, später löschen
   }
 
   subSingleChannel() {
