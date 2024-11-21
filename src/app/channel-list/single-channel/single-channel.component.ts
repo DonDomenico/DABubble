@@ -58,6 +58,10 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     private userService: UserService,
     public dialog: MatDialog
   ) {
+   
+  }
+
+  ngOnInit() {
     this.route.children[0].params.subscribe(async (params) => {
       this.channelMembers = [];
       this.memberInfos = [];
@@ -76,8 +80,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       setInterval(() => this.updateTimestamp(), 60000); // Aktualisiert jede Minute
     });
   }
-
-  ngOnInit() {}
 
   ngOnDestroy() {
     this.unsubSingleChannel();
