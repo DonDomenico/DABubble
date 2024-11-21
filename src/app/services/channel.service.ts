@@ -4,6 +4,7 @@ import {
   addDoc,
   collection,
   doc,
+  documentId,
   Firestore,
   updateDoc,
   where,
@@ -51,9 +52,12 @@ export class ChannelService {
     return collection(this.firestore, 'channels');
   }
 
+  
+
   addText(message: Message) {
     addDoc(
-      collection(this.firestore, 'channels/HINU2bSnAba9Kzv0IMyQ/chatText'),
+      collection(this.firestore, `channels/${message.channelId}/chatText`),
+
       {
         userName: message.userName,
         userAvatar: message.userAvatar,
@@ -65,17 +69,16 @@ export class ChannelService {
       }
     );
   }
-  subChannelChat() {
-    const channelRef = collection(
-      this.firestore,
-      'channels/HINU2bSnAba9Kzv0IMyQ/chatText'
-    );
-    const q = query(channelRef, limit(50));
+  subChannelChat(channelId: string) {
+    const channelRef = 
+    // collection(this.firestore,'channels/HINU2bSnAba9Kzv0IMyQ/chatText');
+          collection(this.firestore, `channels/${channelId}/chatText`);
+    const q = query(channelRef);
     return onSnapshot(q, (list: any) => {
       this.messages = [];
       list.forEach((doc: any) => {
         this.messages.push(this.toJsonText(doc.data(), doc.id));
-        console.log(this.messages);
+        console.log('CHAT TEXT', this.messages);
       });
     });
   }
