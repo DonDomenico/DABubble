@@ -31,26 +31,8 @@ export class AuthenticationService {
   tooManyRequests = '';
   emailAlreadyExists = '';
   noAccountWithEmail = '';
-  unsubscribeAuth: any;
 
-  constructor() { 
-    this.unsubscribeAuth = onAuthStateChanged(this.firebaseAuth, async user => {
-      if(user) {
-        let userInFirestore = await getDoc(this.userService.getSingleUserRef(user?.uid));
-        console.log(userInFirestore.data());
-        let currentEmail = userInFirestore.data()!['email'];
-
-        if(user?.email !== currentEmail) {
-          this.emailChanged = true;
-          this.logout();
-        }
-      }
-    })
-  }
-
-  ngOnDestroy() {
-    this.unsubscribeAuth();
-  }
+  constructor() {}
 
   async createUser(email: string, username: string, password: string, photoUrl: string) {
     await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(async (response) => {
