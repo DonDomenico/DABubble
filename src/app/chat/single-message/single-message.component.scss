@@ -53,7 +53,7 @@ section {
     cursor: pointer;
     &:hover {
       color: #535af1;
-     }
+    }
     > img {
       width: 100px;
       height: 100px;
@@ -71,12 +71,12 @@ section {
     line-height: 27.28px;
     color: #686868;
     margin: 20px 0;
-    >span {
-      color: #535AF1;
+    > span {
+      color: #535af1;
       cursor: pointer;
       &:hover {
         font-weight: 700;
-       }
+      }
     }
   }
 }
@@ -99,6 +99,8 @@ section {
   .message-box {
     height: 40px;
     display: flex;
+    flex-wrap: wrap;
+    align-content: center;
     justify-content: space-between;
     padding: 20px;
     color: #686868;
@@ -112,6 +114,11 @@ section {
         border-left: 1px solid #adb0d9;
         height: 40px;
       }
+    }
+    .send-icon {
+      width: 30px;
+      color: #444df2;
+      cursor: pointer;
     }
   }
 }
