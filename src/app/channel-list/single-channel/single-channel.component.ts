@@ -49,7 +49,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubSingleChannel: any;
   unsubMemberInfos: any;
   unsubChannelChat: any;
-  tooltipPosition = 'below';
 
   constructor(
     private authService: AuthenticationService,
