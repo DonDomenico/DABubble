@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
-import { getDoc, getDocs, limit, onSnapshot, query } from 'firebase/firestore';
+import { getDoc, getDocs, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
 import {
   addDoc,
   collection,
@@ -71,10 +71,8 @@ export class ChannelService {
     );
   }
   subChannelChat(channelId: string) {
-    const channelRef = 
-    // collection(this.firestore,'channels/HINU2bSnAba9Kzv0IMyQ/chatText');
-          collection(this.firestore, `channels/${channelId}/chatText`);
-    const q = query(channelRef);
+    const channelRef = collection(this.firestore, `channels/${channelId}/chatText`);
+    const q = query(channelRef, orderBy('messageDate'));
     return onSnapshot(q, (list: any) => {
       this.messages = [];
       list.forEach((doc: any) => {
