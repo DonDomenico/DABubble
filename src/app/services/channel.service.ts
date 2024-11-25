@@ -72,7 +72,7 @@ export class ChannelService {
   }
   subChannelChat(channelId: string) {
     const channelRef = collection(this.firestore, `channels/${channelId}/chatText`);
-    const q = query(channelRef, orderBy('messageDate'));
+    const q = query(channelRef, orderBy('messageDate'), orderBy('userTime'));
     return onSnapshot(q, (list: any) => {
       this.messages = [];
       list.forEach((doc: any) => {

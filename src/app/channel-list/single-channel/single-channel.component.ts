@@ -24,6 +24,7 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
+  orderBy,
   query,
   updateDoc,
 } from '@angular/fire/firestore';
@@ -116,16 +117,14 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   async getChannelChats() {
-    const q = query(
-      collection(this.firestore, `channels/${this.channelId}/chatText`)
-    );
+    const q = query(collection(this.firestore, `channels/${this.channelId}/chatText`), orderBy('messageDate'), orderBy('userTime'));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       this.channelService.messages.push(
         this.channelService.toJsonText(doc.data(), doc.id)
       );
     });
-    console.log('Channel message: ', this.channelMembers); //Testcode, später löschen
+    console.log('Channel message: ', this.channelService.messages); //Testcode, später löschen
   }
 
   subSingleChannel() {
