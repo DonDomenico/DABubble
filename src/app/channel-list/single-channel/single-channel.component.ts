@@ -30,11 +30,12 @@ import {
 import { collection, where } from '@angular/fire/firestore';
 import { UserService } from '../../services/users.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-single-channel',
   standalone: true,
-  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule],
+  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule, MatTooltipModule],
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss',
 })
@@ -48,6 +49,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubSingleChannel: any;
   unsubMemberInfos: any;
   unsubChannelChat: any;
+  tooltipPosition = 'below';
 
   constructor(
     private authService: AuthenticationService,
