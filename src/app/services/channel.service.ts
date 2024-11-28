@@ -52,12 +52,9 @@ export class ChannelService {
     return collection(this.firestore, 'channels');
   }
 
-  
-
   addText(message: Message) {
     addDoc(
       collection(this.firestore, `channels/${message.channelId}/chatText`),
-
       {
         userName: message.userName,
         userAvatar: message.userAvatar,
@@ -70,6 +67,7 @@ export class ChannelService {
       }
     );
   }
+
   subChannelChat(channelId: string) {
     const channelRef = collection(this.firestore, `channels/${channelId}/chatText`);
     const q = query(channelRef, orderBy('messageDate'), orderBy('userTime'));
@@ -77,8 +75,8 @@ export class ChannelService {
       this.messages = [];
       list.forEach((doc: any) => {
         this.messages.push(this.toJsonText(doc.data(), doc.id));
-        console.log('CHAT TEXT', this.messages);
       });
+      console.log('CHAT TEXT', this.messages);
     });
   }
 

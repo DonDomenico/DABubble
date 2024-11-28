@@ -8,7 +8,7 @@
 
   @if (authService.currentUser) {
   <div class="avatar-wrapper">
-    <img src="{{ authService.currentUser.photoURL }}" />
+    <img src="{{ authService.currentUser.photoURL }}" (click)="showAvatarOptions()" />
   </div>
   }
 

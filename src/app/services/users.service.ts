@@ -24,7 +24,7 @@ export class UserService implements OnDestroy {
   async updateUsername(user: any, newName: string) {
     if (user && user.uid) {
       let userRef = this.getSingleUserRef(user.uid);
-      await updateDoc(userRef, this.getCleanJson(user, newName, user.email)).catch
+      await updateDoc(userRef, this.getCleanJson(user, newName, user.email, user.photoURL)).catch
         (error => console.log(error));
     }
   }
@@ -32,18 +32,25 @@ export class UserService implements OnDestroy {
   async updateUserEmail(user: any, newEmail: string) {
     if(user && user.uid) {
       let userRef = this.getSingleUserRef(user.uid);
-      await updateDoc(userRef, this.getCleanJson(user, user.displayName, newEmail)).catch(error => {
+      await updateDoc(userRef, this.getCleanJson(user, user.displayName, newEmail, user.photoURL)).catch(error => {
         console.log(error);
       })
     }
   }
 
-  getCleanJson(user: any, username: string, email: string) {
+  async updateUserAvatar(user: any, url: string) {
+    if(user) {
+      let userRef = this.getSingleUserRef(user.uid);
+      await updateDoc(userRef, this.getCleanJson(user, user.displayName, user.email, url))
+    }
+  }
+
+  getCleanJson(user: any, username: string, email: string, photoURL: string) {
     return {
       uid: user.uid,
       username: username,
       email: email,
-      photoURL: user.photoURL
+      photoURL: photoURL
     };
   }
 
