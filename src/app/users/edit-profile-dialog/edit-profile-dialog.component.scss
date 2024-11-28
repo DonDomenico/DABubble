@@ -54,6 +54,11 @@ section {
     width: 200px;
     height: 200px;
     border-radius: 50%;
+
+    &:hover {
+      cursor: pointer;
+      outline: 8px solid #E6E6E6;
+    }
   }
 }
 
