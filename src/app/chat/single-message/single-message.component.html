@@ -43,6 +43,7 @@
     <textarea
       name="message"
       placeholder="Nachricht an {{ user.username }}"
+      [(ngModel)]="conversationMessage"
     ></textarea>
     }
     <div class="message-box">
@@ -52,7 +53,7 @@
         <mat-icon>mood</mat-icon>
         <mat-icon>alternate_email</mat-icon>
       </div>
-      <mat-icon class="send-icon">send</mat-icon>
+      <mat-icon class="send-icon" (click)="addMessageText()">send</mat-icon>
     </div>
   </div>
 </section>
