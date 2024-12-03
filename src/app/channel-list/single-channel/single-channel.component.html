@@ -12,7 +12,7 @@
     <div class="add-member-container">
 
       @for (item of memberInfos; track $index) {
-      <img src="{{ item['photoURL'] }}" class="avarar-icon">
+      <img src="{{ item['photoURL'] }}" class="avarar-icon" matTooltip="{{ item['username'] }}" [matTooltipPosition]="'below'">
       }
 
       <p>{{ channelMembers.length }}</p>

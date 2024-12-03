@@ -1,0 +1,23 @@
+<mat-card>
+    <mat-card-title>Wähle deinen Avatar</mat-card-title>
+
+    <mat-card-content>
+        @if (avatarService.profileImg == './assets/img/person.svg') {
+            <div class="avatar-frame-big">
+                <img [src]="avatarService.profileImg" alt="">
+            </div>
+        } @else {
+            <img [src]="avatarService.profileImg" alt="" class="avatar-image-big">
+        }
+
+        <p style="align-self: start; font-size: 20px;">Aus der Liste wählen</p>
+
+        <div class="avatars">
+            @for (item of avatarService.avatars; track $index) {
+                <img [src]="item" alt="" class="avatar-image" (click)="avatarService.changeAvatarImg(item)">
+            }
+        </div>
+
+        <button class="button-primary" (click)="changeAvatar()">Ok</button>
+    </mat-card-content>
+</mat-card>

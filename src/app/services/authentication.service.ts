@@ -189,4 +189,10 @@ export class AuthenticationService {
       });
     }
   }
+
+  updateAvatar(url: string) {
+    if(this.currentUser !== null) {
+      updateProfile(this.currentUser, {photoURL: url});
+    }
+  }
 }

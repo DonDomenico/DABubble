@@ -24,17 +24,19 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
+  orderBy,
   query,
   updateDoc,
 } from '@angular/fire/firestore';
 import { collection, where } from '@angular/fire/firestore';
 import { UserService } from '../../services/users.service';
 import { AuthenticationService } from '../../services/authentication.service';
+import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-single-channel',
   standalone: true,
-  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule],
+  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule, MatTooltipModule],
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss',
 })
@@ -68,12 +70,10 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.channelId = params['id'];
       console.log(this.channelId); //Testcode, später löschen
       await this.getChannelMembers();
-      await this.getChannelChats();
+      // await this.getChannelChats();
       this.unsubSingleChannel = this.subSingleChannel();
       this.unsubMemberInfos = this.subMemberInfos();
-      this.unsubChannelChat = this.channelService.subChannelChat(
-        this.channelId
-      );
+      this.unsubChannelChat = this.channelService.subChannelChat(this.channelId);
     });
   }
 
@@ -105,8 +105,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      // console.log(doc.id, " => ", doc.data()['member']);
       doc.data()['member'].forEach((member: User) => {
         this.channelMembers.push(member);
       });
@@ -115,16 +113,14 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   async getChannelChats() {
-    const q = query(
-      collection(this.firestore, `channels/${this.channelId}/chatText`)
-    );
+    const q = query(collection(this.firestore, `channels/${this.channelId}/chatText`), orderBy('messageDate'), orderBy('userTime'));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       this.channelService.messages.push(
         this.channelService.toJsonText(doc.data(), doc.id)
       );
     });
-
+    console.log('Channel message: ', this.channelService.messages); //Testcode, später löschen
   }
 
   subSingleChannel() {
@@ -141,13 +137,11 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     );
   }
 
-  // not working this way. Doesn't get called, if data gets changed
   subMemberInfos() {
     const q = query(
       collection(this.firestore, 'users'),
       where('uid', 'in', this.channelMembers)
     );
-    // wird nicht aktiviert, wenn im Firestore ein Nutzer hinzugefügt wird. Vermutlich, weil users-collection aufgerufen wird und nicht channels
     return onSnapshot(q, (snapshot) => {
       this.memberInfos = [];
       snapshot.forEach((doc) => {

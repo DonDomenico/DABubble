@@ -8,6 +8,7 @@ import {
   MatSnackBarVerticalPosition
 } from '@angular/material/snack-bar';
 import { UserService } from '../../services/users.service';
+import { AvatarsService } from '../../services/avatars.service';
 
 @Component({
   selector: 'app-choose-profile-image',
@@ -23,16 +24,9 @@ export class ChooseProfileImageComponent {
   authService = inject(AuthenticationService);
   formData;
 
-  constructor(private _snackBar: MatSnackBar, private router: Router) {
+  constructor(private _snackBar: MatSnackBar, private router: Router, public avatarService: AvatarsService) {
     console.log('form data received: ', this.router.getCurrentNavigation()?.extras.state);
     this.formData = this.router.getCurrentNavigation()?.extras.state;
-  }
-
-  profileImg = './assets/img/person.svg';
-  avatars = ['./assets/img/avatar1.svg', './assets/img/avatar2.svg', './assets/img/avatar3.svg', './assets/img/avatar4.svg', './assets/img/avatar5.svg', './assets/img/avatar6.svg'];
-
-  changeAvatarImg(url: string) {
-    this.profileImg = url;
   }
 
   showFormData() {
@@ -43,7 +37,7 @@ export class ChooseProfileImageComponent {
 
   async submit() {
     if(this.formData) {
-        await this.authService.createUser(this.formData['email'], this.formData['username'], this.formData['password'], this.profileImg);
+        await this.authService.createUser(this.formData['email'], this.formData['username'], this.formData['password'], this.avatarService.profileImg);
         this.showSnackBar();
         setTimeout(() => {
           this.router.navigateByUrl('/');

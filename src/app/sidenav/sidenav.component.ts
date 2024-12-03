@@ -23,19 +23,24 @@ export class SidenavComponent {
 
   @Output() toggleEvent = new EventEmitter<void>();
   readonly dialog = inject(MatDialog);
-
+  unsubscribeChannels;
   isChannelListHidden = false;
   isMemberListHidden = false;
 
   channelName: string = '';
   channelDescription: string = '';
 
-  constructor(private channelService: ChannelService) {}
+  constructor(private channelService: ChannelService) {
+    this.unsubscribeChannels = this.channelService.subChannelList();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeChannels();
+  }
 
   getChannelList(): Channel[] {
     return this.channelService.channels;
   }
-
 
   addChannelDialog() {
     this.dialog.open(CreateChannelDialogComponent);

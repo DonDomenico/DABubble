@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { User } from './user.interface';
 import { UserService } from '../services/users.service';
-
 import { DialogModule } from '@angular/cdk/dialog';
-
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 @Component({
@@ -25,6 +23,7 @@ export class UsersComponent {
   ) {}
 
   getList(): User[] {
-    return this.userService.users;
+    let users = this.userService.users.filter((user) => user.uid !== this.authService.currentUser?.uid)
+    return users;
   }
 }

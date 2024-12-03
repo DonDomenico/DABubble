@@ -13,6 +13,7 @@ import { UserService } from '../../services/users.service';
 import { User } from '../user.interface';
 import { ReauthenticateUserDialogComponent } from '../reauthenticate-user-dialog/reauthenticate-user-dialog.component';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { EditAvatarDialogComponent } from '../edit-avatar-dialog/edit-avatar-dialog.component';
 
 @Component({
   selector: 'app-edit-profile-dialog',
@@ -134,6 +135,10 @@ export class EditProfileDialogComponent implements OnInit {
         // this.authService.currentUser?.reload();
       }
     });
+  }
+
+  showAvatarOptions() {
+    this.dialog.open(EditAvatarDialogComponent);
   }
 
   showSnackBar() {

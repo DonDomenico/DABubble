@@ -8,12 +8,12 @@
         <mat-card-title>Wähle deinen Avatar</mat-card-title>
 
         <mat-card-content>
-            @if (profileImg == './assets/img/person.svg') {
+            @if (avatarService.profileImg == './assets/img/person.svg') {
                 <div class="avatar-frame-big">
-                    <img [src]="profileImg" alt="">
+                    <img [src]="avatarService.profileImg" alt="">
                 </div>
             } @else {
-                <img [src]="profileImg" alt="" class="avatar-image-big">
+                <img [src]="avatarService.profileImg" alt="" class="avatar-image-big">
             }
 
             @if (formData) {
@@ -25,8 +25,8 @@
             <p style="align-self: start; font-size: 20px;">Aus der Liste wählen</p>
 
             <div class="avatars">
-                @for (item of avatars; track $index) {
-                    <img [src]="item" alt="" class="avatar-image" (click)="changeAvatarImg(item)">
+                @for (item of avatarService.avatars; track $index) {
+                    <img [src]="item" alt="" class="avatar-image" (click)="avatarService.changeAvatarImg(item)">
                 }
             </div>
         </mat-card-content>
