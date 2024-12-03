@@ -3,13 +3,14 @@
     <img src="./assets/img/logo-dabubble.svg" alt="logo" />
   </div>
 
-
   <div class="search-container">
-
-    <input type="search" placeholder="Code learning durchsuchen">
+    <input type="search" placeholder="Code learning durchsuchen"  (keyup)="searchService.search()" [(ngModel)]="searchService.searchText" [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      @for (result of searchService.searchResults; track result) {
+        <mat-option [value]="result.name">{{result.name}}</mat-option>
+      }
+    </mat-autocomplete>
   </div>
-
-
 
   <div class="header-aktiv-user">
     @if (authService.currentUser) {
