@@ -124,7 +124,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         this.channelService.toJsonText(doc.data(), doc.id)
       );
     });
-    console.log('Channel message: ', this.channelMembers); //Testcode, später löschen
+
   }
 
   subSingleChannel() {
@@ -176,28 +176,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.channelService.addText(newMessage);
     this.message = '';
   }
-
-  // messages: Message[] = [
-  //   {
-  //     userName: 'Noah Braun',
-  //     userAvatar: './assets/img/avatar4.svg',
-  //     userMessage: 'Welche Version ist aktuell von Angular?',
-  //     userTime: '12:00 Uhr',
-  //     answer: '2 Antworten',
-  //     lastAnswerTime: 'Letzte Antwort 14:56',
-  //     isRowReverse: false,
-  //   },
-  //   {
-  //     userName: 'Frederik Beck',
-  //     userAvatar: './assets/img/avatar3.svg',
-  //     userMessage:
-  //       'Die aktuellste stabile Version von Angular ist Angular 16, die im Mai 2023 veröffentlicht wurde. Diese Version bringt viele neue Features und Verbesserungen mit sich, darunter optimierte Leistung, verbesserte Entwicklerwerkzeuge und neue APIs.',
-  //     userTime: '15:06 Uhr',
-  //     answer: '',
-  //     lastAnswerTime: '',
-  //     isRowReverse: true,
-  //   },
-  // ];
 
   updateChannel() {
     this.dialog.open(UpdateChannelDialogComponent);

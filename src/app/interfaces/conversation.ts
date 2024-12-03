@@ -1,18 +1,11 @@
-
 export interface Conversation {
-    docId: string;
-    initiatedAt: string;
-    initiatedBy: string;
-    lastMessage: [
-        {
-            message: string;
-            messageType: string;
-            recipientId: string;
-            senderId: string;
-            status: string;
-            timestamp: string;
-        }
-    ],
-    // subcollection of conversations
-    messages: []
+  docId: string;
+  initiatedBy: string;
+  senderAvatar: string;
+  recipientAvatar: string;
+  recipientId: string;
+  senderMessage: string;
+  timestamp: string;
+  messageDate: string;
+
 }

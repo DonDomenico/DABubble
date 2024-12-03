@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Conversation } from '../interfaces/conversation';
-import { addDoc, collection, doc, Firestore, onSnapshot } from '@angular/fire/firestore';
+import { addDoc, collection, doc, Firestore, onSnapshot, query } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -8,20 +8,49 @@ import { addDoc, collection, doc, Firestore, onSnapshot } from '@angular/fire/fi
 export class ConversationsService {
   
 
-  unsubConversations;
+  unsubConversations: any;
+
   firestore = inject(Firestore);
   conversations: Conversation[] = [];
 
   constructor() { 
     this.unsubConversations = this.subConversations();
-    
+
   }
 
   ngOnDestroy() {
     this.unsubConversations();
+ 
   }
 
+  addNewConversation(newConversation: Conversation) {
+    addDoc(
+      collection(this.firestore, `conversations/${newConversation.docId}/messages`),
 
+      {
+      docId: newConversation.docId,
+      initiatedBy: newConversation.initiatedBy,
+      senderAvatar: newConversation.senderAvatar,
+      recipientId: newConversation.recipientId,
+      recipientAvatar: newConversation.recipientAvatar,
+      senderMessage: newConversation.senderMessage,
+      timestamp: newConversation.timestamp,
+      messageDate: newConversation.messageDate,
+      }
+    );
+  }
+
+  // subConversationMessages(conversationId: string) {
+  //   const conversationRef = collection(this.firestore, `conversations/${conversationId}/messages`);
+  //   const q = query(conversationRef);
+  //   return onSnapshot( q, (messageList: any) => {
+  //     this.conversations = [];
+  //     messageList.forEach((doc: any) => {
+  //       this.conversations.push(this.toJsonConversation(doc.data(), doc.id));
+  //       console.log('JUHU', this.conversations);
+  //     })
+  //   })
+  // }
 
   getConversationsRef () {
     return collection(this.firestore, 'conversations');
@@ -52,30 +81,27 @@ export class ConversationsService {
   toJsonConversation(obj: any, id?: string): Conversation {
     return {
       docId: id || "",
-      initiatedAt: obj.initiatedAt || "",
       initiatedBy: obj.initiatedBy || "",
-      lastMessage: [{
-        message: obj.lastMessage.message || "",
-        messageType: obj.lastMessage.messageType || "",
-        recipientId: obj.lastMessage.recipientId || "",
-        senderId: obj.lastMessage.senderId || "",
-        status: obj.lastMessage.status || "",
-        timestamp: obj.lastMessage.timestamp || ""
-      }],
-      messages: []
+      senderAvatar: obj.senderAvatar || "",
+      recipientAvatar: obj.recipientAvatar || "",
+      recipientId: obj.recipientId || "",
+        senderMessage: obj.senderMessage || "",
+        timestamp: obj.timestamp || "",
+        messageDate: obj.messageDate || "",
     }
+  
   }
 
-  toJsonConversationMessage(obj: any) {
-    return {
-      message: obj.message || "",
-      messageType: obj.messageType || "",
-      recipientId: obj.recipientId || "",
-      senderId: obj.senderId || "",
-      status: obj.status || "",
-      timestamp: obj.timestamp || "",
-      url: null
-    }
-  }
+  // toJsonConversationMessage(obj: any) {
+  //   return {
+  //     message: obj.message || "",
+  //     messageType: obj.messageType || "",
+  //     recipientId: obj.recipientId || "",
+  //     senderId: obj.senderId || "",
+  //     status: obj.status || "",
+  //     timestamp: obj.timestamp || "",
+  //     url: null
+  //   }
+  // }
 
 }
