@@ -26,9 +26,7 @@ export class ConversationsService {
   addNewConversation(newConversation: Conversation) {
     addDoc(
       collection(this.firestore, 'conversations'),
-
       {
-      // docId: newConversation.docId,
       initiatedBy: newConversation.initiatedBy,
       senderAvatar: newConversation.senderAvatar,
       recipientId: newConversation.recipientId,
@@ -39,18 +37,6 @@ export class ConversationsService {
       }
     );
   }
-
-  // subConversationMessages(conversationId: string) {
-  //   const conversationRef = collection(this.firestore, `conversations/${conversationId}/messages`);
-  //   const q = query(conversationRef);
-  //   return onSnapshot( q, (messageList: any) => {
-  //     this.conversations = [];
-  //     messageList.forEach((doc: any) => {
-  //       this.conversations.push(this.toJsonConversation(doc.data(), doc.id));
-  //       console.log('JUHU', this.conversations);
-  //     })
-  //   })
-  // }
 
   getConversationsRef () {
     return collection(this.firestore, 'conversations');
