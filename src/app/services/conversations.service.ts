@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Conversation } from '../interfaces/conversation';
-import { addDoc, collection, doc, Firestore, onSnapshot, query } from '@angular/fire/firestore';
+import { addDoc, setDoc, collection, doc, Firestore, onSnapshot, query } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +25,10 @@ export class ConversationsService {
 
   addNewConversation(newConversation: Conversation) {
     addDoc(
-      collection(this.firestore, `conversations/${newConversation.docId}/messages`),
+      collection(this.firestore, 'conversations'),
 
       {
-      docId: newConversation.docId,
+      // docId: newConversation.docId,
       initiatedBy: newConversation.initiatedBy,
       senderAvatar: newConversation.senderAvatar,
       recipientId: newConversation.recipientId,
@@ -80,7 +80,7 @@ export class ConversationsService {
 
   toJsonConversation(obj: any, id?: string): Conversation {
     return {
-      docId: id || "",
+      // docId: id || "",
       initiatedBy: obj.initiatedBy || "",
       senderAvatar: obj.senderAvatar || "",
       recipientAvatar: obj.recipientAvatar || "",

@@ -39,7 +39,7 @@ export class SingleMessageComponent implements OnInit {
   authService = inject(AuthenticationService);
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   constructor(
-    private conversationService: ConversationsService,
+    public conversationService: ConversationsService,
     private userService: UserService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
@@ -61,11 +61,12 @@ export class SingleMessageComponent implements OnInit {
     this.route.children[0].params.subscribe(async (params) => {
       this.conversationService.conversations = [];
       this.userId = params['id'] || '';
-      await this.getConversationChat();
+      this.user = await this.getSingleUser();
+    
       if (this.userId === this.authService.currentUser?.uid) {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
-      this.username = await this.getSingleUser();
+      await this.getConversationChat();
     });
     this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
   }
@@ -90,7 +91,7 @@ async getConversationChat() {
   addMessageText() {
     const newConversation: Conversation = {
       // docId: this.userId,
-      docId: this.conversationId,
+      // docId: this.conversationId,
       initiatedBy: this.authService.currentUser?.displayName!,
       senderAvatar: this.authService.currentUser?.photoURL!,
       recipientId: this.userId,
@@ -120,7 +121,7 @@ async getConversationChat() {
 
   toJsonConversation(obj: any, id?: string): Conversation {
     return {
-      docId: id || '',
+      // docId: id || '',
       initiatedBy: obj.initiatedBy || '',
       senderAvatar: obj.senderAvatar || '',
       recipientAvatar: obj.recipientAvatar || '',
@@ -131,13 +132,13 @@ async getConversationChat() {
     };
   }
 
-  async getSingleUser(): Promise<string | undefined> {
+  async getSingleUser(): Promise<User | undefined> {
     if (this.userId) {
       const userRef = this.userService.getSingleUserRef(this.userId);
       const userDoc = await getDoc(userRef);
       if (userDoc.exists()) {
         this.user = this.userService.toJson(userDoc.data(), userDoc.id);
-        return this.user.username;
+        return this.user;
       } else {
         console.log('No such document!');
         return undefined;

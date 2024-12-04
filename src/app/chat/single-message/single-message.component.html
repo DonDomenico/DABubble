@@ -12,16 +12,47 @@
   </div>
 
   <div class="message-wrapper">
-    <div class="message-content">
-      <!-- {{ hier wird eine Nachricht angezeigt}} -->
+    @for (conversations of conversationService.conversations; track $index) {
+    <div class="divider">
+      <hr class="line" />
+      <span class="date">{{ conversations.messageDate }}</span>
+      <hr class="line" />
     </div>
+
+    <div class="message-content">
+   <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta id nemo dolor tempore expedita ullam nesciunt iusto ipsum sapiente molestias, veniam voluptatibus consectetur dignissimos magni error culpa aut. Dicta, nulla.</p>
+      <div class="single-message-container" >
+        <img src="{{ conversations.senderAvatar }}" class="member-avatar" />
+        <div class="message-content">
+          <div class="name-time" >
+            <span>{{ conversations.initiatedBy }}</span>
+            <p>{{ conversations.timestamp }}</p>
+          </div>
+  
+          <span class="user-message">
+            {{ conversations.senderMessage }}
+        
+          </span>
+          <!-- <div class="answer-time">
+            <p>
+              {{ conversations.answer }}
+            </p>
+            <span>
+              {{ conversations.lastAnswerTime }}
+            </span>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    }
+  </div>
 
     <div class="message-owner" (click)="showProfileDialog(userId)">
       @if(user) {
       <img src="{{ user.photoURL }}" />
       <p>{{ username }}</p>
       }
-    </div>
+   
     @if(!isCurrentUser) {
     <p>
       Diese Unterhaltung findet nur zwischen
@@ -39,10 +70,10 @@
   </div>
 
   <div class="message-box-container">
-    @if(user) {
+    @if(conversations) {
     <textarea
       name="message"
-      placeholder="Nachricht an {{ user.username }}"
+
       [(ngModel)]="conversationMessage"
     ></textarea>
     }

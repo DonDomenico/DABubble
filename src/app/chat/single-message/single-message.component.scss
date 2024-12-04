@@ -11,7 +11,7 @@ section {
   box-shadow: 0 3px 2px -2px rgb(0, 0, 0, 0.2);
   padding: 32px 45px 20px 45px;
   .hearder-content {
-    width: 50%;
+    width: 80%;
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
@@ -41,10 +41,97 @@ section {
   flex-direction: column;
   align-items: flex-start;
   margin-left: 40px;
+
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 16px;
+    .line {
+      flex: 1;
+      border: none;
+      border-top: 1px solid #c1c3e2;
+    }
+    .date {
+      border: 1px solid #c1c3e2;
+      border-radius: 20px;
+      padding: 5px 10px 5px 10px;
+      font-size: 18px;
+      // white-space: nowrap;
+    }
+  }
   .message-content {
     width: 100%;
-    height: 350px;
+    height: 300px;
+    background-color: red;
+    // height: 350px;
+    .single-message-container {
+      width: 70%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 16px;
+      cursor: pointer;
+  
+      > img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50px;
+      }
+      .message-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        .name-time {
+          display: flex;
+          justify-content: flex-start;
+          gap: 20px;
+          > span {
+            font-size: 18px;
+            font-weight: 700;
+          }
+          > p {
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(104, 104, 104, 1);
+          }
+        }
+        > span {
+          background-color: #eceefe;
+          border-radius: 0 30px 30px 30px;
+          padding: 15px;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 24.55px;
+          text-align: left;
+        }
+        .answer-time {
+          display: flex;
+          justify-content: flex-start;
+          gap: 20px;
+          > p {
+            font-size: 18px;
+            font-weight: 400;
+            color: rgba(83, 90, 241, 1);
+            line-height: 19px;
+            cursor: pointer;
+            &:hover {
+              color: #535af1;
+              font-weight: 800;
+            }
+          }
+          > span {
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(104, 104, 104, 1);
+            line-height: 19px;
+          }
+        }
+      }
+    }
   }
+}
   .message-owner {
     display: flex;
     justify-content: flex-start;
@@ -64,7 +151,7 @@ section {
       font-weight: 700;
       line-height: 32.74px;
     }
-  }
+  
   > p {
     font-size: 20px;
     font-weight: 400;

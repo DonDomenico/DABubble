@@ -1,5 +1,5 @@
 export interface Conversation {
-  docId: string;
+  // docId: string;
   initiatedBy: string;
   senderAvatar: string;
   recipientAvatar: string;
