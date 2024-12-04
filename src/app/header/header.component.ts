@@ -6,16 +6,21 @@ import {MatMenuModule} from '@angular/material/menu';
 import { AuthenticationService } from '../services/authentication.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ShowProfileDialogComponent } from '../users/show-profile-dialog/show-profile-dialog.component';
+import { SearchService } from '../services/search.service';
+import { FormsModule } from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatInputModule, MatIconModule, MatMenuModule],
+  imports: [MatToolbarModule, MatInputModule, MatIconModule, MatMenuModule, FormsModule, MatAutocompleteModule, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   authService = inject(AuthenticationService);
+  searchService = inject(SearchService);
 
   constructor(public dialog: MatDialog) {}
 

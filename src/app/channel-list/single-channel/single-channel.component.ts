@@ -70,7 +70,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.channelId = params['id'];
       console.log(this.channelId); //Testcode, später löschen
       await this.getChannelMembers();
-      // await this.getChannelChats();
+      await this.getChannelChats();
       this.unsubSingleChannel = this.subSingleChannel();
       this.unsubMemberInfos = this.subMemberInfos();
       this.unsubChannelChat = this.channelService.subChannelChat(this.channelId);

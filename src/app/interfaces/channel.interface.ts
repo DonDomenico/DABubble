@@ -1,5 +1,5 @@
 export interface Channel {
-id: any|string;
+    id: any | string;
     docId: string;
     name: string;
     description: string;

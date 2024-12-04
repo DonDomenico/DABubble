@@ -20,6 +20,7 @@ export class ChannelService {
   channels: Channel[] = [];
   unsubChannelList: any;
   messages: Message[] = [];
+
   constructor() {
     this.unsubChannelList = this.subChannelList();
   }
@@ -52,6 +53,10 @@ export class ChannelService {
     return collection(this.firestore, 'channels');
   }
 
+  getChannelChatRef(channelId: string) {
+    return collection(this.firestore, `channels/${channelId}/chatText`);
+  }
+
   addText(message: Message) {
     addDoc(
       collection(this.firestore, `channels/${message.channelId}/chatText`),
@@ -69,7 +74,7 @@ export class ChannelService {
   }
 
   subChannelChat(channelId: string) {
-    const channelRef = collection(this.firestore, `channels/${channelId}/chatText`);
+    const channelRef = this.getChannelChatRef(channelId);
     const q = query(channelRef, orderBy('messageDate'), orderBy('userTime'));
     return onSnapshot(q, (list: any) => {
       this.messages = [];
