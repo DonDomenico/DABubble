@@ -9,11 +9,12 @@ import { ShowProfileDialogComponent } from '../users/show-profile-dialog/show-pr
 import { SearchService } from '../services/search.service';
 import { FormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatInputModule, MatIconModule, MatMenuModule, FormsModule, MatAutocompleteModule],
+  imports: [MatToolbarModule, MatInputModule, MatIconModule, MatMenuModule, FormsModule, MatAutocompleteModule, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

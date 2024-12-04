@@ -30,8 +30,22 @@ export class SearchService {
     for (let index = 0; index < this.channelService.channels.length; index++) {
       const channel = this.channelService.channels[index];
 
-      if (channel.description.includes(this.searchText) || channel.name.includes(this.searchText)) {
+      if (channel.description.toLowerCase().includes(this.searchText.toLowerCase()) || channel.name.toLowerCase().includes(this.searchText.toLowerCase())) {
         this.searchResults.push(channel);
+        continue;
+      } else {
+        await this.searchChannelText(channel);
+      }
+    }
+  }
+
+  async searchChannelText(channel: Channel) {
+    for (let index = 0; index < this.channelService.messages.length; index++) {
+      const message = this.channelService.messages[index];
+      
+      if(message.userMessage.toLowerCase().includes(this.searchText.toLowerCase())) {
+        this.searchResults.push(channel);
+        break;
       }
     }
   }
