@@ -65,6 +65,10 @@ export class SingleMessageComponent implements OnInit {
       if (this.userId === this.authService.currentUser?.uid) {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
+      // if(this.authService.currentUser) {
+
+      //   await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
+      // }
       await this.getConversationChat();
       this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
     });
@@ -89,7 +93,16 @@ export class SingleMessageComponent implements OnInit {
     console.log('GOT Conversations', this.conversationService.conversations);
   }
 
+  async createConversation() {
+    if(this.authService.currentUser) {
+
+      await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
+    }
+    this.addMessageText();
+  }
+
   addMessageText() {
+   
     const newConversation: Conversation = {
       id: this.conversationId,
       initiatedBy: this.authService.currentUser?.displayName!,
@@ -100,7 +113,8 @@ export class SingleMessageComponent implements OnInit {
       timestamp: new Date().toLocaleTimeString(),
       messageDate: new Date().toLocaleDateString(),
     };
-    this.conversationService.addNewConversation(newConversation);
+  
+    this.conversationService.addNewConversationMessage(newConversation);
     this.conversationMessage = '';
   }
 
