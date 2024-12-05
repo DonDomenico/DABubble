@@ -16,7 +16,7 @@ import {
 })
 export class ConversationsService {
   unsubConversations: any;
-
+  currentConversationId: string | undefined;
   firestore = inject(Firestore);
   conversations: Conversation[] = [];
 
@@ -28,11 +28,21 @@ export class ConversationsService {
     this.unsubConversations();
   }
 
-  addNewConversation(newConversation: Conversation) {
+  async addNewConversation(senderId: string, recipientId: string) {
+    await addDoc(this.getConversationsRef(), {
+      members: [senderId, recipientId],
+    }).then((doc) => {
+      console.log('Conversation added to database');
+      this.currentConversationId = doc.id;
+    });
+  }
+
+  addNewConversationMessage(newConversation: Conversation) {
+    
     addDoc(
       collection(
         this.firestore,
-        `conversations/${newConversation.id}/messages`
+        `conversations/${this.currentConversationId}/messages`
       ),
       {
         id: newConversation.id,
