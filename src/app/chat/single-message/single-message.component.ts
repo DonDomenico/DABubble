@@ -45,7 +45,7 @@ export class SingleMessageComponent implements OnInit {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private firestore: Firestore
-  ) {}
+  ) { }
 
   userId: string = '';
   user: User | undefined;
@@ -66,10 +66,8 @@ export class SingleMessageComponent implements OnInit {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationChat();
+      this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
     });
-    this.unsubConversationMessages = this.subConversationMessages(
-      this.conversationId
-    );
   }
   ngOnDestroy() {
     this.unsubConversationMessages;
