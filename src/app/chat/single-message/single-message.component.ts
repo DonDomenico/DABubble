@@ -61,7 +61,7 @@ export class SingleMessageComponent implements OnInit {
       this.conversationService.conversations = [];
       this.userId = params['id'] || '';
       this.user = await this.getSingleUser();
-      this.conversationId = params['id'] || '';
+      this.conversationId = params['id'] + this.authService.currentUser?.uid || '';
       if (this.userId === this.authService.currentUser?.uid) {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
@@ -91,6 +91,7 @@ export class SingleMessageComponent implements OnInit {
 
   addMessageText() {
     const newConversation: Conversation = {
+      id: this.conversationId,
       initiatedBy: this.authService.currentUser?.displayName!,
       senderAvatar: this.authService.currentUser?.photoURL!,
       recipientId: this.userId,
@@ -122,6 +123,7 @@ export class SingleMessageComponent implements OnInit {
 
   toJsonConversation(obj: any, id?: string): Conversation {
     return {
+      id: id || obj.id,
       initiatedBy: obj.initiatedBy || '',
       senderAvatar: obj.senderAvatar || '',
       recipientAvatar: obj.recipientAvatar || '',

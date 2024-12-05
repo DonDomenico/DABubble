@@ -32,9 +32,10 @@ export class ConversationsService {
     addDoc(
       collection(
         this.firestore,
-        `conversations/${newConversation.recipientId}/messages`
+        `conversations/${newConversation.id}/messages`
       ),
       {
+        id: newConversation.id,
         initiatedBy: newConversation.initiatedBy,
         senderAvatar: newConversation.senderAvatar,
         recipientId: newConversation.recipientId,
@@ -78,6 +79,7 @@ export class ConversationsService {
 
   toJsonConversation(obj: any, id?: string): Conversation {
     return {
+      id: id || obj.id,
       initiatedBy: obj.initiatedBy || '',
       senderAvatar: obj.senderAvatar || '',
       recipientAvatar: obj.recipientAvatar || '',
