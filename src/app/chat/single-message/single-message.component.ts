@@ -25,6 +25,7 @@ import {
   Firestore,
   onSnapshot,
   query,
+  orderBy,
 } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -44,9 +45,7 @@ export class SingleMessageComponent implements OnInit {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private firestore: Firestore
-  ) {
-
-  }
+  ) {}
 
   userId: string = '';
   user: User | undefined;
@@ -56,42 +55,44 @@ export class SingleMessageComponent implements OnInit {
   conversationMessage: string = '';
   conversationId: string = '';
   unsubConversationMessages: any;
- 
+
   ngOnInit(): void {
     this.route.children[0].params.subscribe(async (params) => {
       this.conversationService.conversations = [];
       this.userId = params['id'] || '';
       this.user = await this.getSingleUser();
-    
+      this.conversationId = params['id'] || '';
       if (this.userId === this.authService.currentUser?.uid) {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationChat();
     });
-    this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
+    this.unsubConversationMessages = this.subConversationMessages(
+      this.conversationId
+    );
   }
   ngOnDestroy() {
     this.unsubConversationMessages;
   }
 
-async getConversationChat() {
-  const q = query(
-    collection(this.firestore, `conversations/${this.conversationId}/messages`),
-  );
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    this.conversationService.conversations.push(
-      this.conversationService.toJsonConversation(doc.data(), doc.id)
+  async getConversationChat() {
+    const q = query(
+      collection(
+        this.firestore,
+        `conversations/${this.conversationId}/messages`
+      )
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      this.conversationService.conversations.push(
+        this.conversationService.toJsonConversation(doc.data(), doc.id)
       );
-      });
-      console.log('GOT Conversations', this.conversationService.conversations);
-}
-
+    });
+    console.log('GOT Conversations', this.conversationService.conversations);
+  }
 
   addMessageText() {
     const newConversation: Conversation = {
-      // docId: this.userId,
-      // docId: this.conversationId,
       initiatedBy: this.authService.currentUser?.displayName!,
       senderAvatar: this.authService.currentUser?.photoURL!,
       recipientId: this.userId,
@@ -105,23 +106,24 @@ async getConversationChat() {
   }
 
   subConversationMessages(conversationId: string) {
-    const conversationRef = collection(
-      this.firestore,
-      `conversations/${conversationId}/messages`
+    const conversationRef =
+      this.conversationService.getSingleConversationRef(conversationId);
+    const q = query(
+      collection(conversationRef, 'messages'),
+      orderBy('messageDate'),
+      orderBy('timestamp')
     );
-    const q = query(conversationRef);
-    return onSnapshot(q, (messageList: any) => {
+    return onSnapshot(q, (list: any) => {
       this.conversations = [];
-      messageList.forEach((doc: any) => {
+      list.forEach((doc: any) => {
         this.conversations.push(this.toJsonConversation(doc.data(), doc.id));
-        console.log('JUHU', this.conversations);
       });
+      console.log('SINGLE CHAT WORKS', this.conversations);
     });
   }
 
   toJsonConversation(obj: any, id?: string): Conversation {
     return {
-      // docId: id || '',
       initiatedBy: obj.initiatedBy || '',
       senderAvatar: obj.senderAvatar || '',
       recipientAvatar: obj.recipientAvatar || '',

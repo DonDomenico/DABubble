@@ -11,8 +11,8 @@
     </div>
   </div>
 
-  <div class="message-wrapper">
-    @for (conversations of conversationService.conversations; track $index) {
+  @for (conversations of conversationService.conversations; track $index) {
+      <div class="message-wrapper">
     <div class="divider">
       <hr class="line" />
       <span class="date">{{ conversations.messageDate }}</span>
@@ -20,7 +20,7 @@
     </div>
 
     <div class="message-content">
-   <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dicta id nemo dolor tempore expedita ullam nesciunt iusto ipsum sapiente molestias, veniam voluptatibus consectetur dignissimos magni error culpa aut. Dicta, nulla.</p>
+  
       <div class="single-message-container" >
         <img src="{{ conversations.senderAvatar }}" class="member-avatar" />
         <div class="message-content">
@@ -44,36 +44,46 @@
         </div>
       </div>
     </div>
-    }
   </div>
+    }
 
-    <div class="message-owner" (click)="showProfileDialog(userId)">
-      @if(user) {
-      <img src="{{ user.photoURL }}" />
-      <p>{{ username }}</p>
-      }
+<div class="input-wrapper">
+
+
+
+    <div class="message-owner-container" (click)="showProfileDialog(userId)">
+      <div class="message-owner-content">
+
+        @if(user) {
+        <img src="{{ user.photoURL }}" />
+        <p>{{ user.username }}</p>
+        }
+      </div>
    
-    @if(!isCurrentUser) {
-    <p>
-      Diese Unterhaltung findet nur zwischen
 
-      <span (click)="showProfileDialog(userId)">&#64; {{ username }}</span>
-      und dir statt.
-    </p>
-    } @if (isCurrentUser) {
-    <p>
-      Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf
-      oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne
-      Dinge mit dir selbst besprechen.
-    </p>
+    @if(!isCurrentUser && user) {
+
+    
+      <p>
+        Diese Unterhaltung findet nur zwischen
+  
+        <span (click)="showProfileDialog(userId)">&#64; {{ user.username }}</span>
+        und dir statt.
+      </p>
+      } @if (isCurrentUser) {
+      <p>
+        Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf
+        oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne
+        Dinge mit dir selbst besprechen.
+      </p>
     }
   </div>
 
   <div class="message-box-container">
-    @if(conversations) {
+    @if(conversations && user) {
     <textarea
       name="message"
-
+placeholder="Nachricht an {{ user.username }}"
       [(ngModel)]="conversationMessage"
     ></textarea>
     }
@@ -87,4 +97,6 @@
       <mat-icon class="send-icon" (click)="addMessageText()">send</mat-icon>
     </div>
   </div>
+
+</div>
 </section>
