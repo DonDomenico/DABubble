@@ -40,6 +40,8 @@ export class SearchService {
   }
 
   async searchChannelText(channel: Channel) {
+    await this.channelService.getChannelChats(channel.id);
+
     for (let index = 0; index < this.channelService.messages.length; index++) {
       const message = this.channelService.messages[index];
       

@@ -73,6 +73,18 @@ export class ChannelService {
     );
   }
 
+  async getChannelChats(channelId: string) {
+    this.messages = [];
+    const q = query(collection(this.firestore, `channels/${channelId}/chatText`), orderBy('messageDate'), orderBy('userTime'));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      this.messages.push(
+        this.toJsonText(doc.data(), doc.id)
+      );
+    });
+    console.log('Channel message: ', this.messages); //Testcode, später löschen
+  }
+
   subChannelChat(channelId: string) {
     const channelRef = this.getChannelChatRef(channelId);
     const q = query(channelRef, orderBy('messageDate'), orderBy('userTime'));
