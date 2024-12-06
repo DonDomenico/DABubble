@@ -59,7 +59,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     private firestore: Firestore,
     private userService: UserService,
     public dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.children[0].params.subscribe(async (params) => {

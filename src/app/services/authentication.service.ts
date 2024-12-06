@@ -14,7 +14,7 @@ import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
 import { UserService } from './users.service';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { getDoc } from '@firebase/firestore';
+import { getDoc, updateDoc } from '@firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +77,8 @@ export class AuthenticationService {
   login(email: string, password: string) {
     signInWithEmailAndPassword(this.firebaseAuth, email, password).then((userCredential) => {
       console.log('Sign in successful | Username: ', userCredential.user.displayName); //Testcode, später löschen
+      let user = this.userService.users.find((user) => user.uid === userCredential.user.uid);
+      this.userService.setStatusActive(user);
       this.router.navigateByUrl('general-view');
     }).catch((error) => {
       if (error.code == 'auth/invalid-credential') {
@@ -92,7 +94,7 @@ export class AuthenticationService {
   // loginFromLocalStorage() {
 
   // }
-
+  
   sendMailResetPassword(email: string) {
     sendPasswordResetEmail(this.firebaseAuth, email)
       .then(() => {
@@ -142,6 +144,7 @@ export class AuthenticationService {
   }
 
   logout() {
+    this.userService.setStatusInactive(this.currentUser);
     signOut(this.firebaseAuth);
     this.currentUser = null;
     this.router.navigateByUrl('');
