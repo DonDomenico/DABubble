@@ -18,16 +18,9 @@ import { Message } from '../interfaces/message.interface';
 export class ChannelService {
   firestore = inject(Firestore);
   channels: Channel[] = [];
-  unsubChannelList: any;
   messages: Message[] = [];
 
-  constructor() {
-    this.unsubChannelList = this.subChannelList();
-  }
-
-  ngOnDestroy() {
-    this.unsubChannelList();
-  }
+  constructor() {}
 
   async saveChannel(
     name: string,
@@ -71,6 +64,16 @@ export class ChannelService {
         isRowReverse: false,
       }
     );
+  }
+
+  async getChannels() {
+    this.channels = [];
+    const q = query(collection(this.firestore, 'channels'));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      this.channels.push(this.toJson(doc.data(), doc.id));
+    })
   }
 
   async getChannelChats(channelId: string) {

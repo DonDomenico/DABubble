@@ -50,6 +50,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubSingleChannel: any;
   unsubMemberInfos: any;
   unsubChannelChat: any;
+  unsubChannels: any;
 
   constructor(
     private authService: AuthenticationService,
@@ -113,17 +114,14 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   subSingleChannel() {
-    return onSnapshot(
-      doc(this.firestore, 'channels', this.channelId),
-      (channel) => {
-        console.log(channel.data());
-        this.channelMembers = [];
-        channel.data()!['member'].forEach((member: User) => {
-          this.channelMembers.push(member);
-        });
-        console.log(this.channelMembers);
-      }
-    );
+    return onSnapshot(doc(this.firestore, 'channels', this.channelId), (channel) => {
+      console.log(channel.data());
+      this.channelMembers = [];
+      channel.data()!['member'].forEach((member: User) => {
+        this.channelMembers.push(member);
+      });
+      console.log(this.channelMembers);
+    });
   }
 
   subMemberInfos() {

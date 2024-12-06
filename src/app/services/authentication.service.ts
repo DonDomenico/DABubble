@@ -143,8 +143,8 @@ export class AuthenticationService {
     })
   }
 
-  logout() {
-    this.userService.setStatusInactive(this.currentUser);
+  async logout() {
+    await this.userService.setStatusInactive(this.currentUser);
     signOut(this.firebaseAuth);
     this.currentUser = null;
     this.router.navigateByUrl('');

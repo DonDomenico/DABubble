@@ -30,16 +30,13 @@ export class SidenavComponent {
   channelName: string = '';
   channelDescription: string = '';
 
-  constructor(private channelService: ChannelService) {
+  constructor(public channelService: ChannelService) {
+    this.channelService.getChannels();
     this.unsubscribeChannels = this.channelService.subChannelList();
   }
 
   ngOnDestroy() {
     this.unsubscribeChannels();
-  }
-
-  getChannelList(): Channel[] {
-    return this.channelService.channels;
   }
 
   addChannelDialog() {
@@ -53,6 +50,4 @@ export class SidenavComponent {
   openMemberList() {
     this.isMemberListHidden = !this.isMemberListHidden;
   }
-
-
 }
