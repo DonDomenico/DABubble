@@ -11,11 +11,8 @@
     </div>
   </div>
 
-  @for (conversations of conversationService.conversations; track $index ) {
-
-      
-  
-      <div class="message-wrapper">
+  @for (conversations of conversations; track $index ) {
+  <div class="message-wrapper">
     <div class="divider">
       <hr class="line" />
       <span class="date">{{ conversations.messageDate }}</span>
@@ -23,18 +20,18 @@
     </div>
 
     <div class="message-content">
-  
-      <div class="single-message-container" >
+
+      <div class="single-message-container">
         <img src="{{ conversations.senderAvatar }}" class="member-avatar" />
         <div class="message-content">
-          <div class="name-time" >
+          <div class="name-time">
             <span>{{ conversations.initiatedBy }}</span>
             <p>{{ conversations.timestamp }}</p>
           </div>
-  
+
           <span class="user-message">
             {{ conversations.senderMessage }}
-        
+
           </span>
           <!-- <div class="answer-time">
             <p>
@@ -48,12 +45,9 @@
       </div>
     </div>
   </div>
-    }
-  
-<div class="input-wrapper">
+  }
 
-
-
+  <div class="input-wrapper">
     <div class="message-owner-container" (click)="showProfileDialog(userId)">
       <div class="message-owner-content">
 
@@ -62,14 +56,11 @@
         <p>{{ user.username }}</p>
         }
       </div>
-   
 
-    @if(!isCurrentUser && user) {
-
-    
+      @if(!isCurrentUser && user) {
       <p>
         Diese Unterhaltung findet nur zwischen
-  
+
         <span (click)="showProfileDialog(userId)">&#64; {{ user.username }}</span>
         und dir statt.
       </p>
@@ -79,27 +70,24 @@
         oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne
         Dinge mit dir selbst besprechen.
       </p>
-    }
-  </div>
-
-  <div class="message-box-container">
-    @if(conversations && user) {
-    <textarea
-      name="message"
-placeholder="Nachricht an {{ user.username }}"
-      [(ngModel)]="conversationMessage"
-    ></textarea>
-    }
-    <div class="message-box">
-      <div class="message-box-icons">
-        <!-- <mat-icon>add</mat-icon>
-        <span class="vertical-line"></span> -->
-        <mat-icon>mood</mat-icon>
-        <mat-icon>alternate_email</mat-icon>
-      </div>
-      <mat-icon class="send-icon" (click)="createConversation()">send</mat-icon>
+      }
     </div>
-  </div>
 
-</div>
+    <div class="message-box-container">
+      @if(conversations && user) {
+      <textarea name="message" placeholder="Nachricht an {{ user.username }}"
+        [(ngModel)]="conversationMessage"></textarea>
+      }
+      <div class="message-box">
+        <div class="message-box-icons">
+          <!-- <mat-icon>add</mat-icon>
+        <span class="vertical-line"></span> -->
+          <mat-icon>mood</mat-icon>
+          <mat-icon>alternate_email</mat-icon>
+        </div>
+        <mat-icon class="send-icon" (click)="createConversation()">send</mat-icon>
+      </div>
+    </div>
+
+  </div>
 </section>

@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { UserService } from './users.service';
 import { ChannelService } from './channel.service';
 import { Channel } from '../interfaces/channel.interface';
-import { Conversation } from '../interfaces/conversation';
 
 @Injectable({
   providedIn: 'root'

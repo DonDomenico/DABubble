@@ -13,7 +13,7 @@ import { ConversationsService } from '../../services/conversations.service';
 // import { UsersComponent } from '../../users/users.component';
 import { UserService } from '../../services/users.service';
 import { User } from '../../users/user.interface';
-import { Conversation } from '../../interfaces/conversation';
+import { DirectMessage } from '../../interfaces/directMessage.interface';
 import { ShowProfileDialogComponent } from '../../users/show-profile-dialog/show-profile-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -52,71 +52,74 @@ export class SingleMessageComponent implements OnInit {
   user: User | undefined;
   isCurrentUser: boolean = false;
   username: string | undefined = '';
-  conversations: Conversation[] = [];
+  conversations: DirectMessage[] = [];
   conversationMessage: string = '';
   conversationId: string = '';
   unsubConversationMessages: any;
 
   ngOnInit(): void {
     this.route.children[0].params.subscribe(async (params) => {
-      this.conversationService.conversations = [];
+      this.conversationId = "";
+      this.conversations = [];
       this.userId = params['id'] || '';
       this.user = await this.getSingleUser();
-      this.conversationId =
-        params['id'] + this.authService.currentUser?.uid || '';
+      await this.getConversationId();
       if (this.userId === this.authService.currentUser?.uid) {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
-      this.unsubConversationMessages = this.subConversationMessages(
-        this.conversationId
-      );
+      this.unsubConversationMessages = this.subConversationMessages();
     });
   }
+
   ngOnDestroy() {
     this.unsubConversationMessages;
   }
 
-  async getConversationChat() {
-    const q = query(
-      collection(
-        this.firestore,
-        `conversations/${this.conversationId}/messages`
-      )
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      this.conversationService.conversations.push(
-        this.conversationService.toJsonConversation(doc.data(), doc.id)
-      );
-    });
-    console.log('GOT Conversations', this.conversationService.conversations);
+  async getConversationId() {
+    if (this.authService.currentUser !== null) {
+      this.conversations = [];
+      const docRef = query(collection(this.firestore, 'conversations'));
+      const querySnapshot = await getDocs(docRef);
+
+      querySnapshot.forEach((doc) => {
+        if (doc.data()['members'].includes(this.userId) && doc.data()['members'].includes(this.authService.currentUser?.uid)) {
+          this.conversationId = doc.id;
+        }
+      })
+    }
   }
 
   async getConversationMessages() {
-    const q = query(collection(this.firestore, 'conversations'),where('members', 'array-contains',this.authService.currentUser?.uid && this.userId));
+    if (this.conversationId !== "") {
+      const q = collection(this.firestore, `conversations/${this.conversationId}/messages`);
+      const querySnapshot = await getDocs(q);
 
-   const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      this.conversations.push(this.toJsonConversation(doc.data(), doc.id));
-    });
-    console.log('SINGLE CHAT WORKS', this.conversations);  
-    
+      querySnapshot.forEach((doc) => {
+        this.conversations.push(this.toJsonDirectMessage(doc.data()));
+        console.log(doc.data());
+      });
+    }
   }
 
   async createConversation() {
     if (this.authService.currentUser) {
-      await this.conversationService.addNewConversation(
-        this.userId,
-        this.authService.currentUser?.uid
-      );
+      await this.conversationService.checkConversationExists(this.authService.currentUser?.uid, this.userId);
+
+      if (!this.conversationService.conversationExists) {
+        await this.conversationService.addNewConversation(
+          this.userId,
+          this.authService.currentUser?.uid
+        );
+        this.addMessageText();
+      } else {
+        this.addMessageText();
+      }
     }
-    this.addMessageText();
   }
 
   addMessageText() {
-    const newConversation: Conversation = {
-      id: this.conversationId,
+    const newDirectMessage: DirectMessage = {
       initiatedBy: this.authService.currentUser?.displayName!,
       senderAvatar: this.authService.currentUser?.photoURL!,
       recipientId: this.userId,
@@ -126,31 +129,25 @@ export class SingleMessageComponent implements OnInit {
       messageDate: new Date().toLocaleDateString(),
     };
 
-    this.conversationService.addNewConversationMessage(newConversation);
+    this.conversationService.addNewConversationMessage(newDirectMessage, this.conversationId);
     this.conversationMessage = '';
   }
 
-  subConversationMessages(conversationId: string) {
-    const conversationRef =
-      this.conversationService.getSingleConversationRef(conversationId);
-    const q = query(
-      collection(conversationRef, 'messages'),where('members', 'array-contains',this.authService.currentUser?.uid && this.userId),
-      orderBy('messageDate'),
-      orderBy('timestamp')
-    );
-    return onSnapshot(q, (list: any) => {
-      this.conversations = [];
-      list.forEach((doc: any) => {
-        this.conversations.push(this.toJsonConversation(doc.data(), doc.id));
+  subConversationMessages() {
+    if (this.conversationId !== "") {
+      const conversationRef = this.conversationService.getSingleConversationRef(this.conversationId);
+      const q = query(collection(conversationRef, 'messages'));
+      return onSnapshot(q, (list: any) => {
+        this.conversations = [];
+        list.forEach((doc: any) => {
+          this.conversations.push(this.toJsonDirectMessage(doc.data()));
+        });
       });
-      console.log('SINGLE CHAT WORKS', this.conversations);
-    });
+    } return undefined;
   }
 
-
-  toJsonConversation(obj: any, id?: string): Conversation {
+  toJsonDirectMessage(obj: any): DirectMessage {
     return {
-      id: id || obj.id,
       initiatedBy: obj.initiatedBy || '',
       senderAvatar: obj.senderAvatar || '',
       recipientAvatar: obj.recipientAvatar || '',
