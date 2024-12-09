@@ -60,6 +60,7 @@ export class SingleMessageComponent implements OnInit {
   ngOnInit(): void {
     this.route.children[0].params.subscribe(async (params) => {
       this.conversationId = "";
+      this.conversationService.conversationExists = false;
       this.conversations = [];
       this.userId = params['id'] || '';
       this.user = await this.getSingleUser();
@@ -129,7 +130,7 @@ export class SingleMessageComponent implements OnInit {
       messageDate: new Date().toLocaleDateString(),
     };
 
-    this.conversationService.addNewConversationMessage(newDirectMessage, this.conversationId);
+    this.conversationService.addNewConversationMessage(newDirectMessage);
     this.conversationMessage = '';
   }
 

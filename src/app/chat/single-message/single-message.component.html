@@ -49,13 +49,13 @@
 
   <div class="input-wrapper">
     <div class="message-owner-container" (click)="showProfileDialog(userId)">
-      <div class="message-owner-content">
+      <!-- <div class="message-owner-content">
 
         @if(user) {
         <img src="{{ user.photoURL }}" />
         <p>{{ user.username }}</p>
         }
-      </div>
+      </div> -->
 
       @if(!isCurrentUser && user) {
       <p>

@@ -26,7 +26,8 @@ export class ConversationsService {
   async addNewConversation(senderId: string, recipientId: string) {
     await addDoc(this.getConversationsRef(), {
       members: [senderId, recipientId],
-    }).then(() => {
+    }).then((doc) => {
+      this.currentConversationId = doc.id;
       console.log('Conversation added to database');
     });
   }
@@ -39,13 +40,14 @@ export class ConversationsService {
     querySnapshot.forEach(doc => {
       if (doc.data()['members'].includes(senderId) && doc.data()['members'].includes(recipientId)) {
         this.conversationExists = true;
+        this.currentConversationId = doc.id;
       }
     });
   }
 
-  addNewConversationMessage(newDirectMessage: DirectMessage, conversationId?: string) {
+  addNewConversationMessage(newDirectMessage: DirectMessage) {
     addDoc(
-      collection(this.firestore, `conversations/${conversationId}/messages`),
+      collection(this.firestore, `conversations/${this.currentConversationId}/messages`),
       {
         initiatedBy: newDirectMessage.initiatedBy,
         senderAvatar: newDirectMessage.senderAvatar,
