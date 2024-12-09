@@ -42,6 +42,19 @@ export class ChannelService {
       });
   }
 
+  // async updateChannelName(channel: any, newChannelName: string) {
+  //   if(channel && channel.docId){
+
+  //     const channelRef = this.getSingleChannelRef(channel.docId);
+  //     await updateDoc(channelRef, this.toJson( channel, newChannelName, channel.description, channel.owner, channel.member));
+  //   }
+  // }
+
+  getSingleChannelRef( channelId: string) {
+    return doc(collection(this.firestore, 'channels'), channelId);
+  }
+
+
   getChannelRef() {
     return collection(this.firestore, 'channels');
   }

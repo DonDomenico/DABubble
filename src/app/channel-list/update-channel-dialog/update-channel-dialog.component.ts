@@ -37,14 +37,18 @@ export class UpdateChannelDialogComponent {
   updateChannelName() {
     this.isChannelNameHidden = !this.isChannelNameHidden;
   }
-  changeChannelName() {
+  async changeChannelName() {
+    const newChannelName = this.channelName;
+    // this.isChannelNameHidden = false;
+  //  await this.channelService.updateChannelName(this.channel.channelId, newChannelName);
     //change->upadate channelName
     console.log('Channel-Name gespeichert');
     this.isChannelNameHidden = false;
 
   }
 
-  updateChannelDescription() {
+  async updateChannelDescription() {
+    const newChannelDescription = this.channelDescription;
     this.isChannelDescriptionHidden = !this.isChannelDescriptionHidden;
   }
   changeChannelDescription() {

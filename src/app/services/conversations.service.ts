@@ -21,12 +21,12 @@ export class ConversationsService {
   conversations: Conversation[] = [];
 
   constructor() {
-    this.unsubConversations = this.subConversations();
+    // this.unsubConversations = this.subConversations();
   }
 
-  ngOnDestroy() {
-    this.unsubConversations();
-  }
+  // ngOnDestroy() {
+  //   this.unsubConversations();
+  // }
 
   async addNewConversation(senderId: string, recipientId: string) {
     await addDoc(this.getConversationsRef(), {
@@ -45,7 +45,7 @@ export class ConversationsService {
         `conversations/${this.currentConversationId}/messages`
       ),
       {
-        id: newConversation.id,
+        // id: newConversation.id,
         initiatedBy: newConversation.initiatedBy,
         senderAvatar: newConversation.senderAvatar,
         recipientId: newConversation.recipientId,
@@ -67,26 +67,26 @@ export class ConversationsService {
 
   getConversationMessagesRef(conversationId: string) {
     // return collection(this.getConversationsRef(), conversationId, 'messages');
-    return collection(this.firestore, `conversations/${conversationId}/messages`);
+    return collection(this.firestore, `conversations/${ this.currentConversationId}/messages`);
   }
 
   // Möglichkeit finden, an den aktuellen Nutzer heranzukommen
   // queryUserConversations = query(this.getConversationsRef(), where('participants', 'array-contains', this.authService.currentUser?.uid));
 
-  subConversations() {
-    return onSnapshot(this.getConversationsRef(), (conversationList) => {
-      this.conversations = [];
-      conversationList.forEach((conversation) => {
-        const currentConversation = conversation.id;
-        console.log(
-          this.toJsonConversation(conversation.data(), currentConversation)
-        );
-        this.conversations.push(
-          this.toJsonConversation(conversation.data(), currentConversation)
-        );
-      });
-    });
-  }
+  // subConversations() {
+  //   return onSnapshot(this.getConversationsRef(), (conversationList) => {
+  //     this.conversations = [];
+  //     conversationList.forEach((conversation) => {
+  //       const currentConversation = conversation.id;
+  //       console.log(
+  //         this.toJsonConversation(conversation.data(), currentConversation)
+  //       );
+  //       this.conversations.push(
+  //         this.toJsonConversation(conversation.data(), currentConversation)
+  //       );
+  //     });
+  //   });
+  // }
 
   toJsonConversation(obj: any, id?: string): Conversation {
     return {

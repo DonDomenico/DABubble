@@ -11,8 +11,8 @@
     </div>
   </div>
 
-  @for (conversations of conversationService.conversations; track conversations.recipientId ) {
-    @if(conversations.recipientId == authService.currentUser?.uid) {
+  @for (conversations of conversationService.conversations; track $index ) {
+
       
   
       <div class="message-wrapper">
@@ -49,7 +49,7 @@
     </div>
   </div>
     }
-  }
+  
 <div class="input-wrapper">
 
 

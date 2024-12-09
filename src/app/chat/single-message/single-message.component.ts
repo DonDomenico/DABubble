@@ -26,6 +26,7 @@ import {
   onSnapshot,
   query,
   orderBy,
+  where,
 } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -66,7 +67,7 @@ export class SingleMessageComponent implements OnInit {
       if (this.userId === this.authService.currentUser?.uid) {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
-      await this.getConversationChat();
+      await this.getConversationMessages();
       this.unsubConversationMessages = this.subConversationMessages(
         this.conversationId
       );
@@ -90,6 +91,17 @@ export class SingleMessageComponent implements OnInit {
       );
     });
     console.log('GOT Conversations', this.conversationService.conversations);
+  }
+
+  async getConversationMessages() {
+    const q = query(collection(this.firestore, 'conversations'),where('members', 'array-contains',this.authService.currentUser?.uid && this.userId));
+
+   const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      this.conversations.push(this.toJsonConversation(doc.data(), doc.id));
+    });
+    console.log('SINGLE CHAT WORKS', this.conversations);  
+    
   }
 
   async createConversation() {
@@ -120,9 +132,9 @@ export class SingleMessageComponent implements OnInit {
 
   subConversationMessages(conversationId: string) {
     const conversationRef =
-      this.conversationService.getConversationMessagesRef(conversationId);
+      this.conversationService.getSingleConversationRef(conversationId);
     const q = query(
-      collection(conversationRef, 'messages'),
+      collection(conversationRef, 'messages'),where('members', 'array-contains',this.authService.currentUser?.uid && this.userId),
       orderBy('messageDate'),
       orderBy('timestamp')
     );
@@ -134,6 +146,7 @@ export class SingleMessageComponent implements OnInit {
       console.log('SINGLE CHAT WORKS', this.conversations);
     });
   }
+
 
   toJsonConversation(obj: any, id?: string): Conversation {
     return {
