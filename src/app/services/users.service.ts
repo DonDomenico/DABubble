@@ -2,7 +2,6 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { onSnapshot } from "firebase/firestore";
 import { addDoc, collection, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
 import { User } from '../users/user.interface';
-import { Conversation } from '../interfaces/conversation';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,6 @@ import { Conversation } from '../interfaces/conversation';
 export class UserService implements OnDestroy {
   firestore = inject(Firestore);
   users: User[] = [];
-  conversations: Conversation[] = [];
   unsubUserList;
 
   constructor() {
@@ -54,18 +52,13 @@ export class UserService implements OnDestroy {
     };
   }
 
-  getColIdFromUser(user: User) {
-    return user?.uid ?? '';
-  }
+  // getColIdFromUser(user: User) {
+  //   return user?.uid ?? '';
+  // }
 
   getUserRef() {
     return collection(this.firestore, 'users');
   }
-
-  // getSingleUser(colId: string, docId: string) {
-
-  //   return doc(collection(this.firestore, colId), docId);
-  // }
 
   getSingleUserRef(uid: string) {
     return doc(this.getUserRef(), uid);
@@ -89,5 +82,17 @@ export class UserService implements OnDestroy {
       photoURL: obj.photoURL || "",
       active: obj.active
     }
+  }
+
+  async setStatusActive(user: any) {
+    await updateDoc(this.getSingleUserRef(user.uid), {
+      active: true
+    })
+  }
+
+  async setStatusInactive(user: any) {
+    await updateDoc(this.getSingleUserRef(user.uid), {
+      active: false
+    })
   }
 }

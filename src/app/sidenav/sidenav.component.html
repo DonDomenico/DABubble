@@ -25,7 +25,7 @@
 
   <div class="dropdown-content">
     <div class="new-channel-container">
-      @for (channel of getChannelList(); track channel.docId) {
+      @for (channel of channelService.channels; track channel.docId) {
         <p [routerLink]="['single-channel/'+ channel.docId]" [state]="{id: channel.docId}" routerLinkActive="active"><mat-icon>tag</mat-icon>{{ channel.name }}</p>
       }
     </div>

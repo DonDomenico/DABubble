@@ -45,7 +45,7 @@ export class SingleMessageComponent implements OnInit {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private firestore: Firestore
-  ) {}
+  ) { }
 
   userId: string = '';
   user: User | undefined;
