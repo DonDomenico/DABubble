@@ -11,7 +11,10 @@
     </div>
   </div>
 
-  @for (conversations of conversationService.conversations; track $index) {
+  @for (conversations of conversationService.conversations; track conversations.recipientId ) {
+    @if(conversations.recipientId == authService.currentUser?.uid) {
+      
+  
       <div class="message-wrapper">
     <div class="divider">
       <hr class="line" />
@@ -46,7 +49,7 @@
     </div>
   </div>
     }
-
+  }
 <div class="input-wrapper">
 
 

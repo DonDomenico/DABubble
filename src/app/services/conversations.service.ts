@@ -66,7 +66,8 @@ export class ConversationsService {
   }
 
   getConversationMessagesRef(conversationId: string) {
-    return collection(this.getConversationsRef(), conversationId, 'messages');
+    // return collection(this.getConversationsRef(), conversationId, 'messages');
+    return collection(this.firestore, `conversations/${conversationId}/messages`);
   }
 
   // Möglichkeit finden, an den aktuellen Nutzer heranzukommen

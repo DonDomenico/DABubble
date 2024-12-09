@@ -23,6 +23,7 @@
   <section>
     <div class="main-chat-container">
       @if (router.url.startsWith('/general-view/single-message/')) {
+   
       <app-single-message></app-single-message>
       } @else if (router.url.startsWith('/general-view/single-channel/')) {
       <app-single-channel></app-single-channel>
@@ -31,7 +32,7 @@
       }
 
     </div>
-    @if(router.url != "/general-view" && !isThreadHidden) {
+    @if(router.url != "/general-view/single-channel/" && !isThreadHidden ) {
     <div class="thread-container">
       <app-thread (toggleThread)="onToggleThread($event)"></app-thread>
     </div>

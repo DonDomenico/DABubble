@@ -61,16 +61,15 @@ export class SingleMessageComponent implements OnInit {
       this.conversationService.conversations = [];
       this.userId = params['id'] || '';
       this.user = await this.getSingleUser();
-      this.conversationId = params['id'] + this.authService.currentUser?.uid || '';
+      this.conversationId =
+        params['id'] + this.authService.currentUser?.uid || '';
       if (this.userId === this.authService.currentUser?.uid) {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
-      // if(this.authService.currentUser) {
-
-      //   await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
-      // }
       await this.getConversationChat();
-      this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
+      this.unsubConversationMessages = this.subConversationMessages(
+        this.conversationId
+      );
     });
   }
   ngOnDestroy() {
@@ -94,15 +93,16 @@ export class SingleMessageComponent implements OnInit {
   }
 
   async createConversation() {
-    if(this.authService.currentUser) {
-
-      await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
+    if (this.authService.currentUser) {
+      await this.conversationService.addNewConversation(
+        this.userId,
+        this.authService.currentUser?.uid
+      );
     }
     this.addMessageText();
   }
 
   addMessageText() {
-   
     const newConversation: Conversation = {
       id: this.conversationId,
       initiatedBy: this.authService.currentUser?.displayName!,
@@ -113,14 +113,14 @@ export class SingleMessageComponent implements OnInit {
       timestamp: new Date().toLocaleTimeString(),
       messageDate: new Date().toLocaleDateString(),
     };
-  
+
     this.conversationService.addNewConversationMessage(newConversation);
     this.conversationMessage = '';
   }
 
   subConversationMessages(conversationId: string) {
     const conversationRef =
-      this.conversationService.getSingleConversationRef(conversationId);
+      this.conversationService.getConversationMessagesRef(conversationId);
     const q = query(
       collection(conversationRef, 'messages'),
       orderBy('messageDate'),
