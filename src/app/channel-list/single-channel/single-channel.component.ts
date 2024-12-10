@@ -88,7 +88,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     return this.channelService.channels;
   }
 
-  getSingleChannel() {
+  getSingleChannel(): Channel | undefined {
     if (this.channelId != undefined) {
       return this.channelService.channels.find((item) => {
         return item.docId == this.channelId;
@@ -158,8 +158,12 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.message = '';
   }
 
-  updateChannel() {
-    this.dialog.open(UpdateChannelDialogComponent);
+  updateChannel(channelId: string) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      channelId: channelId,
+    };
+    this.dialog.open(UpdateChannelDialogComponent, dialogConfig);
   }
 
   addMemberDialog() {

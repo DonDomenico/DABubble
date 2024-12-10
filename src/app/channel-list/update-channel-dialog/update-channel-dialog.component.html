@@ -3,8 +3,9 @@
     <div class="channel-name-container">
       <mat-icon>tag</mat-icon>
       <p>
-        Entwicklerteam
-        <!-- {{ getSingleChannel() }} -->
+  
+        {{ channelName }}
+        <!-- {{ getSingleChannel()?.channelName }} -->
       </p>
     </div>
     <span class="material-symbols-outlined" mat-dialog-close>
@@ -21,7 +22,7 @@
       </div>
       <p>
         # Entwicklerteam
-        {{ channelName }}
+        <!-- {{ getSingleChannel()?.name }} -->
       </p>
     </div>
     } @if (isChannelNameHidden) {
@@ -57,6 +58,7 @@
       <p>Erstellt von</p>
       <span>
         Noah
+        <!-- {{ channel.owner }} -->
         <!-- {{ singleChannel.getSingleChannel()?.owner }} -->
       </span>
     </div>
