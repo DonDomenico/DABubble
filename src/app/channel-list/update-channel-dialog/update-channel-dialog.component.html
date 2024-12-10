@@ -3,7 +3,11 @@
     <div class="channel-name-container">
       <mat-icon>tag</mat-icon>
       <p>
+        @if(!editName) {
         {{ channel?.name }}
+        } @else {
+       # {{ newChannelName }}
+        }
       </p>
     </div>
     <span class="material-symbols-outlined" mat-dialog-close>
@@ -18,15 +22,20 @@
         <p>Channel-Name</p>
         <span (click)="updateChannelName()">Bearbeiten</span>
       </div>
-      <p># {{ channel?.name }}</p>
+      <p>
+        @if(!editName) {
+        # {{ channel?.name }}
+        } @else {
+        # {{ newChannelName }}}
+      </p>
     </div>
     } @if (isChannelNameHidden) {
     <div class="channel-name-wrapper">
       <div class="first-line">
         <p>Channel-Name</p>
-        <span (click)="changeChannelName()">Speichern</span>
+        <span (click)="changeChannelName(channel, newChannelName)">Speichern</span>
       </div>
-      <input type="text" />
+      <input type="text" [(ngModel)]="newChannelName" name="newChannelName"/>
     </div>
     }
   </div>
@@ -38,14 +47,19 @@
       <span (click)="updateChannelDescription()">Bearbeiten</span>
     </div>
     <span>
-      {{ channel?.description }}
+
+      @if(!edit) {
+          {{ channel?.description }}
+        } @else {
+         {{ newChannelDescription }}
+        }
     </span>
     } @if (isChannelDescriptionHidden) {
     <div class="first-line">
       <p>Beschreibung</p>
-      <span (click)="changeChannelDescription()">Speichern</span>
+      <span (click)="changeChannelDescription(channel, newChannelDescription)">Speichern</span>
     </div>
-    <input class="change-description-input" type="text" />
+    <input class="change-description-input" type="text" [(ngModel)]="newChannelDescription" name="newChannelDescription"/>
     }
     <hr />
     <div class="owner-wrapper">

@@ -10,13 +10,19 @@ import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { ActivatedRoute } from '@angular/router';
 import { SingleChannelComponent } from '../single-channel/single-channel.component';
-import { getDoc } from '@angular/fire/firestore';
-
+import { getDoc, updateDoc } from '@angular/fire/firestore';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-update-channel-dialog',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatDialogClose, SingleChannelComponent],
+  imports: [
+    MatIconModule,
+    MatDialogModule,
+    MatDialogClose,
+    SingleChannelComponent,
+    FormsModule,
+  ],
   templateUrl: './update-channel-dialog.component.html',
   styleUrl: './update-channel-dialog.component.scss',
 })
@@ -27,6 +33,10 @@ export class UpdateChannelDialogComponent {
   channel: Channel | undefined;
   channelName: string = '';
   channelDescription: string = '';
+  newChannelName: string = '';
+  newChannelDescription: string = '';
+  editName = false;
+  edit = false;
 
   constructor(
     public channelService: ChannelService,
@@ -36,23 +46,26 @@ export class UpdateChannelDialogComponent {
   ) {}
 
   async ngOnInit() {
-    this.channelId = this.data.channelId; 
+    this.channelId = this.data.channelId;
     console.log('Channel ID:', this.channelId);
     this.channel = await this.getSingleChannel();
- 
   }
 
   getChannelList(): Channel[] {
     return this.channelService.channels;
   }
 
-
   async getSingleChannel(): Promise<Channel | undefined> {
     if (this.channelId != undefined) {
-     const channelRef = this.channelService.getSingleChannelRef(this.channelId);
+      const channelRef = this.channelService.getSingleChannelRef(
+        this.channelId
+      );
       const channelSnapshot = await getDoc(channelRef);
       if (channelSnapshot.exists()) {
-        return this.channelService.toJson(channelSnapshot.data(), channelSnapshot.id);
+        return this.channelService.toJson(
+          channelSnapshot.data(),
+          channelSnapshot.id
+        );
       } else {
         console.log('No such document!');
         return undefined;
@@ -62,27 +75,54 @@ export class UpdateChannelDialogComponent {
     }
   }
 
-  
-
   updateChannelName() {
     this.isChannelNameHidden = !this.isChannelNameHidden;
   }
-  async changeChannelName() {
-    const newChannelName = this.channelName;
-    // this.isChannelNameHidden = false;
-    //  await this.channelService.updateChannelName(this.channel.channelId, newChannelName);
-    //change->upadate channelName
-    console.log('Channel-Name gespeichert');
+
+  async changeChannelName(channel: any, newChannelName: string) {
+    if(channel && channel.docId){
+          const channelRef = this.channelService.getSingleChannelRef(channel.docId);
+          await updateDoc(channelRef, this.channelService.toJsonNewName( channel, newChannelName, channel.description, channel.owner, channel.member));
+        }
+        this.editName = true;
     this.isChannelNameHidden = false;
+    await this.getNewChannelName();
+   
   }
 
-  async updateChannelDescription() {
-    const newChannelDescription = this.channelDescription;
+  async getNewChannelName() {
+    if (this.channelId != undefined) {
+      const channelRef = this.channelService.getSingleChannelRef(
+        this.channelId
+      );
+      const channelSnapshot = await getDoc(channelRef);
+      if (channelSnapshot.exists()) {
+        return this.channelService.toJson(
+          channelSnapshot.data(),
+          channelSnapshot.id
+        );
+      } else {
+        console.log('No such document!');
+        return undefined;
+      }
+    } else {
+      return this.channelService.channels[0];
+    }
+  }
+
+  updateChannelDescription() {
     this.isChannelDescriptionHidden = !this.isChannelDescriptionHidden;
   }
-  changeChannelDescription() {
-    //change->upadate channelDescription
+
+  async changeChannelDescription(channel: any, newChannelDescription: string) {
+    if(channel && channel.docId){
+      const channelRef = this.channelService.getSingleChannelRef(channel.docId);
+      await updateDoc(channelRef, this.channelService.toJsonNewDescription( channel, channel.name, newChannelDescription, channel.owner, channel.member));
+    }
+    this.edit = true;
+
     console.log('Channel-Description gespeichert');
     this.isChannelDescriptionHidden = false;
+    await this.getNewChannelName();
   }
 }

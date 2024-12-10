@@ -4,7 +4,6 @@ import {
   MatDialog,
   MatDialogActions,
   MatDialogClose,
-  MatDialogContent,
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +21,6 @@ import { AuthenticationService } from '../../services/authentication.service';
     MatIconModule,
     MatDialogModule,
     MatDialogTitle,
-    MatDialogContent,
     MatDialogActions,
     MatDialogClose,
     MatButtonModule,

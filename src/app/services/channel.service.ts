@@ -1,5 +1,12 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
-import { getDoc, getDocs, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
+import {
+  getDoc,
+  getDocs,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from 'firebase/firestore';
 import {
   addDoc,
   collection,
@@ -42,18 +49,9 @@ export class ChannelService {
       });
   }
 
-  // async updateChannelName(channel: any, newChannelName: string) {
-  //   if(channel && channel.docId){
-
-  //     const channelRef = this.getSingleChannelRef(channel.docId);
-  //     await updateDoc(channelRef, this.toJson( channel, newChannelName, channel.description, channel.owner, channel.member));
-  //   }
-  // }
-
-  getSingleChannelRef( channelId: string) {
+  getSingleChannelRef(channelId: string) {
     return doc(collection(this.firestore, 'channels'), channelId);
   }
-
 
   getChannelRef() {
     return collection(this.firestore, 'channels');
@@ -86,17 +84,19 @@ export class ChannelService {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       this.channels.push(this.toJson(doc.data(), doc.id));
-    })
+    });
   }
 
   async getChannelChats(channelId: string) {
     this.messages = [];
-    const q = query(collection(this.firestore, `channels/${channelId}/chatText`), orderBy('messageDate'), orderBy('userTime'));
+    const q = query(
+      collection(this.firestore, `channels/${channelId}/chatText`),
+      orderBy('messageDate'),
+      orderBy('userTime')
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      this.messages.push(
-        this.toJsonText(doc.data(), doc.id)
-      );
+      this.messages.push(this.toJsonText(doc.data(), doc.id));
     });
     console.log('Channel message: ', this.messages); //Testcode, später löschen
   }
@@ -135,7 +135,7 @@ export class ChannelService {
     };
   }
 
-  toJson(obj: any, id: string): Channel {
+  toJson(obj: any, id: string, description?: any, owner?: any, member?: any): Channel {
     return {
       id,
       docId: id,
@@ -143,6 +143,28 @@ export class ChannelService {
       description: obj.description,
       owner: obj.owner,
       member: obj.member,
+    };
+  }
+
+  toJsonNewName(channel: Channel, newChannelName: string, description?: string, owner?: string, member?: string[]): { [key: string]: any } {
+    return {
+      // id: channel.id,
+      // docId: channel.docId,
+      name: newChannelName,
+      description: description || channel.description,
+      owner: owner || channel.owner,
+      member: member || channel.member,
+    };
+  }
+
+  toJsonNewDescription(channel: Channel, name: string, newChannelDescription: string, owner?: string, member?: string[]): { [key: string]: any } {
+    return {
+      // id: channel.id,
+      // docId: channel.docId,
+      name: name || channel.name,
+      description: newChannelDescription,
+      owner: owner || channel.owner,
+      member: member || channel.member,
     };
   }
 }
