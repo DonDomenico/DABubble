@@ -1,5 +1,4 @@
-export interface Conversation {
-  id: any | string;
+export interface DirectMessage {
   initiatedBy: string;
   senderAvatar: string;
   recipientAvatar: string;
@@ -7,5 +6,4 @@ export interface Conversation {
   senderMessage: string;
   timestamp: string;
   messageDate: string;
-
 }

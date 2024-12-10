@@ -8,7 +8,7 @@ import {
   MatDialogModule,
 } from '@angular/material/dialog';
 import { AddMemberDialogComponent } from '../add-member-dialog/add-member-dialog.component';
-import { Conversation } from '../../interfaces/conversation';
+import { DirectMessage } from '../../interfaces/directMessage.interface';
 import { Message } from '../../interfaces/message.interface';
 import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
@@ -41,7 +41,7 @@ import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './single-channel.component.scss',
 })
 export class SingleChannelComponent implements OnInit, OnDestroy {
-  conversationList: Conversation[] = [];
+  conversationList: DirectMessage[] = [];
   message = '';
   channelId: string = '';
   currentChannel: any;
@@ -138,9 +138,9 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     });
   }
 
-  getConversationList(): Conversation[] {
-    return this.conversationService.conversations;
-  }
+  // getConversationList(): Conversation[] {
+  //   return this.conversations;
+  // }
 
   addMessage() {
     const newMessage: Message = {

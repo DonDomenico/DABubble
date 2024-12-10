@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { Conversation } from '../interfaces/conversation';
+import { DirectMessage } from '../interfaces/directMessage.interface';
 import {
   addDoc,
-  setDoc,
   collection,
   doc,
   Firestore,
-  onSnapshot,
   query,
-  orderBy,
+  getDocs,
 } from '@angular/fire/firestore';
 
 @Injectable({
@@ -18,41 +16,46 @@ export class ConversationsService {
   unsubConversations: any;
   currentConversationId: string | undefined;
   firestore = inject(Firestore);
-  conversations: Conversation[] = [];
+  conversationExists: boolean = false;
+  // conversations: Conversation[] = [];
 
   constructor() {
-    // this.unsubConversations = this.subConversations();
-  }
 
-  // ngOnDestroy() {
-  //   this.unsubConversations();
-  // }
+  }
 
   async addNewConversation(senderId: string, recipientId: string) {
     await addDoc(this.getConversationsRef(), {
       members: [senderId, recipientId],
     }).then((doc) => {
-      console.log('Conversation added to database');
       this.currentConversationId = doc.id;
+      console.log('Conversation added to database');
     });
   }
 
-  addNewConversationMessage(newConversation: Conversation) {
-    
+  // if a conversation between two persons already exists, don't create a new one
+  async checkConversationExists(senderId: string, recipientId: string) {
+    const q = query(this.getConversationsRef());
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach(doc => {
+      if (doc.data()['members'].includes(senderId) && doc.data()['members'].includes(recipientId)) {
+        this.conversationExists = true;
+        this.currentConversationId = doc.id;
+      }
+    });
+  }
+
+  addNewConversationMessage(newDirectMessage: DirectMessage) {
     addDoc(
-      collection(
-        this.firestore,
-        `conversations/${this.currentConversationId}/messages`
-      ),
+      collection(this.firestore, `conversations/${this.currentConversationId}/messages`),
       {
-        // id: newConversation.id,
-        initiatedBy: newConversation.initiatedBy,
-        senderAvatar: newConversation.senderAvatar,
-        recipientId: newConversation.recipientId,
-        recipientAvatar: newConversation.recipientAvatar,
-        senderMessage: newConversation.senderMessage,
-        timestamp: newConversation.timestamp,
-        messageDate: newConversation.messageDate,
+        initiatedBy: newDirectMessage.initiatedBy,
+        senderAvatar: newDirectMessage.senderAvatar,
+        recipientId: newDirectMessage.recipientId,
+        recipientAvatar: newDirectMessage.recipientAvatar,
+        senderMessage: newDirectMessage.senderMessage,
+        timestamp: newDirectMessage.timestamp,
+        messageDate: newDirectMessage.messageDate,
       }
     );
   }
@@ -65,13 +68,10 @@ export class ConversationsService {
     return doc(this.getConversationsRef(), conversationId);
   }
 
-  getConversationMessagesRef(conversationId: string) {
-    // return collection(this.getConversationsRef(), conversationId, 'messages');
-    return collection(this.firestore, `conversations/${ this.currentConversationId}/messages`);
-  }
-
-  // Möglichkeit finden, an den aktuellen Nutzer heranzukommen
-  // queryUserConversations = query(this.getConversationsRef(), where('participants', 'array-contains', this.authService.currentUser?.uid));
+  // getConversationMessagesRef(conversationId: string) {
+  //   return collection(this.getConversationsRef(), conversationId, 'messages');
+  //   // return collection(this.firestore, `conversations/${ this.currentConversationId}/messages`);
+  // }
 
   // subConversations() {
   //   return onSnapshot(this.getConversationsRef(), (conversationList) => {
@@ -88,16 +88,15 @@ export class ConversationsService {
   //   });
   // }
 
-  toJsonConversation(obj: any, id?: string): Conversation {
-    return {
-      id: id || obj.id,
-      initiatedBy: obj.initiatedBy || '',
-      senderAvatar: obj.senderAvatar || '',
-      recipientAvatar: obj.recipientAvatar || '',
-      recipientId: obj.recipientId || '',
-      senderMessage: obj.senderMessage || '',
-      timestamp: obj.timestamp || '',
-      messageDate: obj.messageDate || '',
-    };
-  }
+  // toJsonDirectMessage(obj: any): DirectMessage {
+  //   return {
+  //     initiatedBy: obj.initiatedBy || '',
+  //     senderAvatar: obj.senderAvatar || '',
+  //     recipientAvatar: obj.recipientAvatar || '',
+  //     recipientId: obj.recipientId || '',
+  //     senderMessage: obj.senderMessage || '',
+  //     timestamp: obj.timestamp || '',
+  //     messageDate: obj.messageDate || '',
+  //   };
+  // }
 }
