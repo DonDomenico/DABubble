@@ -33,6 +33,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class CreateChannelDialogComponent {
   @Output() newChannelEvent = new EventEmitter<string>();
   authService = inject(AuthenticationService);
+
   constructor(
     private channelService: ChannelService,
     private dialog: MatDialog
@@ -40,7 +41,6 @@ export class CreateChannelDialogComponent {
 
   name = '';
   description = '';
-
   addChannel() {
     let currentUser = this.authService.currentUser;
     let channel: Channel = {
@@ -48,7 +48,9 @@ export class CreateChannelDialogComponent {
       docId: '',
       name: this.name,
       description: this.description,
-      owner: currentUser?.uid ?? '',
+      // owner: currentUser?.uid ?? '',
+      owner: currentUser?.displayName ?? '',
+
       member: [currentUser?.uid ?? '']
   }; 
     this.channelService.saveChannel(

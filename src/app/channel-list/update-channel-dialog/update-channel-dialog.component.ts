@@ -10,6 +10,8 @@ import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { ActivatedRoute } from '@angular/router';
 import { SingleChannelComponent } from '../single-channel/single-channel.component';
+import { getDoc } from '@angular/fire/firestore';
+
 
 @Component({
   selector: 'app-update-channel-dialog',
@@ -22,6 +24,7 @@ export class UpdateChannelDialogComponent {
   isChannelNameHidden = false;
   isChannelDescriptionHidden = false;
   channelId: string = '';
+  channel: Channel | undefined;
   channelName: string = '';
   channelDescription: string = '';
 
@@ -32,9 +35,10 @@ export class UpdateChannelDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.channelId = this.data.channelId; 
     console.log('Channel ID:', this.channelId);
+    this.channel = await this.getSingleChannel();
  
   }
 
@@ -43,15 +47,22 @@ export class UpdateChannelDialogComponent {
   }
 
 
-  async getSingleChannel() {
+  async getSingleChannel(): Promise<Channel | undefined> {
     if (this.channelId != undefined) {
-      return this.channelService.channels.find((item) => {
-        return item.docId == this.channelId;
-      });
+     const channelRef = this.channelService.getSingleChannelRef(this.channelId);
+      const channelSnapshot = await getDoc(channelRef);
+      if (channelSnapshot.exists()) {
+        return this.channelService.toJson(channelSnapshot.data(), channelSnapshot.id);
+      } else {
+        console.log('No such document!');
+        return undefined;
+      }
     } else {
       return this.channelService.channels[0];
     }
   }
+
+  
 
   updateChannelName() {
     this.isChannelNameHidden = !this.isChannelNameHidden;

@@ -3,9 +3,7 @@
     <div class="channel-name-container">
       <mat-icon>tag</mat-icon>
       <p>
-  
-        {{ channelName }}
-        <!-- {{ getSingleChannel()?.channelName }} -->
+        {{ channel?.name }}
       </p>
     </div>
     <span class="material-symbols-outlined" mat-dialog-close>
@@ -20,10 +18,7 @@
         <p>Channel-Name</p>
         <span (click)="updateChannelName()">Bearbeiten</span>
       </div>
-      <p>
-        # Entwicklerteam
-        <!-- {{ getSingleChannel()?.name }} -->
-      </p>
+      <p># {{ channel?.name }}</p>
     </div>
     } @if (isChannelNameHidden) {
     <div class="channel-name-wrapper">
@@ -43,8 +38,7 @@
       <span (click)="updateChannelDescription()">Bearbeiten</span>
     </div>
     <span>
-      Dieser Channel ist für alles!
-      {{ channelDescription }}
+      {{ channel?.description }}
     </span>
     } @if (isChannelDescriptionHidden) {
     <div class="first-line">
@@ -57,9 +51,7 @@
     <div class="owner-wrapper">
       <p>Erstellt von</p>
       <span>
-        Noah
-        <!-- {{ channel.owner }} -->
-        <!-- {{ singleChannel.getSingleChannel()?.owner }} -->
+        {{ channel?.owner }}
       </span>
     </div>
   </div>
