@@ -2,9 +2,7 @@ import { Component, Inject, Input, Output } from '@angular/core';
 import {MatDialogModule,  MatDialog,
   MatDialogActions,
   MatDialogClose,
-  MatDialogContent,
   MatDialogTitle,
-  MatDialogRef,
   MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -12,12 +10,13 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { MatFormField } from '@angular/material/form-field';
 import { UserService } from '../../services/users.service';
 import { addDoc, doc, Firestore, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
-import { arrayUnion, collection, documentId } from '@firebase/firestore';
-
+import { arrayUnion, collection, documentId, getDoc } from '@firebase/firestore';
+import { ChannelService } from '../../services/channel.service';
+import { Channel } from '../../interfaces/channel.interface';
 @Component({
   selector: 'app-add-member-dialog',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule, FormsModule, MatFormField, FormsModule, ReactiveFormsModule],
+  imports: [MatIconModule, MatDialogModule, MatDialogTitle, MatDialogActions, MatDialogClose, MatButtonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './add-member-dialog.component.html',
   styleUrl: './add-member-dialog.component.scss'
 })
@@ -27,7 +26,18 @@ export class AddMemberDialogComponent {
   userFound: boolean = false;
   userNotFound: boolean = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private userService: UserService, private firestore: Firestore) {}
+  channelId: string = '';
+  channel: Channel | undefined;
+  channelName: string = '';
+
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private userService: UserService, private firestore: Firestore, public channelService: ChannelService, private dialog: MatDialog) {}
+
+  async ngOnInit() {
+    this.channelId = this.data.channelId;
+    this.channel = await this.getSingleChannel();
+  }
+
 
   async addMember() {
     console.log(this.user);
@@ -38,10 +48,12 @@ export class AddMemberDialogComponent {
       await this.getUserId();
       await this.addUserToChannel();
       // show success message
+      this.dialog.closeAll();
     } else {
       console.log('User not found');
       // show failure message
     }
+    
   }
 
   async userInDatabase() {
@@ -72,5 +84,25 @@ export class AddMemberDialogComponent {
     await updateDoc(doc(this.firestore, "channels", this.data.channelId), {
       member: arrayUnion(this.userId)
     });
+  }
+
+  async getSingleChannel(): Promise<Channel | undefined> {
+    if (this.channelId != undefined) {
+      const channelRef = this.channelService.getSingleChannelRef(
+        this.channelId
+      );
+      const channelSnapshot = await getDoc(channelRef);
+      if (channelSnapshot.exists()) {
+        return this.channelService.toJson(
+          channelSnapshot.data(),
+          channelSnapshot.id
+        );
+      } else {
+        console.log('No such document!');
+        return undefined;
+      }
+    } else {
+      return this.channelService.channels[0];
+    }
   }
 }

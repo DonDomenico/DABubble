@@ -9,7 +9,6 @@ import {
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { ActivatedRoute } from '@angular/router';
-import { SingleChannelComponent } from '../single-channel/single-channel.component';
 import { getDoc, updateDoc } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 
@@ -20,7 +19,6 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     MatDialogModule,
     MatDialogClose,
-    SingleChannelComponent,
     FormsModule,
   ],
   templateUrl: './update-channel-dialog.component.html',
@@ -47,7 +45,6 @@ export class UpdateChannelDialogComponent {
 
   async ngOnInit() {
     this.channelId = this.data.channelId;
-    console.log('Channel ID:', this.channelId);
     this.channel = await this.getSingleChannel();
   }
 

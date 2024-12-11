@@ -138,10 +138,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     });
   }
 
-  // getConversationList(): Conversation[] {
-  //   return this.conversations;
-  // }
-
   addMessage() {
     const newMessage: Message = {
       channelId: this.channelId,

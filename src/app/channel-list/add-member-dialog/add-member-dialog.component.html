@@ -7,7 +7,9 @@
   </div>
 
   <div class="user-input">
-    <p># Entwicklerteam</p>
+    <p># 
+      {{ channel?.name }}
+    </p>
     <input type="text" [(ngModel)]="user" >
 
     <!-- eleganter Lösen, z.B. mit Formbuilder. Damit die Anzeige dynamisch ist -->
