@@ -3,7 +3,7 @@
     <div class="hearder-content" (click)="showProfileDialog(userId)">
       @if(user) {
       <img src="{{ user.photoURL }}" />
-      <p>{{ user.username }}</p>
+      <p>{{ user.username }} </p>
       } @else if(authService.currentUser) {
       <img src="{{ authService.currentUser.photoURL }}" />
       <p>{{ authService.currentUser.displayName }} (Du)</p>

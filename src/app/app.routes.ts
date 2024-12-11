@@ -16,6 +16,7 @@ export const routes: Routes = [
     { path: "general-view", component: GeneralViewComponent,
       children: [
         { path: "single-channel/:id", component: SingleChannelComponent },
-        { path: "single-message/:id", component: SingleMessageComponent }
+        { path: "single-message/:id", component: SingleMessageComponent },
+        { path: "channel-list", component: ChatComponent }
       ]}
     ];

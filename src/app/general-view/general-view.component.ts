@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { SingleMessageComponent } from '../chat/single-message/single-message.component';
 import { SingleChannelComponent } from '../channel-list/single-channel/single-channel.component';
+import { ChannelListComponent } from '../channel-list/channel-list.component';
 
 @Component({
   selector: 'app-general-view',
@@ -20,7 +21,7 @@ import { SingleChannelComponent } from '../channel-list/single-channel/single-ch
     SidenavComponent,
     ThreadComponent,
     MatSidenavModule,
-
+    ChannelListComponent,
     SingleMessageComponent,
     SingleChannelComponent,
   ],

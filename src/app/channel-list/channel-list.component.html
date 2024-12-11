@@ -1,3 +1,30 @@
 <section>
+    <div class="chat-header">
+      <div class="hearder-content">
+        <p>Neue Nachricht</p>
+        <input type="text" placeholder="An: @jemand oder E-Mail Adresse">
+       
+      </div>
+    </div>
   
-</section>
+   
+  
+  
+      <div class="message-box-container">
+        <!-- @if(conversationMessages && user) { -->
+        <textarea name="message" placeholder="Starte eine neue Nachricht"
+          ></textarea>
+        <!-- } -->
+        <div class="message-box">
+          <div class="message-box-icons">
+            <!-- <mat-icon>add</mat-icon>
+          <span class="vertical-line"></span> -->
+            <mat-icon>mood</mat-icon>
+            <mat-icon>alternate_email</mat-icon>
+          </div>
+          <mat-icon class="send-icon" >send</mat-icon>
+        </div>
+      </div>
+  
+    <!-- </div> -->
+  </section>
