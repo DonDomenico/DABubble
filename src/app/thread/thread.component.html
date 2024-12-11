@@ -1,17 +1,14 @@
-
-
-  <section>
-    <div class="thread-header">
-      <div class="left-side">
-        <p>Thread</p>
-        <mat-icon>tag</mat-icon>
-        <span>Entwicklerteam</span>
-      </div>
-  
-      <mat-icon (click)="closeThread()">close</mat-icon>
-      <!-- <mat-icon  (toggleThread)="drawerThread.toggle()">close</mat-icon> -->
-     
+<section>
+  <div class="thread-header">
+    <div class="left-side">
+      <p>Thread</p>
+      <mat-icon>tag</mat-icon>
+      <span
+        >Entwicklerteam
+        {{ channel?.name }}
+      </span>
     </div>
-  </section>
 
-
+    <mat-icon (click)="closeThread()">close</mat-icon>
+  </div>
+</section>
