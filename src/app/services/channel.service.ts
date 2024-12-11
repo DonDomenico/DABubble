@@ -26,7 +26,7 @@ export class ChannelService {
   firestore = inject(Firestore);
   channels: Channel[] = [];
   messages: Message[] = [];
-
+  channelId: string = '';
   constructor() {}
 
   async saveChannel(
@@ -39,7 +39,7 @@ export class ChannelService {
       name: name,
       description: description,
       owner: ownerId,
-      member: [ownerId],
+      member: member,
     })
       .then(() => {
         console.log('Channel added to database');
@@ -48,6 +48,26 @@ export class ChannelService {
         console.error(err);
       });
   }
+
+  // async getSingleChannel(): Promise<Channel | undefined> {
+  //   if (this.channelId != undefined) {
+  //     const channelRef = this.getSingleChannelRef(
+  //       this.channelId
+  //     );
+  //     const channelSnapshot = await getDoc(channelRef);
+  //     if (channelSnapshot.exists()) {
+  //       return this.toJson(
+  //         channelSnapshot.data(),
+  //         channelSnapshot.id
+  //       );
+  //     } else {
+  //       console.log('No such document!');
+  //       return undefined;
+  //     }
+  //   } else {
+  //     return this.channels[0];
+  //   }
+  // }
 
   getSingleChannelRef(channelId: string) {
     return doc(collection(this.firestore, 'channels'), channelId);

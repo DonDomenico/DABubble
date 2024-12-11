@@ -29,7 +29,7 @@ import { SingleChannelComponent } from '../channel-list/single-channel/single-ch
 })
 export class GeneralViewComponent {
   constructor(public router: Router) {}
-  isThreadHidden: boolean = false;
+  isThreadHidden: boolean = true;
 
   // ngOnInit() {
   //   this.checkUrlAndSetThreadVisibility();
@@ -40,8 +40,10 @@ export class GeneralViewComponent {
   }
 
   // checkUrlAndSetThreadVisibility() {
-  //   if (this.router.url.startsWith('/general-view/single-message/') ) {
+  //   if (this.router.url.startsWith('*/general-view/single-channel/') ) {
+  //     this.isThreadHidden = false;
+  //   } if (this.router.url.startsWith('./general-view/single-message/')) {
   //     this.isThreadHidden = true;
-  //   } 
+  //   }
   // }
 }
