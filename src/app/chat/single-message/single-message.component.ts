@@ -52,16 +52,17 @@ export class SingleMessageComponent implements OnInit {
   user: User | undefined;
   isCurrentUser: boolean = false;
   username: string | undefined = '';
-  conversations: DirectMessage[] = [];
+  conversationMessages: DirectMessage[] = [];
   conversationMessage: string = '';
   conversationId: string = '';
+  unsubConversations: any;
   unsubConversationMessages: any;
 
   ngOnInit(): void {
     this.route.children[0].params.subscribe(async (params) => {
       this.conversationId = "";
       this.conversationService.conversationExists = false;
-      this.conversations = [];
+      this.conversationMessages = [];
       this.userId = params['id'] || '';
       this.user = await this.getSingleUser();
       await this.getConversationId();
@@ -69,17 +70,19 @@ export class SingleMessageComponent implements OnInit {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
+      // this.unsubConversations = this.subConversations();
       this.unsubConversationMessages = this.subConversationMessages();
     });
   }
 
   ngOnDestroy() {
-    this.unsubConversationMessages;
+    this.unsubConversationMessages();
+    // this.unsubConversations();
   }
 
   async getConversationId() {
     if (this.authService.currentUser !== null) {
-      this.conversations = [];
+      this.conversationMessages = [];
       const docRef = query(collection(this.firestore, 'conversations'));
       const querySnapshot = await getDocs(docRef);
 
@@ -93,11 +96,11 @@ export class SingleMessageComponent implements OnInit {
 
   async getConversationMessages() {
     if (this.conversationId !== "") {
-      const q = collection(this.firestore, `conversations/${this.conversationId}/messages`);
+      const q = query(collection(this.firestore, `conversations/${this.conversationId}/messages`), orderBy("messageDate", "desc"), orderBy("timestamp"));
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        this.conversations.push(this.toJsonDirectMessage(doc.data()));
+        this.conversationMessages.push(this.toJsonDirectMessage(doc.data()));
         console.log(doc.data());
       });
     }
@@ -134,14 +137,20 @@ export class SingleMessageComponent implements OnInit {
     this.conversationMessage = '';
   }
 
+  subConversations() {
+    const conversationRef = this.conversationService.getSingleConversationRef(this.conversationId);
+
+    return onSnapshot(conversationRef, () => {});
+  }
+
   subConversationMessages() {
     if (this.conversationId !== "") {
       const conversationRef = this.conversationService.getSingleConversationRef(this.conversationId);
-      const q = query(collection(conversationRef, 'messages'));
+      const q = query(collection(conversationRef, 'messages'), orderBy("messageDate", "desc"), orderBy("timestamp"));
       return onSnapshot(q, (list: any) => {
-        this.conversations = [];
+        this.conversationMessages = [];
         list.forEach((doc: any) => {
-          this.conversations.push(this.toJsonDirectMessage(doc.data()));
+          this.conversationMessages.push(this.toJsonDirectMessage(doc.data()));
         });
       });
     } return undefined;

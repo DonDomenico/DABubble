@@ -19,9 +19,7 @@ export class ConversationsService {
   conversationExists: boolean = false;
   // conversations: Conversation[] = [];
 
-  constructor() {
-
-  }
+  constructor() { }
 
   async addNewConversation(senderId: string, recipientId: string) {
     await addDoc(this.getConversationsRef(), {
@@ -32,7 +30,6 @@ export class ConversationsService {
     });
   }
 
-  // if a conversation between two persons already exists, don't create a new one
   async checkConversationExists(senderId: string, recipientId: string) {
     const q = query(this.getConversationsRef());
     const querySnapshot = await getDocs(q);
@@ -73,20 +70,7 @@ export class ConversationsService {
   //   // return collection(this.firestore, `conversations/${ this.currentConversationId}/messages`);
   // }
 
-  // subConversations() {
-  //   return onSnapshot(this.getConversationsRef(), (conversationList) => {
-  //     this.conversations = [];
-  //     conversationList.forEach((conversation) => {
-  //       const currentConversation = conversation.id;
-  //       console.log(
-  //         this.toJsonConversation(conversation.data(), currentConversation)
-  //       );
-  //       this.conversations.push(
-  //         this.toJsonConversation(conversation.data(), currentConversation)
-  //       );
-  //     });
-  //   });
-  // }
+  
 
   // toJsonDirectMessage(obj: any): DirectMessage {
   //   return {

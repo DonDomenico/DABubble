@@ -11,7 +11,7 @@
     </div>
   </div>
 
-  @for (conversations of conversations; track $index ) {
+  @for (conversations of conversationMessages; track $index ) {
   <div class="message-wrapper">
     <div class="divider">
       <hr class="line" />
@@ -74,7 +74,7 @@
     </div>
 
     <div class="message-box-container">
-      @if(conversations && user) {
+      @if(conversationMessages && user) {
       <textarea name="message" placeholder="Nachricht an {{ user.username }}"
         [(ngModel)]="conversationMessage"></textarea>
       }
