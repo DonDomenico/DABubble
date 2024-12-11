@@ -229,3 +229,14 @@ body {
   'GRAD' 0,
   'opsz' 24
 }
+
+.error-container-message {
+  height: 14px;
+
+  .error-message-empty {
+    color: red;
+    font-size: 14px;
+    margin-left: 40px;
+    display: flex;
+  }
+}

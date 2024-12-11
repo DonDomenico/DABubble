@@ -57,6 +57,7 @@ export class SingleMessageComponent implements OnInit {
   conversationId: string = '';
   unsubConversations: any;
   unsubConversationMessages: any;
+  messageEmpty: boolean = false;
 
   ngOnInit(): void {
     this.route.children[0].params.subscribe(async (params) => {
@@ -123,18 +124,23 @@ export class SingleMessageComponent implements OnInit {
   }
 
   addMessageText() {
-    const newDirectMessage: DirectMessage = {
-      initiatedBy: this.authService.currentUser?.displayName!,
-      senderAvatar: this.authService.currentUser?.photoURL!,
-      recipientId: this.userId,
-      recipientAvatar: this.user?.photoURL!,
-      senderMessage: this.conversationMessage,
-      timestamp: new Date().toLocaleTimeString(),
-      messageDate: new Date().toLocaleDateString(),
-    };
-
-    this.conversationService.addNewConversationMessage(newDirectMessage);
-    this.conversationMessage = '';
+    if(this.conversationMessage !== "") {
+      const newDirectMessage: DirectMessage = {
+        initiatedBy: this.authService.currentUser?.displayName!,
+        senderAvatar: this.authService.currentUser?.photoURL!,
+        recipientId: this.userId,
+        recipientAvatar: this.user?.photoURL!,
+        senderMessage: this.conversationMessage,
+        timestamp: new Date().toLocaleTimeString(),
+        messageDate: new Date().toLocaleDateString(),
+      };
+  
+      this.conversationService.addNewConversationMessage(newDirectMessage);
+      this.conversationMessage = '';
+      this.messageEmpty = false;
+    } else {
+      this.messageEmpty = true;
+    }
   }
 
   subConversations() {
