@@ -88,6 +88,11 @@
         <mat-icon class="send-icon" (click)="createConversation()">send</mat-icon>
       </div>
     </div>
+    <div class="error-container-message">
+      @if(messageEmpty) {
+        <span class="error-message-empty">Bitte gib eine Nachricht ein.</span>
+      }
+    </div>
 
   </div>
 </section>
