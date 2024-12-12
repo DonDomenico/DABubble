@@ -75,7 +75,7 @@
 
     <div class="message-box-container">
       @if(conversationMessages && user) {
-      <textarea name="message" placeholder="Nachricht an {{ user.username }}"
+      <textarea #messageTextarea name="message" placeholder="Nachricht an {{ user.username }}"
         [(ngModel)]="conversationMessage"></textarea>
       }
       <div class="message-box">

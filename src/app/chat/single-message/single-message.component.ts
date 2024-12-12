@@ -1,7 +1,7 @@
 import {
   Component,
   EventEmitter,
-  Input,
+  ViewChild, ElementRef,
   Output,
   OnInit,
   inject,
@@ -39,6 +39,8 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class SingleMessageComponent implements OnInit {
   authService = inject(AuthenticationService);
+  @ViewChild('messageTextarea')
+  messageTextarea!: ElementRef;
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   constructor(
     public conversationService: ConversationsService,
@@ -71,6 +73,7 @@ export class SingleMessageComponent implements OnInit {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
+      setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);
       // this.unsubConversations = this.subConversations();
       this.unsubConversationMessages = this.subConversationMessages();
     });
