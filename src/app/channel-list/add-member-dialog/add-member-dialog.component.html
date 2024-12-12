@@ -7,19 +7,32 @@
   </div>
 
   <div class="user-input">
-    <p># 
+    <p>
+      #
       {{ channel?.name }}
     </p>
-    <input type="text" [(ngModel)]="user" >
-
-    <!-- eleganter Lösen, z.B. mit Formbuilder. Damit die Anzeige dynamisch ist -->
+    <input
+      type="search"
+      [(ngModel)]="user"
+      (keyup)="searchService.searchUsersOnly()"
+      [(ngModel)]="searchService.searchAll"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      @for (result of searchService.searchResultsUsers; track result) {
+      <mat-option [value]="result.username">{{ result.username }}</mat-option>
+      }
+    </mat-autocomplete>
+<!-- abfrage ob der user schon zum channel gehoert -->
     <div class="failure-message">
       @if (userNotFound) {
       <p>Es konnte kein Nutzer mit diesem Namen gefunden werden.</p>
       }
+      @if (userInChannel) {
+        <p>Dieser Nutzer ist bereits in diesem Channel.</p>
+        }
     </div>
   </div>
-
 
   <mat-dialog-actions>
     <button mat-flat-button (click)="addMember()">Hinzufügen</button>

@@ -6,17 +6,22 @@ import {MatDialogModule,  MatDialog,
   MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormField } from '@angular/material/form-field';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { UserService } from '../../services/users.service';
-import { addDoc, doc, Firestore, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
-import { arrayUnion, collection, documentId, getDoc } from '@firebase/firestore';
+import { doc, Firestore, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
+import { arrayUnion, collection,  getDoc } from '@firebase/firestore';
 import { ChannelService } from '../../services/channel.service';
+import { SearchService } from '../../services/search.service';
 import { Channel } from '../../interfaces/channel.interface';
+import {MatInputModule} from '@angular/material/input';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-add-member-dialog',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatDialogTitle, MatDialogActions, MatDialogClose, MatButtonModule, FormsModule, ReactiveFormsModule],
+  imports: [MatIconModule, MatDialogModule, MatDialogTitle, MatDialogActions, MatDialogClose, MatButtonModule, FormsModule, ReactiveFormsModule, MatInputModule, MatAutocompleteModule],
   templateUrl: './add-member-dialog.component.html',
   styleUrl: './add-member-dialog.component.scss'
 })
@@ -25,13 +30,14 @@ export class AddMemberDialogComponent {
   userId?: string;
   userFound: boolean = false;
   userNotFound: boolean = false;
+  userInChannel: boolean = false;
 
   channelId: string = '';
   channel: Channel | undefined;
   channelName: string = '';
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private userService: UserService, private firestore: Firestore, public channelService: ChannelService, private dialog: MatDialog) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private userService: UserService, private firestore: Firestore, public channelService: ChannelService, private dialog: MatDialog, public searchService: SearchService) {}
 
   async ngOnInit() {
     this.channelId = this.data.channelId;
@@ -43,6 +49,7 @@ export class AddMemberDialogComponent {
     console.log(this.user);
     console.log(this.data.channelId);
     await this.userInDatabase();
+    await this.IsUserInChannel();
     if(this.user && this.userFound) {
       console.log('User found');
       await this.getUserId();
@@ -69,6 +76,21 @@ export class AddMemberDialogComponent {
       }
     }
   }
+
+  async IsUserInChannel() {
+    if (this.channel) {
+    for (let index = 0; index < this.channel!.member.length; index++) {
+      const element = this.searchService.searchResultsUsers[index].uid;
+      if(element) {
+        this.userInChannel = true;
+        break;
+      } else {
+        this.userInChannel = false;
+        continue;
+      }
+    }
+  }
+}
 
   async getUserId() {
     const q = query(collection(this.firestore, "users"), where("username", "==", this.user));

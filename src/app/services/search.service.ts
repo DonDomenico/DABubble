@@ -11,6 +11,7 @@ export class SearchService {
   userService = inject(UserService);
   channelService = inject(ChannelService);
   searchText: string = '';
+  searchAll: string = '';
   searchResults: Channel[] = [];
   searchResultsUsers: User[] = [];
 
@@ -26,13 +27,22 @@ export class SearchService {
   }
 
   async searchUsersAndChannels() {
-    if (this.searchText !== '') {
-      await this.searchChannels();
+    if (this.searchAll !== '') {
+      await this.searchChannelsOnly();
       await this.searchUsers();
       console.log('Channels found: ', this.searchResults);
       console.log('Users found: ', this.searchResultsUsers);
-    } else if (this.searchText === '') {
+    } else if (this.searchAll === '') {
       this.searchResults = [];
+      this.searchResultsUsers = [];
+    }
+  }
+
+  async searchUsersOnly() {
+    if (this.searchAll !== '') {
+      await this.searchUsers();
+      console.log('Users found: ', this.searchResultsUsers);
+    } else if (this.searchAll === '') {
       this.searchResultsUsers = [];
     }
   }
@@ -53,6 +63,23 @@ export class SearchService {
         continue;
       } else {
         await this.searchChannelText(channel);
+      }
+    }
+  }
+
+  async searchChannelsOnly() {
+    this.searchResults = [];
+
+    for (let index = 0; index < this.channelService.channels.length; index++) {
+      const channel = this.channelService.channels[index];
+
+      if (
+        channel.description
+          .toLowerCase()
+          .includes(this.searchAll.toLowerCase()) ||
+        channel.name.toLowerCase().includes(this.searchAll.toLowerCase())
+      ) {
+        this.searchResults.push(channel);
       }
     }
   }
@@ -81,8 +108,8 @@ export class SearchService {
       const user = this.userService.users[index];
 
       if (
-        user.username.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        user.email.toLowerCase().includes(this.searchText.toLowerCase())
+        user.username.toLowerCase().includes(this.searchAll.toLowerCase()) ||
+        user.email.toLowerCase().includes(this.searchAll.toLowerCase())
       ) {
         this.searchResultsUsers.push(user);
       }

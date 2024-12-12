@@ -6,7 +6,7 @@
         type="search"
         placeholder="An: #channel oder @jemand oder E-Mail Adresse"
         (keyup)="searchService.searchUsersAndChannels()"
-        [(ngModel)]="searchService.searchText"
+        [(ngModel)]="searchService.searchAll"
         [matAutocomplete]="auto"
       />
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
@@ -21,8 +21,8 @@
         <mat-option
           [routerLink]="['/general-view/single-message/' + result.uid]"
           routerLinkActive="router-link-active"
-          [value]="result.username"
-          >{{ result.username }}</mat-option
+          [value]="[result.username, result.email]"
+          >{{ result.username }} {{ result.email }}</mat-option
         >
         }
       </mat-autocomplete>
