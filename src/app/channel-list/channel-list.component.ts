@@ -16,4 +16,8 @@ import { FormsModule } from '@angular/forms';
 export class ChannelListComponent {
   constructor(public searchService: SearchService) {}
 
+ngOnInit() {
+  this.searchService.searchAll = '';
+}
+
 }

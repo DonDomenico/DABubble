@@ -42,6 +42,7 @@ export class AddMemberDialogComponent {
   async ngOnInit() {
     this.channelId = this.data.channelId;
     this.channel = await this.getSingleChannel();
+    this.searchService.searchAll = '';
   }
 
 
@@ -56,7 +57,12 @@ export class AddMemberDialogComponent {
       await this.addUserToChannel();
       // show success message
       this.dialog.closeAll();
-    } else {
+    } 
+    if(this.user && this.userInChannel) {
+      console.log('User already in channel');
+    }
+    
+    else {
       console.log('User not found');
       // show failure message
     }

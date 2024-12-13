@@ -1,3 +1,17 @@
+
+::ng-deep .mat-mdc-option.mdc-list-item {
+  border-radius: 30px;
+  font-family: "Nunito";
+}
+
+::ng-deep .mat-mdc-option.mat-mdc-option-active.mdc-list-item {
+  background-color: #eceefe !important;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  overflow: hidden !important;
+}
+
 section {
   width: 100%;
   height: 100vh;
