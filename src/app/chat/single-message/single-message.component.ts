@@ -57,18 +57,14 @@ export class SingleMessageComponent implements OnInit {
   unsubConversations: any;
   unsubConversationMessages: any;
   messageEmpty: boolean = false;
-  offset:number;
-  
-  
+
   constructor(
     public conversationService: ConversationsService,
     private userService: UserService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private firestore: Firestore
-  ) { 
-    this.offset = (new Date().getTimezoneOffset());
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.children[0].params.subscribe(async (params) => {
@@ -89,7 +85,9 @@ export class SingleMessageComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.unsubConversationMessages();
+    if(this.conversationMessages.length !== 0) {
+      this.unsubConversationMessages();
+    }
     // this.unsubConversations();
   }
 
