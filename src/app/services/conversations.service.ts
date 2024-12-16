@@ -52,7 +52,7 @@ export class ConversationsService {
         recipientAvatar: newDirectMessage.recipientAvatar,
         senderMessage: newDirectMessage.senderMessage,
         timestamp: newDirectMessage.timestamp,
-        messageDate: newDirectMessage.messageDate,
+        // messageDate: newDirectMessage.messageDate,
       }
     );
   }

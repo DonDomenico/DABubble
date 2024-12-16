@@ -3,6 +3,7 @@ import { UserService } from './users.service';
 import { ChannelService } from './channel.service';
 import { Channel } from '../interfaces/channel.interface';
 import { User } from '../users/user.interface';
+import { collection, Firestore, getDocs, query } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +11,13 @@ import { User } from '../users/user.interface';
 export class SearchService {
   userService = inject(UserService);
   channelService = inject(ChannelService);
+  firestore = inject(Firestore);
   searchText: string = '';
   searchAll: string = '';
   searchResults: Channel[] = [];
   searchResultsUsers: User[] = [];
 
-  constructor() {}
+  constructor() { }
 
   async search() {
     if (this.searchText !== '') {
@@ -53,12 +55,7 @@ export class SearchService {
     for (let index = 0; index < this.channelService.channels.length; index++) {
       const channel = this.channelService.channels[index];
 
-      if (
-        channel.description
-          .toLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
-        channel.name.toLowerCase().includes(this.searchText.toLowerCase())
-      ) {
+      if (channel.description.toLowerCase().includes(this.searchText.toLowerCase()) || channel.name.toLowerCase().includes(this.searchText.toLowerCase())) {
         this.searchResults.push(channel);
         continue;
       } else {
@@ -73,32 +70,30 @@ export class SearchService {
     for (let index = 0; index < this.channelService.channels.length; index++) {
       const channel = this.channelService.channels[index];
 
-      if (
-        channel.description
-          .toLowerCase()
-          .includes(this.searchAll.toLowerCase()) ||
-        channel.name.toLowerCase().includes(this.searchAll.toLowerCase())
-      ) {
+      if (channel.description.toLowerCase().includes(this.searchAll.toLowerCase()) || channel.name.toLowerCase().includes(this.searchAll.toLowerCase())) {
         this.searchResults.push(channel);
       }
     }
   }
 
   async searchChannelText(channel: Channel) {
-    await this.channelService.getChannelChats(channel.id);
+    const messages = query(collection(this.firestore, `channels/${channel.id}/chatText`));
+    const querySnapshot = await getDocs(messages);
 
-    for (let index = 0; index < this.channelService.messages.length; index++) {
-      const message = this.channelService.messages[index];
-
-      if (
-        message.userMessage
-          .toLowerCase()
-          .includes(this.searchText.toLowerCase())
-      ) {
+    querySnapshot.forEach(message => {
+      if(message.data()['userMessage'].toLowerCase().includes(this.searchText.toLowerCase())) {
         this.searchResults.push(channel);
-        break;
       }
-    }
+    })
+
+    // for (let index = 0; index < messages.length; index++) {
+    //   const message = this.channelService.messages[index];
+
+    //   if (message.userMessage.toLowerCase().includes(this.searchText.toLowerCase())) {
+    //     this.searchResults.push(channel);
+    //     break;
+    //   }
+    // }
   }
 
   async searchUsers() {
@@ -107,10 +102,7 @@ export class SearchService {
     for (let index = 0; index < this.userService.users.length; index++) {
       const user = this.userService.users[index];
 
-      if (
-        user.username.toLowerCase().includes(this.searchAll.toLowerCase()) ||
-        user.email.toLowerCase().includes(this.searchAll.toLowerCase())
-      ) {
+      if (user.username.toLowerCase().includes(this.searchAll.toLowerCase()) ||  user.email.toLowerCase().includes(this.searchAll.toLowerCase())) {
         this.searchResultsUsers.push(user);
       }
     }

@@ -88,8 +88,9 @@ export class ChannelService {
         userName: message.userName,
         userAvatar: message.userAvatar,
         userMessage: message.userMessage,
-        userTime: message.userTime,
-        messageDate: message.messageDate,
+        // userTime: message.userTime,
+        // messageDate: message.messageDate,
+        userTimestamp: message.timestamp,
         answer: '',
         lastAnswerTime: '',
         isRowReverse: false,
@@ -109,11 +110,7 @@ export class ChannelService {
 
   async getChannelChats(channelId: string) {
     this.messages = [];
-    const q = query(
-      collection(this.firestore, `channels/${channelId}/chatText`),
-      orderBy('messageDate'),
-      orderBy('userTime')
-    );
+    const q = query(collection(this.firestore, `channels/${channelId}/chatText`), orderBy('userTimestamp'));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       this.messages.push(this.toJsonText(doc.data(), doc.id));
@@ -123,7 +120,7 @@ export class ChannelService {
 
   subChannelChat(channelId: string) {
     const channelRef = this.getChannelChatRef(channelId);
-    const q = query(channelRef, orderBy('messageDate'), orderBy('userTime'));
+    const q = query(channelRef, orderBy('userTimestamp'));
     return onSnapshot(q, (list: any) => {
       this.messages = [];
       list.forEach((doc: any) => {
@@ -149,8 +146,9 @@ export class ChannelService {
       userName: obj.userName || '',
       userAvatar: obj.userAvatar || '',
       userMessage: obj.userMessage || '',
-      userTime: obj.userTime || '',
-      messageDate: obj.messageDate || '',
+      // userTime: obj.userTime || '',
+      // messageDate: obj.messageDate || '',
+      timestamp: obj.userTimestamp || '',
       answer: obj.answer || '',
     };
   }

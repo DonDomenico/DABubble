@@ -4,6 +4,6 @@ export interface DirectMessage {
   recipientAvatar: string;
   recipientId: string;
   senderMessage: string;
-  timestamp: string;
-  messageDate: string;
+  timestamp: number;
+  // messageDate: number;
 }

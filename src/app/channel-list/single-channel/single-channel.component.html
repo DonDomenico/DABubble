@@ -4,9 +4,8 @@
 
 
     <div class="dev-team-container" (click)="updateChannel(channelId)">
-<!-- 
-      <mat-icon>tag</mat-icon> -->
-      
+      <!-- <mat-icon>tag</mat-icon> -->
+
       <p> # {{ getSingleChannel()?.name }}</p>
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
@@ -14,7 +13,8 @@
     <div class="add-member-container">
 
       @for (item of memberInfos; track $index) {
-      <img src="{{ item['photoURL'] }}" class="avarar-icon" matTooltip="{{ item['username'] }}" [matTooltipPosition]="'below'">
+      <img src="{{ item['photoURL'] }}" class="avarar-icon" matTooltip="{{ item['username'] }}"
+        [matTooltipPosition]="'below'">
       }
 
       <p>{{ channelMembers.length }}</p>
@@ -23,17 +23,17 @@
       </span>
     </div>
   </div>
-  
-  
+
+
   @for (message of channelService.messages; track $index ) {
-    
-    <div class="divider">
-      <hr class="line" />
-  
-      <span class="date">{{ message.messageDate }}</span>
-    
-      <hr class="line" />
-    </div>
+
+  <div class="divider">
+    <hr class="line" />
+
+    <span class="date">{{ message.timestamp | date }}</span>
+
+    <hr class="line" />
+  </div>
 
   <div class="message-wrapper" [ngClass]="{ rowReverse: message.isRowReverse }">
     <div class="single-message-container" [ngClass]="{ rowReverse: message.isRowReverse }">
@@ -41,12 +41,12 @@
       <div class="message-content">
         <div class="name-time" [ngClass]="{ rowReverse: message.isRowReverse }">
           <span>{{ message.userName }}</span>
-          <p>{{ message.userTime }}</p>
+          <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
         </div>
 
         <span class="user-message">
           {{ message.userMessage }}
-      
+
         </span>
         <div class="answer-time">
           <p>
@@ -61,21 +61,21 @@
   </div>
   }
 
-<div class="message-box-wrapper">
+  <div class="message-box-wrapper">
 
-  <div class="message-box-container">
-    <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}" 
-    [(ngModel)]="message"></textarea>
-    <div class="message-box">
-      <div class="message-box-icons">
-        <!-- <mat-icon>add</mat-icon>
+    <div class="message-box-container">
+      <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}"
+        [(ngModel)]="message"></textarea>
+      <div class="message-box">
+        <div class="message-box-icons">
+          <!-- <mat-icon>add</mat-icon>
         <span class="vertical-line"></span> -->
-        <mat-icon>mood</mat-icon>
-        <mat-icon>alternate_email</mat-icon>
+          <mat-icon>mood</mat-icon>
+          <mat-icon>alternate_email</mat-icon>
+        </div>
+        <mat-icon class="send-icon" (click)="addMessage()">send</mat-icon>
       </div>
-      <mat-icon class="send-icon" (click)="addMessage()">send</mat-icon>
     </div>
   </div>
-</div>
 
 </section>

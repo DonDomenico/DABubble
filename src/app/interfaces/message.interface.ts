@@ -4,8 +4,8 @@ export interface Message {
   userName: string;
   userAvatar?: string;
   userMessage: string;
-  userTime: string;
-  messageDate: string;
+  // userTime: string;
+  timestamp: number;
   answer?: string;
   lastAnswerTime?: string;
   isRowReverse?: boolean;

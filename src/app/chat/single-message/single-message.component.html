@@ -3,7 +3,7 @@
     <div class="hearder-content" (click)="showProfileDialog(userId)">
       @if(user) {
       <img src="{{ user.photoURL }}" />
-      <p>{{ user.username }} </p>
+      <p>{{ user.username }}</p>
       } @else if(authService.currentUser) {
       <img src="{{ authService.currentUser.photoURL }}" />
       <p>{{ authService.currentUser.displayName }} (Du)</p>
@@ -15,7 +15,7 @@
   <div class="message-wrapper">
     <div class="divider">
       <hr class="line" />
-      <span class="date">{{ conversations.messageDate }}</span>
+      <span class="date">{{ conversations.timestamp | date }}</span>
       <hr class="line" />
     </div>
 
@@ -26,7 +26,7 @@
         <div class="message-content">
           <div class="name-time">
             <span>{{ conversations.initiatedBy }}</span>
-            <p>{{ conversations.timestamp }}</p>
+            <p>{{ conversations.timestamp | date:'HH:mm':'CET' }}</p>
           </div>
 
           <span class="user-message">
@@ -75,7 +75,7 @@
 
     <div class="message-box-container">
       @if(conversationMessages && user) {
-      <textarea #messageTextarea name="message" placeholder="Nachricht an {{ user.username }}"
+      <textarea name="message" placeholder="Nachricht an {{ user.username }}"
         [(ngModel)]="conversationMessage"></textarea>
       }
       <div class="message-box">

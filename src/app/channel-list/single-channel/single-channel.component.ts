@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
 import {
   MatDialog,
   MatDialogConfig,
@@ -36,9 +36,14 @@ import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-single-channel',
   standalone: true,
-  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule, MatTooltipModule],
+  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule, MatTooltipModule, DatePipe],
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss',
+  providers: [
+    {
+    provide: DATE_PIPE_DEFAULT_OPTIONS,
+    useValue: { dateFormat: "dd.MM.yyyy" }
+  }]
 })
 export class SingleChannelComponent implements OnInit, OnDestroy {
   conversationList: DirectMessage[] = [];
@@ -144,8 +149,9 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       userName: this.authService.currentUser?.displayName!,
       userAvatar: this.authService.currentUser?.photoURL!,
       userMessage: this.message,
-      userTime: new Date().toLocaleTimeString(),
-      messageDate: new Date().toLocaleDateString(),
+      // userTime: new Date().toLocaleTimeString(),
+      // messageDate: new Date().toLocaleDateString(),
+      timestamp: new Date().getTime(),
       answer: '',
       lastAnswerTime: '',
       isRowReverse: false,

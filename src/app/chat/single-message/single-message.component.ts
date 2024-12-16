@@ -7,10 +7,9 @@ import {
   inject,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConversationsService } from '../../services/conversations.service';
-// import { UsersComponent } from '../../users/users.component';
 import { UserService } from '../../services/users.service';
 import { User } from '../../users/user.interface';
 import { DirectMessage } from '../../interfaces/directMessage.interface';
@@ -33,23 +32,21 @@ import { AuthenticationService } from '../../services/authentication.service';
 @Component({
   selector: 'app-single-message',
   standalone: true,
-  imports: [MatIconModule, CommonModule, FormsModule],
+  imports: [MatIconModule, CommonModule, FormsModule, DatePipe],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss',
+  providers: [
+    {
+      provide: DATE_PIPE_DEFAULT_OPTIONS,
+      useValue: { dateFormat: "dd.MM.yyyy" }
+    }
+  ],
 })
 export class SingleMessageComponent implements OnInit {
   authService = inject(AuthenticationService);
   @ViewChild('messageTextarea')
   messageTextarea!: ElementRef;
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
-  constructor(
-    public conversationService: ConversationsService,
-    private userService: UserService,
-    private dialog: MatDialog,
-    private route: ActivatedRoute,
-    private firestore: Firestore
-  ) { }
-
   userId: string = '';
   user: User | undefined;
   isCurrentUser: boolean = false;
@@ -60,6 +57,18 @@ export class SingleMessageComponent implements OnInit {
   unsubConversations: any;
   unsubConversationMessages: any;
   messageEmpty: boolean = false;
+  offset:number;
+  
+  
+  constructor(
+    public conversationService: ConversationsService,
+    private userService: UserService,
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
+    private firestore: Firestore
+  ) { 
+    this.offset = (new Date().getTimezoneOffset());
+  }
 
   ngOnInit(): void {
     this.route.children[0].params.subscribe(async (params) => {
@@ -73,7 +82,7 @@ export class SingleMessageComponent implements OnInit {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
-      setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);
+      // setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);   wirft Fehler
       // this.unsubConversations = this.subConversations();
       this.unsubConversationMessages = this.subConversationMessages();
     });
@@ -100,12 +109,11 @@ export class SingleMessageComponent implements OnInit {
 
   async getConversationMessages() {
     if (this.conversationId !== "") {
-      const q = query(collection(this.firestore, `conversations/${this.conversationId}/messages`), orderBy("messageDate", "desc"), orderBy("timestamp"));
+      const q = query(collection(this.firestore, `conversations/${this.conversationId}/messages`), orderBy("timestamp"));
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
         this.conversationMessages.push(this.toJsonDirectMessage(doc.data()));
-        console.log(doc.data());
       });
     }
   }
@@ -134,8 +142,8 @@ export class SingleMessageComponent implements OnInit {
         recipientId: this.userId,
         recipientAvatar: this.user?.photoURL!,
         senderMessage: this.conversationMessage,
-        timestamp: new Date().toLocaleTimeString(),
-        messageDate: new Date().toLocaleDateString(),
+        timestamp: new Date().getTime(),
+        // messageDate: new Date().getTime(),
       };
   
       this.conversationService.addNewConversationMessage(newDirectMessage);
@@ -155,7 +163,7 @@ export class SingleMessageComponent implements OnInit {
   subConversationMessages() {
     if (this.conversationId !== "") {
       const conversationRef = this.conversationService.getSingleConversationRef(this.conversationId);
-      const q = query(collection(conversationRef, 'messages'), orderBy("messageDate", "desc"), orderBy("timestamp"));
+      const q = query(collection(conversationRef, 'messages'), orderBy("timestamp"));
       return onSnapshot(q, (list: any) => {
         this.conversationMessages = [];
         list.forEach((doc: any) => {
@@ -173,7 +181,7 @@ export class SingleMessageComponent implements OnInit {
       recipientId: obj.recipientId || '',
       senderMessage: obj.senderMessage || '',
       timestamp: obj.timestamp || '',
-      messageDate: obj.messageDate || '',
+      // messageDate: obj.messageDate || '',
     };
   }
 
