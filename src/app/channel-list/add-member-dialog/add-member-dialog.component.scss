@@ -65,6 +65,17 @@ section {
     }
   }
 
+  .failure-message-container {
+    .failure-message {
+      font-family: 'Nunito';
+      font-size: 14px;
+      line-height: 19px;
+      font-weight: 400;
+      color: #ED1E79;
+      margin: 5px;
+    }
+  }
+
   mat-dialog-actions {
     display: flex;
     justify-content: flex-end;

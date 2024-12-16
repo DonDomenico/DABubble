@@ -17,6 +17,7 @@
       (keyup)="searchService.searchUsersOnly()"
       [(ngModel)]="searchService.searchAll"
       [matAutocomplete]="auto"
+      (click)="clearAlertMessage()"
     />
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       @for (result of searchService.searchResultsUsers; track result) {
@@ -24,12 +25,12 @@
       }
     </mat-autocomplete>
 <!-- abfrage ob der user schon zum channel gehoert -->
-    <div class="failure-message">
+    <div class="failure-message-container">
       @if (userNotFound) {
-      <p>Es konnte kein Nutzer mit diesem Namen gefunden werden.</p>
+      <p class="failure-message">Es konnte kein Nutzer mit diesem Namen gefunden werden.</p>
       }
       @if (alertMessage) {
-        <p>Dieser Nutzer ist bereits in diesem Channel.</p>
+        <p class="failure-message">Dieser Nutzer ist bereits in diesem Channel.</p>
         }
     </div>
   </div>

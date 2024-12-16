@@ -16,9 +16,9 @@
       <div class="dialog-input">
 
         <p>Channel-Name</p>
-        <input type="text" placeholder="# z.B. Kooperationsprojekte" [(ngModel)]="name" name="channel" />
+        <input type="text" placeholder="# z.B. Kooperationsprojekte" [(ngModel)]="name" name="channel" (click)="clearAlertMessage()" />
         @if(alertMessage) {
-          <p>Dieser Name ist bereits vergeben</p>
+          <p class="failure-message">Dieser Name ist bereits vergeben</p>
         }
       </div>
 
