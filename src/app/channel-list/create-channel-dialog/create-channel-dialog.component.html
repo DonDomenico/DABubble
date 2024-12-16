@@ -17,6 +17,9 @@
 
         <p>Channel-Name</p>
         <input type="text" placeholder="# z.B. Kooperationsprojekte" [(ngModel)]="name" name="channel" />
+        @if(alertMessage) {
+          <p>Dieser Name ist bereits vergeben</p>
+        }
       </div>
 
       <div class="dialog-input">

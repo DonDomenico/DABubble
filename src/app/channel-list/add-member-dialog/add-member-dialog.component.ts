@@ -31,7 +31,7 @@ export class AddMemberDialogComponent {
   userFound: boolean = false;
   userNotFound: boolean = false;
   userInChannel: boolean = false;
-
+alertMessage: boolean = false;
   channelId: string = '';
   channel: Channel | undefined;
   channelName: string = '';
@@ -58,8 +58,12 @@ export class AddMemberDialogComponent {
       // show success message
       this.dialog.closeAll();
     } 
-    if(this.user && this.userInChannel) {
+    else if(this.user && this.userInChannel) {
+      this.alertMessage = true;
       console.log('User already in channel');
+      // show failure message
+  
+    
     }
     
     else {
@@ -89,6 +93,7 @@ export class AddMemberDialogComponent {
       const element = this.searchService.searchResultsUsers[index].uid;
       if(element) {
         this.userInChannel = true;
+        this.alertMessage = true;
         break;
       } else {
         this.userInChannel = false;

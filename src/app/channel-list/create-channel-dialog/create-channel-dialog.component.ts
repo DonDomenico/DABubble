@@ -39,7 +39,10 @@ export class CreateChannelDialogComponent {
 
   name = '';
   description = '';
-  addChannel() {
+  channelNameFound = false;
+  alertMessage: boolean = false;
+  async addChannel() {
+   await this.doesChannelNameExist();
     let currentUser = this.authService.currentUser;
     let channel: Channel = {
       id: '',
@@ -48,16 +51,39 @@ export class CreateChannelDialogComponent {
       description: this.description,
       // owner: currentUser?.uid ?? '',
       owner: currentUser?.displayName ?? '',
-
       member: [currentUser?.uid ?? '']
   }; 
+  if(!this.channelNameFound) {
+
     this.channelService.saveChannel(
       channel.name,
       channel.description,
       channel.owner,
       channel.member
     );
-
+  
     this.dialog.closeAll();
+  }
+  else {
+    this.alertMessage = true;
+  }
+  //check if channel name already exists
+  }
+
+
+  async doesChannelNameExist() {
+    for (let index = 0; index < this.channelService.channels.length; index++) {
+      const element = this.channelService.channels[index].name;
+      if(this.name === element) {
+      
+        this.channelNameFound = true;
+        this.alertMessage = true;
+        break;
+      } else {
+        this.channelNameFound = false;
+        continue;
+      }
+    }
+ 
   }
 }
