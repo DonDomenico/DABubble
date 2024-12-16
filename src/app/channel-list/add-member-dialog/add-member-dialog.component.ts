@@ -138,4 +138,10 @@ alertMessage: boolean = false;
       return this.channelService.channels[0];
     }
   }
+
+  clearAlertMessage() {
+    this.alertMessage = false;
+    this.user = '';
+    this.userNotFound = false;
+  }
 }
