@@ -22,7 +22,7 @@ export class LoginComponent {
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', {
-      validators: [Validators.required, this.passwordMatchesEmail(), this.loginAttempts()]
+      validators: [Validators.required, this.passwordMatchesEmail(), this.loginAttempts(), this.emailNotVerified()]
     }]
   })
 
@@ -46,6 +46,18 @@ export class LoginComponent {
       }
 
       return !requestsValid ? {tooManyAttempts: true} : null;
+    }
+  }
+
+  emailNotVerified(): ValidatorFn {
+    return() : ValidationErrors | null => {
+      const emailVerified = this.authService.emailVerificationError == '';
+
+      if(!emailVerified) {
+        this.authService.emailVerificationError = '';
+      }
+
+      return !emailVerified ? {emailNotVerfified: true} : null;
     }
   }
 

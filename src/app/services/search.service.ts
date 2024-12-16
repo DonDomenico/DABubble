@@ -85,15 +85,6 @@ export class SearchService {
         this.searchResults.push(channel);
       }
     })
-
-    // for (let index = 0; index < messages.length; index++) {
-    //   const message = this.channelService.messages[index];
-
-    //   if (message.userMessage.toLowerCase().includes(this.searchText.toLowerCase())) {
-    //     this.searchResults.push(channel);
-    //     break;
-    //   }
-    // }
   }
 
   async searchUsers() {

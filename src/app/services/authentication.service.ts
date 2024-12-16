@@ -14,7 +14,7 @@ import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
 import { UserService } from './users.service';
 import { doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { getDoc, updateDoc } from '@firebase/firestore';
+import { collection, getDoc, getDocs, query, updateDoc, where } from '@firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +31,9 @@ export class AuthenticationService {
   tooManyRequests = '';
   emailAlreadyExists = '';
   noAccountWithEmail = '';
+  emailVerificationError = '';
 
-  constructor() {}
+  constructor() { }
 
   async createUser(email: string, username: string, password: string, photoUrl: string) {
     await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(async (response) => {
@@ -75,12 +76,17 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string) {
-    signInWithEmailAndPassword(this.firebaseAuth, email, password).then((userCredential) => {
-      console.log('Sign in successful | Username: ', userCredential.user.displayName); //Testcode, später löschen
-      let user = this.userService.users.find((user) => user.uid === userCredential.user.uid);
-      this.userService.setStatusActive(user);
-      this.router.navigateByUrl('general-view');
-    }).catch((error) => {
+    signInWithEmailAndPassword(this.firebaseAuth, email, password).then(userCredential => {
+      if (userCredential.user.emailVerified) {
+        console.log('Sign in successful | Username: ', userCredential.user.displayName); //Testcode, später löschen
+        let user = this.userService.users.find((user) => user.uid === userCredential.user.uid);
+        this.userService.setStatusActive(user);
+        this.router.navigateByUrl('general-view');
+      } else {
+        this.emailVerificationError = 'Email-Adress is not verified';
+        console.log(this.emailVerificationError);
+      }
+    }).catch(error => {
       if (error.code == 'auth/invalid-credential') {
         this.passwordError = error.code;
         console.log('Password Error: ', this.passwordError); //Testcode, später löschen
@@ -91,20 +97,20 @@ export class AuthenticationService {
     })
   }
 
+
   // loginFromLocalStorage() {
 
   // }
-  
-  sendMailResetPassword(email: string) {
-    sendPasswordResetEmail(this.firebaseAuth, email)
-      .then(() => {
-        console.log('Email sent'); //Testcode, später löschen
-      })
-      .catch((error) => {
-        this.noAccountWithEmail = error.code;
-        console.log(this.noAccountWithEmail); //Testcode, später löschen
-      }
-      );
+
+  async sendMailResetPassword(email: string) {
+    const emailInDatabase = query(this.userService.getUserRef(), where('email', '==', email));
+    const querySnapshot = await getDocs(emailInDatabase);
+
+    if(!querySnapshot.empty) {
+      sendPasswordResetEmail(this.firebaseAuth, email);
+    } else {
+      this.noAccountWithEmail = 'no Account with email';
+    }
   }
 
   sendVerificationMail() {
@@ -120,18 +126,20 @@ export class AuthenticationService {
 
   async signInWithGoogle() {
     await signInWithPopup(this.firebaseAuth, this.google).then(async result => {
-      console.log(result); //Testcode, später löschen
-      const emailFound = this.userService.users.filter(user => user.email == result.user.email);
-      if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length == 0) {
-        await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, result.user.photoURL);
-      } else {
-        console.log('User already in database'); //Testcode, später löschen
+      if (result.user.emailVerified) {
+        const emailFound = this.userService.users.filter(user => user.email == result.user.email);
+        if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length == 0) {
+          await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, result.user.photoURL);
+        } else {
+          console.log('User already in database'); //Testcode, später löschen
+        }
       }
     }).catch(error => {
       console.log(error); //Testcode, später löschen
     })
     this.router.navigateByUrl('general-view');
   }
+
 
   guestLogIn() {
     signInAnonymously(this.firebaseAuth).then(result => {
@@ -194,8 +202,8 @@ export class AuthenticationService {
   }
 
   updateAvatar(url: string) {
-    if(this.currentUser !== null) {
-      updateProfile(this.currentUser, {photoURL: url});
+    if (this.currentUser !== null) {
+      updateProfile(this.currentUser, { photoURL: url });
     }
   }
 }

@@ -47,10 +47,9 @@ export class ChooseProfileImageComponent {
   }
 
   showSnackBar() {
-    this._snackBar.open('Konto erfolgreich erstellt', '', {
+    this._snackBar.open('Konto erfolgreich erstellt. Bitte verifizieren Sie ihre Email durch einen Klick auf den zugesendeten Link.', '', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
-      duration: 1800,
       panelClass: 'snackbar'
     });
   }

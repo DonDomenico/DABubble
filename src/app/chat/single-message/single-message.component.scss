@@ -10,6 +10,7 @@ section {
   height: 110px;
   box-shadow: 0 3px 2px -2px rgb(0, 0, 0, 0.2);
   padding: 32px 45px 20px 45px;
+
   .hearder-content {
     width: 80%;
     display: flex;
@@ -20,15 +21,18 @@ section {
     border-radius: 30px;
     padding: 4px 8px;
     cursor: pointer;
+
     &:hover {
       background-color: #eceefe;
     }
-    > img {
+
+    >img {
       width: 50px;
       height: 50px;
       border-radius: 50px;
     }
-    > p {
+
+    >p {
       font-size: 24px;
       font-weight: 700;
       line-height: 32.74px;
@@ -44,11 +48,13 @@ section {
     align-items: center;
     text-align: center;
     margin: 16px;
+
     .line {
       flex: 1;
       border: none;
       border-top: 1px solid #c1c3e2;
     }
+
     .date {
       border: 1px solid #c1c3e2;
       border-radius: 20px;
@@ -57,8 +63,10 @@ section {
       // white-space: nowrap;
     }
   }
+
   .message-content {
     width: 100%;
+
     .single-message-container {
       width: 70%;
       display: flex;
@@ -67,31 +75,36 @@ section {
       gap: 16px;
       cursor: pointer;
 
-      > img {
+      >img {
         width: 70px;
         height: 70px;
         border-radius: 50px;
       }
+
       .message-content {
         width: 100%;
         display: flex;
         flex-direction: column;
         gap: 8px;
+
         .name-time {
           display: flex;
           justify-content: flex-start;
           gap: 20px;
-          > span {
+
+          >span {
             font-size: 18px;
             font-weight: 700;
           }
-          > p {
+
+          >p {
             font-size: 14px;
             font-weight: 400;
             color: rgba(104, 104, 104, 1);
           }
         }
-        > span {
+
+        >span {
           background-color: #eceefe;
           border-radius: 0 30px 30px 30px;
           padding: 15px;
@@ -100,22 +113,26 @@ section {
           line-height: 24.55px;
           text-align: left;
         }
+
         .answer-time {
           display: flex;
           justify-content: flex-start;
           gap: 20px;
-          > p {
+
+          >p {
             font-size: 18px;
             font-weight: 400;
             color: rgba(83, 90, 241, 1);
             line-height: 19px;
             cursor: pointer;
+
             &:hover {
               color: #535af1;
               font-weight: 800;
             }
           }
-          > span {
+
+          >span {
             font-size: 14px;
             font-weight: 400;
             color: rgba(104, 104, 104, 1);
@@ -136,38 +153,45 @@ section {
   margin-left: 20px;
   border-radius: 30px;
 }
+
 .message-owner-container {
   margin: 20px 45px;
+
   .message-owner-content {
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
     gap: 20px;
     cursor: pointer;
+
     &:hover {
       color: #535af1;
     }
-    > img {
+
+    >img {
       width: 100px;
       height: 100px;
       border-radius: 50px;
     }
-    > p {
+
+    >p {
       font-size: 24px;
       font-weight: 700;
       line-height: 32.74px;
     }
   }
 
-  > p {
+  >p {
     font-size: 20px;
     font-weight: 400;
     line-height: 27.28px;
     color: #686868;
     margin: 20px 0;
-    > span {
+
+    >span {
       color: #535af1;
       cursor: pointer;
+
       &:hover {
         font-weight: 700;
       }
@@ -180,7 +204,8 @@ section {
   border-radius: 20px;
   border: 1px solid #adb0d9;
   margin: 10px 40px;
-  > textarea {
+
+  >textarea {
     width: 100%;
     border: 0;
     border-radius: 20px;
@@ -190,6 +215,7 @@ section {
     font-weight: 400;
     line-height: 24.55px;
   }
+
   .message-box {
     height: 40px;
     display: flex;
@@ -198,17 +224,20 @@ section {
     justify-content: space-between;
     padding: 20px;
     color: #686868;
+
     .message-box-icons {
       width: 25%;
       display: flex;
       justify-content: flex-start;
       align-items: center;
       gap: 18px;
-      > span {
+
+      >span {
         border-left: 1px solid #adb0d9;
         height: 40px;
       }
     }
+
     .send-icon {
       width: 30px;
       color: #444df2;

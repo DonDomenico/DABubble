@@ -17,7 +17,6 @@ export class ConversationsService {
   currentConversationId: string | undefined;
   firestore = inject(Firestore);
   conversationExists: boolean = false;
-  // conversations: Conversation[] = [];
 
   constructor() { }
 
@@ -51,8 +50,7 @@ export class ConversationsService {
         recipientId: newDirectMessage.recipientId,
         recipientAvatar: newDirectMessage.recipientAvatar,
         senderMessage: newDirectMessage.senderMessage,
-        timestamp: newDirectMessage.timestamp,
-        // messageDate: newDirectMessage.messageDate,
+        timestamp: newDirectMessage.timestamp
       }
     );
   }
