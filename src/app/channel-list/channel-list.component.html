@@ -22,8 +22,14 @@
           [routerLink]="['/general-view/single-message/' + result.uid]"
           routerLinkActive="router-link-active"
           [value]="[result.username, result.email]"
-          >{{ result.username }} {{ result.email }}</mat-option
         >
+          <p>
+            {{ result.username }}
+          </p>
+          <span>
+            {{ result.email }}
+          </span>
+        </mat-option>
         }
       </mat-autocomplete>
     </div>
