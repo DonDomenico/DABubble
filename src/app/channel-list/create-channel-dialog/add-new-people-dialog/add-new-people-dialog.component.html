@@ -1,0 +1,28 @@
+<section>
+  <div class="dialog-header">
+    <h2 mat-dialog-title>Leute hinzufügen {{ channelName }}</h2>
+    <span class="material-symbols-outlined" mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </span>
+  </div>
+
+  <div class="dialog-content">
+    <mat-checkbox [(ngModel)]="checkedAll" (change)="addAllMembersToChannel()">
+      <p>Alle Mitglieder von Channel {{ channelName }} hinzufügen</p>
+    </mat-checkbox>
+
+    <mat-checkbox [(ngModel)]="checkedSelect" (change)="selectMembers()">
+      <p>Bestimmte Leute hinzufügen</p>
+    </mat-checkbox>
+    @if(checkedSelect) {
+
+      <div class="dialog-input">
+        <input type="search" />
+      </div>
+    }
+  </div>
+
+  <mat-dialog-actions>
+    <button class="button-primary" mat-flat-button>Erstellen</button>
+  </mat-dialog-actions>
+</section>

@@ -5,6 +5,7 @@ import {
   MatDialogActions,
   MatDialogClose,
   MatDialogTitle,
+  MatDialogConfig,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { AuthenticationService } from '../../services/authentication.service';
+import { AddNewPeopleDialogComponent } from './add-new-people-dialog/add-new-people-dialog.component';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -61,8 +63,9 @@ export class CreateChannelDialogComponent {
         channel.owner,
         channel.member
       );
-
-      this.dialog.closeAll();
+   
+   this.addNewPeopleDialog();
+      // this.dialog.closeAll();
     } else {
       this.alertMessage = true;
     }
@@ -85,5 +88,15 @@ export class CreateChannelDialogComponent {
   clearAlertMessage() {
     this.alertMessage = false;
     this.name = '';
+  }
+
+  addNewPeopleDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      name: this.name,
+   
+    };
+    this.dialog.open(AddNewPeopleDialogComponent, dialogConfig);
+    
   }
 }
