@@ -54,7 +54,6 @@ export class SingleMessageComponent implements OnInit {
   conversationMessages: DirectMessage[] = [];
   conversationMessage: string = '';
   conversationId: string = '';
-  unsubConversations: any;
   unsubConversationMessages: any;
   messageEmpty: boolean = false;
 
@@ -79,7 +78,6 @@ export class SingleMessageComponent implements OnInit {
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
       // setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);   wirft Fehler
-      // this.unsubConversations = this.subConversations();
       this.unsubConversationMessages = this.subConversationMessages();
     });
   }
@@ -88,7 +86,6 @@ export class SingleMessageComponent implements OnInit {
     if(this.conversationMessages.length !== 0) {
       this.unsubConversationMessages();
     }
-    // this.unsubConversations();
   }
 
   async getConversationId() {
@@ -152,12 +149,6 @@ export class SingleMessageComponent implements OnInit {
     }
   }
 
-  subConversations() {
-    const conversationRef = this.conversationService.getSingleConversationRef(this.conversationId);
-
-    return onSnapshot(conversationRef, () => {});
-  }
-
   subConversationMessages() {
     if (this.conversationId !== "") {
       const conversationRef = this.conversationService.getSingleConversationRef(this.conversationId);
@@ -178,8 +169,7 @@ export class SingleMessageComponent implements OnInit {
       recipientAvatar: obj.recipientAvatar || '',
       recipientId: obj.recipientId || '',
       senderMessage: obj.senderMessage || '',
-      timestamp: obj.timestamp || '',
-      // messageDate: obj.messageDate || '',
+      timestamp: obj.timestamp || ''
     };
   }
 

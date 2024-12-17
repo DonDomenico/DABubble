@@ -38,6 +38,8 @@
                         <span class="error">Passwort und E-Mail-Adresse stimmen nicht überein.</span>
                     } @else if (authService.tooManyRequests != '' && loginForm.get('password')?.value != null) {
                         <span class="error">Die maximale Anzahl an Anmeldeversuchen wurde erreicht. Bitte versuchen Sie es später nochmal.</span>
+                    } @else if (authService.emailVerificationError != '') {
+                        <span class="error">Bitte verifizieren Sie ihre Email-Adresse über den zugesendeten Link, bevor Sie sich anmelden.</span>
                     }
                 </div>
 

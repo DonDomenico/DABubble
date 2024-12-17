@@ -88,12 +88,10 @@ export class ChannelService {
         userName: message.userName,
         userAvatar: message.userAvatar,
         userMessage: message.userMessage,
-        // userTime: message.userTime,
-        // messageDate: message.messageDate,
         userTimestamp: message.timestamp,
         answer: '',
         lastAnswerTime: '',
-        isRowReverse: false,
+        isRowReverse: false
       }
     );
   }
@@ -146,10 +144,8 @@ export class ChannelService {
       userName: obj.userName || '',
       userAvatar: obj.userAvatar || '',
       userMessage: obj.userMessage || '',
-      // userTime: obj.userTime || '',
-      // messageDate: obj.messageDate || '',
       timestamp: obj.userTimestamp || '',
-      answer: obj.answer || '',
+      answer: obj.answer || ''
     };
   }
 
@@ -166,8 +162,6 @@ export class ChannelService {
 
   toJsonNewName(channel: Channel, newChannelName: string, description?: string, owner?: string, member?: string[]): { [key: string]: any } {
     return {
-      // id: channel.id,
-      // docId: channel.docId,
       name: newChannelName,
       description: description || channel.description,
       owner: owner || channel.owner,
@@ -177,8 +171,6 @@ export class ChannelService {
 
   toJsonNewDescription(channel: Channel, name: string, newChannelDescription: string, owner?: string, member?: string[]): { [key: string]: any } {
     return {
-      // id: channel.id,
-      // docId: channel.docId,
       name: name || channel.name,
       description: newChannelDescription,
       owner: owner || channel.owner,

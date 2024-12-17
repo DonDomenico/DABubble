@@ -9,7 +9,7 @@ import { User } from '../users/user.interface';
 export class UserService implements OnDestroy {
   firestore = inject(Firestore);
   users: User[] = [];
-  unsubUserList;
+  unsubUserList: any;
 
   constructor() {
     this.unsubUserList = this.subUserList();
@@ -51,10 +51,6 @@ export class UserService implements OnDestroy {
       photoURL: photoURL
     };
   }
-
-  // getColIdFromUser(user: User) {
-  //   return user?.uid ?? '';
-  // }
 
   getUserRef() {
     return collection(this.firestore, 'users');
