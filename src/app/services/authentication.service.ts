@@ -32,6 +32,7 @@ export class AuthenticationService {
   emailAlreadyExists = '';
   noAccountWithEmail = '';
   emailVerificationError = '';
+  hasAccess: boolean = false;
 
   constructor() { }
 
@@ -75,9 +76,10 @@ export class AuthenticationService {
     });
   }
 
-  login(email: string, password: string) {
-    signInWithEmailAndPassword(this.firebaseAuth, email, password).then(userCredential => {
+  async login(email: string, password: string) {
+    await signInWithEmailAndPassword(this.firebaseAuth, email, password).then(userCredential => {
       if (userCredential.user.emailVerified) {
+        this.hasAccess = true;
         console.log('Sign in successful | Username: ', userCredential.user.displayName); //Testcode, später löschen
         let user = this.userService.users.find((user) => user.uid === userCredential.user.uid);
         this.userService.setStatusActive(user);
@@ -106,7 +108,7 @@ export class AuthenticationService {
     const emailInDatabase = query(this.userService.getUserRef(), where('email', '==', email));
     const querySnapshot = await getDocs(emailInDatabase);
 
-    if(!querySnapshot.empty) {
+    if (!querySnapshot.empty) {
       sendPasswordResetEmail(this.firebaseAuth, email);
     } else {
       this.noAccountWithEmail = 'no Account with email';
@@ -126,23 +128,24 @@ export class AuthenticationService {
 
   async signInWithGoogle() {
     await signInWithPopup(this.firebaseAuth, this.google).then(async result => {
-      if (result.user.emailVerified) {
-        const emailFound = this.userService.users.filter(user => user.email == result.user.email);
-        if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length == 0) {
-          await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, result.user.photoURL);
-        } else {
-          console.log('User already in database'); //Testcode, später löschen
-        }
+      this.hasAccess = true;
+      const emailFound = this.userService.users.filter(user => user.email == result.user.email);
+      if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length == 0) {
+        await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, result.user.photoURL);
+      } else {
+        console.log('User already in database'); //Testcode, später löschen
       }
+      let user = this.userService.users.find((user) => user.uid === result.user.uid);
+      this.userService.setStatusActive(user);
+      this.router.navigateByUrl('general-view');
     }).catch(error => {
       console.log(error); //Testcode, später löschen
     })
-    this.router.navigateByUrl('general-view');
   }
-
 
   guestLogIn() {
     signInAnonymously(this.firebaseAuth).then(result => {
+      this.hasAccess = true;
       console.log(result); //Testcode, später löschen
       updateProfile(result.user, { displayName: 'Guest' });
       this.router.navigateByUrl('general-view');
@@ -153,6 +156,7 @@ export class AuthenticationService {
 
   async logout() {
     await this.userService.setStatusInactive(this.currentUser);
+    this.hasAccess = false;
     signOut(this.firebaseAuth);
     this.currentUser = null;
     this.router.navigateByUrl('');
