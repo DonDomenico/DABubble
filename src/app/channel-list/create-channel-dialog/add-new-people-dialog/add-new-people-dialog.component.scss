@@ -6,11 +6,14 @@
   margin: 0px !important;
 }
 
+::ng-deep .mat-mdc-option.mdc-list-item {
+  border-radius: 30px;
+  font-family: "Nunito";
+}
+
 section {
   width: 710px;
-  // height: 279px;
   max-height: 354px;
-  // padding: 40px;
   margin: 40px;
 }
 .dialog-header {
