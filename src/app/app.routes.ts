@@ -7,7 +7,7 @@ import { ResetPasswordMailComponent } from './login/reset-password-mail/reset-pa
 import { ChatComponent } from './chat/chat.component';
 import { SingleMessageComponent } from './chat/single-message/single-message.component';
 import { SingleChannelComponent } from './channel-list/single-channel/single-channel.component';
-import { guardsGuard } from './guards.guard';
+import { authGuard } from './auth.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 export const routes: Routes = [
@@ -16,7 +16,8 @@ export const routes: Routes = [
     { path: "signup/select-avatar", component: ChooseProfileImageComponent},
     { path: "send-mail", component: ResetPasswordMailComponent},
     { path: "general-view", component: GeneralViewComponent,
-      canMatch: [guardsGuard],
+      // canMatch: [authGuard],
+      // canActivate: [authGuard],
       children: [
         { path: "single-channel/:id", component: SingleChannelComponent },
         { path: "single-message/:id", component: SingleMessageComponent },
