@@ -18,6 +18,7 @@ export const routes: Routes = [
     { path: "general-view", component: GeneralViewComponent,
       // canMatch: [authGuard],
       // canActivate: [authGuard],
+      // canMatch: [guardsGuard],
       children: [
         { path: "single-channel/:id", component: SingleChannelComponent },
         { path: "single-message/:id", component: SingleMessageComponent },

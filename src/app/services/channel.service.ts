@@ -49,25 +49,6 @@ export class ChannelService {
       });
   }
 
-  // async getSingleChannel(): Promise<Channel | undefined> {
-  //   if (this.channelId != undefined) {
-  //     const channelRef = this.getSingleChannelRef(
-  //       this.channelId
-  //     );
-  //     const channelSnapshot = await getDoc(channelRef);
-  //     if (channelSnapshot.exists()) {
-  //       return this.toJson(
-  //         channelSnapshot.data(),
-  //         channelSnapshot.id
-  //       );
-  //     } else {
-  //       console.log('No such document!');
-  //       return undefined;
-  //     }
-  //   } else {
-  //     return this.channels[0];
-  //   }
-  // }
 
   getSingleChannelRef(channelId: string) {
     return doc(collection(this.firestore, 'channels'), channelId);
