@@ -4,7 +4,7 @@ import {
   ViewChild, ElementRef,
   Output,
   OnInit,
-  inject,
+  inject
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
@@ -44,8 +44,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class SingleMessageComponent implements OnInit {
   authService = inject(AuthenticationService);
-  @ViewChild('messageTextarea')
-  messageTextarea!: ElementRef;
+  // @ViewChild('messageTextarea') inputField!: ElementRef;
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   userId: string = '';
   user: User | undefined;
