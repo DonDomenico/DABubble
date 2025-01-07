@@ -74,8 +74,11 @@ export class SingleMessageComponent implements OnInit {
       await this.getConversationId();
       if (this.userId === this.authService.currentUser?.uid) {
         this.isCurrentUser = true;
-      } else this.isCurrentUser = false;
-      await this.getConversationMessages();
+        await this.getConversationMessages();
+      } else {
+        this.isCurrentUser = false;
+        await this.getConversationMessages();
+      }
       // setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);   wirft Fehler
       this.unsubConversationMessages = this.subConversationMessages();
     });
@@ -94,7 +97,9 @@ export class SingleMessageComponent implements OnInit {
       const querySnapshot = await getDocs(docRef);
 
       querySnapshot.forEach((doc) => {
-        if (doc.data()['members'].includes(this.userId) && doc.data()['members'].includes(this.authService.currentUser?.uid)) {
+        if (doc.data()['members'].includes(this.userId) && doc.data()['members'].includes(this.authService.currentUser?.uid) && this.userId !== this.authService.currentUser.uid) {
+          this.conversationId = doc.id;
+        } else if(doc.data()['members'].includes(this.userId) && doc.data()['members'].includes(this.authService.currentUser?.uid) && this.userId === this.authService.currentUser.uid) {
           this.conversationId = doc.id;
         }
       })
@@ -117,10 +122,7 @@ export class SingleMessageComponent implements OnInit {
       await this.conversationService.checkConversationExists(this.authService.currentUser?.uid, this.userId);
 
       if (!this.conversationService.conversationExists) {
-        await this.conversationService.addNewConversation(
-          this.userId,
-          this.authService.currentUser?.uid
-        );
+        await this.conversationService.addNewConversation(this.userId,this.authService.currentUser?.uid);
         this.addMessageText();
       } else {
         this.addMessageText();
