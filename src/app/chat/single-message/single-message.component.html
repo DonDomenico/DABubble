@@ -11,26 +11,29 @@
     </div>
   </div>
 
-  @for (conversations of conversationMessages; track $index ) {
+  @for (message of conversationMessages; track $index ) {
   <div class="message-wrapper">
     <div class="divider">
       <hr class="line" />
-      <span class="date">{{ conversations.timestamp | date }}</span>
+      @if (isToday && isDifferentDay($index)) {
+        <span class="date">Heute</span>
+      } @else if(isDifferentDay($index)) {
+        <span class="date">{{ message.timestamp | date }}</span>
+      }
       <hr class="line" />
     </div>
 
     <div class="message-content">
-
       <div class="single-message-container">
-        <img src="{{ conversations.senderAvatar }}" class="member-avatar" />
+        <img src="{{ message.senderAvatar }}" class="member-avatar" />
         <div class="message-content">
           <div class="name-time">
-            <span>{{ conversations.initiatedBy }}</span>
-            <p>{{ conversations.timestamp | date:'HH:mm':'CET' }}</p>
+            <span>{{ message.initiatedBy }}</span>
+            <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
           </div>
 
           <span class="user-message">
-            {{ conversations.senderMessage }}
+            {{ message.senderMessage }}
 
           </span>
           <!-- <div class="answer-time">

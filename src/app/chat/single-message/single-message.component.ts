@@ -4,7 +4,8 @@ import {
   ViewChild, ElementRef,
   Output,
   OnInit,
-  inject
+  inject,
+  OnDestroy
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
@@ -42,7 +43,7 @@ import { AuthenticationService } from '../../services/authentication.service';
     }
   ],
 })
-export class SingleMessageComponent implements OnInit {
+export class SingleMessageComponent implements OnInit, OnDestroy {
   authService = inject(AuthenticationService);
   // @ViewChild('messageTextarea') inputField!: ElementRef;
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
@@ -55,6 +56,8 @@ export class SingleMessageComponent implements OnInit {
   conversationId: string = '';
   unsubConversationMessages: any;
   messageEmpty: boolean = false;
+  isToday: boolean = false;
+  dateExists: boolean = false;
 
   constructor(
     public conversationService: ConversationsService,
@@ -74,11 +77,9 @@ export class SingleMessageComponent implements OnInit {
       await this.getConversationId();
       if (this.userId === this.authService.currentUser?.uid) {
         this.isCurrentUser = true;
-        await this.getConversationMessages();
-      } else {
-        this.isCurrentUser = false;
-        await this.getConversationMessages();
-      }
+      } else this.isCurrentUser = false;
+      await this.getConversationMessages();
+      this.checkDate();
       // setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);   wirft Fehler
       this.unsubConversationMessages = this.subConversationMessages();
     });
@@ -99,7 +100,7 @@ export class SingleMessageComponent implements OnInit {
       querySnapshot.forEach((doc) => {
         if (doc.data()['members'].includes(this.userId) && doc.data()['members'].includes(this.authService.currentUser?.uid) && this.userId !== this.authService.currentUser.uid) {
           this.conversationId = doc.id;
-        } else if(doc.data()['members'].includes(this.userId) && doc.data()['members'].includes(this.authService.currentUser?.uid) && this.userId === this.authService.currentUser.uid) {
+        } else if(this.userId === this.authService.currentUser.uid && doc.data()['members'][0] === this.authService.currentUser.uid && doc.data()['members'][1] === this.authService.currentUser.uid) {
           this.conversationId = doc.id;
         }
       })
@@ -188,6 +189,32 @@ export class SingleMessageComponent implements OnInit {
     } else {
       return undefined;
     }
+  }
+
+  checkDate() {
+    for (let index = 0; index < this.conversationMessages.length; index++) {
+      const message = this.conversationMessages[index];
+      const messageDate = new Date(message.timestamp);
+      const today = new Date();
+      if(messageDate.toLocaleDateString('de-DE') === today.toLocaleDateString('de-DE')) {
+        this.isToday = true;
+      } else {
+        this.isToday = false;
+      }
+    }
+  }
+
+  isDifferentDay(index: number) {
+    if (index === 0) {
+      return true; // Datum der ersten Nachricht immer anzeigen
+    }
+    const currentMessageDate = new Date(this.conversationMessages[index].timestamp);
+    const previousMessageDate = new Date(this.conversationMessages[index - 1].timestamp);
+  
+    // Vergleiche nur das Datum, nicht die Uhrzeit
+    const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
+    
+    return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
   }
 
   showProfileDialog(userId: string) {
