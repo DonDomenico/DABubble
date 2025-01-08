@@ -22,7 +22,7 @@ import { EditAvatarDialogComponent } from '../edit-avatar-dialog/edit-avatar-dia
   templateUrl: './edit-profile-dialog.component.html',
   styleUrl: './edit-profile-dialog.component.scss',
 })
-export class EditProfileDialogComponent implements OnInit {
+export class EditProfileDialogComponent {
   authService = inject(AuthenticationService);
   edit = false;
   fb = inject(FormBuilder);
@@ -33,8 +33,8 @@ export class EditProfileDialogComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   editProfileForm = this.fb.group({
-    username: '',
-    email: ['', [Validators.email, this.emailAlreadyExists()]]
+    username: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email, this.emailAlreadyExists()]]
   })
 
   constructor(
@@ -46,8 +46,6 @@ export class EditProfileDialogComponent implements OnInit {
   ) {
     this.user = data.user;
   }
-
-  ngOnInit(): void { }
 
   async saveChanges() {
     const newUsername = this.editProfileForm.get('username')?.value !== "" ? this.editProfileForm.get('username')?.value : this.data.user.displayName;

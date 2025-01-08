@@ -15,24 +15,22 @@
   <div class="message-wrapper">
     <div class="divider">
       <hr class="line" />
-      @if (isToday && isDifferentDay($index)) {
-        <span class="date">Heute</span>
-      } @else if(isDifferentDay($index)) {
+      @if(isDifferentDay($index)) {
         <span class="date">{{ message.timestamp | date }}</span>
       }
       <hr class="line" />
     </div>
 
-    <div class="message-content">
-      <div class="single-message-container">
+    <div class="message-content" [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
+      <div class="single-message-container" [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
         <img src="{{ message.senderAvatar }}" class="member-avatar" />
         <div class="message-content">
-          <div class="name-time">
+          <div class="name-time" [ngStyle]="{'justify-content': authService.currentUser.displayName === message.initiatedBy ? 'flex-end' : 'flex-start'}">
             <span>{{ message.initiatedBy }}</span>
             <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
           </div>
 
-          <span class="user-message">
+          <span class="user-message" [ngStyle]="authService.currentUser.displayName === message.initiatedBy ? {'text-align': 'end', 'border-radius': '30px 0 30px 30px'} : {}">
             {{ message.senderMessage }}
 
           </span>

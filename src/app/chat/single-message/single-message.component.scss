@@ -64,8 +64,11 @@ section {
     }
   }
 
+  
   .message-content {
     width: 100%;
+    display: flex;
+    // für current-user: display: flex, flex-direction: row-reverse
 
     .single-message-container {
       width: 70%;
@@ -74,6 +77,7 @@ section {
       align-items: flex-start;
       gap: 16px;
       cursor: pointer;
+      // für current-user: flex-direction: row-reverse
 
       >img {
         width: 70px;
@@ -91,6 +95,7 @@ section {
           display: flex;
           justify-content: flex-start;
           gap: 20px;
+          // für current-user: justify-content: flex-end
 
           >span {
             font-size: 18px;
@@ -107,6 +112,7 @@ section {
         >span {
           background-color: #eceefe;
           border-radius: 0 30px 30px 30px;
+          // für current-user: 30px 0 30px 30px, text-align: end
           padding: 15px;
           font-size: 18px;
           font-weight: 400;

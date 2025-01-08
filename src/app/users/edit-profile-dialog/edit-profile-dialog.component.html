@@ -37,7 +37,7 @@
       <div>
         <div>
           <input class="background-image mail-input" [placeholder]="authService.currentUser?.email"
-            formControlName="email" [style.color]="editProfileForm.get('email')?.dirty ? 'black' : '#686868'"
+            formControlName="email" type="email" [style.color]="editProfileForm.get('email')?.dirty ? 'black' : '#686868'"
             (ngModelChange)="onInputChange()">
         </div>
         @if (editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.value != '') {

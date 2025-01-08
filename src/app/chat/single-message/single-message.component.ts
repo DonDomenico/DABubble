@@ -79,7 +79,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
-      this.checkDate();
+      // this.checkDate();
       // setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);   wirft Fehler
       this.unsubConversationMessages = this.subConversationMessages();
     });
@@ -191,18 +191,18 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkDate() {
-    for (let index = 0; index < this.conversationMessages.length; index++) {
-      const message = this.conversationMessages[index];
-      const messageDate = new Date(message.timestamp);
-      const today = new Date();
-      if(messageDate.toLocaleDateString('de-DE') === today.toLocaleDateString('de-DE')) {
-        this.isToday = true;
-      } else {
-        this.isToday = false;
-      }
-    }
-  }
+  // checkDate() {
+  //   for (let index = 0; index < this.conversationMessages.length; index++) {
+  //     const message = this.conversationMessages[index];
+  //     const messageDate = new Date(message.timestamp);
+  //     const today = new Date();
+  //     if(messageDate.toLocaleDateString('de-DE') === today.toLocaleDateString('de-DE')) {
+  //       this.isToday = true;
+  //     } else {
+  //       this.isToday = false;
+  //     }
+  //   }
+  // }
 
   isDifferentDay(index: number) {
     if (index === 0) {

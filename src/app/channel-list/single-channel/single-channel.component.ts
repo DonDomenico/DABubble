@@ -94,7 +94,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   getSingleChannel(): Channel | undefined {
-    if (this.channelId != undefined) {
+    if (this.channelId !== undefined) {
       return this.channelService.channels.find((item) => {
         return item.docId == this.channelId;
       });
@@ -130,17 +130,21 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   subMemberInfos() {
-    const q = query(
-      collection(this.firestore, 'users'),
-      where('uid', 'in', this.channelMembers)
-    );
-    return onSnapshot(q, (snapshot) => {
-      this.memberInfos = [];
-      snapshot.forEach((doc) => {
-        this.memberInfos.push(doc.data());
+    if(this.channelMembers.length !== 0) {
+      const q = query(
+        collection(this.firestore, 'users'),
+        where('uid', 'in', this.channelMembers)
+      );
+      return onSnapshot(q, (snapshot) => {
+        this.memberInfos = [];
+        snapshot.forEach((doc) => {
+          this.memberInfos.push(doc.data());
+        });
+        console.log(this.memberInfos);
       });
-      console.log(this.memberInfos);
-    });
+    } else {
+      return undefined;
+    }
   }
 
   addMessage() {
