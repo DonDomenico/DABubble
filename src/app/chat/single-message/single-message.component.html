@@ -1,4 +1,4 @@
-<section>
+<section id="messages-container">
   <div class="chat-header">
     <div class="hearder-content" (click)="showProfileDialog(userId)">
       @if(user) {
@@ -76,7 +76,7 @@
 
     <div class="message-box-container">
       @if(conversationMessages && user) {
-      <textarea name="message" placeholder="Nachricht an {{ user.username }}" #input
+      <textarea id="inputfield" name="message" placeholder="Nachricht an {{ user.username }}" #input
         [(ngModel)]="conversationMessage"></textarea>
         {{ input.focus() }}
       }

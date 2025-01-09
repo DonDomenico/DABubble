@@ -5,7 +5,8 @@ import {
   Output,
   OnInit,
   inject,
-  OnDestroy
+  OnDestroy,
+  AfterViewInit
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
@@ -58,6 +59,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   messageEmpty: boolean = false;
   isToday: boolean = false;
   dateExists: boolean = false;
+  container!: HTMLElement;
 
   constructor(
     public conversationService: ConversationsService,
@@ -216,6 +218,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     
     return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
   }
+
+  
 
   showProfileDialog(userId: string) {
     this.dialog.open(ShowProfileDialogComponent, {

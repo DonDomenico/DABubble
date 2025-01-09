@@ -1,8 +1,12 @@
 section {
   width: 100%;
-  height: 100vh;
+  // height: 100vh;
   background-color: white;
   border-radius: 30px;
+
+  >div:nth-last-child(2) {
+    margin-bottom: 280px;
+  }
 }
 
 .chat-header {
@@ -68,7 +72,6 @@ section {
   .message-content {
     width: 100%;
     display: flex;
-    // für current-user: display: flex, flex-direction: row-reverse
 
     .single-message-container {
       width: 70%;
@@ -77,7 +80,6 @@ section {
       align-items: flex-start;
       gap: 16px;
       cursor: pointer;
-      // für current-user: flex-direction: row-reverse
 
       >img {
         width: 70px;
@@ -95,7 +97,6 @@ section {
           display: flex;
           justify-content: flex-start;
           gap: 20px;
-          // für current-user: justify-content: flex-end
 
           >span {
             font-size: 18px;
@@ -112,7 +113,6 @@ section {
         >span {
           background-color: #eceefe;
           border-radius: 0 30px 30px 30px;
-          // für current-user: 30px 0 30px 30px, text-align: end
           padding: 15px;
           font-size: 18px;
           font-weight: 400;
@@ -154,14 +154,14 @@ section {
   width: 60%;
   // max-width: 40%;
   position: fixed;
-  bottom: 30px;
+  bottom: 12px;
   background: white;
   margin-left: 20px;
   border-radius: 30px;
 }
 
 .message-owner-container {
-  margin: 20px 45px;
+  margin: 12px 45px;
 
   .message-owner-content {
     display: flex;
@@ -190,9 +190,9 @@ section {
   >p {
     font-size: 20px;
     font-weight: 400;
-    line-height: 27.28px;
+    // line-height: 27.28px;
     color: #686868;
-    margin: 20px 0;
+    // margin: 20px 0;
 
     >span {
       color: #535af1;
@@ -216,10 +216,11 @@ section {
     border: 0;
     border-radius: 20px;
     outline: none;
-    padding: 20px;
+    padding: 16px;
     font-size: 18px;
     font-weight: 400;
     line-height: 24.55px;
+    resize: none;
   }
 
   .message-box {
@@ -228,7 +229,7 @@ section {
     flex-wrap: wrap;
     align-content: center;
     justify-content: space-between;
-    padding: 20px;
+    padding: 16px;
     color: #686868;
 
     .message-box-icons {
