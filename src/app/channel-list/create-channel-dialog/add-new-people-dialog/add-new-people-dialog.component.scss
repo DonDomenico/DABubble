@@ -18,6 +18,11 @@
   outline: 0 !important;
 }
 
+::ng-deep .mat-mdc-standard-chip .mdc-evolution-chip__action--primary {
+  background-color: #eceefe !important;
+  border-radius: 30px !important;
+}
+
 section {
   width: 710px;
   max-height: 354px;
