@@ -1,7 +1,7 @@
 <section>
   <div class="dialog-header">
     <h2 mat-dialog-title>Leute hinzufügen</h2>
-    <span class="material-symbols-outlined" mat-dialog-close>
+    <span class="material-symbols-outlined" mat-dialog-close (click)="removeChannel()">
       <mat-icon>close</mat-icon>
     </span>
   </div>
@@ -11,31 +11,49 @@
       <p>Alle Mitglieder von {{ channelName }} hinzufügen</p>
     </mat-checkbox>
 
-    <mat-checkbox [(ngModel)]="checkedSelect" >
+    <mat-checkbox [(ngModel)]="checkedSelect">
       <p>Bestimmte Leute hinzufügen</p>
     </mat-checkbox>
     @if(checkedSelect) {
 
-      <div class="dialog-input">
-        <input type="search" 
+    <div class="dialog-input">
+      <mat-chip-grid #chipGrid aria-label="Enter Member">
+
+  @for(member of selectedUsers; track $index) {
+    <mat-chip-row
+
+    > {{ member.username }} </mat-chip-row>
+    }
+
+      <input
+        name="chipInput"
+        placeholder="Suche nach Leuten:"
         [(ngModel)]="username"
         (keyup)="searchService.searchUsersOnly()"
         [(ngModel)]="searchService.searchAll"
-        [matAutocomplete]="auto" />
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipGrid"
+        #chipInput="matChipInput"
+      />
 
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-          @for (result of searchService.searchResultsUsers; track result) {
-          <mat-option [value]="result.username">{{ result.username }}</mat-option>
-          }
-        </mat-autocomplete>
-
-
-
-      </div>
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        @for (result of searchService.searchResultsUsers; track result) {
+        <mat-option
+          [value]="result.username"
+          (onSelectionChange)="addNewMember(result)">
+          {{ result.username }}
+        </mat-option>
+        }
+       
+      </mat-autocomplete>
+    </mat-chip-grid>
+    </div>
     }
   </div>
 
   <mat-dialog-actions>
-    <button class="button-primary" mat-flat-button (click)="selectMembers()">Erstellen</button>
+    <button class="button-primary" [disabled]="!checkedAll && !checkedSelect" [style.cursor]="!checkedAll && !checkedSelect ? 'not-allowed' : 'pointer'" (click)="selectMembers()">
+      Erstellen
+    </button>
   </mat-dialog-actions>
 </section>

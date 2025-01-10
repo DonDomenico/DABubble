@@ -1,4 +1,4 @@
-import { Component, Inject, inject } from '@angular/core';
+import { Component, Inject, inject, ViewChild } from '@angular/core';
 import {
   MatDialogModule,
   MatDialog,
@@ -15,11 +15,19 @@ import { ChannelService } from '../../../services/channel.service';
 import { User } from '../../../users/user.interface';
 import { UserService } from '../../../services/users.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import {
+  MatChipEditedEvent,
+  MatChipGrid,
+  MatChipInputEvent,
+  MatChipsModule,
+} from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   Firestore,
+  arrayRemove,
   arrayUnion,
   collection,
+  deleteDoc,
   doc,
   getDocs,
   query,
@@ -43,6 +51,8 @@ import { SearchService } from '../../../services/search.service';
     MatDialogClose,
     MatDialogTitle,
     MatAutocompleteModule,
+    MatChipsModule,
+    MatFormFieldModule,
   ],
 })
 export class AddNewPeopleDialogComponent {
@@ -56,11 +66,10 @@ export class AddNewPeopleDialogComponent {
   channelId: string = '';
   users: User[] = [];
   username: string = '';
-  searchResultsUsers: string[] = [];
   searchAll: string = '';
   userFound: boolean = false;
-  // searchAllUsers = '';
-  // userFound: boolean = false;
+  selectedUsers: any[] = [];
+  // @ViewChild('chipGrid') chipInput: MatChipGrid | undefined;
 
   constructor(
     public dialog: MatDialog,
@@ -109,44 +118,44 @@ export class AddNewPeopleDialogComponent {
 
   async selectMembers() {
     await this.userInDatabase();
-    if(this.username && this.userFound) {
+    // if(this.username && this.userFound) {
+    if (this.selectedUsers && this.userFound) {
       console.log('User found');
       //show user in input
       await this.getSingleUserId();
       await this.addUserToChannel();
       this.dialog.closeAll();
     }
-    
   }
 
-    async getSingleUserId() {
-      const q = query(
-        collection(this.firestore, 'users'),
-        where('username', '==', this.username)
-      );
-  
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        console.log(doc.data()['uid']);
-        this.userId = doc.id;
-      });
-    }
+  async getSingleUserId() {
+    const q = query(
+      collection(this.firestore, 'users'),
+      // where('username', '==', this.username)
+      where('username', '==', this.selectedUsers[0].username)
+    );
 
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data()['uid']);
+      this.userId = doc.id;
+    });
+  }
 
-
-    async addUserToChannel() {
-      await this.getChannelId();
-      await updateDoc(doc(this.firestore, 'channels', this.channelId), {
-        member: arrayUnion(this.userId),
-      });
-    }
+  async addUserToChannel() {
+    await this.getChannelId();
+    await updateDoc(doc(this.firestore, 'channels', this.channelId), {
+      // member: arrayUnion(this.userId),
+      member: this.selectedUsers.map((user) => user.uid),
+    });
+  }
 
   async userInDatabase() {
     for (let index = 0; index < this.userService.users.length; index++) {
       const element = this.userService.users[index].username;
-      if (this.username === element) {
+      if (this.selectedUsers[0].username === element) {
         this.userFound = true;
-  
+
         break;
       } else {
         this.userFound = false;
@@ -155,6 +164,24 @@ export class AddNewPeopleDialogComponent {
     }
   }
 
+  async removeChannel() {
+    await this.getChannelId();
+    await deleteDoc(doc(this.firestore, 'channels', this.channelId));
+    this.dialog.closeAll();
+  }
 
-
+  addNewMember(newMember: any) {
+    if (newMember) {
+      this.selectedUsers.push(newMember);
+      console.log('channel members', this.selectedUsers);
+      this.username = '';
+      // this.clean(this.username);
+    }
+  }
+  // funktioniert nicht
+  // clean(username: string): void {
+  //   if (this.chipInput) {
+  //     this.chipInput.value = [];
+  //   }
+  // }
 }
