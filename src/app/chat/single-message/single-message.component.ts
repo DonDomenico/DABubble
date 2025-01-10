@@ -6,7 +6,10 @@ import {
   OnInit,
   inject,
   OnDestroy,
-  AfterViewInit
+  AfterViewInit,
+  AfterViewChecked,
+  ChangeDetectorRef,
+  Renderer2
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
@@ -44,10 +47,11 @@ import { AuthenticationService } from '../../services/authentication.service';
     }
   ],
 })
-export class SingleMessageComponent implements OnInit, OnDestroy {
+export class SingleMessageComponent implements OnInit, OnDestroy, AfterViewInit {
   authService = inject(AuthenticationService);
   // @ViewChild('messageTextarea') inputField!: ElementRef;
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
+  @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   userId: string = '';
   user: User | undefined;
   isCurrentUser: boolean = false;
@@ -58,15 +62,17 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   unsubConversationMessages: any;
   messageEmpty: boolean = false;
   isToday: boolean = false;
+  dataLoaded: boolean = false;
   dateExists: boolean = false;
-  container!: HTMLElement;
 
   constructor(
     public conversationService: ConversationsService,
     private userService: UserService,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private firestore: Firestore
+    private firestore: Firestore,
+    private renderer: Renderer2,
+    private cdRef: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -85,6 +91,12 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       // setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);   wirft Fehler
       this.unsubConversationMessages = this.subConversationMessages();
     });
+  }
+
+  ngAfterViewInit(): void {
+    if(this.dataLoaded) {
+      this.scrollToBottom();
+    }
   }
 
   ngOnDestroy() {
@@ -118,6 +130,10 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         this.conversationMessages.push(this.toJsonDirectMessage(doc.data()));
       });
     }
+    this.dataLoaded = true;
+    this.cdRef.detectChanges();
+    this.scrollToBottom();
+    
   }
 
   async createConversation() {
@@ -219,7 +235,11 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
   }
 
-  
+  private scrollToBottom(): void {
+    if (this.messagesContainer && this.messagesContainer.nativeElement) {
+      this.renderer.setProperty(this.messagesContainer.nativeElement, 'scrollTop', this.messagesContainer.nativeElement.scrollHeight);
+    }
+  }
 
   showProfileDialog(userId: string) {
     this.dialog.open(ShowProfileDialogComponent, {
