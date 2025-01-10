@@ -1,4 +1,4 @@
-<section>
+<section id="messages-container" #messagesContainer>
   <div class="chat-header">
     <div class="hearder-content" (click)="showProfileDialog(userId)">
       @if(user) {
@@ -11,42 +11,50 @@
     </div>
   </div>
 
-  @for (message of conversationMessages; track $index ) {
-  <div class="message-wrapper">
-    <div class="divider">
-      <hr class="line" />
-      @if(isDifferentDay($index)) {
+
+  @if (dataLoaded) {
+    @for (message of conversationMessages; track $index ) {
+    <div class="message-wrapper">
+      <div class="divider">
+        <hr class="line" />
+        @if(isDifferentDay($index)) {
         <span class="date">{{ message.timestamp | date }}</span>
-      }
-      <hr class="line" />
-    </div>
+        }
+        <hr class="line" />
+      </div>
 
-    <div class="message-content" [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
-      <div class="single-message-container" [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
-        <img src="{{ message.senderAvatar }}" class="member-avatar" />
-        <div class="message-content">
-          <div class="name-time" [ngStyle]="{'justify-content': authService.currentUser.displayName === message.initiatedBy ? 'flex-end' : 'flex-start'}">
-            <span>{{ message.initiatedBy }}</span>
-            <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
-          </div>
+      <div class="message-content"
+        [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
+        <div class="single-message-container"
+          [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
+          <img src="{{ message.senderAvatar }}" class="member-avatar" />
+          <div class="message-content">
+            <div class="name-time"
+              [ngStyle]="{'justify-content': authService.currentUser.displayName === message.initiatedBy ? 'flex-end' : 'flex-start'}">
+              <span>{{ message.initiatedBy }}</span>
+              <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
+            </div>
 
-          <span class="user-message" [ngStyle]="authService.currentUser.displayName === message.initiatedBy ? {'text-align': 'end', 'border-radius': '30px 0 30px 30px'} : {}">
-            {{ message.senderMessage }}
+            <span class="user-message"
+              [ngStyle]="authService.currentUser.displayName === message.initiatedBy ? {'text-align': 'end', 'border-radius': '30px 0 30px 30px'} : {}">
+              {{ message.senderMessage }}
 
-          </span>
-          <!-- <div class="answer-time">
-            <p>
-              {{ conversations.answer }}
-            </p>
-            <span>
-              {{ conversations.lastAnswerTime }}
             </span>
-          </div> -->
+            <!-- <div class="answer-time">
+                  <p>
+                    {{ conversations.answer }}
+                  </p>
+                  <span>
+                    {{ conversations.lastAnswerTime }}
+                  </span>
+                </div> -->
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    }
   }
+
 
   <div class="input-wrapper">
     <div class="message-owner-container" (click)="showProfileDialog(userId)">
@@ -76,9 +84,8 @@
 
     <div class="message-box-container">
       @if(conversationMessages && user) {
-      <textarea name="message" placeholder="Nachricht an {{ user.username }}" #input
+      <textarea id="inputfield" autofocus name="message" placeholder="Nachricht an {{ user.username }}" #input
         [(ngModel)]="conversationMessage"></textarea>
-        {{ input.focus() }}
       }
       <div class="message-box">
         <div class="message-box-icons">
@@ -92,7 +99,7 @@
     </div>
     <div class="error-container-message">
       @if(messageEmpty) {
-        <span class="error-message-empty">Bitte gib eine Nachricht ein.</span>
+      <span class="error-message-empty">Bitte gib eine Nachricht ein.</span>
       }
     </div>
 

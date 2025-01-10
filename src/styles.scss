@@ -177,6 +177,7 @@ body {
   background-color: #eceefe;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  overflow: hidden;
 }
 
 .button-primary {
@@ -231,7 +232,8 @@ body {
 }
 
 .error-container-message {
-  height: 14px;
+  height: 16px;
+  margin-bottom: 8px;
 
   .error-message-empty {
     color: red;

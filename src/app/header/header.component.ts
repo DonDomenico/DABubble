@@ -29,6 +29,8 @@ export class HeaderComponent {
   }
 
   showUserProfile() {
+    const focusedElement = document.activeElement as HTMLElement; // Get the currently focused element
+    focusedElement.blur(); // Remove focus from the element
     this.dialog.open(ShowProfileDialogComponent, {
       data: {
         user: this.authService.currentUser
