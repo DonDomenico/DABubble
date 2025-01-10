@@ -1,24 +1,15 @@
 @if (authService.currentUser) {
-  <div class="user-container"  [routerLink]="['single-message/' + authService.currentUser.uid]"
-  [state]="{ uid: authService.currentUser.uid }"
-  routerLinkActive="active">
+  <div class="user-container" [routerLink]="['single-message/' + authService.currentUser.uid]"
+    [state]="{ uid: authService.currentUser.uid }" routerLinkActive="active">
     <img src="{{ authService.currentUser.photoURL }}">
     <p>{{ authService.currentUser.displayName }} (Du)</p>
-
   </div>
-} 
-
-@for (user of getList(); track user.uid) {
-
-<div
-  class="user-container"
-  [routerLink]="['single-message/' + user.uid]"
-  [state]="{ uid: user.uid }"
-  routerLinkActive="active"
->
-  <img src="{{ user.photoURL }}" />
-  <p>{{ user.username }}</p>
-</div>
 }
 
-
+@for (user of getList(); track user.uid) {
+  <div class="user-container" [routerLink]="['single-message/' + user.uid]" [state]="{ uid: user.uid }"
+    routerLinkActive="active">
+    <img src="{{ user.photoURL }}" />
+    <p>{{ user.username }}</p>
+  </div>
+}

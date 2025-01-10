@@ -15,7 +15,7 @@ export class UsersComponent {
   authService = inject(AuthenticationService);
   userList: User[] = [];
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
-  isSingleMessageHideen = false;
+  isSingleMessageHidden = false;
 
   constructor(
     private userService: UserService,
