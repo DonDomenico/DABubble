@@ -2,6 +2,7 @@
   <div class="user-container" [routerLink]="['single-message/' + authService.currentUser.uid]"
     [state]="{ uid: authService.currentUser.uid }" routerLinkActive="active">
     <img src="{{ authService.currentUser.photoURL }}">
+    <span class="active-status" [ngStyle]="authService.currentUser ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
     <p>{{ authService.currentUser.displayName }} (Du)</p>
   </div>
 }
@@ -10,6 +11,7 @@
   <div class="user-container" [routerLink]="['single-message/' + user.uid]" [state]="{ uid: user.uid }"
     routerLinkActive="active">
     <img src="{{ user.photoURL }}" />
+    <span class="active-status" [ngStyle]="user.active ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
     <p>{{ user.username }}</p>
   </div>
 }

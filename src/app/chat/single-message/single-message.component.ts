@@ -47,7 +47,7 @@ import { AuthenticationService } from '../../services/authentication.service';
     }
   ],
 })
-export class SingleMessageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SingleMessageComponent implements OnInit, OnDestroy {
   authService = inject(AuthenticationService);
   // @ViewChild('messageTextarea') inputField!: ElementRef;
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
@@ -93,11 +93,11 @@ export class SingleMessageComponent implements OnInit, OnDestroy, AfterViewInit 
     });
   }
 
-  ngAfterViewInit(): void {
-    if(this.dataLoaded) {
-      this.scrollToBottom();
-    }
-  }
+  // ngAfterViewInit(): void {
+  //   if(this.dataLoaded) {
+  //     this.scrollToBottom();
+  //   }
+  // }
 
   ngOnDestroy() {
     if(this.conversationMessages.length !== 0) {
@@ -133,7 +133,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy, AfterViewInit 
     this.dataLoaded = true;
     this.cdRef.detectChanges();
     this.scrollToBottom();
-    
   }
 
   async createConversation() {

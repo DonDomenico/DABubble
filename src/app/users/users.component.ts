@@ -2,12 +2,13 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { User } from './user.interface';
 import { UserService } from '../services/users.service';
 import { DialogModule } from '@angular/cdk/dialog';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [DialogModule, RouterModule],
+  imports: [DialogModule, RouterModule, CommonModule],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
 })
@@ -18,8 +19,7 @@ export class UsersComponent {
   isSingleMessageHidden = false;
 
   constructor(
-    private userService: UserService,
-    private route: ActivatedRoute
+    public userService: UserService,
   ) {}
 
   getList(): User[] {
