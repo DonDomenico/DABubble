@@ -8,8 +8,17 @@
 
   <div class="dialog-content">
     <mat-checkbox [(ngModel)]="checkedAll" (change)="addAllMembersToChannel()">
-      <p>Alle Mitglieder von {{ channelName }} hinzufügen</p>
+      <p>Alle Mitglieder von <span class="channel-name">{{ channelName }}</span> hinzufügen</p>
     </mat-checkbox>
+    <!-- <mat-radio-button [(ngModel)]="checkedAll" (change)="addAllMembersToChannel()">  
+      <p>Alle Mitglieder von <span class="channel-name">{{ channelName }}</span> hinzufügen</p>
+    </mat-radio-button>
+
+    <mat-radio-button [(ngModel)]="checkedSelect">
+
+      <p>Bestimmte Leute hinzufügen</p>
+    </mat-radio-button> -->
+
 
     <mat-checkbox [(ngModel)]="checkedSelect">
       <p>Bestimmte Leute hinzufügen</p>
@@ -22,7 +31,15 @@
   @for(member of selectedUsers; track $index) {
     <mat-chip-row
 
-    > {{ member.username }} </mat-chip-row>
+    [editable]="true"
+
+    [aria-description]="'press enter to edit ' + member.name"
+    > {{ member.username }} 
+    <img matChipAvatar [src]="member.photoURL">
+    <button matChipRemove [attr.aria-label]="'remove ' + member.name">
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-chip-row>
     }
 
       <input

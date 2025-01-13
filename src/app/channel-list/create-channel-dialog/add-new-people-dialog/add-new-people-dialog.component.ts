@@ -1,4 +1,4 @@
-import { Component, Inject, inject, ViewChild } from '@angular/core';
+import { Component, Inject, inject, signal, ViewChild } from '@angular/core';
 import {
   MatDialogModule,
   MatDialog,
@@ -10,6 +10,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../../services/channel.service';
 import { User } from '../../../users/user.interface';
@@ -35,7 +36,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { SearchService } from '../../../services/search.service';
-
+import {LiveAnnouncer} from '@angular/cdk/a11y';
 @Component({
   selector: 'app-add-new-people-dialog',
   standalone: true,
@@ -45,7 +46,6 @@ import { SearchService } from '../../../services/search.service';
     MatButtonModule,
     MatIconModule,
     FormsModule,
-    MatCheckboxModule,
     MatDialogModule,
     MatDialogActions,
     MatDialogClose,
@@ -53,6 +53,8 @@ import { SearchService } from '../../../services/search.service';
     MatAutocompleteModule,
     MatChipsModule,
     MatFormFieldModule,
+    MatCheckboxModule,
+    MatRadioModule,
   ],
 })
 export class AddNewPeopleDialogComponent {
@@ -69,6 +71,8 @@ export class AddNewPeopleDialogComponent {
   searchAll: string = '';
   userFound: boolean = false;
   selectedUsers: any[] = [];
+  readonly announcer = inject(LiveAnnouncer);
+  // readonly fruits = signal<Member[]>;
   // @ViewChild('chipGrid') chipInput: MatChipGrid | undefined;
 
   constructor(
@@ -82,6 +86,19 @@ export class AddNewPeopleDialogComponent {
     await this.getUserId();
     this.searchService.searchAll = '';
   }
+
+  // remove(member: Member): void {
+  //   this.selectedUsers.update(member => {
+  //     const index = this.selectedUsers.indexOf(member);
+  //     if (index < 0) {
+  //       return this.selectedUsers;
+  //     }
+
+  //     this.selectedUsers.splice(index, 1);
+  //     this.announcer.announce(`Removed ${member.name}`);
+  //     return [...this.selectedUsers];
+  //   });
+  // }
 
   async getUserId() {
     const q = query(this.userService.getUserRef());

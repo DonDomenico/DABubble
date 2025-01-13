@@ -18,9 +18,14 @@
   outline: 0 !important;
 }
 
-::ng-deep .mat-mdc-standard-chip .mdc-evolution-chip__action--primary {
+::ng-deep .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
   background-color: #eceefe !important;
   border-radius: 30px !important;
+}
+
+::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background {
+  border-color: #444df2 !important;
+  background-color: #444df2 !important;
 }
 
 section {
@@ -70,6 +75,9 @@ section {
       font-size: 18px;
       font-weight: 400;
       line-height: 24.55px;
+      >span {
+        color: #444DF2;
+      }
     }
 
     .dialog-input {
