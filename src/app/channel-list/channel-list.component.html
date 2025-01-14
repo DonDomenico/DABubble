@@ -5,53 +5,50 @@
       <input
         type="search"
         placeholder="An: #channel oder @jemand oder E-Mail Adresse"
-        (keyup)="searchService.searchUsersAndChannels()"
+        (keyup)="onKeyUp($event)"
         [(ngModel)]="searchService.searchAll"
         [matAutocomplete]="auto"
       />
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-        @for (result of searchService.searchResults; track result) {
+        @if (!isUserSearch) {
+          @for (result of searchService.searchResults; track result) {
         <mat-option
           [routerLink]="['/general-view/single-channel/' + result.docId]"
           routerLinkActive="router-link-active"
           [value]="result.name"
-          >{{ result.name }}</mat-option
-        >
-        } @for (result of searchService.searchResultsUsers; track result) {
+          >{{ result.name }}
+        </mat-option>
+          }
+        } 
+        
+        @if (isUserSearch) { 
+          @for (result of searchService.searchResultsUsers; track result) {
+
         <mat-option
           [routerLink]="['/general-view/single-message/' + result.uid]"
           routerLinkActive="router-link-active"
-          [value]="[result.username, result.email]"
-        >
-          <p>
-            {{ result.username }}
-          </p>
-          <span>
-            {{ result.email }}
-          </span>
+          [value]="[result.username, result.email]" >
+          <div class="user-result">
+            <p>{{ result.username }}</p>
+            <p>{{ result.email }}</p>
+          </div>
         </mat-option>
-        }
+        }}
       </mat-autocomplete>
     </div>
   </div>
 
   <div class="message-box-container">
-    <!-- @if(conversationMessages && user) { -->
     <textarea
       name="message"
       placeholder="Starte eine neue Nachricht"
     ></textarea>
-    <!-- } -->
     <div class="message-box">
       <div class="message-box-icons">
-        <!-- <mat-icon>add</mat-icon>
-          <span class="vertical-line"></span> -->
         <mat-icon>mood</mat-icon>
         <mat-icon>alternate_email</mat-icon>
       </div>
       <mat-icon class="send-icon">send</mat-icon>
     </div>
   </div>
-
-  <!-- </div> -->
 </section>

@@ -17,7 +17,7 @@ export class SearchService {
   searchResults: Channel[] = [];
   searchResultsUsers: User[] = [];
 
-  constructor() { }
+  constructor() {}
 
   async search() {
     if (this.searchText !== '') {
@@ -28,17 +28,21 @@ export class SearchService {
     }
   }
 
-  async searchUsersAndChannels() {
+  async searchUsersAndChannels(): Promise<void> {
     if (this.searchAll !== '') {
-      await this.searchChannelsOnly();
-      await this.searchUsers();
+      if (this.searchAll.startsWith('@')) {
+        await this.searchUsers();
+      } else if (this.searchAll.startsWith('#')) {
+        await this.searchChannelsOnly();
+      }
       console.log('Channels found: ', this.searchResults);
       console.log('Users found: ', this.searchResultsUsers);
-    } else if (this.searchAll === '') {
+    } else {
       this.searchResults = [];
       this.searchResultsUsers = [];
     }
   }
+
 
   async searchUsersOnly() {
     if (this.searchAll !== '') {
@@ -55,7 +59,12 @@ export class SearchService {
     for (let index = 0; index < this.channelService.channels.length; index++) {
       const channel = this.channelService.channels[index];
 
-      if (channel.description.toLowerCase().includes(this.searchText.toLowerCase()) || channel.name.toLowerCase().includes(this.searchText.toLowerCase())) {
+      if (
+        channel.description
+          .toLowerCase()
+          .includes(this.searchText.toLowerCase()) ||
+        channel.name.toLowerCase().includes(this.searchText.toLowerCase())
+      ) {
         this.searchResults.push(channel);
         continue;
       } else {
@@ -69,22 +78,26 @@ export class SearchService {
 
     for (let index = 0; index < this.channelService.channels.length; index++) {
       const channel = this.channelService.channels[index];
-
-      if (channel.description.toLowerCase().includes(this.searchAll.toLowerCase()) || channel.name.toLowerCase().includes(this.searchAll.toLowerCase())) {
-        this.searchResults.push(channel);
-      }
+      this.searchResults.push(channel);
     }
   }
 
   async searchChannelText(channel: Channel) {
-    const messages = query(collection(this.firestore, `channels/${channel.id}/chatText`));
+    const messages = query(
+      collection(this.firestore, `channels/${channel.id}/chatText`)
+    );
     const querySnapshot = await getDocs(messages);
 
-    querySnapshot.forEach(message => {
-      if(message.data()['userMessage'].toLowerCase().includes(this.searchText.toLowerCase())) {
+    querySnapshot.forEach((message) => {
+      if (
+        message
+          .data()
+          ['userMessage'].toLowerCase()
+          .includes(this.searchText.toLowerCase())
+      ) {
         this.searchResults.push(channel);
       }
-    })
+    });
   }
 
   async searchUsers() {
@@ -93,7 +106,10 @@ export class SearchService {
     for (let index = 0; index < this.userService.users.length; index++) {
       const user = this.userService.users[index];
 
-      if (user.username.toLowerCase().includes(this.searchAll.toLowerCase()) ||  user.email.toLowerCase().includes(this.searchAll.toLowerCase())) {
+      if (
+        user.username.toLowerCase().includes(this.searchAll.toLowerCase()) ||
+        user.email.toLowerCase().includes(this.searchAll.toLowerCase())
+      ) {
         this.searchResultsUsers.push(user);
       }
     }

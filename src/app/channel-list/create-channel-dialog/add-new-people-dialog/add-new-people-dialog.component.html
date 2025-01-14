@@ -32,7 +32,7 @@
     <mat-chip-row
 
     [editable]="true"
-
+    (removed)="remove(member)"
     [aria-description]="'press enter to edit ' + member.name"
     > {{ member.username }} 
     <img matChipAvatar [src]="member.photoURL">
@@ -59,6 +59,7 @@
           [value]="result.username"
           (onSelectionChange)="addNewMember(result)">
           {{ result.username }}
+          <!-- <img matChipAvatar [src]="result.photoURL"> -->
         </mat-option>
         }
        

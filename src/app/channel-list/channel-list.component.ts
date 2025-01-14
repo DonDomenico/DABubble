@@ -15,9 +15,19 @@ import { FormsModule } from '@angular/forms';
 })
 export class ChannelListComponent {
   constructor(public searchService: SearchService) {}
-
+  isUserSearch: boolean = false;
+  
 ngOnInit() {
   this.searchService.searchAll = '';
 }
 
+onKeyUp(event: KeyboardEvent): void { 
+  const input = (event.target as HTMLInputElement).value; 
+  if (input.startsWith('@')) { 
+    this.isUserSearch = true;
+   } else if (input.startsWith('#')) { 
+    this.isUserSearch = false;
+   } 
+   this.searchService.searchUsersAndChannels();
+ } 
 }

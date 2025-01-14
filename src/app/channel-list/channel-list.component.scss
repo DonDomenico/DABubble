@@ -2,15 +2,16 @@
 ::ng-deep .mat-mdc-option.mdc-list-item {
   border-radius: 30px;
   font-family: "Nunito";
+  padding-top: 5px;
 }
 
 ::ng-deep .mat-mdc-option.mat-mdc-option-active.mdc-list-item {
   background-color: #eceefe !important;
 }
 
-::ng-deep .mat-mdc-autocomplete-panel {
-  overflow: hidden !important;
-}
+// ::ng-deep .mat-mdc-autocomplete-panel {
+//   overflow: hidden !important;
+// }
 
 section {
   width: 100%;
@@ -29,10 +30,14 @@ section {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    > p {
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 32.74px;
+    .user-result {
+      // display: flex;
+      // flex-direction: column;
+      > p {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32.74px;
+      }
     }
     > input {
       width: 100%;

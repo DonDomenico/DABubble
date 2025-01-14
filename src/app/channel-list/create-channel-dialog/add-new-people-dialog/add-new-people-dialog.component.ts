@@ -87,18 +87,18 @@ export class AddNewPeopleDialogComponent {
     this.searchService.searchAll = '';
   }
 
-  // remove(member: Member): void {
-  //   this.selectedUsers.update(member => {
-  //     const index = this.selectedUsers.indexOf(member);
-  //     if (index < 0) {
-  //       return this.selectedUsers;
-  //     }
+  remove(member: string): void {
+    const index = this.selectedUsers.indexOf(member);
+    if (index < 0) {
+      return;
+    }
+  
+    this.selectedUsers.splice(index, 1);
+// upadate arrey selectedUsers
+this.selectedUsers = [...this.selectedUsers];
+  }
 
-  //     this.selectedUsers.splice(index, 1);
-  //     this.announcer.announce(`Removed ${member.name}`);
-  //     return [...this.selectedUsers];
-  //   });
-  // }
+
 
   async getUserId() {
     const q = query(this.userService.getUserRef());
@@ -135,10 +135,8 @@ export class AddNewPeopleDialogComponent {
 
   async selectMembers() {
     await this.userInDatabase();
-    // if(this.username && this.userFound) {
     if (this.selectedUsers && this.userFound) {
       console.log('User found');
-      //show user in input
       await this.getSingleUserId();
       await this.addUserToChannel();
       this.dialog.closeAll();
@@ -162,7 +160,6 @@ export class AddNewPeopleDialogComponent {
   async addUserToChannel() {
     await this.getChannelId();
     await updateDoc(doc(this.firestore, 'channels', this.channelId), {
-      // member: arrayUnion(this.userId),
       member: this.selectedUsers.map((user) => user.uid),
     });
   }
@@ -188,17 +185,17 @@ export class AddNewPeopleDialogComponent {
   }
 
   addNewMember(newMember: any) {
+
     if (newMember) {
       this.selectedUsers.push(newMember);
       console.log('channel members', this.selectedUsers);
-      this.username = '';
-      // this.clean(this.username);
+      
     }
+
+    // clear input
+    this.searchService.searchAll = '';
+    this.username = '';
+   
   }
-  // funktioniert nicht
-  // clean(username: string): void {
-  //   if (this.chipInput) {
-  //     this.chipInput.value = [];
-  //   }
-  // }
+
 }
