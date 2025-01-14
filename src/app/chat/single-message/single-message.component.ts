@@ -33,11 +33,12 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'app-single-message',
   standalone: true,
-  imports: [MatIconModule, CommonModule, FormsModule, DatePipe],
+  imports: [MatIconModule, CommonModule, FormsModule, DatePipe, PickerModule],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss',
   providers: [
@@ -64,6 +65,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   isToday: boolean = false;
   dataLoaded: boolean = false;
   dateExists: boolean = false;
+  showEmojiPicker = false;
 
   constructor(
     public conversationService: ConversationsService,
@@ -244,5 +246,29 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     this.dialog.open(ShowProfileDialogComponent, {
       data: { uid: userId },
     });
+  }
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    console.log(this.conversationMessage)
+    const { conversationMessage } = this;
+    console.log(conversationMessage);
+    console.log(`${event.emoji.native}`)
+    const text = `${conversationMessage}${event.emoji.native}`;
+
+    this.conversationMessage = text;
+    // this.showEmojiPicker = false;
+  }
+
+  onFocus() {
+    console.log('focus');
+    this.showEmojiPicker = false;
+  }
+
+  onBlur() {
+    console.log('onblur')
   }
 }
