@@ -43,7 +43,6 @@ export class SearchService {
     }
   }
 
-
   async searchUsersOnly() {
     if (this.searchAll !== '') {
       await this.searchUsers();
@@ -60,9 +59,7 @@ export class SearchService {
       const channel = this.channelService.channels[index];
 
       if (
-        channel.description
-          .toLowerCase()
-          .includes(this.searchText.toLowerCase()) ||
+        channel.description.toLowerCase().includes(this.searchText.toLowerCase()) ||
         channel.name.toLowerCase().includes(this.searchText.toLowerCase())
       ) {
         this.searchResults.push(channel);
@@ -75,10 +72,13 @@ export class SearchService {
 
   async searchChannelsOnly() {
     this.searchResults = [];
-
     for (let index = 0; index < this.channelService.channels.length; index++) {
       const channel = this.channelService.channels[index];
-      this.searchResults.push(channel);
+      const searchText = this.searchAll.slice(1);
+      if (channel.name.toLowerCase().includes(searchText.toLowerCase())) {
+        this.searchResults.push(channel);
+        continue;
+      }
     }
   }
 
@@ -105,10 +105,10 @@ export class SearchService {
 
     for (let index = 0; index < this.userService.users.length; index++) {
       const user = this.userService.users[index];
-
+      const searchText = this.searchAll.slice(1);
       if (
-        user.username.toLowerCase().includes(this.searchAll.toLowerCase()) ||
-        user.email.toLowerCase().includes(this.searchAll.toLowerCase())
+        user.username.toLowerCase().includes(searchText.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchText.toLowerCase())
       ) {
         this.searchResultsUsers.push(user);
       }

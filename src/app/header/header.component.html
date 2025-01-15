@@ -7,7 +7,7 @@
     <input type="search" placeholder="Code learning durchsuchen"  (keyup)="searchService.search()" [(ngModel)]="searchService.searchText" [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       @for (result of searchService.searchResults; track result) {
-        <mat-option [routerLink]="['/general-view/single-channel/'+ result.docId]" routerLinkActive="router-link-active"  [value]="result.name">{{result.name}}</mat-option>
+        <mat-option [routerLink]="['/general-view/single-channel/'+ result.docId]" routerLinkActive="router-link-active"  [value]="result.name">{{result.name}} {{result.description}}</mat-option>
       }
     </mat-autocomplete>
   </div>

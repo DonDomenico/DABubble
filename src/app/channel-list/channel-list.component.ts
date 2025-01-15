@@ -19,6 +19,8 @@ export class ChannelListComponent {
   
 ngOnInit() {
   this.searchService.searchAll = '';
+  this.searchService.searchResults = [];
+  this.searchService.searchResultsUsers = [];
 }
 
 onKeyUp(event: KeyboardEvent): void { 

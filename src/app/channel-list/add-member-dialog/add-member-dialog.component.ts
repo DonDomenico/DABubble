@@ -56,6 +56,7 @@ export class AddMemberDialogComponent {
   channelId: string = '';
   channel: Channel | undefined;
   channelName: string = '';
+  // singleChannelComponent: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -73,20 +74,26 @@ export class AddMemberDialogComponent {
   }
 
   async addMember() {
-    console.log(this.user);
+    console.log('WHAT', this.user);
     console.log(this.data.channelId);
+    await this.getUserId();
     await this.userInDatabase();
     await this.IsUserInChannel();
-    if (this.user && this.userFound) {
-      console.log('User found');
-      await this.getUserId();
-      await this.addUserToChannel();
-      // show success message
-      this.dialog.closeAll();
-    } else if (this.user && this.userInChannel) {
+    if (this.user && this.userInChannel) {
       this.alertMessage = true;
       console.log('User already in channel');
+      this.userInChannel = false;
       // show failure message
+    } else if (this.user && this.userFound) {
+      console.log('User found');
+      
+      await this.addUserToChannel();
+      await this.channelService.getChannelMembers();
+
+      // show success message
+      setTimeout(() => {
+        this.dialog.closeAll();
+      }, 3000);
     } else {
       console.log('User not found');
       // show failure message
@@ -110,8 +117,8 @@ export class AddMemberDialogComponent {
   async IsUserInChannel() {
     if (this.channel) {
       for (let index = 0; index < this.channel!.member.length; index++) {
-        const element = this.searchService.searchResultsUsers[index].uid;
-        if (element) {
+        const element = this.channel!.member[index];
+        if (element === this.userId) {
           this.userInChannel = true;
           this.alertMessage = true;
           break;

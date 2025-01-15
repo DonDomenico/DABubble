@@ -18,6 +18,7 @@ import {
 } from '@angular/fire/firestore';
 import { Channel } from '../interfaces/channel.interface';
 import { Message } from '../interfaces/message.interface';
+import { User } from '../users/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,7 @@ export class ChannelService {
   firestore = inject(Firestore);
   channels: Channel[] = [];
   messages: Message[] = [];
+  channelMembers: any = [];
   channelId: string = '';
   constructor() {}
 
@@ -86,6 +88,21 @@ export class ChannelService {
       this.channels.push(this.toJson(doc.data(), doc.id));
     });
   }
+
+    async getChannelMembers() {
+      const q = query(
+        collection(this.firestore, 'channels'),
+        where(documentId(), '==', this.channelId)
+      );
+  
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        doc.data()['member'].forEach((member: User) => {
+          this.channelMembers.push(member);
+        });
+      });
+      console.log('WORKS: ', this.channelMembers); //Testcode, später löschen
+    }
 
   async getChannelChats(channelId: string) {
     this.messages = [];
