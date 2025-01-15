@@ -74,7 +74,7 @@ section {
     }
   }
 
-  
+
   .message-content {
     width: 100%;
     display: flex;
@@ -249,6 +249,16 @@ section {
         border-left: 1px solid #adb0d9;
         height: 40px;
       }
+    }
+
+    .emoji-button {
+      border: none;
+      border-radius: 50%;
+      height: 24px;
+      width: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .send-icon {
