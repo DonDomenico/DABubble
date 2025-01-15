@@ -32,11 +32,12 @@ import { collection, where } from '@angular/fire/firestore';
 import { UserService } from '../../services/users.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'app-single-channel',
   standalone: true,
-  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule, MatTooltipModule, DatePipe],
+  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule, MatTooltipModule, DatePipe, PickerModule],
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss',
   providers: [
@@ -56,6 +57,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubMemberInfos: any;
   unsubChannelChat: any;
   unsubChannels: any;
+  showEmojiPicker: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -177,5 +179,19 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     };
 
     this.dialog.open(AddMemberDialogComponent, dialogConfig);
+  }
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    const { message } = this;
+    const text = `${message}${event.emoji.native}`;
+    this.message = text;
+  }
+
+  onFocus() {
+    this.showEmojiPicker = false;
   }
 }

@@ -91,8 +91,8 @@
         <div class="message-box-icons">
           <!-- <mat-icon>add</mat-icon>
         <span class="vertical-line"></span> -->
-          <button (click) ="toggleEmojiPicker()">😀</button>
-          <emoji-mart class="emoji-mart" set="apple" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+          <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
+          <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
           <mat-icon>alternate_email</mat-icon>
         </div>
         <mat-icon class="send-icon" (click)="createConversation()">send</mat-icon>

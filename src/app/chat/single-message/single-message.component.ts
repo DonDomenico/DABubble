@@ -50,7 +50,6 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 })
 export class SingleMessageComponent implements OnInit, OnDestroy {
   authService = inject(AuthenticationService);
-  // @ViewChild('messageTextarea') inputField!: ElementRef;
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   userId: string = '';
@@ -65,7 +64,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   isToday: boolean = false;
   dataLoaded: boolean = false;
   dateExists: boolean = false;
-  showEmojiPicker = false;
+  showEmojiPicker: boolean = false;
 
   constructor(
     public conversationService: ConversationsService,
@@ -89,17 +88,10 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
-      // this.checkDate();
       // setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);   wirft Fehler
       this.unsubConversationMessages = this.subConversationMessages();
     });
   }
-
-  // ngAfterViewInit(): void {
-  //   if(this.dataLoaded) {
-  //     this.scrollToBottom();
-  //   }
-  // }
 
   ngOnDestroy() {
     if(this.conversationMessages.length !== 0) {
@@ -210,19 +202,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     }
   }
 
-  // checkDate() {
-  //   for (let index = 0; index < this.conversationMessages.length; index++) {
-  //     const message = this.conversationMessages[index];
-  //     const messageDate = new Date(message.timestamp);
-  //     const today = new Date();
-  //     if(messageDate.toLocaleDateString('de-DE') === today.toLocaleDateString('de-DE')) {
-  //       this.isToday = true;
-  //     } else {
-  //       this.isToday = false;
-  //     }
-  //   }
-  // }
-
   isDifferentDay(index: number) {
     if (index === 0) {
       return true; // Datum der ersten Nachricht immer anzeigen
@@ -253,22 +232,16 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   }
 
   addEmoji(event: any) {
-    console.log(this.conversationMessage)
     const { conversationMessage } = this;
-    console.log(conversationMessage);
-    console.log(`${event.emoji.native}`)
     const text = `${conversationMessage}${event.emoji.native}`;
-
     this.conversationMessage = text;
-    // this.showEmojiPicker = false;
   }
 
   onFocus() {
-    console.log('focus');
     this.showEmojiPicker = false;
   }
 
-  onBlur() {
-    console.log('onblur')
-  }
+  // onBlur() {
+  //   console.log('onblur')
+  // }
 }
