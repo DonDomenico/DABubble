@@ -33,9 +33,9 @@
 
       }
     </div>
-    @if(router.url.startsWith ('/general-view/single-channel/') ) {
+    @if ( !channelService.isThreadHidden && router.url.startsWith('/general-view/single-channel/')) {
     <div class="thread-container">
-      <app-thread (toggleThread)="onToggleThread($event)"></app-thread>
+      <app-thread></app-thread>
     </div>
     }
   </section>

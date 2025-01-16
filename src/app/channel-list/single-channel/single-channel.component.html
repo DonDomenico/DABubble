@@ -1,20 +1,20 @@
 <section>
-
   <div class="chat-header">
-
-
     <div class="dev-team-container" (click)="updateChannel(channelId)">
       <!-- <mat-icon>tag</mat-icon> -->
 
-      <p> # {{ getSingleChannel()?.name }}</p>
+      <p># {{ getSingleChannel()?.name }}</p>
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
 
     <div class="add-member-container">
-
       @for (item of memberInfos; track $index) {
-      <img src="{{ item['photoURL'] }}" class="avarar-icon" matTooltip="{{ item['username'] }}"
-        [matTooltipPosition]="'below'">
+      <img
+        src="{{ item['photoURL'] }}"
+        class="avarar-icon"
+        matTooltip="{{ item['username'] }}"
+        [matTooltipPosition]="'below'"
+      />
       }
 
       <p>{{ channelMembers.length }}</p>
@@ -24,7 +24,6 @@
     </div>
   </div>
 
-
   @for (message of channelService.messages; track $index ) {
 
   <div class="divider">
@@ -32,22 +31,33 @@
 
     <span class="date">{{ message.timestamp | date }}</span>
 
-    <hr class="line" />
+    <hr class="line"  />
   </div>
 
   <div class="message-wrapper" [ngClass]="{ rowReverse: message.isRowReverse }">
-    <div class="single-message-container" [ngClass]="{ rowReverse: message.isRowReverse }">
+    <div
+      class="single-message-container"
+      [ngClass]="{ rowReverse: message.isRowReverse }"
+      (mouseover)="showThread = true" (mouseout)="showThread = false"
+    >
       <img src="{{ message.userAvatar }}" class="member-avatar" />
       <div class="message-content">
         <div class="name-time" [ngClass]="{ rowReverse: message.isRowReverse }">
           <span>{{ message.userName }}</span>
-          <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
+          <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
         </div>
 
         <span class="user-message">
           {{ message.userMessage }}
-
         </span>
+
+        @if (showThread) {
+          <!-- @if (channelService.isThreadHidden) {   -->
+        <div class="open-thread" >
+          <mat-icon (click)="createThread(channelId)" >comment</mat-icon>
+        </div>
+      }
+    <!-- } -->
         <div class="answer-time">
           <p>
             {{ message.answer }}
@@ -62,10 +72,12 @@
   }
 
   <div class="message-box-wrapper">
-
     <div class="message-box-container">
-      <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}" 
-        [(ngModel)]="message"></textarea>
+      <textarea
+        name="message"
+        placeholder="Nachricht an {{ getSingleChannel()?.name }}"
+        [(ngModel)]="message"
+      ></textarea>
 
       <div class="message-box">
         <div class="message-box-icons">
@@ -73,12 +85,17 @@
         <span class="vertical-line"></span> -->
           <!-- <mat-icon>mood</mat-icon> -->
           <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
-          <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+          <emoji-mart
+            class="emoji-mart"
+            set="twitter"
+            *ngIf="showEmojiPicker"
+            (emojiSelect)="addEmoji($event)"
+            title="Pick your emoji…"
+          ></emoji-mart>
           <mat-icon>alternate_email</mat-icon>
         </div>
         <mat-icon class="send-icon" (click)="addMessage()">send</mat-icon>
       </div>
     </div>
   </div>
-
 </section>

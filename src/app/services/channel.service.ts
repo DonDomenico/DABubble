@@ -29,6 +29,7 @@ export class ChannelService {
   messages: Message[] = [];
   channelMembers: any = [];
   channelId: string = '';
+  isThreadHidden: boolean = false;
   constructor() {}
 
   async saveChannel(
@@ -175,4 +176,8 @@ export class ChannelService {
       member: member || channel.member,
     };
   }
+
+  
+
+ 
 }

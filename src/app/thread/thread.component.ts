@@ -2,8 +2,9 @@ import { Component, Output, EventEmitter, ViewChild, Inject } from '@angular/cor
 import { MatIcon } from '@angular/material/icon';
 import { ChannelService } from '../services/channel.service';
 import { Channel } from '../interfaces/channel.interface';
-import { MatDialogModule, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { getDoc } from '@angular/fire/firestore';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { Firestore, getDoc } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-thread',
@@ -18,20 +19,28 @@ export class ThreadComponent {
   channelId: string = '';
   channel: Channel | undefined;
   channelName: string = '';
+  data: any;
 
   constructor(
     public channelService: ChannelService,
     public dialog: MatDialog,
-    // @Inject(MAT_DIALOG_DATA) public data: any
+     private route: ActivatedRoute,
+    private firestore: Firestore
   ) {}
 
-  isThreadHidden = false;
+  isThreadcolses = false;
 
   
-  // async ngOnInit() {
-  //   this.channelId = this.data.channelId;
-  //   this.channel = await this.getSingleChannel();
-  // }
+  async ngOnInit() {
+    this.route.children[0].params.subscribe(async (params) => {
+      this.channelId = params['id'] || '';
+   
+    this.channel = await this.getSingleChannel();
+  
+});
+
+  }
+
 
   async getSingleChannel(): Promise<Channel | undefined> {
     if (this.channelId != undefined) {
@@ -53,8 +62,8 @@ export class ThreadComponent {
     }
   }
   closeThread() {
-   this.isThreadHidden = !this.isThreadHidden;
-   this.toggleThread.emit(this.isThreadHidden);
+  //  this.isThreadHidden = !this.isThreadHidden;
+   this.toggleThread.emit(this.isThreadcolses);
 
   }
 }

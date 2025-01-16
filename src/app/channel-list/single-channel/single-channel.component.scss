@@ -42,6 +42,10 @@ section {
         }
       }
     }
+    .open-thread {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
 
   .rowReverse {

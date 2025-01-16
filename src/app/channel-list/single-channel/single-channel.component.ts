@@ -14,7 +14,7 @@ import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConversationsService } from '../../services/conversations.service';
 import {
   addDoc,
@@ -33,6 +33,7 @@ import { UserService } from '../../services/users.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { ThreadComponent } from '../../thread/thread.component';
 
 @Component({
   selector: 'app-single-channel',
@@ -58,6 +59,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubChannelChat: any;
   unsubChannels: any;
   showEmojiPicker: boolean = false;
+  showThread = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -66,7 +68,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private firestore: Firestore,
     private userService: UserService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -193,5 +196,10 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
 
   onFocus() {
     this.showEmojiPicker = false;
+  }
+
+  createThread(channelId: string) {
+    this.channelService.isThreadHidden = !this.channelService.isThreadHidden;
+    this.router.navigate([`/general-view/single-channel/${channelId}/thread`]);
   }
 }
