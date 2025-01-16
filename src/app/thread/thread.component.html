@@ -10,4 +10,54 @@
 
     <mat-icon>close</mat-icon>
   </div>
+  @for (message of channelService.messages; track $index ) {
+
+    <div class="message-wrapper">
+
+      <div class="single-message-container">
+          <img src="{{ message.userAvatar }}" class="member-avatar" />
+          <div class="message-content">
+            <div class="name-time">
+              <span>{{ message.userName }}</span>
+              <p>{{ message.timestamp | date : "HH:mm" : "CET"  }}</p>
+            </div>
+    
+            <span class="user-message">
+              {{ message.userMessage }}
+            </span>
+          </div>
+    
+        </div>
+    </div>
+  
+  }
+
+  <div class="message-box-wrapper">
+    <div class="message-box-container">
+      <textarea
+        name="message"
+        placeholder="Antworten..."
+        [(ngModel)]="answer"
+      ></textarea>
+
+      <div class="message-box">
+        <div class="message-box-icons">
+      
+          <button class="emoji-button" >😀</button>
+          <!-- <emoji-mart
+            class="emoji-mart"
+            set="twitter"
+            *ngIf="showEmojiPicker"
+            (emojiSelect)="addEmoji($event)"
+            title="Pick your emoji…"
+          ></emoji-mart> -->
+          <mat-icon>alternate_email</mat-icon>
+        </div>
+        <mat-icon class="send-icon" (click)="addAnswer()">send</mat-icon>
+      </div>
+    </div>
+  </div>
+
+
+
 </section>

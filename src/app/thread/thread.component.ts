@@ -5,13 +5,21 @@ import { Channel } from '../interfaces/channel.interface';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { Firestore, getDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { Message } from '../interfaces/message.interface';
+import { DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [MatDialogModule, MatIcon],
+  imports: [MatDialogModule, MatIcon, DatePipe, FormsModule],
   templateUrl: './thread.component.html',
-  styleUrl: './thread.component.scss'
+  styleUrl: './thread.component.scss',
+   providers: [
+      {
+      provide: DATE_PIPE_DEFAULT_OPTIONS,
+      useValue: { dateFormat: "dd.MM.yyyy" }
+    }]
 })
 export class ThreadComponent {
 
@@ -19,8 +27,9 @@ export class ThreadComponent {
   channelId: string = '';
   channel: Channel | undefined;
   channelName: string = '';
-  data: any;
-
+  messages: Message[] = [];
+  answer = '';
+  
   constructor(
     public channelService: ChannelService,
     public dialog: MatDialog,
@@ -34,14 +43,21 @@ export class ThreadComponent {
   async ngOnInit() {
     this.route.children[0].params.subscribe(async (params) => {
       this.channelId = params['id'] || '';
-   
-    this.channel = await this.getSingleChannel();
-  
+      this.channel = await this.getSingleChannel();
+      this.channelService.messages = [];
+      await this.channelService.getChannelChats(this.channelId);
+      this.unsubChannelChat = this.channelService.subChannelChat(this.channelId);
 });
+
 
   }
 
-
+  ngOnDestroy() {
+    this.unsubChannelChat();
+  }
+  unsubChannelChat() {
+    throw new Error('Method not implemented.');
+  }
   async getSingleChannel(): Promise<Channel | undefined> {
     if (this.channelId != undefined) {
       const channelRef = this.channelService.getSingleChannelRef(
@@ -61,6 +77,12 @@ export class ThreadComponent {
       return this.channelService.channels[0];
     }
   }
+
+  addAnswer() {
+
+  }
+
+
   closeThread() {
   //  this.isThreadHidden = !this.isThreadHidden;
    this.toggleThread.emit(this.isThreadcolses);
