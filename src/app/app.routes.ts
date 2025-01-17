@@ -21,7 +21,12 @@ export const routes: Routes = [
       // canActivate: [authGuard],
       // canMatch: [guardsGuard],
       children: [
-        { path: "single-channel/:id", component: SingleChannelComponent },
+        { path: "single-channel/:id", component: SingleChannelComponent,
+          children: [
+            { path: "chatText/:messageId", component: ThreadComponent }
+          ]
+         },
+
         // { path: "single-channel/:id/thread", component: ThreadComponent },
         { path: "single-message/:id", component: SingleMessageComponent },
         { path: "channel-list", component: ChatComponent }

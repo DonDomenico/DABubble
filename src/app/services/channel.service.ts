@@ -19,6 +19,7 @@ import {
 import { Channel } from '../interfaces/channel.interface';
 import { Message } from '../interfaces/message.interface';
 import { User } from '../users/user.interface';
+import { Thread } from '../interfaces/thread.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,8 @@ export class ChannelService {
   messages: Message[] = [];
   channelMembers: any = [];
   channelId: string = '';
-  isThreadHidden: boolean = false;
+  isThreadHidden: boolean = true;
+  threadId: string = '';
   constructor() {}
 
   async saveChannel(
@@ -65,6 +67,18 @@ export class ChannelService {
     return collection(this.firestore, `channels/${channelId}/chatText`);
   }
 
+  getChannelMessageRef(channelId: string) {
+    return collection(this.firestore, `channels/${channelId}/messages`);
+  }
+
+ async getThreadChatRef(channelId: string, threadId: string) {
+    return collection(this.firestore, `channels/${channelId}/chatText/${threadId}`);
+  }
+
+  // async getThreadChatRef(channelId: string, threadId: string) {
+  //   return doc(collection(this.firestore, 'channels', channelId, 'chatText'), threadId);
+  // }
+
   addText(message: Message) {
     addDoc(
       collection(this.firestore, `channels/${message.channelId}/chatText`),
@@ -75,9 +89,21 @@ export class ChannelService {
         userTimestamp: message.timestamp,
         answer: '',
         lastAnswerTime: '',
-        isRowReverse: false
+        docId: '',
       }
     );
+  }
+
+  addAnswer(thread: Thread) {
+addDoc(
+  collection(this.firestore, `channels/${this.channelId}/chatText/${this.threadId}/answer`),
+  {
+    userName: thread.userName,
+    userAvatar: thread.userAvatar,
+    userMessage: thread.userMessage,
+    timestamp: thread.timestamp
+  }
+)
   }
 
   async getChannels() {
@@ -144,7 +170,7 @@ export class ChannelService {
       userAvatar: obj.userAvatar || '',
       userMessage: obj.userMessage || '',
       timestamp: obj.userTimestamp || '',
-      answer: obj.answer || ''
+      docId: id
     };
   }
 

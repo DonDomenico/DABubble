@@ -34,15 +34,15 @@
     <hr class="line"  />
   </div>
 
-  <div class="message-wrapper" [ngClass]="{ rowReverse: message.isRowReverse }">
+  <div class="message-wrapper">
     <div
       class="single-message-container"
-      [ngClass]="{ rowReverse: message.isRowReverse }"
+     
       (mouseover)="showThread = true" (mouseout)="showThread = false"
     >
       <img src="{{ message.userAvatar }}" class="member-avatar" />
       <div class="message-content">
-        <div class="name-time" [ngClass]="{ rowReverse: message.isRowReverse }">
+        <div class="name-time" >
           <span>{{ message.userName }}</span>
           <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
         </div>
@@ -51,21 +51,18 @@
           {{ message.userMessage }}
         </span>
 
-        @if (showThread) {
-          <!-- @if (channelService.isThreadHidden) {   -->
-        <div class="open-thread" >
-          <mat-icon (click)="createThread(channelId)" >comment</mat-icon>
+        <div class="open-thread" (click)="createThread(channelId, messageId)">
+          <mat-icon>comment</mat-icon>
         </div>
-      }
-    <!-- } -->
-        <div class="answer-time">
+
+        <!-- <div class="answer-time">
           <p>
             {{ message.answer }}
           </p>
           <span>
             {{ message.lastAnswerTime }}
           </span>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

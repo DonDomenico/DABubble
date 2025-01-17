@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
+import {
+  CommonModule,
+  DATE_PIPE_DEFAULT_OPTIONS,
+  DatePipe,
+} from '@angular/common';
 import {
   MatDialog,
   MatDialogConfig,
@@ -38,14 +42,23 @@ import { ThreadComponent } from '../../thread/thread.component';
 @Component({
   selector: 'app-single-channel',
   standalone: true,
-  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule, MatTooltipModule, DatePipe, PickerModule],
+  imports: [
+    FormsModule,
+    MatIconModule,
+    CommonModule,
+    MatDialogModule,
+    MatTooltipModule,
+    DatePipe,
+    PickerModule,
+  ],
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss',
   providers: [
     {
-    provide: DATE_PIPE_DEFAULT_OPTIONS,
-    useValue: { dateFormat: "dd.MM.yyyy" }
-  }]
+      provide: DATE_PIPE_DEFAULT_OPTIONS,
+      useValue: { dateFormat: 'dd.MM.yyyy' },
+    },
+  ],
 })
 export class SingleChannelComponent implements OnInit, OnDestroy {
   conversationList: DirectMessage[] = [];
@@ -60,6 +73,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubChannels: any;
   showEmojiPicker: boolean = false;
   showThread = false;
+  messageId: string = '';
 
   constructor(
     private authService: AuthenticationService,
@@ -70,7 +84,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     private userService: UserService,
     public dialog: MatDialog,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.children[0].params.subscribe(async (params) => {
@@ -79,12 +93,15 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.channelService.messages = [];
       console.log(params); //Testcode, später löschen
       this.channelId = params['id'];
+    
       console.log(this.channelId); //Testcode, später löschen
       await this.getChannelMembers();
       await this.channelService.getChannelChats(this.channelId);
       this.unsubSingleChannel = this.subSingleChannel();
       this.unsubMemberInfos = this.subMemberInfos();
-      this.unsubChannelChat = this.channelService.subChannelChat(this.channelId);
+      this.unsubChannelChat = this.channelService.subChannelChat(
+        this.channelId
+      );
     });
   }
 
@@ -124,18 +141,21 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   subSingleChannel() {
-    return onSnapshot(doc(this.firestore, 'channels', this.channelId), (channel) => {
-      console.log(channel.data());
-      this.channelMembers = [];
-      channel.data()!['member'].forEach((member: User) => {
-        this.channelMembers.push(member);
-      });
-      console.log(this.channelMembers);
-    });
+    return onSnapshot(
+      doc(this.firestore, 'channels', this.channelId),
+      (channel) => {
+        console.log(channel.data());
+        this.channelMembers = [];
+        channel.data()!['member'].forEach((member: User) => {
+          this.channelMembers.push(member);
+        });
+        console.log(this.channelMembers);
+      }
+    );
   }
 
   subMemberInfos() {
-    if(this.channelMembers.length !== 0) {
+    if (this.channelMembers.length !== 0) {
       const q = query(
         collection(this.firestore, 'users'),
         where('uid', 'in', this.channelMembers)
@@ -159,9 +179,9 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       userAvatar: this.authService.currentUser?.photoURL!,
       userMessage: this.message,
       timestamp: new Date().getTime(),
-      answer: '',
-      lastAnswerTime: '',
-      isRowReverse: false
+      docId: this.messageId,
+     
+    
     };
     this.channelService.addText(newMessage);
     this.message = '';
@@ -198,8 +218,13 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.showEmojiPicker = false;
   }
 
-  createThread(channelId: string) {
-    this.channelService.isThreadHidden = !this.channelService.isThreadHidden;
-    this.router.navigate([`/general-view/single-channel/${channelId}/thread`]);
+  createThread(channelId: string, messageId: string) {
+    if (this.channelService.isThreadHidden) {
+      this.channelService.isThreadHidden = false;
+      this.channelService.getThreadChatRef(channelId, messageId);
+    } else {
+      this.channelService.isThreadHidden = true;
+    }
+    this.router.navigate([`/general-view/single-channel/${channelId}/chatText`]);
   }
 }

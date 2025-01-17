@@ -33,8 +33,8 @@
 
       }
     </div>
-    @if ( !channelService.isThreadHidden && router.url.startsWith('/general-view/single-channel/')) {
-    <div class="thread-container">
+    @if (router.url.startsWith('/general-view/single-channel/')) {
+    <div class="thread-container" [ngStyle]="channelService.isThreadHidden ? {display: 'none'} : {display: 'block'}">
       <app-thread></app-thread>
     </div>
     }
