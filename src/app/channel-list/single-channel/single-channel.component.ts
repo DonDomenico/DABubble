@@ -51,8 +51,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   message = '';
   channelId: string = '';
   currentChannel: any;
-  channelMembers: any = [];
-  memberInfos: any = [];
+  // channelMembers: any = [];
+  // memberInfos: any = [];
   unsubSingleChannel: any;
   unsubMemberInfos: any;
   unsubChannelChat: any;
@@ -71,16 +71,16 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.children[0].params.subscribe(async (params) => {
-      this.channelMembers = [];
-      this.memberInfos = [];
+      this.channelService.channelMembers = [];
+      this.channelService.memberInfos = [];
       this.channelService.messages = [];
       console.log(params); //Testcode, später löschen
       this.channelId = params['id'];
       console.log(this.channelId); //Testcode, später löschen
-      await this.getChannelMembers();
+      await this.channelService.getChannelMembers(this.channelId);
       await this.channelService.getChannelChats(this.channelId);
-      this.unsubSingleChannel = this.subSingleChannel();
-      this.unsubMemberInfos = this.subMemberInfos();
+      this.unsubSingleChannel = this.channelService.subSingleChannel(this.channelId);
+      this.unsubMemberInfos = this.channelService.subMemberInfos();
       this.unsubChannelChat = this.channelService.subChannelChat(this.channelId);
     });
   }
@@ -105,49 +105,49 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  async getChannelMembers() {
-    const q = query(
-      collection(this.firestore, 'channels'),
-      where(documentId(), '==', this.channelId)
-    );
+  // async getChannelMembers() {
+  //   const q = query(
+  //     collection(this.firestore, 'channels'),
+  //     where(documentId(), '==', this.channelId)
+  //   );
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      doc.data()['member'].forEach((member: User) => {
-        this.channelMembers.push(member);
-      });
-    });
-    console.log('Channel members: ', this.channelMembers); //Testcode, später löschen
-  }
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.forEach((doc) => {
+  //     doc.data()['member'].forEach((member: User) => {
+  //       this.channelService.channelMembers.push(member);
+  //     });
+  //   });
+  //   console.log('Channel members: ', this.channelService.channelMembers); //Testcode, später löschen
+  // }
 
-  subSingleChannel() {
-    return onSnapshot(doc(this.firestore, 'channels', this.channelId), (channel) => {
-      console.log(channel.data());
-      this.channelMembers = [];
-      channel.data()!['member'].forEach((member: User) => {
-        this.channelMembers.push(member);
-      });
-      console.log(this.channelMembers);
-    });
-  }
+  // subSingleChannel() {
+  //   return onSnapshot(doc(this.firestore, 'channels', this.channelId), (channel) => {
+  //     console.log(channel.data());
+  //     this.channelService.channelMembers = [];
+  //     channel.data()!['member'].forEach((member: User) => {
+  //       this.channelService.channelMembers.push(member);
+  //     });
+  //     console.log(this.channelService.channelMembers);
+  //   });
+  // }
 
-  subMemberInfos() {
-    if(this.channelMembers.length !== 0) {
-      const q = query(
-        collection(this.firestore, 'users'),
-        where('uid', 'in', this.channelMembers)
-      );
-      return onSnapshot(q, (snapshot) => {
-        this.memberInfos = [];
-        snapshot.forEach((doc) => {
-          this.memberInfos.push(doc.data());
-        });
-        console.log(this.memberInfos);
-      });
-    } else {
-      return undefined;
-    }
-  }
+  // subMemberInfos() {
+  //   if(this.channelService.channelMembers.length !== 0) {
+  //     const q = query(
+  //       collection(this.firestore, 'users'),
+  //       where('uid', 'in', this.channelService.channelMembers)
+  //     );
+  //     return onSnapshot(q, (snapshot) => {
+  //       this.memberInfos = [];
+  //       snapshot.forEach((doc) => {
+  //         this.memberInfos.push(doc.data());
+  //       });
+  //       console.log(this.memberInfos);
+  //     });
+  //   } else {
+  //     return undefined;
+  //   }
+  // }
 
   addMessage() {
     const newMessage: Message = {

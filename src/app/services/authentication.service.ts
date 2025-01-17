@@ -65,11 +65,9 @@ export class AuthenticationService {
       active: false
     }).then(() => {
       console.log('User added to database');
-    }
-    ).catch((err) => {
+    }).catch((err) => {
       console.error(err);
-    }
-    )
+    })
   }
 
   showCurrentUser() {

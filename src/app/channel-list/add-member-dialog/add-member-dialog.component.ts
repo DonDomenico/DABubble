@@ -79,6 +79,7 @@ export class AddMemberDialogComponent {
     await this.getUserId();
     await this.userInDatabase();
     await this.IsUserInChannel();
+    
     if (this.user && this.userInChannel) {
       this.alertMessage = true;
       console.log('User already in channel');
@@ -88,7 +89,7 @@ export class AddMemberDialogComponent {
       console.log('User found');
       
       await this.addUserToChannel();
-      await this.channelService.getChannelMembers();
+      await this.channelService.getChannelMembers(this.channelId);
 
       // show success message
       setTimeout(() => {

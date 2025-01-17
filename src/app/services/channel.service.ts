@@ -28,8 +28,10 @@ export class ChannelService {
   channels: Channel[] = [];
   messages: Message[] = [];
   channelMembers: any = [];
+  memberInfos: any;
   channelId: string = '';
-  constructor() {}
+
+  constructor() { }
 
   async saveChannel(
     name: string,
@@ -42,15 +44,12 @@ export class ChannelService {
       description: description,
       owner: ownerId,
       member: member,
-    })
-      .then(() => {
-        console.log('Channel added to database');
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    }).then(() => {
+      console.log('Channel added to database');
+    }).catch((err) => {
+      console.error(err);
+    });
   }
-
 
   getSingleChannelRef(channelId: string) {
     return doc(collection(this.firestore, 'channels'), channelId);
@@ -89,20 +88,21 @@ export class ChannelService {
     });
   }
 
-    async getChannelMembers() {
-      const q = query(
-        collection(this.firestore, 'channels'),
-        where(documentId(), '==', this.channelId)
-      );
-  
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        doc.data()['member'].forEach((member: User) => {
-          this.channelMembers.push(member);
-        });
+  async getChannelMembers(channelId: string) {
+    const q = query(
+      collection(this.firestore, 'channels'),
+      where(documentId(), '==', channelId)
+    );
+
+    const querySnapshot = await getDocs(q);
+    this.channelMembers = [];
+    querySnapshot.forEach((doc) => {
+      doc.data()['member'].forEach((member: User) => {
+        this.channelMembers.push(member);
       });
-      console.log('WORKS: ', this.channelMembers); //Testcode, später löschen
-    }
+    });
+    console.log('WORKS: ', this.channelMembers); //Testcode, später löschen
+  }
 
   async getChannelChats(channelId: string) {
     this.messages = [];
@@ -134,6 +134,32 @@ export class ChannelService {
         this.channels.push(this.toJson(channel.data(), channel.id));
       });
     });
+  }
+
+  subSingleChannel(channelId: string) {
+    return onSnapshot(doc(this.firestore, 'channels', channelId), (channel) => {
+      console.log(channel.data());
+      this.channelMembers = [];
+      channel.data()!['member'].forEach((member: User) => {
+        this.channelMembers.push(member);
+      });
+      console.log(this.channelMembers);
+    });
+  }
+
+  subMemberInfos() {
+    if (this.channelMembers.length !== 0) {
+      const q = query(collection(this.firestore, 'users'), where('uid', 'in', this.channelMembers));
+      this.memberInfos = [];
+
+      return onSnapshot(q, (snapshot) => {
+        snapshot.forEach((doc) => {
+          this.memberInfos.push(doc.data());
+        })
+      });
+    } else {
+      return undefined;
+    }
   }
 
   toJsonText(obj: any, id: string): Message {

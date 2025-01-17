@@ -12,12 +12,12 @@
 
     <div class="add-member-container">
 
-      @for (item of memberInfos; track $index) {
+      @for (item of channelService.memberInfos; track $index) {
       <img src="{{ item['photoURL'] }}" class="avarar-icon" matTooltip="{{ item['username'] }}"
         [matTooltipPosition]="'below'">
       }
 
-      <p>{{ channelMembers.length }}</p>
+      <p>{{ channelService.channelMembers.length }}</p>
       <span class="material-symbols-outlined" (click)="addMemberDialog()">
         <mat-icon>person_add</mat-icon>
       </span>
