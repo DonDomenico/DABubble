@@ -1,12 +1,9 @@
 <section>
-
   <div class="chat-header">
-
-
     <div class="dev-team-container" (click)="updateChannel(channelId)">
       <!-- <mat-icon>tag</mat-icon> -->
 
-      <p> # {{ getSingleChannel()?.name }}</p>
+      <p># {{ getSingleChannel()?.name }}</p>
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
 
@@ -24,7 +21,6 @@
     </div>
   </div>
 
-
   @for (message of channelService.messages; track $index ) {
 
   <div class="divider">
@@ -32,39 +28,42 @@
 
     <span class="date">{{ message.timestamp | date }}</span>
 
-    <hr class="line" />
+    <hr class="line"  />
   </div>
 
-  <div class="message-wrapper" [ngClass]="{ rowReverse: message.isRowReverse }">
-    <div class="single-message-container" [ngClass]="{ rowReverse: message.isRowReverse }">
+  <div class="message-wrapper">
+    <div class="single-message-container" (mouseover)="showThread = true" (mouseout)="showThread = false">
       <img src="{{ message.userAvatar }}" class="member-avatar" />
       <div class="message-content">
-        <div class="name-time" [ngClass]="{ rowReverse: message.isRowReverse }">
+        <div class="name-time">
           <span>{{ message.userName }}</span>
-          <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
+          <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
         </div>
 
         <span class="user-message">
           {{ message.userMessage }}
-
         </span>
-        <div class="answer-time">
+
+        <div class="open-thread" (click)="createThread(channelId, messageId)">
+          <mat-icon>comment</mat-icon>
+        </div>
+
+        <!-- <div class="answer-time">
           <p>
             {{ message.answer }}
           </p>
           <span>
             {{ message.lastAnswerTime }}
           </span>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
   }
 
   <div class="message-box-wrapper">
-
     <div class="message-box-container">
-      <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}" 
+      <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}"
         [(ngModel)]="message"></textarea>
 
       <div class="message-box">
@@ -73,12 +72,12 @@
         <span class="vertical-line"></span> -->
           <!-- <mat-icon>mood</mat-icon> -->
           <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
-          <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+          <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
+            title="Pick your emoji…"></emoji-mart>
           <mat-icon>alternate_email</mat-icon>
         </div>
         <mat-icon class="send-icon" (click)="addMessage()">send</mat-icon>
       </div>
     </div>
   </div>
-
 </section>

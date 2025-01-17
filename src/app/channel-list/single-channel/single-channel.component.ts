@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
+import {
+  CommonModule,
+  DATE_PIPE_DEFAULT_OPTIONS,
+  DatePipe,
+} from '@angular/common';
 import {
   MatDialog,
   MatDialogConfig,
@@ -14,7 +18,7 @@ import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConversationsService } from '../../services/conversations.service';
 import {
   addDoc,
@@ -33,18 +37,28 @@ import { UserService } from '../../services/users.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { ThreadComponent } from '../../thread/thread.component';
 
 @Component({
   selector: 'app-single-channel',
   standalone: true,
-  imports: [FormsModule, MatIconModule, CommonModule, MatDialogModule, MatTooltipModule, DatePipe, PickerModule],
+  imports: [
+    FormsModule,
+    MatIconModule,
+    CommonModule,
+    MatDialogModule,
+    MatTooltipModule,
+    DatePipe,
+    PickerModule,
+  ],
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss',
   providers: [
     {
-    provide: DATE_PIPE_DEFAULT_OPTIONS,
-    useValue: { dateFormat: "dd.MM.yyyy" }
-  }]
+      provide: DATE_PIPE_DEFAULT_OPTIONS,
+      useValue: { dateFormat: 'dd.MM.yyyy' },
+    },
+  ],
 })
 export class SingleChannelComponent implements OnInit, OnDestroy {
   conversationList: DirectMessage[] = [];
@@ -58,6 +72,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubChannelChat: any;
   unsubChannels: any;
   showEmojiPicker: boolean = false;
+  showThread = false;
+  messageId: string = '';
 
   constructor(
     private authService: AuthenticationService,
@@ -66,8 +82,9 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private firestore: Firestore,
     private userService: UserService,
-    public dialog: MatDialog
-  ) { }
+    public dialog: MatDialog,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.route.children[0].params.subscribe(async (params) => {
@@ -76,6 +93,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.channelService.messages = [];
       console.log(params); //Testcode, später löschen
       this.channelId = params['id'];
+    
       console.log(this.channelId); //Testcode, später löschen
       await this.channelService.getChannelMembers(this.channelId);
       await this.channelService.getChannelChats(this.channelId);
@@ -156,9 +174,9 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       userAvatar: this.authService.currentUser?.photoURL!,
       userMessage: this.message,
       timestamp: new Date().getTime(),
-      answer: '',
-      lastAnswerTime: '',
-      isRowReverse: false
+      docId: this.messageId,
+     
+    
     };
     this.channelService.addText(newMessage);
     this.message = '';
@@ -193,5 +211,15 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
 
   onFocus() {
     this.showEmojiPicker = false;
+  }
+
+  createThread(channelId: string, messageId: string) {
+    if (this.channelService.isThreadHidden) {
+      this.channelService.isThreadHidden = false;
+      this.channelService.getThreadChatRef(channelId, messageId);
+    } else {
+      this.channelService.isThreadHidden = true;
+    }
+    this.router.navigate([`/general-view/single-channel/${channelId}/chatText`]);
   }
 }

@@ -1,24 +1,22 @@
 <section>
   <div class="dialog-header">
     <h2 mat-dialog-title>Leute hinzufügen</h2>
-    <span class="material-symbols-outlined" mat-dialog-close (click)="removeChannel()">
+    <span
+      class="material-symbols-outlined"
+      mat-dialog-close
+      (click)="removeChannel()"
+    >
       <mat-icon>close</mat-icon>
     </span>
   </div>
 
   <div class="dialog-content">
     <mat-checkbox [(ngModel)]="checkedAll" (change)="addAllMembersToChannel()">
-      <p>Alle Mitglieder von <span class="channel-name">{{ channelName }}</span> hinzufügen</p>
+      <p>
+        Alle Mitglieder von
+        <span class="channel-name">{{ channelName }}</span> hinzufügen
+      </p>
     </mat-checkbox>
-    <!-- <mat-radio-button [(ngModel)]="checkedAll" (change)="addAllMembersToChannel()">  
-      <p>Alle Mitglieder von <span class="channel-name">{{ channelName }}</span> hinzufügen</p>
-    </mat-radio-button>
-
-    <mat-radio-button [(ngModel)]="checkedSelect">
-
-      <p>Bestimmte Leute hinzufügen</p>
-    </mat-radio-button> -->
-
 
     <mat-checkbox [(ngModel)]="checkedSelect">
       <p>Bestimmte Leute hinzufügen</p>
@@ -27,50 +25,54 @@
 
     <div class="dialog-input">
       <mat-chip-grid #chipGrid aria-label="Enter Member">
-
-  @for(member of selectedUsers; track $index) {
-    <mat-chip-row
-
-    [editable]="true"
-    (removed)="remove(member)"
-    [aria-description]="'press enter to edit ' + member.name"
-    > {{ member.username }} 
-    <img matChipAvatar [src]="member.photoURL">
-    <button matChipRemove [attr.aria-label]="'remove ' + member.name">
-      <mat-icon>cancel</mat-icon>
-    </button>
-  </mat-chip-row>
-    }
-
-      <input
-        name="chipInput"
-        placeholder="Suche nach Leuten:"
-        [(ngModel)]="username"
-        (keyup)="searchService.searchUsersOnly()"
-        [(ngModel)]="searchService.searchAll"
-        [matAutocomplete]="auto"
-        [matChipInputFor]="chipGrid"
-        #chipInput="matChipInput"
-      />
-
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-        @for (result of searchService.searchResultsUsers; track result) {
-        <mat-option
-          [value]="result.username"
-          (onSelectionChange)="addNewMember(result)">
-          {{ result.username }}
-          <!-- <img matChipAvatar [src]="result.photoURL"> -->
-        </mat-option>
+        @for(member of selectedUsers; track $index) {
+        <mat-chip-row
+          [editable]="true"
+          (removed)="remove(member)"
+          [aria-description]="'press enter to edit ' + member.name"
+        >
+          {{ member.username }}
+          <img matChipAvatar [src]="member.photoURL" />
+          <button matChipRemove [attr.aria-label]="'remove ' + member.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
         }
-       
-      </mat-autocomplete>
-    </mat-chip-grid>
+
+        <input
+          name="chipInput"
+          placeholder="Suche nach Leuten:"
+          [(ngModel)]="username"
+          (keyup)="searchService.searchUsersOnly()"
+          [(ngModel)]="searchService.searchAll"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipGrid"
+          #chipInput="matChipInput"
+        />
+
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          @for (result of searchService.searchResultsUsers; track result) {
+          <mat-option
+            [value]="result.username"
+            (onSelectionChange)="addNewMember(result)"
+          >
+            {{ result.username }}
+            <!-- <img matChipAvatar [src]="result.photoURL"> -->
+          </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-chip-grid>
     </div>
     }
   </div>
 
   <mat-dialog-actions>
-    <button class="button-primary" [disabled]="!checkedAll && !checkedSelect" [style.cursor]="!checkedAll && !checkedSelect ? 'not-allowed' : 'pointer'" (click)="selectMembers()">
+    <button
+      class="button-primary"
+      [disabled]="!checkedAll && !checkedSelect"
+      [style.cursor]="!checkedAll && !checkedSelect ? 'not-allowed' : 'pointer'"
+      (click)="selectMembers()"
+    >
       Erstellen
     </button>
   </mat-dialog-actions>

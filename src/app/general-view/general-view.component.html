@@ -33,9 +33,9 @@
 
       }
     </div>
-    @if(router.url.startsWith ('/general-view/single-channel/') ) {
-    <div class="thread-container">
-      <app-thread (toggleThread)="onToggleThread($event)"></app-thread>
+    @if (router.url.startsWith('/general-view/single-channel/')) {
+    <div class="thread-container" [ngStyle]="channelService.isThreadHidden ? {display: 'none'} : {display: 'block'}">
+      <app-thread></app-thread>
     </div>
     }
   </section>

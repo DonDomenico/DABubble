@@ -9,6 +9,7 @@ import { SingleMessageComponent } from './chat/single-message/single-message.com
 import { SingleChannelComponent } from './channel-list/single-channel/single-channel.component';
 import { authGuard } from './auth.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { ThreadComponent } from './thread/thread.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent },
@@ -20,7 +21,13 @@ export const routes: Routes = [
       // canActivate: [authGuard],
       // canMatch: [guardsGuard],
       children: [
-        { path: "single-channel/:id", component: SingleChannelComponent },
+        { path: "single-channel/:id", component: SingleChannelComponent,
+          children: [
+            { path: "chatText/:messageId", component: ThreadComponent }
+          ]
+         },
+
+        // { path: "single-channel/:id/thread", component: ThreadComponent },
         { path: "single-message/:id", component: SingleMessageComponent },
         { path: "channel-list", component: ChatComponent }
       ]
