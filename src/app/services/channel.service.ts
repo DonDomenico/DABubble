@@ -20,6 +20,7 @@ import { Channel } from '../interfaces/channel.interface';
 import { Message } from '../interfaces/message.interface';
 import { User } from '../users/user.interface';
 import { Thread } from '../interfaces/thread.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -31,10 +32,10 @@ export class ChannelService {
   channelMembers: any = [];
   memberInfos: any;
   channelId: string = '';
-
   isThreadHidden: boolean = true;
   threadId: string = '';
-  constructor() { }
+  
+  constructor(private router: Router) { }
 
   async saveChannel(
     name: string,
@@ -70,13 +71,13 @@ export class ChannelService {
     return collection(this.firestore, `channels/${channelId}/messages`);
   }
 
- async getThreadChatRef(channelId: string, threadId: string) {
-    return collection(this.firestore, `channels/${channelId}/chatText/${threadId}`);
-  }
-
   // async getThreadChatRef(channelId: string, threadId: string) {
-  //   return doc(collection(this.firestore, 'channels', channelId, 'chatText'), threadId);
+  //   return collection(this.firestore, `channels/${channelId}/chatText/${threadId}`);
   // }
+
+  async getThreadChatRef(channelId: string, threadId: string) {
+    return doc(collection(this.firestore, 'channels', channelId, 'chatText'), threadId);
+  }
 
   addText(message: Message) {
     addDoc(
@@ -86,23 +87,33 @@ export class ChannelService {
         userAvatar: message.userAvatar,
         userMessage: message.userMessage,
         userTimestamp: message.timestamp,
-        answer: '',
-        lastAnswerTime: '',
-        docId: '',
+        answers: [],
+        // lastAnswerTime: '',
+        // docId: message.docId,
       }
     );
   }
 
-  addAnswer(thread: Thread) {
-addDoc(
-  collection(this.firestore, `channels/${this.channelId}/chatText/${this.threadId}/answer`),
-  {
-    userName: thread.userName,
-    userAvatar: thread.userAvatar,
-    userMessage: thread.userMessage,
-    timestamp: thread.timestamp
+  addAnswer(thread: Thread, messageId: string) {
+    addDoc(collection(this.firestore, `channels/${this.channelId}/chatText/${messageId}/answer`),
+      {
+        userName: thread.userName,
+        userAvatar: thread.userAvatar,
+        userMessage: thread.userMessage,
+        timestamp: thread.timestamp
+      }
+    )
   }
-)
+
+  createThread() {
+    setTimeout(() => {
+      if (this.isThreadHidden) {
+        this.isThreadHidden = false;
+      } else {
+        this.isThreadHidden = true;
+        this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
+      }
+    }, 100);
   }
 
   async getChannels() {
@@ -129,16 +140,6 @@ addDoc(
       });
     });
     console.log('WORKS: ', this.channelMembers); //Testcode, später löschen
-  }
-
-  async getChannelChats(channelId: string) {
-    this.messages = [];
-    const q = query(collection(this.firestore, `channels/${channelId}/chatText`), orderBy('userTimestamp'));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      this.messages.push(this.toJsonText(doc.data(), doc.id));
-    });
-    console.log('Channel message: ', this.messages); //Testcode, später löschen
   }
 
   subChannelChat(channelId: string) {
@@ -228,8 +229,4 @@ addDoc(
       member: member || channel.member,
     };
   }
-
-  
-
- 
 }

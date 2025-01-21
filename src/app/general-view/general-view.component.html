@@ -28,15 +28,13 @@
       } @else if (router.url.startsWith('/general-view/single-channel/')) {
       <app-single-channel></app-single-channel>
       } @else {
-
       <app-channel-list></app-channel-list>
-
       }
     </div>
-    @if (router.url.startsWith('/general-view/single-channel/')) {
+    
     <div class="thread-container" [ngStyle]="channelService.isThreadHidden ? {display: 'none'} : {display: 'block'}">
-      <app-thread></app-thread>
+      <app-thread *ngIf="!channelService.isThreadHidden" [channelId]="channelService.channelId"></app-thread>
     </div>
-    }
+    
   </section>
 </mat-drawer-container>

@@ -42,14 +42,6 @@
               {{ message.senderMessage }}
 
             </span>
-            <!-- <div class="answer-time">
-                  <p>
-                    {{ conversations.answer }}
-                  </p>
-                  <span>
-                    {{ conversations.lastAnswerTime }}
-                  </span>
-                </div> -->
           </div>
         </div>
       </div>
@@ -91,8 +83,6 @@
       }
       <div class="message-box">
         <div class="message-box-icons">
-          <!-- <mat-icon>add</mat-icon>
-        <span class="vertical-line"></span> -->
           <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
           <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
           <mat-icon>alternate_email</mat-icon>
@@ -105,6 +95,5 @@
       <span class="error-message-empty">Bitte gib eine Nachricht ein.</span>
       }
     </div>
-
   </div>
 </section>

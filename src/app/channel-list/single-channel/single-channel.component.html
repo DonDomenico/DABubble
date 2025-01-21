@@ -1,6 +1,6 @@
 <section>
   <div class="chat-header">
-    <div class="dev-team-container" (click)="updateChannel(channelId)">
+    <div class="dev-team-container" (click)="updateChannel(channelService.channelId)">
       <!-- <mat-icon>tag</mat-icon> -->
 
       <p># {{ getSingleChannel()?.name }}</p>
@@ -21,43 +21,50 @@
     </div>
   </div>
 
-  @for (message of channelService.messages; track $index ) {
-
-  <div class="divider">
-    <hr class="line" />
-
-    <span class="date">{{ message.timestamp | date }}</span>
-
-    <hr class="line"  />
-  </div>
-
-  <div class="message-wrapper">
-    <div class="single-message-container" (mouseover)="showThread = true" (mouseout)="showThread = false">
-      <img src="{{ message.userAvatar }}" class="member-avatar" />
-      <div class="message-content">
-        <div class="name-time">
-          <span>{{ message.userName }}</span>
-          <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
-        </div>
-
-        <span class="user-message">
-          {{ message.userMessage }}
-        </span>
-
-        <div class="open-thread" (click)="createThread(channelId, messageId)">
-          <mat-icon>comment</mat-icon>
-        </div>
-
-        <!-- <div class="answer-time">
-          <p>
-            {{ message.answer }}
-          </p>
-          <span>
-            {{ message.lastAnswerTime }}
-          </span>
-        </div> -->
+  @if (dataLoaded) {
+    <div #messagesContainer class="messages-container">
+    @for (message of channelService.messages; track $index ) {
+      <div class="divider">
+        <hr class="line" />
+  
+        @if(isDifferentDay($index)) {
+        <span class="date">{{ message.timestamp | date }}</span>
+        }
+  
+        <hr class="line" />
       </div>
-    </div>
+  
+      <div class="message-wrapper">
+        <div class="single-message-container" (mouseover)="showThread = true" (mouseout)="showThread = false">
+          <img src="{{ message.userAvatar }}" class="member-avatar" />
+          <div class="message-content">
+            <div class="name-time">
+              <span>{{ message.userName }}</span>
+              <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
+            </div>
+  
+            <span class="user-message">
+              {{ message.userMessage }}
+            </span>
+  
+            <div class="open-thread"
+              [routerLink]="['single-channel/'+ channelService.channelId + '/thread/'+ message.docId]"
+              (click)="channelService.createThread()">
+              <mat-icon>comment</mat-icon>
+            </div>
+  
+            <!-- <div class="answer-time">
+              <p>
+                {{ message.answer }}
+              </p>
+              <span>
+                {{ message.lastAnswerTime }}
+              </span>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    }
   </div>
   }
 
@@ -79,5 +86,10 @@
         <mat-icon class="send-icon" (click)="addMessage()">send</mat-icon>
       </div>
     </div>
+  </div>
+  <div class="error-container-message">
+    @if(messageEmpty) {
+    <span class="error-message-empty">Bitte gib eine Nachricht ein.</span>
+    }
   </div>
 </section>
