@@ -74,7 +74,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     private firestore: Firestore,
     private renderer: Renderer2,
     private cdRef: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.children[0].params.subscribe(async (params) => {
@@ -94,7 +94,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.conversationMessages.length !== 0) {
+    if (this.conversationMessages.length !== 0) {
       this.unsubConversationMessages();
     }
   }
@@ -108,7 +108,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       querySnapshot.forEach((doc) => {
         if (doc.data()['members'].includes(this.userId) && doc.data()['members'].includes(this.authService.currentUser?.uid) && this.userId !== this.authService.currentUser.uid) {
           this.conversationId = doc.id;
-        } else if(this.userId === this.authService.currentUser.uid && doc.data()['members'][0] === this.authService.currentUser.uid && doc.data()['members'][1] === this.authService.currentUser.uid) {
+        } else if (this.userId === this.authService.currentUser.uid && doc.data()['members'][0] === this.authService.currentUser.uid && doc.data()['members'][1] === this.authService.currentUser.uid) {
           this.conversationId = doc.id;
         }
       })
@@ -134,7 +134,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       await this.conversationService.checkConversationExists(this.authService.currentUser?.uid, this.userId);
 
       if (!this.conversationService.conversationExists) {
-        await this.conversationService.addNewConversation(this.userId,this.authService.currentUser?.uid);
+        await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
         this.addMessageText();
       } else {
         this.addMessageText();
@@ -143,7 +143,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   }
 
   addMessageText() {
-    if(this.conversationMessage !== "") {
+    if (this.conversationMessage !== "") {
       const newDirectMessage: DirectMessage = {
         initiatedBy: this.authService.currentUser?.displayName!,
         senderAvatar: this.authService.currentUser?.photoURL!,
@@ -153,7 +153,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         timestamp: new Date().getTime(),
         // messageDate: new Date().getTime(),
       };
-  
+
       this.conversationService.addNewConversationMessage(newDirectMessage);
       this.conversationMessage = '';
       this.messageEmpty = false;
@@ -171,6 +171,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         list.forEach((doc: any) => {
           this.conversationMessages.push(this.toJsonDirectMessage(doc.data()));
         });
+        this.cdRef.detectChanges();
+        this.scrollToBottom();
       });
     } return undefined;
   }
@@ -208,10 +210,10 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     }
     const currentMessageDate = new Date(this.conversationMessages[index].timestamp);
     const previousMessageDate = new Date(this.conversationMessages[index - 1].timestamp);
-  
+
     // Vergleiche nur das Datum, nicht die Uhrzeit
     const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
-    
+
     return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
   }
 

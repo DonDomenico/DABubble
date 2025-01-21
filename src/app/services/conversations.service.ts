@@ -34,7 +34,7 @@ export class ConversationsService {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach(doc => {
-      if (doc.data()['members'].includes(senderId) && doc.data()['members'].includes(recipientId)) {
+      if ((doc.data()['members'][0] === senderId && doc.data()['members'][1] === recipientId) || (doc.data()['members'][1] === senderId && doc.data()['members'][0] === recipientId)) {
         this.conversationExists = true;
         this.currentConversationId = doc.id;
       }

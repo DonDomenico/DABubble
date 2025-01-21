@@ -97,7 +97,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       await this.getChannelChats(this.channelService.channelId);
       this.unsubSingleChannel = this.channelService.subSingleChannel(this.channelService.channelId);
       this.unsubMemberInfos = this.channelService.subMemberInfos();
-      this.unsubChannelChat = this.channelService.subChannelChat(this.channelService.channelId);
+      this.unsubChannelChat = this.subChannelChat(this.channelService.channelId);
     });
   }
 
@@ -132,6 +132,20 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.dataLoaded = true;
     this.cdRef.detectChanges();
     this.scrollToBottom();
+  }
+
+  subChannelChat(channelId: string) {
+    const channelRef = this.channelService.getChannelChatRef(channelId);
+    const q = query(channelRef, orderBy('userTimestamp'));
+    return onSnapshot(q, (list: any) => {
+      this.channelService.messages = [];
+      list.forEach((doc: any) => {
+        this.channelService.messages.push(this.channelService.toJsonText(doc.data(), doc.id));
+      });
+      this.cdRef.detectChanges();
+      this.scrollToBottom();
+      console.log('CHAT TEXT', this.channelService.messages);
+    });
   }
 
   addMessage() {
