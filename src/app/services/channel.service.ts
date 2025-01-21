@@ -34,7 +34,7 @@ export class ChannelService {
 
   isThreadHidden: boolean = true;
   threadId: string = '';
-  constructor() { }
+  constructor() {}
 
   async saveChannel(
     name: string,
@@ -47,11 +47,13 @@ export class ChannelService {
       description: description,
       owner: ownerId,
       member: member,
-    }).then(() => {
-      console.log('Channel added to database');
-    }).catch((err) => {
-      console.error(err);
-    });
+    })
+      .then(() => {
+        console.log('Channel added to database');
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 
   getSingleChannelRef(channelId: string) {
@@ -66,17 +68,23 @@ export class ChannelService {
     return collection(this.firestore, `channels/${channelId}/chatText`);
   }
 
-  getChannelMessageRef(channelId: string) {
-    return collection(this.firestore, `channels/${channelId}/messages`);
+  async getChatTextId(channelId: string) {
+    const chatTextCollection = collection(
+      this.firestore,
+      `channels/${channelId}/chatText`
+    );
+    const chatTextSnapshot = await getDocs(chatTextCollection);
+    const messageId = chatTextSnapshot.docs.map((doc) => doc.id);
+    return messageId.length > 0 ? messageId[0] : null;
+    // return messageId;
   }
 
- async getThreadChatRef(channelId: string, threadId: string) {
-    return collection(this.firestore, `channels/${channelId}/chatText/${threadId}`);
+  async getMessageId(channelId: string) {
+    const messageId = await this.getChatTextId(channelId);
+    console.log( "Juhuuu", messageId);
+    return messageId;
   }
 
-  // async getThreadChatRef(channelId: string, threadId: string) {
-  //   return doc(collection(this.firestore, 'channels', channelId, 'chatText'), threadId);
-  // }
 
   addText(message: Message) {
     addDoc(
@@ -94,15 +102,18 @@ export class ChannelService {
   }
 
   addAnswer(thread: Thread) {
-addDoc(
-  collection(this.firestore, `channels/${this.channelId}/chatText/${this.threadId}/answer`),
-  {
-    userName: thread.userName,
-    userAvatar: thread.userAvatar,
-    userMessage: thread.userMessage,
-    timestamp: thread.timestamp
-  }
-)
+    addDoc(
+      collection(
+        this.firestore,
+        `channels/${this.channelId}/chatText/${this.threadId}/answer`
+      ),
+      {
+        userName: thread.userName,
+        userAvatar: thread.userAvatar,
+        userMessage: thread.userMessage,
+        timestamp: thread.timestamp,
+      }
+    );
   }
 
   async getChannels() {
@@ -133,7 +144,10 @@ addDoc(
 
   async getChannelChats(channelId: string) {
     this.messages = [];
-    const q = query(collection(this.firestore, `channels/${channelId}/chatText`), orderBy('userTimestamp'));
+    const q = query(
+      collection(this.firestore, `channels/${channelId}/chatText`),
+      orderBy('userTimestamp')
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       this.messages.push(this.toJsonText(doc.data(), doc.id));
@@ -176,13 +190,16 @@ addDoc(
 
   subMemberInfos() {
     if (this.channelMembers.length !== 0) {
-      const q = query(collection(this.firestore, 'users'), where('uid', 'in', this.channelMembers));
+      const q = query(
+        collection(this.firestore, 'users'),
+        where('uid', 'in', this.channelMembers)
+      );
       this.memberInfos = [];
 
       return onSnapshot(q, (snapshot) => {
         snapshot.forEach((doc) => {
           this.memberInfos.push(doc.data());
-        })
+        });
       });
     } else {
       return undefined;
@@ -196,11 +213,17 @@ addDoc(
       userAvatar: obj.userAvatar || '',
       userMessage: obj.userMessage || '',
       timestamp: obj.userTimestamp || '',
-      docId: id
+      docId: id,
     };
   }
 
-  toJson(obj: any, id: string, description?: any, owner?: any, member?: any): Channel {
+  toJson(
+    obj: any,
+    id: string,
+    description?: any,
+    owner?: any,
+    member?: any
+  ): Channel {
     return {
       id,
       docId: id,
@@ -211,7 +234,13 @@ addDoc(
     };
   }
 
-  toJsonNewName(channel: Channel, newChannelName: string, description?: string, owner?: string, member?: string[]): { [key: string]: any } {
+  toJsonNewName(
+    channel: Channel,
+    newChannelName: string,
+    description?: string,
+    owner?: string,
+    member?: string[]
+  ): { [key: string]: any } {
     return {
       name: newChannelName,
       description: description || channel.description,
@@ -220,7 +249,13 @@ addDoc(
     };
   }
 
-  toJsonNewDescription(channel: Channel, name: string, newChannelDescription: string, owner?: string, member?: string[]): { [key: string]: any } {
+  toJsonNewDescription(
+    channel: Channel,
+    name: string,
+    newChannelDescription: string,
+    owner?: string,
+    member?: string[]
+  ): { [key: string]: any } {
     return {
       name: name || channel.name,
       description: newChannelDescription,
@@ -228,8 +263,4 @@ addDoc(
       member: member || channel.member,
     };
   }
-
-  
-
- 
 }

@@ -51,7 +51,8 @@ export class ThreadComponent {
       this.channelId = params['id'] || '';
       this.messageId = params['messageId'];
       this.channel = await this.getSingleChannel();
-      // await this.channelService.getThreadChatRef(this.channelId, this.threadId);
+
+      
       this.channelService.messages = [];
       await this.channelService.getChannelChats(this.channelId);
       this.unsubChannelChat = this.channelService.subChannelChat(this.channelId);
@@ -63,6 +64,8 @@ export class ThreadComponent {
   ngOnDestroy() {
     this.unsubChannelChat();
   }
+
+
 
   async getSingleChannel(): Promise<Channel | undefined> {
     if (this.channelId != undefined) {

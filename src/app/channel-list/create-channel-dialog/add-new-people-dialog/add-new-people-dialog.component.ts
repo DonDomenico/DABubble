@@ -1,4 +1,4 @@
-import { Component, Inject, inject, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, inject, ViewChild } from '@angular/core';
 import {
   MatDialogModule,
   MatDialog,
@@ -37,6 +37,7 @@ import {
 } from '@angular/fire/firestore';
 import { SearchService } from '../../../services/search.service';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { AuthenticationService } from '../../../services/authentication.service';
 @Component({
   selector: 'app-add-new-people-dialog',
   standalone: true,
@@ -61,6 +62,7 @@ export class AddNewPeopleDialogComponent {
   userService = inject(UserService);
   channelService = inject(ChannelService);
   searchService = inject(SearchService);
+  authenticationService = inject(AuthenticationService);
   checkedAll = '';
   checkedSelect = '';
   channelName: string = '';
@@ -68,12 +70,15 @@ export class AddNewPeopleDialogComponent {
   channelId: string = '';
   users: User[] = [];
   username: string = '';
+
   searchAll: string = '';
   userFound: boolean = false;
   selectedUsers: any[] = [];
   readonly announcer = inject(LiveAnnouncer);
-  // readonly fruits = signal<Member[]>;
-  // @ViewChild('chipGrid') chipInput: MatChipGrid | undefined;
+  currentUser = this.authenticationService.currentUser;
+  @ViewChild('chipInput') chipInput: ElementRef | undefined;
+ 
+
 
   constructor(
     public dialog: MatDialog,
@@ -134,6 +139,7 @@ this.selectedUsers = [...this.selectedUsers];
   }
 
   async selectMembers() {
+    this.addCurrenUserToArray();
     await this.userInDatabase();
     if (this.selectedUsers && this.userFound) {
       console.log('User found');
@@ -146,7 +152,6 @@ this.selectedUsers = [...this.selectedUsers];
   async getSingleUserId() {
     const q = query(
       collection(this.firestore, 'users'),
-      // where('username', '==', this.username)
       where('username', '==', this.selectedUsers[0].username)
     );
 
@@ -162,6 +167,14 @@ this.selectedUsers = [...this.selectedUsers];
     await updateDoc(doc(this.firestore, 'channels', this.channelId), {
       member: this.selectedUsers.map((user) => user.uid),
     });
+  }
+
+   addCurrenUserToArray() {
+    this.selectedUsers.push(
+      {
+        uid: this.currentUser.uid,
+      }
+    )
   }
 
   async userInDatabase() {
@@ -185,16 +198,14 @@ this.selectedUsers = [...this.selectedUsers];
   }
 
   addNewMember(newMember: any) {
-
     if (newMember) {
       this.selectedUsers.push(newMember);
       console.log('channel members', this.selectedUsers);
-      
     }
-
     // clear input
-    this.searchService.searchAll = '';
     this.username = '';
+    if (this.chipInput) { 
+      this.chipInput.nativeElement.value = ''; }
    
   }
 

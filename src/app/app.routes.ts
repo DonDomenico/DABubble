@@ -26,8 +26,6 @@ export const routes: Routes = [
             { path: "chatText/:messageId", component: ThreadComponent }
           ]
          },
-
-        // { path: "single-channel/:id/thread", component: ThreadComponent },
         { path: "single-message/:id", component: SingleMessageComponent },
         { path: "channel-list", component: ChatComponent }
       ]

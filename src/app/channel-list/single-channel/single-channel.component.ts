@@ -213,13 +213,26 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.showEmojiPicker = false;
   }
 
-  createThread(channelId: string, messageId: string) {
-    if (this.channelService.isThreadHidden) {
-      this.channelService.isThreadHidden = false;
-      this.channelService.getThreadChatRef(channelId, messageId);
-    } else {
-      this.channelService.isThreadHidden = true;
-    }
+//  async createThread(channelId:string) {
+
+//     if (this.channelService.isThreadHidden) {
+//       this.channelService.isThreadHidden = false;
+//       await this.channelService.getMessageId(channelId);
+//     } else {
+//       this.channelService.isThreadHidden = true;
+//     }
+//     this.router.navigate([`/general-view/single-channel/${channelId}/chatText`]);
+//   }
+
+async createThread(channelId: string) { 
+  if (this.channelService.isThreadHidden) { 
+    this.channelService.isThreadHidden = false; 
+    const messageId = await this.channelService.getMessageId(channelId); 
+    this.router.navigate([`/general-view/single-channel/${channelId}/chatText/${messageId}`]);
+   } else { 
+    this.channelService.isThreadHidden = true; 
     this.router.navigate([`/general-view/single-channel/${channelId}/chatText`]);
-  }
+
+   }
+}
 }
