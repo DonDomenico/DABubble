@@ -9,17 +9,20 @@
     </div>
 
     <div class="add-member-container">
+      <div class="avatar-container">
       @for (item of channelService.memberInfos; track $index) {
 
-      <img
-        src="{{ item['photoURL'] }}"
-        class="avarar-icon"
-        matTooltip="{{ item['username'] }}"
-        [matTooltipPosition]="'below'"
-        (click)="showMembersDialog()"
-      />
-      }
-      <p>{{ channelService.channelMembers.length }}</p>
+  <img
+    src="{{ item['photoURL'] }}"
+    class="avarar-icon"
+    matTooltip="{{ item['username'] }}"
+    [matTooltipPosition]="'below'"
+    (click)="showMembersDialog()"
+  />
+  }
+  <p>{{ channelService.channelMembers.length }}</p>
+
+</div>
 
       <span class="material-symbols-outlined" (click)="addMemberDialog()">
         <mat-icon>person_add</mat-icon>
