@@ -9,7 +9,9 @@ import {
   AfterViewInit,
   AfterViewChecked,
   ChangeDetectorRef,
-  Renderer2
+  Renderer2,
+  Input,
+  HostListener
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
@@ -46,12 +48,13 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
       provide: DATE_PIPE_DEFAULT_OPTIONS,
       useValue: { dateFormat: "dd.MM.yyyy" }
     }
-  ],
+  ]
 })
 export class SingleMessageComponent implements OnInit, OnDestroy {
   authService = inject(AuthenticationService);
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
+  @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   userId: string = '';
   user: User | undefined;
   isCurrentUser: boolean = false;
@@ -88,7 +91,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
-      // setTimeout(() => { this.messageTextarea.nativeElement.focus(); }, 0);   wirft Fehler
       this.unsubConversationMessages = this.subConversationMessages();
     });
   }
@@ -151,7 +153,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         recipientAvatar: this.user?.photoURL!,
         senderMessage: this.conversationMessage,
         timestamp: new Date().getTime(),
-        // messageDate: new Date().getTime(),
       };
 
       this.conversationService.addNewConversationMessage(newDirectMessage);
@@ -237,13 +238,19 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     const { conversationMessage } = this;
     const text = `${conversationMessage}${event.emoji.native}`;
     this.conversationMessage = text;
-  }
-
-  onFocus() {
     this.showEmojiPicker = false;
   }
 
-  // onBlur() {
-  //   console.log('onblur')
-  // }
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
+      
+        this.showEmojiPicker = false;
+       // Setzt das Schließen des Pickers nach einem kurzen Delay
+    }
+  }
+
+  onClickInside(event: MouseEvent) {
+    event.stopPropagation();
+  }
 }

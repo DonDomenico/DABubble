@@ -230,8 +230,8 @@ section {
   .message-box {
     height: 40px;
     display: flex;
-    flex-wrap: wrap;
-    align-content: center;
+    // flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
     padding: 16px;
     color: #686868;
@@ -249,20 +249,26 @@ section {
       }
     }
 
-    .emoji-button {
-      border: none;
-      border-radius: 50%;
-      height: 24px;
-      width: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
+    
     .send-icon {
       width: 30px;
       color: #444df2;
       cursor: pointer;
     }
+  }
+}
+
+.emoji-container {
+  display: flex;
+  align-items: center;
+  
+  .emoji-button {
+    border: none;
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

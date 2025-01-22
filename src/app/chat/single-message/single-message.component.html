@@ -51,7 +51,7 @@
 
 
   <div class="input-wrapper">
-    <div class="message-owner-container" (click)="showProfileDialog(userId)">
+    <div class="message-owner-container">
       <!-- <div class="message-owner-content">
 
         @if(user) {
@@ -83,8 +83,10 @@
       }
       <div class="message-box">
         <div class="message-box-icons">
-          <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
-          <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+          <div class="emoji-container" #emojiPicker (click)="onClickInside($event)">
+            <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
+            <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"  title="Pick your emoji…"></emoji-mart>
+          </div>
           <mat-icon>alternate_email</mat-icon>
         </div>
         <mat-icon class="send-icon" (click)="createConversation()">send</mat-icon>
