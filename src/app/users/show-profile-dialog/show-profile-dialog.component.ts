@@ -23,32 +23,32 @@ export class ShowProfileDialogComponent implements OnInit {
   authService = inject(AuthenticationService);
   userId: string = '';
   edit = false;
-  // user: User | undefined;
-  @Input() user!: User;
+  user: User | undefined;
+  // @Input() user!: User;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { uid: string },
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private userService: UserService,
     public dialog: MatDialog
   ) {
     this.userId = data.uid;
   }
 
-  ngOnInit(): void {
-    this.getSingleUser();
+  async ngOnInit(): Promise<void> {
+    await this.showSingleUser();
   }
 
-  async getSingleUser() {
+
+
+  async showSingleUser() {
     if (this.userId) {
-      const userRef = this.userService.getSingleUserRef(this.userId);
-      const userDoc = await getDoc(userRef);
-      if (userDoc.exists()) {
-        this.user = this.userService.toJson(userDoc.data(), userDoc.id);
+      const user = await this.userService.getSingleUser(this.userId);
+      if (user) {
+        this.user = user;
       } else {
         console.log('No such document!');
+        this.authService.showCurrentUser();
       }
-    } else {
-      this.authService.showCurrentUser();
     }
   }
 

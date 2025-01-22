@@ -1,5 +1,5 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { onSnapshot } from "firebase/firestore";
+import { getDoc, onSnapshot } from "firebase/firestore";
 import { addDoc, collection, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
 import { User } from '../users/user.interface';
 
@@ -59,6 +59,19 @@ export class UserService implements OnDestroy {
   getSingleUserRef(uid: string) {
     return doc(this.getUserRef(), uid);
   }
+
+  async getSingleUser(uid: string): Promise<User | null> {
+    const userRef = this.getSingleUserRef(uid);
+    const userDoc = await getDoc(userRef);
+    if (userDoc.exists()) {
+      return this.toJson(userDoc.data() as User, userDoc.id);
+    } else {
+      console.log('No such document!');
+      return null;
+  }
+  } 
+
+
 
   subUserList() {
     return onSnapshot(this.getUserRef(), userList => {

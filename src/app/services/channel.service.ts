@@ -73,13 +73,11 @@ export class ChannelService {
     return collection(this.firestore, `channels/${channelId}/messages`);
   }
 
-  // async getThreadChatRef(channelId: string, threadId: string) {
-  //   return collection(this.firestore, `channels/${channelId}/chatText/${threadId}`);
-  // }
 
-  async getThreadChatRef(channelId: string, threadId: string) {
-    return doc(collection(this.firestore, 'channels', channelId, 'chatText'), threadId);
-  }
+
+  // async getThreadChatRef(channelId: string, threadId: string) {
+  //   return doc(collection(this.firestore, 'channels', channelId, 'chatText'), threadId);
+  // }
 
   addText(message: Message) {
     addDoc(
@@ -142,6 +140,7 @@ export class ChannelService {
       });
     });
     console.log('WORKS: ', this.channelMembers); //Testcode, später löschen
+    return this.channelMembers;
   }
 
   async getChannelChats(channelId: string) {

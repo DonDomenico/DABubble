@@ -1,0 +1,26 @@
+<section>
+  <div class="dialog-header">
+    <h2 mat-dialog-title>Mitglieder</h2>
+    <span class="material-symbols-outlined" mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </span>
+  </div>
+
+  <div class="dialog-content">
+    @for (item of channelService.memberInfos; track $index) {
+    <div class="member-container" (click)="showProfileDialog(item)">
+      <img src="{{ item['photoURL'] }}" />
+      <!-- <p>{{ item["username"] }}</p> -->
+      <p>{{ item.username }}</p>
+    </div>
+    }
+  </div>
+
+  <div class="add-member-btn">
+    <span class="icon-add-person">
+    <mat-icon>person_add</mat-icon>
+</span>
+    <p (click)="addMemberDialog()">Mitglieder hinzufügen</p>
+ 
+  </div>
+</section>

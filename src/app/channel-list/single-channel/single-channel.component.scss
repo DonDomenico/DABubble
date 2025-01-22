@@ -158,14 +158,14 @@ section {
 
   .dev-team-container {
     padding: 6px 10px 6px 10px;
-    width: 70%;
+    width: 60%;
     height: 45px;
     border-radius: 30px;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     gap: 10px;
-    padding-left: 16px;
+    margin-left: 16px;
     cursor: pointer;
 
     >p {
@@ -187,7 +187,13 @@ section {
     justify-content: flex-end;
     align-items: center;
     gap: 18px;
-    padding-right: 16px;
+    margin-right: 16px;
+    border-radius: 30px;
+
+    &:hover {
+      color: #535af1;
+      background-color: #eceefe;
+    }
 
     .avarar-icon {
       width: 40px;

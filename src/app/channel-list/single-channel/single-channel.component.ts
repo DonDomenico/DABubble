@@ -37,6 +37,7 @@ import { UserService } from '../../services/users.service';
 import { AuthenticationService } from '../../services/authentication.service';
 import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { ShowMembersDialogComponent } from '../show-members-dialog/show-members-dialog.component';
 
 @Component({
   selector: 'app-single-channel',
@@ -167,6 +168,15 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     };
 
     this.dialog.open(AddMemberDialogComponent, dialogConfig);
+  }
+
+  showMembersDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      channelId: this.channelService.channelId,
+    };
+  
+    this.dialog.open(ShowMembersDialogComponent, dialogConfig);
   }
 
   toggleEmojiPicker() {

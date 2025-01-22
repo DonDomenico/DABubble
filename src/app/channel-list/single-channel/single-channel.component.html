@@ -1,20 +1,26 @@
 <section>
   <div class="chat-header">
-    <div class="dev-team-container" (click)="updateChannel(channelService.channelId)">
-      <!-- <mat-icon>tag</mat-icon> -->
-
+    <div
+      class="dev-team-container"
+      (click)="updateChannel(channelService.channelId)"
+    >
       <p># {{ getSingleChannel()?.name }}</p>
       <mat-icon>keyboard_arrow_down</mat-icon>
     </div>
 
     <div class="add-member-container">
-
       @for (item of channelService.memberInfos; track $index) {
-      <img src="{{ item['photoURL'] }}" class="avarar-icon" matTooltip="{{ item['username'] }}"
-        [matTooltipPosition]="'below'">
-      }
 
+      <img
+        src="{{ item['photoURL'] }}"
+        class="avarar-icon"
+        matTooltip="{{ item['username'] }}"
+        [matTooltipPosition]="'below'"
+        (click)="showMembersDialog()"
+      />
+      }
       <p>{{ channelService.channelMembers.length }}</p>
+
       <span class="material-symbols-outlined" (click)="addMemberDialog()">
         <mat-icon>person_add</mat-icon>
       </span>
@@ -22,38 +28,49 @@
   </div>
 
   @if (dataLoaded) {
-    <div #messagesContainer class="messages-container">
+  <div #messagesContainer class="messages-container">
     @for (message of channelService.messages; track $index ) {
-      <div class="divider">
-        <hr class="line" />
-  
-        @if(isDifferentDay($index)) {
-        <span class="date">{{ message.timestamp | date }}</span>
-        }
-  
-        <hr class="line" />
-      </div>
-  
-      <div class="message-wrapper">
-        <div class="single-message-container" (mouseover)="showThread = true" (mouseout)="showThread = false">
-          <img src="{{ message.userAvatar }}" class="member-avatar" />
-          <div class="message-content">
-            <div class="name-time">
-              <span>{{ message.userName }}</span>
-              <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
-            </div>
-  
-            <span class="user-message">
-              {{ message.userMessage }}
-            </span>
-  
-            <div class="open-thread"
-              [routerLink]="['single-channel/'+ channelService.channelId + '/thread/'+ message.docId]"
-              (click)="channelService.createThread()">
-              <mat-icon>comment</mat-icon>
-            </div>
-  
-            <!-- <div class="answer-time">
+    <div class="divider">
+      <hr class="line" />
+
+      @if(isDifferentDay($index)) {
+      <span class="date">{{ message.timestamp | date }}</span>
+      }
+
+      <hr class="line" />
+    </div>
+
+    <div class="message-wrapper">
+      <div
+        class="single-message-container"
+        (mouseover)="showThread = true"
+        (mouseout)="showThread = false"
+      >
+        <img src="{{ message.userAvatar }}" class="member-avatar" />
+        <div class="message-content">
+          <div class="name-time">
+            <span>{{ message.userName }}</span>
+            <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
+          </div>
+
+          <span class="user-message">
+            {{ message.userMessage }}
+          </span>
+
+          <div
+            class="open-thread"
+            [routerLink]="[
+              'single-channel/' +
+                channelService.channelId +
+                '/thread/' +
+                message.docId
+            ]"
+            (click)="channelService.createThread()"
+          >
+            <mat-icon>comment</mat-icon>
+          </div>
+
+          <!-- <div class="answer-time">
               <p>
                 {{ message.answer }}
               </p>
@@ -61,17 +78,20 @@
                 {{ message.lastAnswerTime }}
               </span>
             </div> -->
-          </div>
         </div>
       </div>
+    </div>
     }
   </div>
   }
 
   <div class="message-box-wrapper">
     <div class="message-box-container">
-      <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}"
-        [(ngModel)]="message"></textarea>
+      <textarea
+        name="message"
+        placeholder="Nachricht an {{ getSingleChannel()?.name }}"
+        [(ngModel)]="message"
+      ></textarea>
 
       <div class="message-box">
         <div class="message-box-icons">
@@ -79,8 +99,13 @@
         <span class="vertical-line"></span> -->
           <!-- <mat-icon>mood</mat-icon> -->
           <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
-          <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
-            title="Pick your emoji…"></emoji-mart>
+          <emoji-mart
+            class="emoji-mart"
+            set="twitter"
+            *ngIf="showEmojiPicker"
+            (emojiSelect)="addEmoji($event)"
+            title="Pick your emoji…"
+          ></emoji-mart>
           <mat-icon>alternate_email</mat-icon>
         </div>
         <mat-icon class="send-icon" (click)="addMessage()">send</mat-icon>
