@@ -10,7 +10,6 @@
     @for (item of channelService.memberInfos; track $index) {
     <div class="member-container" (click)="showProfileDialog(item)">
       <img src="{{ item['photoURL'] }}" />
-      <!-- <p>{{ item["username"] }}</p> -->
       <p>{{ item.username }}</p>
     </div>
     }

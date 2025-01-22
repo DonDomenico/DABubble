@@ -3,6 +3,10 @@
   overflow-y: auto;
 }
 
+::ng-deep .mat-typography p {
+  margin: 0 0 0px !important;
+}
+
 .side-nav {
   padding: 32px 30px 32px 30px;
 }
@@ -16,7 +20,7 @@
   .header-left-side {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     gap: 15px;
 
     > p {
@@ -50,13 +54,13 @@
 .channels-container {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   padding: 3px 0px 3px 0px;
 
   .left-side {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     gap: 15px;
     &:hover {
       color: #535af1;
@@ -113,7 +117,7 @@
   height: 33px;
   padding: 4px 10px 4px 10px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   gap: 10px;
   cursor: pointer;
@@ -130,14 +134,14 @@
   gap: 10px;
 
   > p {
-    width: 201px;
+    width: 80%;
     border-radius: 30px;
     padding: 4px 10px 4px 10px;
     font-size: 18px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
 
     &:hover {
       color: #535af1;
