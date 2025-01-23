@@ -79,7 +79,7 @@
     <div class="message-box-container">
       @if(conversationMessages && user) {
       <textarea id="inputfield" autofocus name="message" placeholder="Nachricht an {{ user.username }}" #input
-        [(ngModel)]="conversationMessage"></textarea>
+        [(ngModel)]="conversationMessage" (ngModelChange)="hideErrorMessage()"></textarea>
       }
       <div class="message-box">
         <div class="message-box-icons">

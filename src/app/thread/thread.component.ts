@@ -33,7 +33,7 @@ export class ThreadComponent {
   messages: Message[] = [];
   answer = '';
   unsubChannelChat: any;
-  isThreadclosed = false;
+  // isThreadclosed = false;
   message: any;
   dataLoaded: boolean = false;
 
@@ -106,6 +106,6 @@ export class ThreadComponent {
   closeThread() {
     this.channelService.isThreadHidden = !this.channelService.isThreadHidden;
     this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
-    this.toggleThread.emit(this.isThreadclosed);
+    // this.toggleThread.emit(this.channelService.isThreadHidden);
   }
 }

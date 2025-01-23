@@ -253,4 +253,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   onClickInside(event: MouseEvent) {
     event.stopPropagation();
   }
+
+  hideErrorMessage() {
+    this.messageEmpty = false;
+  }
 }

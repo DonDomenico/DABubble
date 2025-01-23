@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import {
@@ -72,10 +72,12 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubChannelChat: any;
   unsubChannels: any;
   showEmojiPicker: boolean = false;
-  showThread = false;
+  // showThread = false;
   messageId: string = '';
   dataLoaded: boolean = false;
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
+  @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
+  @ViewChild('messageBoxContainer') private messageBoxContainer: ElementRef | undefined;
 
   constructor(
     private authService: AuthenticationService,
@@ -150,7 +152,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   addMessage() {
-    if(this.message !== "") {
+    if (this.message !== "") {
       const newMessage: Message = {
         channelId: this.channelService.channelId,
         userName: this.authService.currentUser?.displayName!,
@@ -189,7 +191,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     dialogConfig.data = {
       channelId: this.channelService.channelId,
     };
-  
+
     this.dialog.open(ShowMembersDialogComponent, dialogConfig);
   }
 
@@ -223,6 +225,31 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   private scrollToBottom(): void {
     if (this.messagesContainer && this.messagesContainer.nativeElement) {
       this.renderer.setProperty(this.messagesContainer.nativeElement, 'scrollTop', this.messagesContainer.nativeElement.scrollHeight);
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
+
+      this.showEmojiPicker = false;
+      // Setzt das Schließen des Pickers nach einem kurzen Delay
+    }
+  }
+
+  onClickInside(event: MouseEvent) {
+    event.stopPropagation();
+  }
+
+  hideErrorMessage() {
+    this.messageEmpty = false;
+  }
+
+  toggleMessageBoxSize(messageBoxContainer: HTMLDivElement) {
+    if(this.channelService.isThreadHidden) {
+      messageBoxContainer.style.width='30%';
+    } else {
+      messageBoxContainer.style.width='55%';
     }
   }
 }

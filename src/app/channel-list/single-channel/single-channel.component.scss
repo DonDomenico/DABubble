@@ -17,7 +17,7 @@ section {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 3px 2px -2px rgb(0, 0, 0, 0.2);
-  
+
     .dev-team-container {
       padding: 6px 10px 6px 10px;
       width: 50%;
@@ -29,14 +29,14 @@ section {
       gap: 10px;
       margin-left: 16px;
       cursor: pointer;
-  
+
       >p {
         font-size: 24px;
         font-weight: 700;
         line-height: 32.74px;
-  
+
       }
-  
+
       &:hover {
         color: #535af1;
         background-color: #eceefe;
@@ -51,7 +51,7 @@ section {
     align-items: center;
     gap: 18px;
     margin-right: 16px;
-    
+
     .avatar-container {
       width: 70%;
       border-radius: 30px;
@@ -61,27 +61,28 @@ section {
       gap: 18px;
       padding: 5px 10px;
 
-    &:hover {
-      color: #535af1;
-      background-color: #eceefe;
+      &:hover {
+        color: #535af1;
+        background-color: #eceefe;
+      }
+
+      .avarar-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50px;
+        border: 2px solid white;
+        margin-left: -40px;
+      }
+
+      >p {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 27.28px;
+        text-align: center;
+        padding-top: 5px;
+      }
     }
 
-    .avarar-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50px;
-      border: 2px solid white;
-      margin-left: -40px;
-    }
-
-    >p {
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 27.28px;
-      text-align: center;
-      padding-top: 5px;
-    }
-  }
     >span {
       cursor: pointer;
       background-color: rgba(236, 238, 254, 1);
@@ -129,7 +130,7 @@ section {
     overflow-y: auto;
 
     >div:nth-last-child(1) {
-      margin-bottom: 380px;
+      margin-bottom: 400px;
     }
   }
 
@@ -242,23 +243,27 @@ section {
   }
 }
 
-
 .message-box-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  // display: flex;
+  // justify-content: center;
+  // width: 60%;
+  position: fixed;
+  bottom: 0px;
+  background: white;
+  margin-left: 20px;
+  border-radius: 30px;
 
   .message-box-container {
-    width: 50%;
-    max-width: 40%;
-    height: 145px;
+    width: 55%;
+    max-width: 55%;
+    // height: 145px;
     border-radius: 20px;
     border: 1px solid #adb0d9;
     position: fixed;
-    bottom: 30px;
+    bottom: 20px;
     // overflow: hidden;
     background: white;
+    margin: 10px 40px;
 
     >textarea {
       width: 100%;
@@ -278,7 +283,7 @@ section {
       // flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      padding: 20px;
+      padding: 16px;
       color: #686868;
 
       .message-box-icons {
@@ -295,14 +300,19 @@ section {
       }
     }
 
-    .emoji-button {
-      border: none;
-      border-radius: 50%;
-      height: 24px;
-      width: 24px;
+    .emoji-container {
       display: flex;
-      justify-content: center;
       align-items: center;
+
+      .emoji-button {
+        border: none;
+        border-radius: 50%;
+        height: 24px;
+        width: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
 
     .send-icon {

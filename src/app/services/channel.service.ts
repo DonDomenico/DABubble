@@ -73,11 +73,13 @@ export class ChannelService {
     return collection(this.firestore, `channels/${channelId}/messages`);
   }
 
-
-
   // async getThreadChatRef(channelId: string, threadId: string) {
-  //   return doc(collection(this.firestore, 'channels', channelId, 'chatText'), threadId);
+  //   return collection(this.firestore, `channels/${channelId}/chatText/${threadId}`);
   // }
+
+  async getThreadChatRef(channelId: string, threadId: string) {
+    return doc(collection(this.firestore, 'channels', channelId, 'chatText'), threadId);
+  }
 
   addText(message: Message) {
     addDoc(
@@ -105,7 +107,7 @@ export class ChannelService {
     )
   }
 
-  createThread() {
+  showThread() {
     setTimeout(() => {
       if (this.isThreadHidden) {
         this.isThreadHidden = false;
@@ -113,7 +115,7 @@ export class ChannelService {
         this.isThreadHidden = true;
         this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
       }
-    }, 100);
+    }, 0);
   }
 
   async getChannels() {
@@ -140,7 +142,6 @@ export class ChannelService {
       });
     });
     console.log('WORKS: ', this.channelMembers); //Testcode, später löschen
-    return this.channelMembers;
   }
 
   async getChannelChats(channelId: string) {
@@ -156,17 +157,17 @@ export class ChannelService {
     console.log('Channel message: ', this.messages); //Testcode, später löschen
   }
 
-  subChannelChat(channelId: string) {
-    const channelRef = this.getChannelChatRef(channelId);
-    const q = query(channelRef, orderBy('userTimestamp'));
-    return onSnapshot(q, (list: any) => {
-      this.messages = [];
-      list.forEach((doc: any) => {
-        this.messages.push(this.toJsonText(doc.data(), doc.id));
-      });
-      console.log('CHAT TEXT', this.messages);
-    });
-  }
+  // subChannelChat(channelId: string) {
+  //   const channelRef = this.getChannelChatRef(channelId);
+  //   const q = query(channelRef, orderBy('userTimestamp'));
+  //   return onSnapshot(q, (list: any) => {
+  //     this.messages = [];
+  //     list.forEach((doc: any) => {
+  //       this.messages.push(this.toJsonText(doc.data(), doc.id));
+  //     });
+  //     console.log('CHAT TEXT', this.messages);
+  //   });
+  // }
 
   subChannelList() {
     return onSnapshot(this.getChannelRef(), (channelList) => {
