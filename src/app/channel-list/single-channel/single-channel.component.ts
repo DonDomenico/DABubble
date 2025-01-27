@@ -129,7 +129,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     const q = query(collection(this.channelService.firestore, `channels/${channelId}/chatText`), orderBy('userTimestamp'));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      this.channelService.messages.push(this.channelService.toJsonText(doc.data(), doc.id));
+      this.channelService.messages.push(this.channelService.toJsonMessage(doc.data(), doc.id));
     });
     console.log('Channel message: ', this.channelService.messages); //Testcode, später löschen
     this.dataLoaded = true;
@@ -143,7 +143,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     return onSnapshot(q, (list: any) => {
       this.channelService.messages = [];
       list.forEach((doc: any) => {
-        this.channelService.messages.push(this.channelService.toJsonText(doc.data(), doc.id));
+        this.channelService.messages.push(this.channelService.toJsonMessage(doc.data(), doc.id));
       });
       this.cdRef.detectChanges();
       this.scrollToBottom();

@@ -58,7 +58,7 @@ export class UpdateChannelDialogComponent {
       );
       const channelSnapshot = await getDoc(channelRef);
       if (channelSnapshot.exists()) {
-        return this.channelService.toJson(
+        return this.channelService.toJsonChannel(
           channelSnapshot.data(),
           channelSnapshot.id
         );
@@ -101,7 +101,7 @@ export class UpdateChannelDialogComponent {
       );
       const channelSnapshot = await getDoc(channelRef);
       if (channelSnapshot.exists()) {
-        return this.channelService.toJson(
+        return this.channelService.toJsonChannel(
           channelSnapshot.data(),
           channelSnapshot.id
         );

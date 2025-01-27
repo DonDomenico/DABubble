@@ -59,7 +59,7 @@ export class ThreadComponent {
       const channelRef = this.channelService.getSingleChannelRef(this.channelId);
       const channelSnapshot = await getDoc(channelRef);
       if (channelSnapshot.exists()) {
-        return this.channelService.toJson(channelSnapshot.data(), channelSnapshot.id);
+        return this.channelService.toJsonChannel(channelSnapshot.data(), channelSnapshot.id);
       } else {
         console.log('No such document!');
         return undefined;
@@ -74,20 +74,12 @@ export class ThreadComponent {
     const messageRef = doc(this.firestore, "channels", this.channelId, "chatText", this.messageId);
     const messageSnapshot = await getDoc(messageRef);
     if (messageSnapshot.exists()) {
-      return this.channelService.toJsonText(messageSnapshot.data(), messageSnapshot.id);
+      return this.channelService.toJsonMessage(messageSnapshot.data(), messageSnapshot.id);
     } else {
       console.log('No such document!');
       return undefined;
     }
   }
-
-  // async getAnswersFromDb() {
-  //   const docRef = doc(this.firestore, "channels", this.channelId, "chatText", this.messageId);
-  //   const snapshot = await getDoc(docRef);
-  //   if(snapshot.exists()) {
-      
-  //   }
-  // }
 
   addAnswer() {
     const newAnswer: Thread = {
@@ -113,5 +105,18 @@ export class ThreadComponent {
     this.channelService.isThreadHidden = !this.channelService.isThreadHidden;
     this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
     // this.toggleThread.emit(this.channelService.isThreadHidden);
+  }
+
+  isDifferentDay(index: number) {
+    if (index === 0) {
+      return true; // Datum der ersten Nachricht immer anzeigen
+    }
+    const currentMessageDate = new Date(this.channelService.messages[index].timestamp);
+    const previousMessageDate = new Date(this.channelService.messages[index - 1].timestamp);
+
+    // Vergleiche nur das Datum, nicht die Uhrzeit
+    const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
+
+    return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
   }
 }

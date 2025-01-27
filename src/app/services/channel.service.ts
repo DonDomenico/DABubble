@@ -113,7 +113,7 @@ export class ChannelService {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      this.channels.push(this.toJson(doc.data(), doc.id));
+      this.channels.push(this.toJsonChannel(doc.data(), doc.id));
     });
   }
 
@@ -141,7 +141,7 @@ export class ChannelService {
     );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      this.messages.push(this.toJsonText(doc.data(), doc.id));
+      this.messages.push(this.toJsonMessage(doc.data(), doc.id));
     });
     console.log('Channel message: ', this.messages); //Testcode, später löschen
   }
@@ -162,8 +162,8 @@ export class ChannelService {
     return onSnapshot(this.getChannelRef(), (channelList) => {
       this.channels = [];
       channelList.forEach((channel) => {
-        console.log(this.toJson(channel.data(), channel.id));
-        this.channels.push(this.toJson(channel.data(), channel.id));
+        console.log(this.toJsonChannel(channel.data(), channel.id)); // später löschen
+        this.channels.push(this.toJsonChannel(channel.data(), channel.id));
       });
     });
   }
@@ -197,19 +197,19 @@ export class ChannelService {
     }
   }
 
-  toJsonText(obj: any, id: string): Message {
+  toJsonMessage(obj: any, id: string): Message {
     return {
       userId: id,
       userName: obj.userName || '',
       userAvatar: obj.userAvatar || '',
       userMessage: obj.userMessage || '',
       timestamp: obj.userTimestamp || '',
-      answers: obj.answers || '',
+      answers: obj.answers || [],
       docId: id,
     };
   }
 
-  toJson(
+  toJsonChannel(
     obj: any,
     id: string,
     description?: any,
