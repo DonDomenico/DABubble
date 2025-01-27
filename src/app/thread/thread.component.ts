@@ -1,10 +1,10 @@
-import { Component, Output, EventEmitter, ViewChild, Inject, Input } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, Inject, Input, OnInit, OnChanges } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ChannelService } from '../services/channel.service';
 import { Channel } from '../interfaces/channel.interface';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { Firestore, getDoc, doc, addDoc, collection, updateDoc } from '@angular/fire/firestore';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Message } from '../interfaces/message.interface';
 import { DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +23,7 @@ import { Thread } from '../interfaces/thread.interface';
       useValue: { dateFormat: "dd.MM.yyyy" }
     }]
 })
-export class ThreadComponent {
+export class ThreadComponent implements OnInit {
   @Input() channelId!: string;
   @Output() toggleThread: EventEmitter<any> = new EventEmitter();
   messageId: string = '';
@@ -34,6 +34,9 @@ export class ThreadComponent {
   message: any;
   dataLoaded: boolean = false;
   threadAnswers: Thread[] = [];
+  activeRoute = '';
+  routeSubscription: any;
+  routerSubscription: any;
 
   constructor(
     public channelService: ChannelService,
@@ -42,16 +45,32 @@ export class ThreadComponent {
     private route: ActivatedRoute,
     private firestore: Firestore,
     private router: Router
-  ) { }
+  ) { 
+    this.activeRoute = this.router.url;
+  }
 
   ngOnInit() {
-    this.route.children[0].children[0].params.subscribe(async params => {
+    this.routeSubscription = this.route.children[0].children[0].params.subscribe(async params => {
       this.messageId = params['id'];
       this.message = await this.getThreadMessage();
       this.dataLoaded = true;
       await this.channelService.getThreadChatRef(this.channelId, this.messageId);
       this.threadAnswers = this.message.answers;
-    })
+      
+    });
+
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        // Schließe oder setze den Zustand zurück, wenn die Route gewechselt wird.
+        console.log('Route wird gewechselt'); // später löschen
+        this.channelService.isThreadHidden = true;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.routeSubscription.unsubscribe();
+    this.routerSubscription.unsubscribe();
   }
 
   async getSingleChannel(): Promise<Channel | undefined> {
@@ -101,7 +120,7 @@ export class ThreadComponent {
     this.answer = '';
   }
 
-  closeThread() {
+  async closeThread() {
     this.channelService.isThreadHidden = !this.channelService.isThreadHidden;
     this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
     // this.toggleThread.emit(this.channelService.isThreadHidden);

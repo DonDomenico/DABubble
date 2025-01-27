@@ -150,9 +150,14 @@ section {
       }
     }
 
-    .open-thread {
+    .reactions {
       display: flex;
       justify-content: flex-end;
+    }
+
+    .answers-link {
+      font-size: 18px;
+      color: #535AF1;
     }
   }
 

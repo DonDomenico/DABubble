@@ -47,13 +47,15 @@
             {{ message.userMessage }}
           </span>
 
-          <div class="open-thread" [routerLink]="[
-              'single-channel/' +
-                channelService.channelId +
-                '/thread/' +
-                message.docId
-            ]" (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">
-            <mat-icon>comment</mat-icon>
+          <div class="reactions">
+            @if (message.answers && message.answers.length > 0) {
+              <span class="answers-link" [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]"
+              (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">{{ message.answers.length }} Antwort(en)</span>
+            }
+            <span [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]"
+              (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">
+              <mat-icon>comment</mat-icon>
+            </span>
           </div>
 
           <!-- <div class="answer-time">
@@ -73,8 +75,8 @@
 
   <div class="message-box-wrapper">
     <div class="message-box-container" #messageBoxContainer>
-      <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}"
-        [(ngModel)]="message" (ngModelChange)="hideErrorMessage()"></textarea>
+      <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}" [(ngModel)]="message"
+        (ngModelChange)="hideErrorMessage()"></textarea>
 
       <div class="message-box">
         <div class="message-box-icons">
