@@ -3,7 +3,7 @@ import { MatIcon } from '@angular/material/icon';
 import { ChannelService } from '../services/channel.service';
 import { Channel } from '../interfaces/channel.interface';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { Firestore, getDoc, doc } from '@angular/fire/firestore';
+import { Firestore, getDoc, doc, addDoc, collection, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Message } from '../interfaces/message.interface';
 import { DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
@@ -26,16 +26,14 @@ import { Thread } from '../interfaces/thread.interface';
 export class ThreadComponent {
   @Input() channelId!: string;
   @Output() toggleThread: EventEmitter<any> = new EventEmitter();
-  // channelId: string = '';
   messageId: string = '';
   channel: Channel | undefined;
   channelName: string = '';
-  messages: Message[] = [];
   answer = '';
   unsubChannelChat: any;
-  // isThreadclosed = false;
   message: any;
   dataLoaded: boolean = false;
+  threadAnswers: Thread[] = [];
 
   constructor(
     public channelService: ChannelService,
@@ -44,26 +42,17 @@ export class ThreadComponent {
     private route: ActivatedRoute,
     private firestore: Firestore,
     private router: Router
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     this.route.children[0].children[0].params.subscribe(async params => {
       this.messageId = params['id'];
       this.message = await this.getThreadMessage();
       this.dataLoaded = true;
+      await this.channelService.getThreadChatRef(this.channelId, this.messageId);
+      this.threadAnswers = this.message.answers;
     })
   }
-  // await this.channelService.getThreadChatRef(this.channelId, this.messageId);
-  // this.channelService.messages = [];
-  // await this.channelService.getChannelChats(this.channelId);
-  // this.unsubChannelChat = this.channelService.subChannelChat(this.channelId);
-
-
-  // ngOnDestroy() {
-  //   this.unsubChannelChat();
-  // }
 
   async getSingleChannel(): Promise<Channel | undefined> {
     if (this.channelId != undefined) {
@@ -76,7 +65,7 @@ export class ThreadComponent {
         return undefined;
       }
     } else {
-      return this.channelService.channels[0];
+      return undefined;
     }
   }
 
@@ -92,6 +81,14 @@ export class ThreadComponent {
     }
   }
 
+  // async getAnswersFromDb() {
+  //   const docRef = doc(this.firestore, "channels", this.channelId, "chatText", this.messageId);
+  //   const snapshot = await getDoc(docRef);
+  //   if(snapshot.exists()) {
+      
+  //   }
+  // }
+
   addAnswer() {
     const newAnswer: Thread = {
       userName: this.authService.currentUser?.displayName!,
@@ -99,7 +96,16 @@ export class ThreadComponent {
       userMessage: this.answer,
       timestamp: new Date().getTime(),
     };
-    this.channelService.addAnswer(newAnswer, this.messageId);
+    this.threadAnswers.push(newAnswer);
+    this.saveAnswerInFirestore();
+  }
+
+  saveAnswerInFirestore() {
+    updateDoc(doc(this.firestore, `channels/${this.channelId}/chatText/${this.messageId}`),
+      {
+        answers: this.threadAnswers
+      }
+    )
     this.answer = '';
   }
 

@@ -159,6 +159,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         userAvatar: this.authService.currentUser?.photoURL!,
         userMessage: this.message,
         timestamp: new Date().getTime(),
+        answers: [],
         docId: this.messageId,
       };
       this.channelService.addText(newMessage);

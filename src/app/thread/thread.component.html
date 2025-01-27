@@ -26,6 +26,23 @@
             </div>
           </div>
       </div>
+      @for (answer of message.answers; track $index) {
+        <div class="message-wrapper">
+          <div class="single-message-container">
+              <img src="{{ answer.userAvatar }}" class="member-avatar" />
+              <div class="message-content">
+                <div class="name-time">
+                  <span>{{ answer.userName }}</span>
+                  <p>{{ answer.timestamp | date : "HH:mm" : "CET"  }}</p>
+                </div>
+        
+                <span class="user-message">
+                  {{ answer.userMessage }}
+                </span>
+              </div>
+            </div>
+        </div>
+      }
     <div class="message-box-wrapper">
       <div class="message-box-container">
         <textarea

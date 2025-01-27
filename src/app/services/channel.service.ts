@@ -78,7 +78,7 @@ export class ChannelService {
   // }
 
   async getThreadChatRef(channelId: string, threadId: string) {
-    return doc(collection(this.firestore, 'channels', channelId, 'chatText'), threadId);
+    return doc(collection(this.firestore, 'channels', channelId, 'answers'), threadId);
   }
 
   addText(message: Message) {
@@ -94,17 +94,6 @@ export class ChannelService {
         // docId: message.docId,
       }
     );
-  }
-
-  addAnswer(thread: Thread, messageId: string) {
-    addDoc(collection(this.firestore, `channels/${this.channelId}/chatText/${messageId}/answer`),
-      {
-        userName: thread.userName,
-        userAvatar: thread.userAvatar,
-        userMessage: thread.userMessage,
-        timestamp: thread.timestamp
-      }
-    )
   }
 
   showThread() {
@@ -215,6 +204,7 @@ export class ChannelService {
       userAvatar: obj.userAvatar || '',
       userMessage: obj.userMessage || '',
       timestamp: obj.userTimestamp || '',
+      answers: obj.answers || '',
       docId: id,
     };
   }

@@ -5,6 +5,6 @@ export interface Message {
   userAvatar?: string;
   userMessage: string;
   timestamp: number;
-  
+  answers: [];
   docId?: string;
 }
