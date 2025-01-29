@@ -9,6 +9,7 @@ section {
   border-radius: 30px;
   padding: 10px 0px 10px 0px;
   overflow: hidden;
+}
 
   .chat-header {
     width: 100%;
@@ -126,7 +127,6 @@ section {
   .messages-container {
     width: 100%;
     height: 100vh;
-    background-color: white;
     overflow-y: auto;
 
     >div:nth-last-child(1) {
@@ -246,7 +246,7 @@ section {
       }
     }
   }
-}
+
 
 .message-box-wrapper {
   // display: flex;

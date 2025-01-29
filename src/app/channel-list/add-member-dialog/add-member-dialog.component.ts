@@ -79,7 +79,7 @@ export class AddMemberDialogComponent {
     await this.getUserId();
     await this.userInDatabase();
     await this.IsUserInChannel();
-    
+
     if (this.user && this.userInChannel) {
       this.alertMessage = true;
       console.log('User already in channel');
@@ -87,17 +87,9 @@ export class AddMemberDialogComponent {
       // show failure message
     } else if (this.user && this.userFound) {
       console.log('User found');
-      
-      await this.addUserToChannel();
-      await this.channelService.getChannelMembers(this.channelId);
 
-      // show success message
-      setTimeout(() => {
-        this.dialog.closeAll();
-      }, 3000);
-    } else {
-      console.log('User not found');
-      // show failure message
+      await this.addUserToChannel();
+      this.dialog.closeAll();
     }
   }
 
@@ -145,9 +137,16 @@ export class AddMemberDialogComponent {
   }
 
   async addUserToChannel() {
-    await updateDoc(doc(this.firestore, 'channels', this.data.channelId), {
-      member: arrayUnion(this.userId),
-    });
+    if (this.userId !== undefined) {
+      await updateDoc(doc(this.firestore, 'channels', this.data.channelId), {
+        member: arrayUnion(this.userId),
+      });
+      await this.channelService.getChannelMembers(this.data.channelId);
+      const newUser = await this.userService.getSingleUser(this.userId);
+      if (newUser) {
+        this.channelService.memberInfos.push(newUser);
+      }
+    }
   }
 
   async getSingleChannel(): Promise<Channel | undefined> {
