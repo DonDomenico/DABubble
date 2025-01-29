@@ -48,6 +48,18 @@
           </span>
 
           <div class="reactions">
+            <div class="show-emoji-reactions">
+              @if (message.emojiReactions.length > 0) {
+                @for (emoji of message.emojiReactions; track $index) {
+                  <span>{{ emoji.emoji + emoji.counter }}</span>
+                }
+              }
+            </div>
+            <div class="emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
+              <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.docId!)">😀</button>
+              <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPickerReaction.get(message.docId!)" (emojiSelect)="addEmojiReaction($event, message.docId!)"
+                title="Pick your emoji…"></emoji-mart>
+            </div>
             @if (message.answers && message.answers.length > 0) {
               <span class="answers-link" [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]"
               (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">{{ message.answers.length }} Antwort(en)</span>

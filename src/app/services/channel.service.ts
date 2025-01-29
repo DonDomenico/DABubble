@@ -133,18 +133,18 @@ export class ChannelService {
     console.log('WORKS: ', this.channelMembers); //Testcode, später löschen
   }
 
-  async getChannelChats(channelId: string) {
-    this.messages = [];
-    const q = query(
-      collection(this.firestore, `channels/${channelId}/chatText`),
-      orderBy('userTimestamp')
-    );
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      this.messages.push(this.toJsonMessage(doc.data(), doc.id));
-    });
-    console.log('Channel message: ', this.messages); //Testcode, später löschen
-  }
+  // async getChannelChats(channelId: string) {
+  //   this.messages = [];
+  //   const q = query(
+  //     collection(this.firestore, `channels/${channelId}/chatText`),
+  //     orderBy('userTimestamp')
+  //   );
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.forEach((doc) => {
+  //     this.messages.push(this.toJsonMessage(doc.data(), doc.id));
+  //   });
+  //   console.log('Channel message: ', this.messages); //Testcode, später löschen
+  // }
 
   // subChannelChat(channelId: string) {
   //   const channelRef = this.getChannelChatRef(channelId);
@@ -205,6 +205,7 @@ export class ChannelService {
       userMessage: obj.userMessage || '',
       timestamp: obj.userTimestamp || '',
       answers: obj.answers || [],
+      emojiReactions: obj.emojiReactions || [],
       docId: id,
     };
   }

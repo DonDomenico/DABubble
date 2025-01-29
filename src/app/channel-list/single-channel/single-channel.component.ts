@@ -72,11 +72,14 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubChannelChat: any;
   unsubChannels: any;
   showEmojiPicker: boolean = false;
-  // showThread = false;
+  showEmojiPickerReaction: Map<string, boolean> = new Map();
+  emojiReactions: (any|any)[] = [];
+  emojiCounter: number = 0;
   messageId: string = '';
   dataLoaded: boolean = false;
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
+  @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
   @ViewChild('messageBoxContainer') private messageBoxContainer: ElementRef | undefined;
 
   constructor(
@@ -160,6 +163,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         userMessage: this.message,
         timestamp: new Date().getTime(),
         answers: [],
+        emojiReactions: [{emoji: '', counter: 0}],
         docId: this.messageId,
       };
       this.channelService.addText(newMessage);
@@ -200,10 +204,73 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
 
+  toggleEmojiPickerReaction(messageId: string) {
+    const currentState = this.showEmojiPickerReaction.get(messageId) || false;
+    this.showEmojiPickerReaction.set(messageId, !currentState);
+  }
+
   addEmoji(event: any) {
     const { message } = this;
     const text = `${message}${event.emoji.native}`;
     this.message = text;
+  }
+
+  async addEmojiReaction(event: any, messageId: string) {
+    this.emojiReactions = await this.getEmojiReactions(messageId);
+    const emoji = event.emoji.native;
+    
+    // for (let index = 0; index <= this.emojiReactions.length; index++) {
+    //   const element: any = this.emojiReactions[index];
+    //   if(this.emojiReactions.includes(emoji)) {
+    //     element['counter'] += 1;
+    //     continue;
+    //   } else {
+    //     this.emojiReactions.push({'emoji': emoji, 'counter': 1});
+    //     break;
+    //   }
+    // }
+    let emojiInReactions = this.emojiReactions.find(element => emoji === element['emoji']);
+
+    if(emojiInReactions) {
+      let index = this.emojiReactions.map(element => element.emoji).indexOf(emoji);
+      this.emojiReactions[index]['counter']++;
+    } else {
+      this.emojiReactions.push({'emoji': emoji, 'counter': 1});
+    }
+    
+    const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', messageId);
+    await updateDoc(docRef, {
+      emojiReactions: this.emojiReactions
+    })
+    this.emojiReactions = [];
+  }
+
+  async getEmojiReactions(messageId: string) {
+    const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', messageId);
+    const docSnapshot = await getDoc(docRef);
+    if(docSnapshot.exists()) {
+      return docSnapshot.data()['emojiReactions'];
+    } else {
+      return undefined;
+    }
+  }
+
+  async countEmojis(message: Message, emoji: any) {
+    this.emojiReactions = await this.getEmojiReactions(message.docId!);
+    let element: any;
+
+    for (let index = 0; index < message.emojiReactions.length; index++) {
+      element = message.emojiReactions[index];
+      if(element === emoji) {
+        this.emojiCounter++;
+      }
+    }
+
+    this.emojiReactions.filter((emoji: any) => {
+      if(element === emoji) {
+        this.emojiReactions.splice(1, element);
+      }
+    })
   }
 
   onFocus() {
@@ -232,9 +299,12 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
-
       this.showEmojiPicker = false;
-      // Setzt das Schließen des Pickers nach einem kurzen Delay
+    } else if(this.showEmojiPickerReaction !== undefined && !this.emojiPickerReactionElement?.nativeElement.contains(event.target)) {
+      for (let index = 0; index < this.channelService.messages.length; index++) {
+        const message = this.channelService.messages[index];
+        this.showEmojiPickerReaction.set(message.docId!, false);
+      }
     }
   }
 

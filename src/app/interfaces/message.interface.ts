@@ -5,6 +5,7 @@ export interface Message {
   userAvatar?: string;
   userMessage: string;
   timestamp: number;
-  answers?: [];
+  answers: [];
+  emojiReactions: [{emoji: string, counter: number}];
   docId?: string;
 }
