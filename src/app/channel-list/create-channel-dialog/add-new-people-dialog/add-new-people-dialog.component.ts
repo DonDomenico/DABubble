@@ -198,15 +198,21 @@ this.selectedUsers = [...this.selectedUsers];
   }
 
   addNewMember(newMember: any) {
-    if (newMember) {
+    if (newMember && !this.selectedUsers.includes(newMember)) {
+
       this.selectedUsers.push(newMember);
+
       console.log('channel members', this.selectedUsers);
     }
     // clear input
-    this.username = '';
-    if (this.chipInput) { 
-      this.chipInput.nativeElement.value = ''; }
-   
   }
+  
+    clear(event: MatChipInputEvent): void {
+
+  
+      event.chipInput!.clear();
+    }
+  
+
 
 }

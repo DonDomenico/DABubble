@@ -31,7 +31,7 @@
           (removed)="remove(member)"
           [aria-description]="'press enter to edit ' + member.name"
         >
-          {{ member.username }}
+        {{ member.username }}
           <img matChipAvatar [src]="member.photoURL" />
           <button matChipRemove [attr.aria-label]="'remove ' + member.name">
             <mat-icon>cancel</mat-icon>
@@ -48,6 +48,7 @@
           [matAutocomplete]="auto"
           [matChipInputFor]="chipGrid"
           #chipInput="matChipInput"
+          (matChipInputTokenEnd)="clear($event)"
         />
 
    
@@ -58,7 +59,7 @@
             [value]="result.username"
             (onSelectionChange)="addNewMember(result)"
           >
-            {{ result.username }}
+          {{ result.username }}
             <!-- <img matChipAvatar [src]="result.photoURL"> -->
           </mat-option>
           }

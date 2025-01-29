@@ -9,7 +9,14 @@ import {
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { ActivatedRoute } from '@angular/router';
-import { deleteDoc, deleteField, getDoc, updateDoc, Firestore, arrayRemove } from '@angular/fire/firestore';
+import {
+  deleteDoc,
+  deleteField,
+  getDoc,
+  updateDoc,
+  Firestore,
+  arrayRemove,
+} from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -38,7 +45,7 @@ export class UpdateChannelDialogComponent {
     public dialog: MatDialog,
     private route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService
   ) {}
 
   async ngOnInit() {
@@ -143,19 +150,13 @@ export class UpdateChannelDialogComponent {
     const channelRef = this.channelService.getSingleChannelRef(channelId);
     await updateDoc(channelRef, {
       member: arrayRemove(currentUser.uid),
-    })
+    });
 
-    //show message: "you left the channel"
-    // this.showLeaveChannelMessage = true;
-    this.updateView(channelId);
+    await this.channelService.getChannelMembers(channelId);
+    this.channelService.memberInfos = this.channelService.memberInfos.filter(
+      (member: { uid: any }) => member.uid !== currentUser.uid
+    );
+
     this.dialog.closeAll();
-  
   }
-
-  updateView(channelId: string) {
-// update view
-
-
-  }
-
 }
