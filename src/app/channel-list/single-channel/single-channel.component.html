@@ -57,7 +57,7 @@
             </div>
             <div class="emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
               <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.docId!)">😀</button>
-              <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPickerReaction.get(message.docId!)" (emojiSelect)="addEmojiReaction($event, message.docId!)"
+              <emoji-mart class="emoji-mart reaction-emojis" set="twitter" *ngIf="showEmojiPickerReaction.get(message.docId!)" (emojiSelect)="addEmojiReaction($event, message.docId!)"
                 title="Pick your emoji…"></emoji-mart>
             </div>
             @if (message.answers && message.answers.length > 0) {
@@ -94,7 +94,7 @@
         <div class="message-box-icons">
           <div class="emoji-container" #emojiPicker (click)="onClickInside($event)">
             <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
-            <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
+            <emoji-mart class="emoji-mart message-emojis" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
               title="Pick your emoji…"></emoji-mart>
           </div>
           <mat-icon>alternate_email</mat-icon>

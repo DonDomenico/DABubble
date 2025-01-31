@@ -327,4 +327,18 @@ section {
     justify-content: center;
     align-items: center;
   }
+
+  
+
+  .reaction-emojis {
+    position: fixed;
+    right: 10%;
+    top: 33vh;
+  }
+
+  .message-emojis {
+    position: absolute;
+    bottom: 1vh;
+    left: 5%;
+  }
 }
