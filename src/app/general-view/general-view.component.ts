@@ -5,7 +5,7 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ThreadComponent } from '../thread/thread.component';
 import { MatIconModule } from '@angular/material/icon';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SingleMessageComponent } from '../chat/single-message/single-message.component';
 import { SingleChannelComponent } from '../channel-list/single-channel/single-channel.component';
 import { ChannelListComponent } from '../channel-list/channel-list.component';
@@ -30,7 +30,13 @@ import { ChannelService } from '../services/channel.service';
   styleUrl: './general-view.component.scss',
 })
 export class GeneralViewComponent {
+
+
   constructor(public router: Router, public channelService: ChannelService) {
     
   }
+
+  
+
+  
 }
