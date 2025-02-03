@@ -218,17 +218,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   async addEmojiReaction(event: any, messageId: string) {
     this.emojiReactions = await this.getEmojiReactions(messageId);
     const emoji = event.emoji.native;
-    
-    // for (let index = 0; index <= this.emojiReactions.length; index++) {
-    //   const element: any = this.emojiReactions[index];
-    //   if(this.emojiReactions.includes(emoji)) {
-    //     element['counter'] += 1;
-    //     continue;
-    //   } else {
-    //     this.emojiReactions.push({'emoji': emoji, 'counter': 1});
-    //     break;
-    //   }
-    // }
     let emojiInReactions = this.emojiReactions.find(element => emoji === element['emoji']);
 
     if(emojiInReactions) {
@@ -249,9 +238,11 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', messageId);
     const docSnapshot = await getDoc(docRef);
     if(docSnapshot.exists()) {
-      return docSnapshot.data()['emojiReactions'];
-    } else {
-      return undefined;
+      if(docSnapshot.data()['emojiReactions'] === undefined) {
+        return [];
+      } else {
+        return docSnapshot.data()['emojiReactions'];
+      }
     }
   }
 

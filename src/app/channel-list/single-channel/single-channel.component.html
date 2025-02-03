@@ -48,36 +48,30 @@
           </span>
 
           <div class="reactions">
+            <div class="answers">
+              @if (message.answers && message.answers.length > 0) {
+                <span class="answers-link" [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]" (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">{{ message.answers.length }} Antwort(en)</span>
+              }
+              <span [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]"
+                (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">
+                <mat-icon>comment</mat-icon>
+              </span>
+            </div>
+
             <div class="show-emoji-reactions">
               @if (message.emojiReactions.length > 0) {
                 @for (emoji of message.emojiReactions; track $index) {
-                  <span>{{ emoji.emoji + emoji.counter }}</span>
+                <div class="emoji-reaction">{{ emoji.emoji + emoji.counter }}</div>
                 }
               }
-            </div>
-            <div class="emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
-              <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.docId!)">😀</button>
-              <emoji-mart class="emoji-mart reaction-emojis" set="twitter" *ngIf="showEmojiPickerReaction.get(message.docId!)" (emojiSelect)="addEmojiReaction($event, message.docId!)"
-                title="Pick your emoji…"></emoji-mart>
-            </div>
-            @if (message.answers && message.answers.length > 0) {
-              <span class="answers-link" [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]"
-              (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">{{ message.answers.length }} Antwort(en)</span>
-            }
-            <span [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]"
-              (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">
-              <mat-icon>comment</mat-icon>
-            </span>
-          </div>
 
-          <!-- <div class="answer-time">
-              <p>
-                {{ message.answer }}
-              </p>
-              <span>
-                {{ message.lastAnswerTime }}
-              </span>
-            </div> -->
+              <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
+                <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.docId!)"><img src="./assets/img/add_reaction.svg"></button>
+                <emoji-mart class="emoji-mart reaction-emojis" set="twitter" *ngIf="showEmojiPickerReaction.get(message.docId!)"
+                  (emojiSelect)="addEmojiReaction($event, message.docId!)" title="Pick your emoji…"></emoji-mart>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -92,10 +86,10 @@
 
       <div class="message-box">
         <div class="message-box-icons">
-          <div class="emoji-container" #emojiPicker (click)="onClickInside($event)">
-            <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
-            <emoji-mart class="emoji-mart message-emojis" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
-              title="Pick your emoji…"></emoji-mart>
+          <div class="add-emoji-container" #emojiPicker (click)="onClickInside($event)">
+            <button class="emoji-button" (click)="toggleEmojiPicker()"><img src="./assets/img/add_reaction.svg"></button>
+            <emoji-mart class="emoji-mart message-emojis" set="twitter" *ngIf="showEmojiPicker"
+              (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
           </div>
           <mat-icon>alternate_email</mat-icon>
         </div>
