@@ -30,13 +30,7 @@ import { ChannelService } from '../services/channel.service';
   styleUrl: './general-view.component.scss',
 })
 export class GeneralViewComponent {
-
-
   constructor(public router: Router, public channelService: ChannelService) {
     
-  }
-
-  
-
-  
+  }  
 }
