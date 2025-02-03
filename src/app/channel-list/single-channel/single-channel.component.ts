@@ -163,7 +163,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         userMessage: this.message,
         timestamp: new Date().getTime(),
         answers: [],
-        emojiReactions: [{emoji: '', counter: 0}],
+        emojiReactions: [{emoji: '', counter: 0, users: []}],
         docId: this.messageId,
       };
       this.channelService.addText(newMessage);
@@ -222,9 +222,14 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
 
     if(emojiInReactions) {
       let index = this.emojiReactions.map(element => element.emoji).indexOf(emoji);
-      this.emojiReactions[index]['counter']++;
+      if(!this.emojiReactions[index]['users'].includes(this.authService.currentUser.displayName)) {
+        this.emojiReactions[index]['counter']++;
+        this.emojiReactions[index].users.push(this.authService.currentUser.displayName);
+      }
     } else {
-      this.emojiReactions.push({'emoji': emoji, 'counter': 1});
+      let users = [];
+      users.push(this.authService.currentUser.displayName);
+      this.emojiReactions.push({'emoji': emoji, 'counter': 1, 'users': users});
     }
     
     const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', messageId);

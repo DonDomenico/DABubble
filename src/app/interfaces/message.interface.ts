@@ -6,6 +6,6 @@ export interface Message {
   userMessage: string;
   timestamp: number;
   answers: [];
-  emojiReactions: [{emoji: string, counter: number}];
+  emojiReactions: [{emoji: string, counter: number, users: string[]}];
   docId?: string;
 }
