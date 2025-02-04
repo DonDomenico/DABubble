@@ -41,6 +41,21 @@ form {
     }
 }
 
+.create-account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    >span {
+        font-size: 18px;
+    }
+    >a {
+        font-size: 18px;
+        text-decoration: none;
+        color: #797EF3;
+    }
+}
+
 .google-logo {
     background-image: url('../../assets/img/google_logo.svg');
 }
@@ -55,6 +70,13 @@ form {
     }
 }
 
+
+.sign-in-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding-bottom: 16px;
+}
 
 .logo-modal {
     display: flex;
@@ -83,6 +105,8 @@ form {
         animation-delay: 0.5s;
     }
 }
+
+
 
 @keyframes logoAnimation {
     from {

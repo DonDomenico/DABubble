@@ -3,12 +3,12 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [MatCardModule, FormsModule, ReactiveFormsModule],
+  imports: [MatCardModule, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss'
 })

@@ -10,6 +10,8 @@ import { SingleChannelComponent } from './channel-list/single-channel/single-cha
 import { authGuard } from './auth.guard';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ThreadComponent } from './thread/thread.component';
+import { ImprintComponent } from './imprint/imprint.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent },
@@ -31,5 +33,7 @@ export const routes: Routes = [
         { path: "channel-list", component: ChatComponent }
       ]
     },
-    { path: "unauthorized", component: UnauthorizedComponent}
+    { path: "unauthorized", component: UnauthorizedComponent},
+    { path: "imprint", component: ImprintComponent },
+    { path: "privacy-policy", component: PrivacyPolicyComponent },
   ];

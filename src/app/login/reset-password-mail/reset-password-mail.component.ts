@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
 import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -8,7 +8,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 @Component({
   selector: 'app-reset-password-mail',
   standalone: true,
-  imports: [MatCardModule, RouterLink, FormsModule, ReactiveFormsModule],
+  imports: [MatCardModule, RouterLink, FormsModule, ReactiveFormsModule, RouterModule],
   templateUrl: './reset-password-mail.component.html',
   styleUrl: './reset-password-mail.component.scss'
 })
