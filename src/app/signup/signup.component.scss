@@ -141,11 +141,18 @@ mat-card {
 .footer {
     display: flex;
     justify-content: center;
-    gap: 16px;
+    gap: 24px;
     padding-top: 32px;
     a {
         font-size: 18px;
         text-decoration: none;
         color: #797EF3;
+        padding: 10px 15px;
+        &:hover {
+            cursor: pointer;
+            color: #444DF2;
+            border: 1px solid #686868;
+            border-radius: 30px;
+        }
     }
 }

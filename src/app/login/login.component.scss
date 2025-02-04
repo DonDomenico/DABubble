@@ -45,7 +45,6 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
     >span {
         font-size: 18px;
     }
@@ -53,6 +52,13 @@ form {
         font-size: 18px;
         text-decoration: none;
         color: #797EF3;
+        padding: 10px 12px;
+        &:hover {
+            cursor: pointer;
+            color: #444DF2;
+            border: 1px solid #686868;
+            border-radius: 30px;
+        }
     }
 }
 

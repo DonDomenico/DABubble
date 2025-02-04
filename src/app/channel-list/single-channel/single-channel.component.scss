@@ -354,7 +354,8 @@ section {
 
   .answers {
     display: flex;
-    align-items: center;
+    gap: 5px;
+    // align-items: center;
   }
 
   .show-emoji-reactions {
