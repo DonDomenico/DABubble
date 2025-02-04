@@ -68,6 +68,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   dataLoaded: boolean = false;
   dateExists: boolean = false;
   showEmojiPicker: boolean = false;
+  routeSubscription: any;
 
   constructor(
     public conversationService: ConversationsService,
@@ -80,7 +81,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.route.children[0].params.subscribe(async (params) => {
+    this.routeSubscription = this.route.children[0].params.subscribe(async (params) => {
       this.conversationId = "";
       this.conversationService.conversationExists = false;
       this.conversationMessages = [];
@@ -99,6 +100,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     if (this.conversationMessages.length !== 0) {
       this.unsubConversationMessages();
     }
+    this.routeSubscription.unsubscribe();
   }
 
   async getConversationId() {

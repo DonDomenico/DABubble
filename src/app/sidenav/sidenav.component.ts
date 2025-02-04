@@ -31,6 +31,7 @@ selected!: boolean;
   channelName: string = '';
   channelDescription: string = '';
   channelId: string = '';
+  routeSubscription: any;
 
   constructor(public channelService: ChannelService, private route: ActivatedRoute) {
     this.channelService.getChannels();
@@ -38,9 +39,7 @@ selected!: boolean;
   }
 
   ngOnChanges(): void {
-    
-    this.route.children[0].params.subscribe(params => {
-      
+    this.routeSubscription = this.route.children[0].params.subscribe(params => {
       this.selectedChannelId = params['id'];
       if(this.selectedChannelId! === this.channelService.channelId) {
         this.selected = true;
@@ -52,6 +51,7 @@ selected!: boolean;
 
   ngOnDestroy() {
     this.unsubscribeChannels();
+    this.routeSubscription.unsubscribe();
   }
 
   addChannelDialog() {

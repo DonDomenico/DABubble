@@ -77,6 +77,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   emojiCounter: number = 0;
   messageId: string = '';
   dataLoaded: boolean = false;
+  routeSubscription: any;
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
@@ -92,7 +93,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.route.children[0].params.subscribe(async (params) => {
+    this.routeSubscription = this.route.children[0].params.subscribe(async (params) => {
       this.channelService.channelMembers = [];
       this.channelService.memberInfos = [];
       this.channelService.messages = [];
@@ -111,6 +112,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.unsubSingleChannel();
     this.unsubMemberInfos();
     this.unsubChannelChat();
+    this.routeSubscription.unsubscribe();
   }
 
   getChannelList(): Channel[] {
