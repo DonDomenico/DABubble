@@ -50,7 +50,7 @@ section {
 }
 
 .message-wrapper {
-  margin-left: 40px;
+  margin: 0px 40px;
 
   .divider {
     display: flex;
@@ -270,5 +270,23 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@media only screen and (max-width: 1130px) {
+  .input-wrapper {
+      margin-left: 15px;
+      width: 55%;
+      max-width: 55%;
+  }
+}
+
+@media only screen and (max-width: 895px) {
+
+  .input-wrapper {
+      margin-left: 15px;
+      width: 50%;
+      max-width: 50%;
+    
   }
 }

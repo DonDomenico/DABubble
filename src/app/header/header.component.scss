@@ -55,7 +55,11 @@ header {
     font-size: 24px;
     border: 0;
     outline: none;
-    background: url(./../../assets/img/search-icon.svg) no-repeat right 16px;
+    background-image: url(./../../assets/img/search-icon.svg);
+    background-repeat: no-repeat;
+    background-position-x: right;
+    background-position-y: center;
+    background-color: transparent;
   }
 }
 
@@ -90,3 +94,20 @@ header {
 //   left: -601px;
 
 // }
+
+@media only screen and (max-width: 1175px) {
+ .header-aktiv-user {
+  >p {
+    font-size: 24px;
+    line-height: 28px;
+  }
+ }
+}
+@media only screen and (max-width: 1005px) {
+  .search-container {
+    >input {
+      font-size: 20px;
+      padding: 21px 17px; 
+    }
+  }
+}

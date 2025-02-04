@@ -8,7 +8,7 @@ section {
   padding: 40px;
 }
 .dialog-header {
-  width: 792px;
+  width: 100%;
   height: 40px;
   gap: 0px;
   display: flex;
@@ -96,3 +96,15 @@ mat-dialog-actions {
       }
     }
   }
+
+  @media only screen and (max-width: 1090px) {
+     section {
+       width: 700px;
+     }
+  }
+
+  @media only screen and (max-width: 900px) {
+    section {
+      width: 600px;
+    }
+ }
