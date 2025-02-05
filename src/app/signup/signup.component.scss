@@ -136,8 +136,8 @@ mat-card {
             align-self: end;
         }
     }
- 
 }
+
 .footer {
     display: flex;
     justify-content: center;
@@ -156,3 +156,83 @@ mat-card {
         }
     }
 }
+
+@media only screen and (max-width: 570px) {
+    .create-account {
+
+        position: absolute;
+        bottom: 35px;
+        >a {
+            border: 1px solid #686868;
+            border-radius: 30px;
+            padding: 8px;
+        }
+    }
+
+    .content-container {
+        padding: 50px 50px 0 50px;
+        .head {
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+    }
+
+    mat-card {
+        padding: 30px;
+    }
+
+    .footer {
+        display: none;
+    }
+
+}
+
+@media only screen and (max-width: 516px) {
+    .content-container {
+        padding: 50px 20px 0 20px;
+    }
+
+    mat-card {
+        padding: 20px;
+        mat-card-subtitle {
+            width: 90%;
+            font-size: 16px;
+        }
+    }
+
+}
+@media only screen and (max-width: 483px) {
+    .content-container {
+        padding: 50px 5px 0 5px;
+    }
+    mat-card {
+        width: 98%;
+    }
+}
+
+@media only screen and (max-width: 397px) {
+    mat-card {
+        form {
+            width: 350px;
+            .form-field {
+                // align-items: center;
+            }
+            input {
+                padding: 10px 10px;
+                font-size: 16px;
+            }
+            .input-container {
+                justify-content: center;
+                // .password-input {
+        
+                // }
+            }
+            .sign-in-buttons {
+                .on-mobile {
+                    padding: 12px 15px;
+                }
+            }
+        }
+    }
+}
+
