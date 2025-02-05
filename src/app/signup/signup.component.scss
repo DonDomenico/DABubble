@@ -1,238 +1,267 @@
 // dynamic width for input field: width: clamp(360px,309.09px + 15.91vw,500px);
 
 .content-container {
-    padding: 75px 75px 0 75px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
+  padding: 75px 75px 0 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
 
-    .head {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        align-items: center;
-        align-self: flex-start;
-    }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    align-self: flex-start;
+    margin-bottom: 16px;
+  }
 }
 
 mat-card {
-    padding: 40px;
-    border-radius: 30px;
-    align-items: center;
+  padding: 40px;
+  border-radius: 30px;
+  align-items: center;
+  gap: 32px;
+  max-width: 700px;
+  max-height: 650px;
+
+  .back-arrow {
+    position: absolute;
+    left: 32px;
+    top: 45px;
+  }
+
+  mat-card-title {
+    font-family: "Nunito";
+    font-weight: 700;
+    color: #444df2;
+    font-size: 46px;
+    line-height: 52px;
+    text-align: center;
+    width: 90%;
+  }
+
+  mat-card-subtitle {
+    font-family: "Nunito";
+    font-size: 20px;
+    text-align: center;
+    font-weight: 400;
+    color: black;
+  }
+
+  mat-card-content {
+    width: 100%;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
     gap: 32px;
-    max-width: 700px;
-    max-height: 650px;
 
-    .back-arrow {
-        position: absolute;
-        left: 32px;
-        top: 45px;
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      height: 60px;
+      background-color: #eceefe;
+      border-radius: 30px;
+
+      &:hover {
+        border: 1px solid #686868;
+      }
+
     }
 
-    mat-card-title {
-        font-family: "Nunito";
-        font-weight: 700;
-        color: #444DF2;
-        font-size: 46px;
-        text-align: center;
-    }
+    input {
+    //   width: clamp(360px, 309.09px + 15.91vw, 500px);
+    width: 100%;
+      height: 58px;
+      padding: 18px 32px;
+      text-indent: 48px;
+      font-size: 18px;
+      font-weight: 500;
+      background-color: #eceefe;
+      // use border transparent, else the text in the inputfield will be moved on hover due to the added border
+      border: 1px solid transparent;
+      border-radius: 100px;
+      // outline: none is needed here, because when the element is focussed, the User Agent (browser) by default sets an outline.
+      // So, to prevent it, we need to overwright it
+      outline: none;
 
-    mat-card-subtitle {
-        font-family: "Nunito";
-        font-size: 20px;
-        text-align: center;
-        font-weight: 400;
+      &:focus-visible {
+        border: 1px solid #535af1;
         color: black;
+      }
     }
 
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-
-        .form-field {
-            display: flex;
-            flex-direction: column;
-            height: 60px;
-        }
-
-        input {
-            width: clamp(360px,309.09px + 15.91vw,500px);
-            height: 60px;
-            padding: 18px 32px;
-            text-indent: 48px;
-            font-size: 18px;
-            font-weight: 500;
-            background-color: #ECEEFE;
-            // use border transparent, else the text in the inputfield will be moved on hover due to the added border
-            border: 1px solid transparent;
-            border-radius: 100px;
-            // outline: none is needed here, because when the element is focussed, the User Agent (browser) by default sets an outline.
-            // So, to prevent it, we need to overwright it
-            outline: none;
-
-            &:hover {
-                border: 1px solid #686868;
-            }
-
-            &:focus-visible {
-                border: 1px solid #535AF1;
-                color: black;
-            }
-        }
-
-        .background-image {
-            background-repeat: no-repeat;
-            background-position-y: center;
-            background-position-x: 24px;
-            background-size: 24px 24px;
-        }
-
-        .name-input {
-            background-image: url('../../assets/img/person_filled.svg');
-
-        }
-
-        .mail-input {
-            background-image: url('../../assets/img/mail.svg');
-        }
-
-        .password-input {
-            background-image: url('../../assets/img/lock.svg');
-        }
-
-        .error {
-            font-family: "Nunito";
-            color: #ED1E79;
-            width: clamp(360px,309.09px + 15.91vw,500px);
-        }
-
-        .privacy-policy {
-            display: flex;
-            align-items: center;
-            height: 32px;
-            font-size: 16px;
-            gap: 8px;
-
-            .checkbox {
-                width: 18px;
-                height: 18px;
-    
-            }
-            >span {
-                font-size: 16px;
-                color: #42526E;
-                >a {
-                    text-decoration: none;
-                    font-size: 18px;
-                    color: #797EF3;
-                }
-            }
-        }
-
-        button {
-            width: fit-content;
-            align-self: end;
-        }
+    .background-image {
+      background-repeat: no-repeat;
+      background-position-y: center;
+      background-position-x: 24px;
+      background-size: 24px 24px;
     }
+
+    .name-input {
+      background-image: url("../../assets/img/person_filled.svg");
+    }
+
+    .mail-input {
+      background-image: url("../../assets/img/mail.svg");
+    }
+
+    .password-input {
+      background-image: url("../../assets/img/lock.svg");
+    }
+
+    .error {
+      font-family: "Nunito";
+      color: #ed1e79;
+      width: clamp(360px, 309.09px + 15.91vw, 500px);
+    }
+
+    .privacy-policy {
+      display: flex;
+      align-items: center;
+      height: 32px;
+      font-size: 16px;
+      gap: 8px;
+
+      .checkbox {
+        width: 18px;
+        height: 18px;
+      }
+      > span {
+        font-size: 16px;
+        color: #42526e;
+        > a {
+          text-decoration: none;
+          font-size: 18px;
+          color: #797ef3;
+        }
+      }
+    }
+
+    button {
+      width: fit-content;
+      align-self: end;
+    }
+  }
 }
 
 .footer {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    padding-top: 32px;
-    a {
-        font-size: 18px;
-        text-decoration: none;
-        color: #797EF3;
-        padding: 10px 15px;
-        &:hover {
-            cursor: pointer;
-            color: #444DF2;
-            border: 1px solid #686868;
-            border-radius: 30px;
-        }
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding-top: 32px;
+  a {
+    font-size: 18px;
+    text-decoration: none;
+    color: #797ef3;
+    padding: 10px 15px;
+    &:hover {
+      cursor: pointer;
+      color: #444df2;
+      border: 1px solid #686868;
+      border-radius: 30px;
     }
+  }
 }
 
 @media only screen and (max-width: 570px) {
-    .create-account {
-
-        position: absolute;
-        bottom: 35px;
-        >a {
-            border: 1px solid #686868;
-            border-radius: 30px;
-            padding: 8px;
-        }
+  .create-account {
+    position: absolute;
+    bottom: 35px;
+    > a {
+      border: 1px solid #686868;
+      border-radius: 30px;
+      padding: 8px;
     }
+  }
 
-    .content-container {
-        padding: 50px 50px 0 50px;
-        .head {
-            justify-content: center;
-            margin-bottom: 16px;
-        }
+  .content-container {
+    padding: 50px 50px 0 50px;
+    .head {
+      justify-content: center;
     }
+  }
 
-    mat-card {
-        padding: 30px;
+  mat-card {
+    padding: 30px;
+    .back-arrow {
+        left: 25px;
+        top: 25px;
+        
     }
+  }
 
-    .footer {
-        display: none;
-    }
-
+  .footer {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 516px) {
-    .content-container {
-        padding: 50px 20px 0 20px;
-    }
+  .content-container {
+    padding: 50px 20px 0 20px;
+  }
 
-    mat-card {
-        padding: 20px;
-        mat-card-subtitle {
-            width: 90%;
-            font-size: 16px;
-        }
+  mat-card {
+    padding: 20px;
+    mat-card-title {
+      font-size: 32px;
+      line-height: 36px;
     }
-
+    mat-card-subtitle {
+      width: 90%;
+      font-size: 16px;
+    }
+  }
 }
 @media only screen and (max-width: 483px) {
-    .content-container {
-        padding: 50px 5px 0 5px;
-    }
-    mat-card {
-        width: 98%;
-    }
+  .content-container {
+    padding: 50px 5px 0 5px;
+  }
+  mat-card {
+    width: 98%;
+  }
 }
 
 @media only screen and (max-width: 397px) {
     mat-card {
-        form {
-            width: 350px;
-            .form-field {
-                // align-items: center;
-            }
-            input {
-                padding: 10px 10px;
-                font-size: 16px;
-            }
-            .input-container {
-                justify-content: center;
-                // .password-input {
-        
-                // }
-            }
-            .sign-in-buttons {
-                .on-mobile {
-                    padding: 12px 15px;
-                }
-            }
+      mat-card-title {
+          font-size: 28px;
+          line-height: 34px;
         }
+    form {
+      width: 300px;
+      .background-image {
+        background-position-x: 12px;
+      }
+      .privacy-policy {
+          display: none;
+      }
+      input {
+        padding: 10px 10px;
+        font-size: 16px;
+      }
+      .input-container {
+        // justify-content: center;
+        .visibility-icon {
+          display: none;
+        }
+      }
+      .sign-in-buttons {
+        .on-mobile {
+          padding: 12px 6px;
+          font-size: 16px;
+        }
+      }
     }
+  }
 }
 
+@media only screen and (max-width: 360px) {
+  mat-card {
+    form {
+      width: 260px;
+    }
+  }
+}

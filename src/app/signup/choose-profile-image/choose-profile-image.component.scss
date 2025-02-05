@@ -32,7 +32,8 @@ mat-card-content {
 
 .avatars {
     display: flex;
-    align-self: flex-start;
+    // align-self: flex-start;
+    justify-content: center;
     gap: 8px;
 }
 
@@ -74,3 +75,19 @@ mat-card-content {
     line-height: var(--mdc-snackbar-supporting-text-line-height);
     text-align: center;
 }
+
+@media only screen and (max-width: 480px) {
+    .avatars {
+        gap: 0px;
+        
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .avatars {
+       .avatar-image {
+        width: 48px;
+        height: 48px;
+       }
+    }
+ }
