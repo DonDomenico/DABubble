@@ -1,4 +1,3 @@
-
 ::ng-deep .mat-mdc-option.mdc-list-item {
   border-radius: 30px;
   font-family: "Nunito";
@@ -8,7 +7,6 @@
 ::ng-deep .mat-mdc-option.mat-mdc-option-active.mdc-list-item {
   background-color: #eceefe !important;
 }
-
 
 section {
   width: 100%;
@@ -27,12 +25,12 @@ section {
     display: flex;
     flex-direction: column;
     gap: 10px;
-      > p {
-        font-size: 24px;
-        font-weight: 700;
-        line-height: 32.74px;
-      }
-    
+    > p {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 32.74px;
+    }
+
     > input {
       width: 100%;
       height: 55px;
@@ -44,47 +42,54 @@ section {
   }
 }
 
-.message-box-container {
-  width: 68%;
-  height: 145px;
+.input-wrapper {
+  width: 72%;
+  max-width: 68%;
   position: fixed;
   bottom: 20px;
-  border-radius: 20px;
+  background: white;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 30px;
   border: 1px solid #adb0d9;
-  margin: 0 40px;
-  > textarea {
-    width: 100%;
-    border: 0;
+  .message-box-container {
+    height: 145px;
     border-radius: 20px;
-    outline: none;
-    padding: 20px;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 24.55px;
-  }
-  .message-box {
-    height: 40px;
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: space-between;
-    padding: 20px;
-    color: #686868;
-    .message-box-icons {
-      width: 25%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 18px;
-      > span {
-        border-left: 1px solid #adb0d9;
-        height: 40px;
-      }
+    margin: 0 40px;
+    > textarea {
+      width: 100%;
+      border: 0;
+      border-radius: 20px;
+      outline: none;
+      padding: 20px;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 24.55px;
     }
-    .send-icon {
-      width: 30px;
-      color: #444df2;
-      cursor: pointer;
+    .message-box {
+      height: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: space-between;
+      padding: 20px;
+      color: #686868;
+      .message-box-icons {
+        width: 25%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 18px;
+        > span {
+          border-left: 1px solid #adb0d9;
+          height: 40px;
+        }
+      }
+      .send-icon {
+        width: 30px;
+        color: #444df2;
+        cursor: pointer;
+      }
     }
   }
 }

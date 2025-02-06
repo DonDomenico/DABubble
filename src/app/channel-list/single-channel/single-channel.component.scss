@@ -399,6 +399,13 @@ section {
 
 }
 @media only screen and (max-width: 995px) {
+
+  .single-message-container {
+    width: 90%;
+    .answers-link {
+      font-size: 16px;
+    }
+  }
   .message-box-wrapper {
     .message-box-container {
       margin: 10px 5px;

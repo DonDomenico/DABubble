@@ -56,7 +56,7 @@ mat-card {
   form {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
 
     .form-field {
       display: flex;
@@ -68,12 +68,11 @@ mat-card {
       &:hover {
         border: 1px solid #686868;
       }
-
     }
 
     input {
-    //   width: clamp(360px, 309.09px + 15.91vw, 500px);
-    width: 100%;
+      //   width: clamp(360px, 309.09px + 15.91vw, 500px);
+      width: 100%;
       height: 58px;
       padding: 18px 32px;
       text-indent: 48px;
@@ -115,7 +114,9 @@ mat-card {
     .error {
       font-family: "Nunito";
       color: #ed1e79;
-      width: clamp(360px, 309.09px + 15.91vw, 500px);
+      padding: 5px 20px;
+      line-height: 18px;
+      // width: clamp(360px, 309.09px + 15.91vw, 500px);
     }
 
     .privacy-policy {
@@ -124,6 +125,7 @@ mat-card {
       height: 32px;
       font-size: 16px;
       gap: 8px;
+      margin-top: 28px;
 
       .checkbox {
         width: 18px;
@@ -187,9 +189,8 @@ mat-card {
   mat-card {
     padding: 30px;
     .back-arrow {
-        left: 25px;
-        top: 25px;
-        
+      left: 25px;
+      top: 25px;
     }
   }
 
@@ -215,6 +216,7 @@ mat-card {
     }
   }
 }
+
 @media only screen and (max-width: 483px) {
   .content-container {
     padding: 50px 5px 0 5px;
@@ -225,34 +227,36 @@ mat-card {
 }
 
 @media only screen and (max-width: 397px) {
-    mat-card {
-      mat-card-title {
-          font-size: 28px;
-          line-height: 34px;
-        }
+  mat-card {
+    mat-card-title {
+      font-size: 28px;
+      line-height: 34px;
+    }
     form {
       width: 300px;
       .background-image {
         background-position-x: 12px;
       }
       .privacy-policy {
-          display: none;
+        display: none;
       }
       input {
         padding: 10px 10px;
         font-size: 16px;
       }
-      .input-container {
-        // justify-content: center;
-        .visibility-icon {
-          display: none;
-        }
-      }
+
       .sign-in-buttons {
         .on-mobile {
           padding: 12px 6px;
           font-size: 16px;
         }
+      }
+      .error {
+        font-size: 12px;
+        line-height: 14px;
+      }
+      button {
+        margin-top: 16px;
       }
     }
   }
