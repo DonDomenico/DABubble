@@ -10,12 +10,15 @@ import { ChannelService } from '../services/channel.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLinkActive, RouterModule } from '@angular/router';
 import { Channel } from '../interfaces/channel.interface';
+import { SearchService } from '../services/search.service';
+import { FormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [RouterModule, CommonModule, MatIcon, MatSidenavModule, UsersComponent, RouterLinkActive],
+  imports: [RouterModule, CommonModule, MatIcon, MatSidenavModule, UsersComponent, RouterLinkActive, FormsModule, MatAutocompleteModule,],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
@@ -33,7 +36,7 @@ selected!: boolean;
   channelId: string = '';
   routeSubscription: any;
 
-  constructor(public channelService: ChannelService, private route: ActivatedRoute) {
+  constructor(public channelService: ChannelService, public searchService: SearchService, private route: ActivatedRoute) {
     this.channelService.getChannels();
     this.unsubscribeChannels = this.channelService.subChannelList();
   }

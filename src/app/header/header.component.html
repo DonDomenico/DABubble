@@ -25,7 +25,7 @@
     @else if (authService.currentUser) {
       <img src="{{ authService.currentUser.photoURL }}" class="user-avatar">
     } @else {
-      <img src="./assets/img/avatar1.svg" class="user-avatar" />
+      <img src="./assets/img/avatar1.svg" class="user-avatar" [matMenuTriggerFor]="menu" />
     }
     <mat-icon [matMenuTriggerFor]="menu">keyboard_arrow_down</mat-icon>
 
