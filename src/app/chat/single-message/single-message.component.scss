@@ -210,7 +210,7 @@ section {
 }
 
 .message-box-container {
-  height: 145px;
+  // height: 145px;
   border-radius: 20px;
   border: 1px solid #adb0d9;
   margin: 10px 40px;
@@ -249,7 +249,7 @@ section {
       }
     }
 
-    
+
     .send-icon {
       width: 30px;
       color: #444df2;
@@ -261,7 +261,7 @@ section {
 .emoji-container {
   display: flex;
   align-items: center;
-  
+
   .emoji-button {
     border: none;
     border-radius: 50%;
@@ -271,22 +271,43 @@ section {
     justify-content: center;
     align-items: center;
   }
+
+  .emoji-mart {
+    position: absolute;
+    bottom: 1vh;
+    left: 10%;
+  }
+
+  .emoji-button {
+    border: none;
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+
+    &:hover {
+      background-color: #ECEEFE;
+    }
+  }
 }
 
 @media only screen and (max-width: 1130px) {
   .input-wrapper {
-      margin-left: 15px;
-      width: 55%;
-      max-width: 55%;
+    margin-left: 15px;
+    width: 55%;
+    max-width: 55%;
   }
 }
 
 @media only screen and (max-width: 895px) {
 
   .input-wrapper {
-      margin-left: 15px;
-      width: 50%;
-      max-width: 50%;
-    
+    margin-left: 15px;
+    width: 50%;
+    max-width: 50%;
+
   }
 }
