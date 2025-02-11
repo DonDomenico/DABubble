@@ -1,10 +1,11 @@
 <app-header></app-header>
 
-<mat-drawer-container class="mat-drawer-container" autosize>
+<mat-drawer-container class="mat-drawer-container" autosize [ngClass]="{'hideSideNav': hideSideNav}">
   <div class="workspace-btn-wrapper">
     <button
       class="workspace-btn"
       (click)="drawerSidenav.toggle()"
+      
       type="button"
       mat-button
     >
@@ -17,10 +18,11 @@
     class="side-nav-container"
     [opened]="true"
     mode="side"
+
   >
     <app-sidenav ></app-sidenav>
 
-    <div class="mobile-btn-wrapper">
+    <div class="mobile-btn-wrapper" [routerLink]="['channel-list/']">
       <img src=".\assets\img\mobile-btn.svg">
     </div>
     

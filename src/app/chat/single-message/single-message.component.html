@@ -1,4 +1,4 @@
-<section id="messages-container" #messagesContainer>
+<section id="messages-container" #messagesContainer [ngClass]="{'mobile-container': isMobile}">
   <div class="chat-header">
     <div class="hearder-content" (click)="showProfileDialog(userId)">
       @if(user) {
