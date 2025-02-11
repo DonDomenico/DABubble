@@ -112,7 +112,9 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.unsubSingleChannel();
     this.unsubMemberInfos();
     this.unsubChannelChat();
-    this.routeSubscription.unsubscribe();
+    if(this.routeSubscription !== undefined) {
+      this.routeSubscription.unsubscribe();
+    }
   }
 
   getChannelList(): Channel[] {
@@ -165,8 +167,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         userMessage: this.message,
         timestamp: new Date().getTime(),
         answers: [],
-        emojiReactions: [{ emoji: '', counter: 0, users: [] }],
-        docId: this.messageId,
+        emojiReactions: [{ emoji: '', counter: 0, users: [] }]
       };
       this.channelService.addText(newMessage);
       this.message = '';
@@ -217,30 +218,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.message = text;
     this.showEmojiPicker = false;
   }
-
-  // async addEmojiReaction(event: any, messageId: string) {
-  //   this.emojiReactions = await this.getEmojiReactions(messageId);
-  //   const emoji = event.emoji.native;
-  //   let emojiInReactions = this.emojiReactions.find(element => emoji === element['emoji']);
-
-  //   if(emojiInReactions) {
-  //     let index = this.emojiReactions.map(element => element.emoji).indexOf(emoji);
-  //     if(!this.emojiReactions[index]['users'].includes(this.authService.currentUser.displayName)) {
-  //       this.emojiReactions[index]['counter']++;
-  //       this.emojiReactions[index].users.push(this.authService.currentUser.displayName);
-  //     }
-  //   } else {
-  //     let users = [];
-  //     users.push(this.authService.currentUser.displayName);
-  //     this.emojiReactions.push({'emoji': emoji, 'counter': 1, 'users': users});
-  //   }
-
-  //   const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', messageId);
-  //   await updateDoc(docRef, {
-  //     emojiReactions: this.emojiReactions
-  //   })
-  //   this.emojiReactions = [];
-  // }
 
   async addEmojiReaction(event: any, messageId: string) {
     await this.updateEmojiReactions(event, messageId);
@@ -298,8 +275,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.emojiReactions = await this.getEmojiReactions(message.docId!);
     let element: any;
 
-    for (let index = 0; index < message.emojiReactions.length; index++) {
-      element = message.emojiReactions[index];
+    for (let index = 0; index < message.emojiReactions!.length; index++) {
+      element = message.emojiReactions![index];
       if (element === emoji) {
         this.emojiCounter++;
       }
