@@ -78,6 +78,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   messageId: string = '';
   dataLoaded: boolean = false;
   routeSubscription: any;
+  emojiPickerOpen: boolean = false;
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
@@ -152,8 +153,10 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       list.forEach((doc: any) => {
         this.channelService.messages.push(this.channelService.toJsonMessage(doc.data(), doc.id));
       });
-      this.cdRef.detectChanges();
-      this.scrollToBottom();
+      if(this.emojiPickerOpen === false) {
+        this.cdRef.detectChanges();
+        this.scrollToBottom();
+      }
       console.log('CHAT TEXT', this.channelService.messages);
     });
   }
@@ -208,6 +211,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   toggleEmojiPickerReaction(messageId: string) {
+    this.emojiPickerOpen = true;
     const currentState = this.showEmojiPickerReaction.get(messageId) || false;
     this.showEmojiPickerReaction.set(messageId, !currentState);
   }
@@ -222,6 +226,9 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   async addEmojiReaction(event: any, messageId: string) {
     await this.updateEmojiReactions(event, messageId);
     await this.saveEmojiReactions(messageId);
+    setTimeout(() => {
+      this.emojiPickerOpen = false;
+    }, 500);
   }
   
   async updateEmojiReactions(event: any, messageId: string) {
