@@ -59,7 +59,9 @@ selected!: boolean;
 
   ngOnDestroy() {
     this.unsubscribeChannels();
-    this.routeSubscription.unsubscribe();
+    if(this.routeSubscription !== undefined) {
+      this.routeSubscription.unsubscribe();
+    }
   }
 
   addChannelDialog() {

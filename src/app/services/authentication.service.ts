@@ -139,13 +139,14 @@ export class AuthenticationService {
         } else {
           console.log('User already in database'); //Testcode, später löschen
         }
+        let user = this.userService.users.find((user) => user.uid === result.user.uid);
+        this.userService.setStatusActive(user);
       }
     }).catch(error => {
       console.log(error); //Testcode, später löschen
     })
     this.router.navigateByUrl('general-view');
   }
-
 
   guestLogIn() {
     signInAnonymously(this.firebaseAuth).then(result => {

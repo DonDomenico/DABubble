@@ -84,7 +84,7 @@
       <div class="message-box">
         <div class="message-box-icons">
           <div class="emoji-container" #emojiPicker (click)="onClickInside($event)">
-            <button class="emoji-button" (click)="toggleEmojiPicker()">😀</button>
+            <button class="emoji-button" (click)="toggleEmojiPicker()"><img src="./assets/img/add_reaction.svg"></button>
             <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"  title="Pick your emoji…"></emoji-mart>
           </div>
           <mat-icon>alternate_email</mat-icon>

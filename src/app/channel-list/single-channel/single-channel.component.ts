@@ -73,7 +73,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   unsubChannels: any;
   showEmojiPicker: boolean = false;
   showEmojiPickerReaction: Map<string, boolean> = new Map();
-  emojiReactions: (any|any)[] = [];
+  emojiReactions: (any | any)[] = [];
   emojiCounter: number = 0;
   messageId: string = '';
   dataLoaded: boolean = false;
@@ -165,7 +165,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         userMessage: this.message,
         timestamp: new Date().getTime(),
         answers: [],
-        emojiReactions: [{emoji: '', counter: 0, users: []}],
+        emojiReactions: [{ emoji: '', counter: 0, users: [] }],
         docId: this.messageId,
       };
       this.channelService.addText(newMessage);
@@ -215,37 +215,78 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     const { message } = this;
     const text = `${message}${event.emoji.native}`;
     this.message = text;
+    this.showEmojiPicker = false;
   }
 
+  // async addEmojiReaction(event: any, messageId: string) {
+  //   this.emojiReactions = await this.getEmojiReactions(messageId);
+  //   const emoji = event.emoji.native;
+  //   let emojiInReactions = this.emojiReactions.find(element => emoji === element['emoji']);
+
+  //   if(emojiInReactions) {
+  //     let index = this.emojiReactions.map(element => element.emoji).indexOf(emoji);
+  //     if(!this.emojiReactions[index]['users'].includes(this.authService.currentUser.displayName)) {
+  //       this.emojiReactions[index]['counter']++;
+  //       this.emojiReactions[index].users.push(this.authService.currentUser.displayName);
+  //     }
+  //   } else {
+  //     let users = [];
+  //     users.push(this.authService.currentUser.displayName);
+  //     this.emojiReactions.push({'emoji': emoji, 'counter': 1, 'users': users});
+  //   }
+
+  //   const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', messageId);
+  //   await updateDoc(docRef, {
+  //     emojiReactions: this.emojiReactions
+  //   })
+  //   this.emojiReactions = [];
+  // }
+
   async addEmojiReaction(event: any, messageId: string) {
+    await this.updateEmojiReactions(event, messageId);
+    await this.saveEmojiReactions(messageId);
+  }
+  
+  async updateEmojiReactions(event: any, messageId: string) {
     this.emojiReactions = await this.getEmojiReactions(messageId);
+
     const emoji = event.emoji.native;
     let emojiInReactions = this.emojiReactions.find(element => emoji === element['emoji']);
 
-    if(emojiInReactions) {
-      let index = this.emojiReactions.map(element => element.emoji).indexOf(emoji);
-      if(!this.emojiReactions[index]['users'].includes(this.authService.currentUser.displayName)) {
-        this.emojiReactions[index]['counter']++;
-        this.emojiReactions[index].users.push(this.authService.currentUser.displayName);
-      }
+    if (emojiInReactions) {
+      this.updateExistingReaction(emojiInReactions, emoji);
     } else {
-      let users = [];
-      users.push(this.authService.currentUser.displayName);
-      this.emojiReactions.push({'emoji': emoji, 'counter': 1, 'users': users});
+      this.addNewReaction(emoji);
     }
-    
+  }
+
+  addNewReaction(emoji: string) {
+    let users = [this.authService.currentUser.displayName];
+    this.emojiReactions.push({ 'emoji': emoji, 'counter': 1, 'users': users });
+  }
+
+  updateExistingReaction(emojiInReactions: any, emoji: string) {
+    let index = this.emojiReactions.map(element => element.emoji).indexOf(emoji);
+    if (!emojiInReactions['users'].includes(this.authService.currentUser.displayName)) {
+      this.emojiReactions[index]['counter']++;
+      this.emojiReactions[index].users.push(this.authService.currentUser.displayName);
+    }
+  }
+
+  async saveEmojiReactions(messageId: string) {
     const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', messageId);
     await updateDoc(docRef, {
       emojiReactions: this.emojiReactions
-    })
+    });
     this.emojiReactions = [];
+    this.showEmojiPickerReaction.set(messageId, false);
   }
 
   async getEmojiReactions(messageId: string) {
     const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', messageId);
     const docSnapshot = await getDoc(docRef);
-    if(docSnapshot.exists()) {
-      if(docSnapshot.data()['emojiReactions'] === undefined) {
+    if (docSnapshot.exists()) {
+      if (docSnapshot.data()['emojiReactions'] === undefined) {
         return [];
       } else {
         return docSnapshot.data()['emojiReactions'];
@@ -259,13 +300,13 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
 
     for (let index = 0; index < message.emojiReactions.length; index++) {
       element = message.emojiReactions[index];
-      if(element === emoji) {
+      if (element === emoji) {
         this.emojiCounter++;
       }
     }
 
     this.emojiReactions.filter((emoji: any) => {
-      if(element === emoji) {
+      if (element === emoji) {
         this.emojiReactions.splice(1, element);
       }
     })
@@ -298,7 +339,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   onDocumentClick(event: MouseEvent) {
     if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
       this.showEmojiPicker = false;
-    } else if(this.showEmojiPickerReaction !== undefined && !this.emojiPickerReactionElement?.nativeElement.contains(event.target)) {
+    } else if (this.showEmojiPickerReaction !== undefined && !this.emojiPickerReactionElement?.nativeElement.contains(event.target)) {
       for (let index = 0; index < this.channelService.messages.length; index++) {
         const message = this.channelService.messages[index];
         this.showEmojiPickerReaction.set(message.docId!, false);
@@ -315,10 +356,10 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   toggleMessageBoxSize(messageBoxContainer: HTMLDivElement) {
-    if(this.channelService.isThreadHidden) {
-      messageBoxContainer.style.width='30%';
+    if (this.channelService.isThreadHidden) {
+      messageBoxContainer.style.width = '30%';
     } else {
-      messageBoxContainer.style.width='55%';
+      messageBoxContainer.style.width = '55%';
     }
   }
 }
