@@ -1,4 +1,4 @@
-import { Component, inject, Output, EventEmitter, Input } from '@angular/core';
+import { Component, inject, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import {MatSidenavModule} from '@angular/material/sidenav';
 
 import { UsersComponent } from '../users/users.component';
@@ -8,11 +8,12 @@ import { CreateChannelDialogComponent } from '../channel-list/create-channel-dia
 
 import { ChannelService } from '../services/channel.service';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLinkActive, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular/router';
 import { Channel } from '../interfaces/channel.interface';
 import { SearchService } from '../services/search.service';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { GeneralViewComponent } from '../general-view/general-view.component';
 
 
 @Component({
@@ -36,10 +37,14 @@ selected!: boolean;
   channelId: string = '';
   routeSubscription: any;
 
-  constructor(public channelService: ChannelService, public searchService: SearchService, private route: ActivatedRoute) {
+  constructor(private router: Router, public channelService: ChannelService, public searchService: SearchService, private route: ActivatedRoute) {
     this.channelService.getChannels();
     this.unsubscribeChannels = this.channelService.subChannelList();
   }
+
+
+
+
 
   ngOnChanges(): void {
     this.routeSubscription = this.route.children[0].params.subscribe(params => {

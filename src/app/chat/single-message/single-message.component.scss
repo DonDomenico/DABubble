@@ -19,6 +19,12 @@ section {
   }
 }
 
+.mobile-container {
+position:sticky;
+left: 0;
+  overflow: hidden; /* Optional: um überlaufende Inhalte zu verbergen */
+}
+
 .chat-header {
   width: 100%;
   height: 110px;

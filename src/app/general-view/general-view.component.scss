@@ -1,10 +1,6 @@
-
-
-
 .mat-drawer-container {
   height: 100vh;
   background-color: #eceefe;
- 
 }
 section {
   display: flex;
@@ -67,13 +63,19 @@ section {
   display: none;
   position: sticky;
   left: 530px;
-  bottom: 200px;
+  bottom: 150px;
   width: 85px;
   height: 85px;
-  >img {
+  > img {
     width: 60px;
     height: 60px;
     cursor: pointer;
+  }
+}
+
+.hideSideNav {
+  mat-drawer {
+    display: none;
   }
 }
 
@@ -87,10 +89,6 @@ section {
   }
 
   mat-drawer {
-    width: 95vw !important;
-  }
-
-  section {
-    display: none;
+    width: 80vw; // später auf 95 setzten
   }
 }

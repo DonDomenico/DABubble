@@ -13,7 +13,8 @@
     <input type="search" placeholder="Gehe zu..."  (keyup)="searchService.search()" [(ngModel)]="searchService.searchText" [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       @for (result of searchService.searchResults; track result) {
-        <mat-option [routerLink]="['/general-view/single-channel/'+ result.docId]" routerLinkActive="router-link-active"  [value]="result.name">{{result.name}} {{result.description}}</mat-option>
+        <mat-option [routerLink]="['/general-view/single-channel/'+ result.docId]" routerLinkActive="router-link-active"  [value]="result.name">
+          {{result.name}} {{result.description}}</mat-option>
       }
     </mat-autocomplete>
   </div>
@@ -35,9 +36,19 @@
   <div class="dropdown-content">
     <div class="new-channel-container">
       @for (channel of channelService.channels; track channel.docId) {
-        <p [routerLink]="['single-channel/'+ channel.docId]" [state]="{id: channel.docId}" [class.active]="selected" ><mat-icon>tag</mat-icon>{{ channel.name }}</p>
+        <p [routerLink]="['single-channel/'+ channel.docId]" [state]="{id: channel.docId}" [class.active]="selected" >
+          <mat-icon>tag</mat-icon>{{ channel.name }}</p>
       }
     </div>
+
+    <!-- <div class="dropdown-content">
+      <div class="new-channel-container">
+        @for (channel of channelService.channels; track channel.docId) {
+          <p (click)="navigateToChannel(channel.docId)" [class.active]="selected">
+            <mat-icon>tag</mat-icon>{{ channel.name }}
+          </p>
+        }
+      </div> -->
 
     <div class="add-channel" (click)="addChannelDialog()">
       <mat-icon class="material-icons-outlined">add_circle</mat-icon>

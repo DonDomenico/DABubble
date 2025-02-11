@@ -111,8 +111,30 @@ mat-dialog-actions {
     
  }
 
- @media only screen and (max-width: 760px) {
+ @media only screen and (max-width: 767px) {
   section {
-    width: 500px;
+    width: 100%;
+    height: 100vh;
   }
+}
+
+@media only screen and (max-width: 480px) {
+ section {
+  padding: 40px 24px;
+ } 
+
+ .dialog-header {
+  h2 {
+    padding: 0;
+  }
+ }
+
+ .dialog-content {
+  padding: 24px 0px;
+ }
+
+ mat-dialog-actions {
+  padding-right: 0;
+ }
+
 }

@@ -14,7 +14,7 @@ import {
   HostListener
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConversationsService } from '../../services/conversations.service';
 import { UserService } from '../../services/users.service';
@@ -22,7 +22,7 @@ import { User } from '../../users/user.interface';
 import { DirectMessage } from '../../interfaces/directMessage.interface';
 import { ShowProfileDialogComponent } from '../../users/show-profile-dialog/show-profile-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   collection,
   doc,
@@ -36,11 +36,13 @@ import {
 } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { GeneralViewComponent } from '../../general-view/general-view.component';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-single-message',
   standalone: true,
-  imports: [MatIconModule, CommonModule, FormsModule, DatePipe, PickerModule],
+  imports: [MatIconModule, CommonModule, FormsModule, DatePipe, PickerModule, NgClass],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss',
   providers: [
@@ -55,6 +57,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
+  @ViewChild('drawerSidenav') drawerSidenav: MatDrawer | undefined;
+
   userId: string = '';
   user: User | undefined;
   isCurrentUser: boolean = false;
@@ -69,6 +73,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   dateExists: boolean = false;
   showEmojiPicker: boolean = false;
   routeSubscription: any;
+  isMobile: boolean = false;
 
   constructor(
     public conversationService: ConversationsService,
@@ -77,10 +82,13 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private firestore: Firestore,
     private renderer: Renderer2,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private router: Router,
+    private generalViewComponent: GeneralViewComponent
   ) { }
 
   ngOnInit(): void {
+
     this.routeSubscription = this.route.children[0].params.subscribe(async (params) => {
       this.conversationId = "";
       this.conversationService.conversationExists = false;
@@ -93,6 +101,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
       this.unsubConversationMessages = this.subConversationMessages();
+   
     });
   }
 
@@ -259,4 +268,10 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   hideErrorMessage() {
     this.messageEmpty = false;
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    event.target.innerWidth < 768 ? this.isMobile = true : this.isMobile = false;
+  }
+
 }
