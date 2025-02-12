@@ -75,6 +75,9 @@
                 *ngIf="showEmojiPickerReaction.get(message.answers.indexOf(answer))"
                 (emojiSelect)="addEmojiReaction($event, messageId, $index)" title="Pick your emoji…"></emoji-mart>
             </div>
+            <div class="edit-wrapper" (click)="editMessage(answer)">
+              <mat-icon>edit</mat-icon>
+            </div>
           </div>
         </div>
       </div>

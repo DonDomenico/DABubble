@@ -6,11 +6,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { Firestore, getDoc, doc, addDoc, collection, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Message } from '../interfaces/message.interface';
-<<<<<<< HEAD
-import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
-=======
 import { DATE_PIPE_DEFAULT_OPTIONS, DatePipe, CommonModule } from '@angular/common';
->>>>>>> 78a09b7843bd194b268d1ecd5acff212573a71f1
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -19,11 +15,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 @Component({
   selector: 'app-thread',
   standalone: true,
-<<<<<<< HEAD
-  imports: [MatDialogModule, MatIcon, DatePipe, FormsModule, CommonModule],
-=======
   imports: [MatDialogModule, MatIcon, DatePipe, FormsModule, MatTooltip, PickerModule, CommonModule],
->>>>>>> 78a09b7843bd194b268d1ecd5acff212573a71f1
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
   providers: [
@@ -46,19 +38,16 @@ export class ThreadComponent implements OnInit {
   activeRoute = '';
   routeSubscription: any;
   routerSubscription: any;
-<<<<<<< HEAD
-  isEditing: boolean = false;
-  editText = '';
-  editMessageId = '';
-=======
   showEmojiPicker: boolean = false;
   showEmojiPickerReaction: Map<number, boolean> = new Map();
   emojiReactions: (any | any)[] = [];
   emojiCounter: number = 0;
+  isEditing = false;
+  editText = '';
+  editMessageId = '';
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
 
->>>>>>> 78a09b7843bd194b268d1ecd5acff212573a71f1
   constructor(
     public channelService: ChannelService,
     private authService: AuthenticationService,
@@ -163,37 +152,6 @@ export class ThreadComponent implements OnInit {
 
     return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
   }
-<<<<<<< HEAD
-  editAnswer(answer:any) {
-    this.isEditing = true;
-    this.editText = answer.userMessage;
-    this.editMessageId = answer.messageId; 
-  }
-
-// erhöht die Anzahl der Reaktionen um 20 in single-channel.comp! WARUM?
-  async saveEditedAnswer() {
-    updateDoc(doc(this.firestore, `channels/${this.channelId}/chatText/${this.messageId}`),
-    {
-      answers: this.editText
-    }
-  )
-  this.isEditing = false;
-  this.editText = '';
- 
-    await this.getEditedAnswerFromFirestore();
-  }
-
-  // funktioniert noch nicht
-
-  async getEditedAnswerFromFirestore() {
-   
-    
-  }
-
-
-
-
-=======
 
   onClickInside(event: MouseEvent) {
     event.stopPropagation();
@@ -300,5 +258,35 @@ export class ThreadComponent implements OnInit {
     this.message = text;
     this.showEmojiPicker = false;
   }
->>>>>>> 78a09b7843bd194b268d1ecd5acff212573a71f1
+
+  editMessage(answer: any) {
+    this.isEditing = true;
+    this.editText = answer.userMessage;
+    this.editMessageId = this.messageId; 
+  }
+
+  saveEditedAnswer() {
+    if (this.editMessageId) {
+
+      updateDoc(doc(this.firestore, `channels/${this.channelId}/chatText/${this.messageId}`),
+      { answers: this.editText }
+    )
+    this.answer = '';
+    this.isEditing = false;
+    this.editMessageId = '';
+
+
+    //   this.firestore
+    //     .collection(`channels/${this.channelId}/chatText/${this.messageId}`) // Passe den Pfad zu deiner Firestore-Sammlung an
+    //     .doc(this.editMessageId)
+    //     .update({ answers: this.editText })
+    //     .then(() => {
+    //       this.isEditing = false;
+    //       this.editText = '';
+    //       this.editMessageId = '';
+    //     });
+    // }
+  }
+}
+
 }

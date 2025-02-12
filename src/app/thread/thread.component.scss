@@ -2,10 +2,6 @@ section {
   width: 100%;
   // height: 100%;
   background-color: white;
-<<<<<<< HEAD
-=======
-  padding: 10px 0px 0px 0px;
->>>>>>> 78a09b7843bd194b268d1ecd5acff212573a71f1
   border-radius: 30px;
 
   .thread-header {
@@ -24,25 +20,25 @@ section {
       align-items: center;
       gap: 5px;
 
-      >p {
+      > p {
         font-size: 24px;
         font-weight: 700;
         line-height: 32.74px;
       }
 
-      >span {
+      > span {
         font-size: 18px;
         font-weight: 400;
         line-height: 19.1px;
         color: rgba(121, 126, 243, 1);
       }
 
-      >mat-icon {
+      > mat-icon {
         color: rgba(121, 126, 243, 1);
       }
     }
 
-    >mat-icon {
+    > mat-icon {
       &:hover {
         cursor: pointer;
         color: rgba(121, 126, 243, 1);
@@ -54,14 +50,10 @@ section {
 
   .messages-container {
     width: 100%;
-<<<<<<< HEAD
-    padding: 16px;
-=======
     height: 75vh;
     overflow-y: auto;
->>>>>>> 78a09b7843bd194b268d1ecd5acff212573a71f1
 
-    >div:nth-last-child(1) {
+    > div:nth-last-child(1) {
       margin-bottom: 200px;
     }
 
@@ -81,6 +73,13 @@ section {
         }
       }
 
+      .reactions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 8px;
+      }
+
       .single-message-container {
         width: 70%;
         display: flex;
@@ -89,7 +88,7 @@ section {
         gap: 16px;
         cursor: pointer;
 
-        >img {
+        > img {
           width: 70px;
           height: 70px;
           border-radius: 50px;
@@ -106,19 +105,19 @@ section {
             justify-content: flex-start;
             gap: 20px;
 
-            >span {
+            > span {
               font-size: 18px;
               font-weight: 700;
             }
 
-            >p {
+            > p {
               font-size: 14px;
               font-weight: 400;
               color: rgba(104, 104, 104, 1);
             }
           }
 
-          >span {
+          > span {
             background-color: #eceefe;
             border-radius: 0 30px 30px 30px;
             padding: 15px;
@@ -154,54 +153,6 @@ section {
           //     }
           //   }
         }
-<<<<<<< HEAD
-
-        >span {
-          background-color: #eceefe;
-          border-radius: 0 30px 30px 30px;
-          padding: 15px;
-          font-size: 18px;
-          font-weight: 400;
-          line-height: 24.55px;
-          text-align: left;
-        }
-
-        .edit-wrapper {
-          display: flex;
-          justify-content: flex-end;
-          cursor: pointer;
-          &:hover {
-            color: #444df2;
-          }
-        }
-
-        //   .answer-time {
-        //     display: flex;
-        //     justify-content: flex-start;
-        //     gap: 20px;
-
-        //     >p {
-        //       font-size: 18px;
-        //       font-weight: 400;
-        //       color: rgba(83, 90, 241, 1);
-        //       line-height: 19px;
-        //       cursor: pointer;
-
-        //       &:hover {
-        //         color: #535af1;
-        //         font-weight: 800;
-        //       }
-        //     }
-
-        //     >span {
-        //       font-size: 14px;
-        //       font-weight: 400;
-        //       color: rgba(104, 104, 104, 1);
-        //       line-height: 19px;
-        //     }
-        //   }
-=======
->>>>>>> 78a09b7843bd194b268d1ecd5acff212573a71f1
       }
     }
   }
@@ -223,7 +174,7 @@ section {
       // overflow: hidden;
       background: white;
 
-      >textarea {
+      > textarea {
         width: 100%;
         border: 0;
         border-radius: 20px;
@@ -299,6 +250,6 @@ section {
 
   .number-of-answers {
     font-size: 18px;
-    color: #ADB0D9;
+    color: #adb0d9;
   }
 }
