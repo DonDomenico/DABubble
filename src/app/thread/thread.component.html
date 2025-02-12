@@ -11,71 +11,77 @@
 
     <mat-icon (click)="closeThread()">close</mat-icon>
   </div>
-  <div class="divider">
-    <hr class="line" />
-    <span class="date">{{ message.timestamp | date }}</span>
-    <hr class="line" />
-  </div>
-  <div class="message-wrapper">
-    <div class="single-message-container">
-      <img src="{{ message.userAvatar }}" class="member-avatar" />
-      <div class="message-content">
-        <div class="name-time">
-          <span>{{ message.userName }}</span>
-          <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
-        </div>
 
-        <span class="user-message">
-          {{ message.userMessage }}
-        </span>
+  <div class="messages-container">
+    <div class="divider">
+      <hr class="line" />
+      <span class="date">{{ message.timestamp | date }}</span>
+      <hr class="line" />
+    </div>
+    <div class="message-wrapper">
+      <div class="single-message-container">
+        <img src="{{ message.userAvatar }}" class="member-avatar" />
+        <div class="message-content">
+          <div class="name-time">
+            <span>{{ message.userName }}</span>
+            <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
+          </div>
+
+          <span class="user-message">
+            {{ message.userMessage }}
+          </span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="divider">
-    <span class="number-of-answers"> {{ message.answers.length }} Antwort(en) </span>
-    <hr class="line" />
-  </div>
+    <div class="divider">
+      <span class="number-of-answers"> {{ message.answers.length }} Antwort(en) </span>
+      <hr class="line" />
+    </div>
 
-  @for (answer of message.answers; track $index) {
-  <div class="divider">
-    <hr class="line" />
-    @if(isDifferentDay($index)) {
-    <span class="date">{{ answer.timestamp | date }}</span>
-    }
-    <hr class="line" />
-  </div>
-  <div class="message-wrapper">
-    <div class="single-message-container">
-      <img src="{{ answer.userAvatar }}" class="member-avatar" />
-      <div class="message-content">
-        <div class="name-time">
-          <span>{{ answer.userName }}</span>
-          <p>{{ answer.timestamp | date : "HH:mm" : "CET" }}</p>
-        </div>
+    @for (answer of message.answers; track $index) {
+    <div class="divider">
+      <hr class="line" />
+      @if(isDifferentDay($index)) {
+        <span class="date">{{ answer.timestamp | date }}</span>
+      }
+      <hr class="line" />
+    </div>
+    <div class="message-wrapper">
+      <div class="single-message-container">
+        <img src="{{ answer.userAvatar }}" class="member-avatar" />
+        <div class="message-content">
+          <div class="name-time">
+            <span>{{ answer.userName }}</span>
+            <p>{{ answer.timestamp | date : "HH:mm" : "CET" }}</p>
+          </div>
 
-        <span class="user-message">
-          {{ answer.userMessage }}
-        </span>
+          <span class="user-message">
+            {{ answer.userMessage }}
+          </span>
 
-        <div class="reactions">
-          @if (answer.emojiReactions !== undefined || answer.emojiReactions !== null) {
-            @for (emoji of answer.emojiReactions; track $index) {
-              <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}</div>
+          <div class="reactions">
+            @if (answer.emojiReactions !== undefined || answer.emojiReactions !== null) {
+              @for (emoji of answer.emojiReactions; track $index) {
+              <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}
+              </div>
+              }
             }
-          }
 
-          <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
-            <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.answers.indexOf(answer))"><img src="./assets/img/add_reaction.svg"></button>
-            <emoji-mart class="emoji-mart reaction-emojis" set="twitter"
-              *ngIf="showEmojiPickerReaction.get(message.answers.indexOf(answer))"
-              (emojiSelect)="addEmojiReaction($event, messageId, $index)" title="Pick your emoji…"></emoji-mart>
+            <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
+              <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.answers.indexOf(answer))"><img
+                  src="./assets/img/add_reaction.svg"></button>
+              <emoji-mart class="emoji-mart reaction-emojis" set="twitter"
+                *ngIf="showEmojiPickerReaction.get(message.answers.indexOf(answer))"
+                (emojiSelect)="addEmojiReaction($event, messageId, $index)" title="Pick your emoji…"></emoji-mart>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    }
   </div>
-  }
+
   <div class="message-box-wrapper">
     <div class="message-box-container">
       <textarea name="message" placeholder="Antworten..." [(ngModel)]="answer"></textarea>
@@ -83,7 +89,8 @@
       <div class="message-box">
         <div class="message-box-icons">
           <div class="add-emoji-container" #emojiPicker (click)="onClickInside($event)">
-            <button class="emoji-button" (click)="toggleEmojiPicker()"><img src="./assets/img/add_reaction.svg"></button>
+            <button class="emoji-button" (click)="toggleEmojiPicker()"><img
+                src="./assets/img/add_reaction.svg"></button>
             <emoji-mart class="emoji-mart message-emojis" set="twitter" *ngIf="showEmojiPicker"
               (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
           </div>

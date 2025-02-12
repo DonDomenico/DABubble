@@ -1,47 +1,37 @@
-<app-header></app-header>
-
-<mat-drawer-container class="mat-drawer-container" autosize [ngClass]="{'hideSideNav': hideSideNav}">
-  <div class="workspace-btn-wrapper">
-    <button
-      class="workspace-btn"
-      (click)="drawerSidenav.toggle()"
-      
-      type="button"
-      mat-button
-    >
-      <mat-icon>dock_to_right</mat-icon>
-      <p>Workspace-Menü schließen</p>
-    </button>
-  </div>
-  <mat-drawer
-    #drawerSidenav
-    class="side-nav-container"
-    [opened]="true"
-    mode="side"
-
-  >
-    <app-sidenav ></app-sidenav>
-
-    <div class="mobile-btn-wrapper" [routerLink]="['channel-list/']">
-      <img src=".\assets\img\mobile-btn.svg">
+<div class="general-view">
+  <app-header></app-header>
+  
+  <mat-drawer-container class="mat-drawer-container" autosize [ngClass]="{'hideSideNav': hideSideNav}">
+    <div class="workspace-btn-wrapper">
+      <button class="workspace-btn" (click)="drawerSidenav.toggle()" type="button" mat-button>
+        <mat-icon>dock_to_right</mat-icon>
+        <p>Workspace-Menü schließen</p>
+      </button>
     </div>
-    
-  </mat-drawer>
-  <section>
-    <div class="main-chat-container">
-      @if (router.url.startsWith('/general-view/single-message/' )) {
-
-      <app-single-message></app-single-message>
-      } @else if (router.url.startsWith('/general-view/single-channel/')) {
-      <app-single-channel></app-single-channel>
-      } @else {
-      <app-channel-list></app-channel-list>
-      }
-    </div>
-    
-    <div class="thread-container" [ngStyle]="channelService.isThreadHidden ? {display: 'none'} : {display: 'block'}">
-      <app-thread *ngIf="!channelService.isThreadHidden" [channelId]="channelService.channelId"></app-thread>
-    </div>
-    
-  </section>
-</mat-drawer-container>
+    <mat-drawer #drawerSidenav class="side-nav-container" [opened]="true" mode="side">
+      <app-sidenav></app-sidenav>
+  
+      <div class="mobile-btn-wrapper" [routerLink]="['channel-list/']">
+        <img src=".\assets\img\mobile-btn.svg">
+      </div>
+  
+    </mat-drawer>
+    <section>
+      <div class="main-chat-container">
+        @if (router.url.startsWith('/general-view/single-message/' )) {
+  
+        <app-single-message></app-single-message>
+        } @else if (router.url.startsWith('/general-view/single-channel/')) {
+        <app-single-channel></app-single-channel>
+        } @else {
+        <app-channel-list></app-channel-list>
+        }
+      </div>
+  
+      <div class="thread-container" [ngStyle]="channelService.isThreadHidden ? {display: 'none'} : {display: 'block'}">
+        <app-thread *ngIf="!channelService.isThreadHidden" [channelId]="channelService.channelId"></app-thread>
+      </div>
+  
+    </section>
+  </mat-drawer-container>
+</div>
