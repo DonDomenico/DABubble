@@ -233,7 +233,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   
   async updateEmojiReactions(event: any, messageId: string) {
     this.emojiReactions = await this.getEmojiReactions(messageId);
-
     const emoji = event.emoji.native;
     let emojiInReactions = this.emojiReactions.find(element => emoji === element['emoji']);
 

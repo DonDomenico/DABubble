@@ -1,5 +1,5 @@
 ::ng-deep .mat-drawer {
-  height: 85vh;
+  // height: 85vh;
   overflow-y: auto;
 }
 
@@ -8,7 +8,7 @@
 }
 
 .side-nav {
-  padding: 32px 30px 32px 30px;
+  padding: 32px 30px 0px 30px;
 }
 
 .side-nav-header {
@@ -185,7 +185,7 @@
 
 @media only screen and (max-width: 995px) {
   .side-nav {
-    padding: 32px 10px 32px 10px;
+    padding: 32px 10px 0px 10px;
   }
  }
 
