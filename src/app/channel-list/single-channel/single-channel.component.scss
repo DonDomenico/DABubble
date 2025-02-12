@@ -127,7 +127,7 @@ section {
 
 .messages-container {
   width: 100%;
-  height: 75vh;
+  height: calc(var(--vh, 1vh) * 75);;
   overflow-y: auto;
 
   >div:nth-last-child(1) {
