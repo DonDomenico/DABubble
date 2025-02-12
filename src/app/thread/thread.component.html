@@ -5,7 +5,7 @@
       <p>Thread</p>
       <mat-icon>tag</mat-icon>
       <span>
-        {{ channel?.name }}
+        {{ channelName }}
       </span>
     </div>
 
@@ -75,6 +75,9 @@
                 *ngIf="showEmojiPickerReaction.get(message.answers.indexOf(answer))"
                 (emojiSelect)="addEmojiReaction($event, messageId, $index)" title="Pick your emoji…"></emoji-mart>
             </div>
+            <div class="edit-wrapper" (click)="editMessage(answer)">
+              <mat-icon>edit</mat-icon>
+            </div>
           </div>
         </div>
       </div>
@@ -84,7 +87,22 @@
 
   <div class="message-box-wrapper">
     <div class="message-box-container">
-      <textarea name="message" placeholder="Antworten..." [(ngModel)]="answer"></textarea>
+      
+      <textarea
+      *ngIf="isEditing"
+      name="message"
+      placeholder="Bearbeiten..."
+      [(ngModel)]="editText"
+    ></textarea>
+    <button *ngIf="isEditing" (click)="saveEditedAnswer()">Speichern</button>
+    <textarea
+      *ngIf="!isEditing"
+      name="message"
+      placeholder="Antworten..."
+      [(ngModel)]="answer"
+    ></textarea> 
+      
+  
 
       <div class="message-box">
         <div class="message-box-icons">
@@ -97,6 +115,7 @@
         </div>
         <mat-icon class="send-icon" (click)="addAnswer()">send</mat-icon>
       </div>
+      <!-- } -->
     </div>
   </div>
 </section>
