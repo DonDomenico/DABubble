@@ -254,3 +254,7 @@ body {
   border: 2px solid white;
   border-radius: 50%;
 }
+
+mat-drawer-content {
+  overflow: hidden !important;
+}

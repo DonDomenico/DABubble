@@ -3,16 +3,20 @@ section {
   height: 100vh;
   background-color: white;
   border-radius: 30px;
+  overflow: hidden;
 
-  >div:nth-last-child(2) {
-    margin-bottom: 380px;
-  }
+  
 
   // alternative: height 60vh und margin verringern; message-box verkleinern
 }
 
 #messages-container {
-  overflow-y: auto;
+  height: 70vh;
+  overflow-y: scroll;
+
+  >div:nth-last-child(1) {
+    margin-bottom: 210px;
+  }
 }
 
 .mobile-container {
@@ -27,7 +31,7 @@ left: 0;
   box-shadow: 0 2px 10px rgb(0, 0, 0, 0.08);
   padding: 32px 45px 20px 45px;
 
-  .hearder-content {
+  .header-content {
     width: 80%;
     display: flex;
     justify-content: flex-start;

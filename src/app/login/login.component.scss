@@ -72,7 +72,13 @@ form {
     color: #444DF2;
 
     &:hover {
+        border: 1px solid #444DF2 !important;
+        font-weight: 700 !important;
         cursor: pointer;
+    }
+
+    &:active {
+        border: 1px solid #686868;
     }
 }
 

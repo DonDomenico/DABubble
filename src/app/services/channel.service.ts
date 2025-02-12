@@ -19,7 +19,6 @@ import {
 import { Channel } from '../interfaces/channel.interface';
 import { Message } from '../interfaces/message.interface';
 import { User } from '../users/user.interface';
-import { Thread } from '../interfaces/thread.interface';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -72,10 +71,6 @@ export class ChannelService {
   getChannelMessageRef(channelId: string) {
     return collection(this.firestore, `channels/${channelId}/messages`);
   }
-
-  // async getThreadChatRef(channelId: string, threadId: string) {
-  //   return collection(this.firestore, `channels/${channelId}/chatText/${threadId}`);
-  // }
 
   async getThreadChatRef(channelId: string, threadId: string) {
     return doc(collection(this.firestore, 'channels', channelId, 'answers'), threadId);

@@ -1,7 +1,14 @@
-.mat-drawer-container {
+.general-view {
+  display: grid;
+  grid-template-rows: 0.5fr 4fr;
   height: 100vh;
+}
+
+.mat-drawer-container {
+  // height: 85vh;
   background-color: #eceefe;
 }
+
 section {
   display: flex;
   justify-content: space-evenly;
@@ -11,7 +18,7 @@ section {
 }
 
 .side-nav-container {
-  height: 100vh;
+  // height: 100vh;
   background-color: white;
   border-radius: 30px 30px 30px 30px;
   margin-left: 20px;
@@ -37,6 +44,7 @@ section {
   position: absolute;
   left: 0px;
   top: 301px;
+
   .workspace-btn {
     height: 100%;
     width: 100%;
@@ -45,10 +53,12 @@ section {
     padding: 23px 14px 23px 14px;
     background-color: white;
     box-shadow: 4px 4px 7px 0px rgba(0, 0, 0, 0.2);
+
     &:hover {
       color: #535af1;
     }
-    > p {
+
+    >p {
       font-family: "Nunito";
       font-size: 18px;
       font-weight: 500;
@@ -66,7 +76,8 @@ section {
   bottom: 150px;
   width: 85px;
   height: 85px;
-  > img {
+
+  >img {
     width: 60px;
     height: 60px;
     cursor: pointer;
