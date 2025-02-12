@@ -5,7 +5,7 @@
       <p>Thread</p>
       <mat-icon>tag</mat-icon>
       <span>
-        {{ channel?.name }}
+        {{ channelName }}
       </span>
     </div>
 
@@ -33,8 +33,10 @@
   </div>
 
   <div class="divider">
-    <span class="number-of-answers"> {{ message.answers.length }} Antwort(en) </span>
-    <hr class="line"/>
+    <span class="number-of-answers">
+      {{ message.answers.length }} Antwort(en)
+    </span>
+    <hr class="line" />
   </div>
 
   @for (answer of message.answers; track $index) {
@@ -57,17 +59,34 @@
         <span class="user-message">
           {{ answer.userMessage }}
         </span>
+        <div class="edit-wrapper" (click)="editAnswer(answer)">
+          <mat-icon>edit</mat-icon>
+        </div>
       </div>
     </div>
   </div>
   }
   <div class="message-box-wrapper">
     <div class="message-box-container">
-      <textarea name="message" placeholder="Antworten..." [(ngModel)]="answer"></textarea>
+      
+      <textarea
+      *ngIf="isEditing"
+      name="message"
+      placeholder="Bearbeiten..."
+      [(ngModel)]="editText"
+    ></textarea>
+    <button *ngIf="isEditing" (click)="saveEditedAnswer()">Speichern</button>
+    <textarea
+      *ngIf="!isEditing"
+      name="message"
+      placeholder="Antworten..."
+      [(ngModel)]="answer"
+    ></textarea> 
+      
+  
 
       <div class="message-box">
         <div class="message-box-icons">
-
           <button class="emoji-button">😀</button>
           <!-- <emoji-mart
               class="emoji-mart"
@@ -80,6 +99,7 @@
         </div>
         <mat-icon class="send-icon" (click)="addAnswer()">send</mat-icon>
       </div>
+      <!-- } -->
     </div>
   </div>
 </section>

@@ -6,7 +6,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { Firestore, getDoc, doc, addDoc, collection, updateDoc } from '@angular/fire/firestore';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Message } from '../interfaces/message.interface';
-import { DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
+import { CommonModule, DATE_PIPE_DEFAULT_OPTIONS, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 import { Thread } from '../interfaces/thread.interface';
@@ -14,7 +14,7 @@ import { Thread } from '../interfaces/thread.interface';
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [MatDialogModule, MatIcon, DatePipe, FormsModule],
+  imports: [MatDialogModule, MatIcon, DatePipe, FormsModule, CommonModule],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
   providers: [
@@ -37,7 +37,9 @@ export class ThreadComponent implements OnInit {
   activeRoute = '';
   routeSubscription: any;
   routerSubscription: any;
-
+  isEditing: boolean = false;
+  editText = '';
+  editMessageId = '';
   constructor(
     public channelService: ChannelService,
     private authService: AuthenticationService,
@@ -52,6 +54,9 @@ export class ThreadComponent implements OnInit {
   ngOnInit() {
     this.routeSubscription = this.route.children[0].children[0].params.subscribe(async params => {
       this.messageId = params['id'];
+      this.channelName = this.channelService.channels.find((item) => {
+        return item.docId == this.channelId;
+      })?.name || '';
       this.message = await this.getThreadMessage();
       this.dataLoaded = true;
       await this.channelService.getThreadChatRef(this.channelId, this.messageId);
@@ -138,4 +143,33 @@ export class ThreadComponent implements OnInit {
 
     return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
   }
+  editAnswer(answer:any) {
+    this.isEditing = true;
+    this.editText = answer.userMessage;
+    this.editMessageId = answer.messageId; 
+  }
+
+// erhöht die Anzahl der Reaktionen um 20 in single-channel.comp! WARUM?
+  async saveEditedAnswer() {
+    updateDoc(doc(this.firestore, `channels/${this.channelId}/chatText/${this.messageId}`),
+    {
+      answers: this.editText
+    }
+  )
+  this.isEditing = false;
+  this.editText = '';
+ 
+    await this.getEditedAnswerFromFirestore();
+  }
+
+  // funktioniert noch nicht
+
+  async getEditedAnswerFromFirestore() {
+   
+    
+  }
+
+
+
+
 }
