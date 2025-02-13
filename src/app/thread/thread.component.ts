@@ -12,6 +12,7 @@ import { AuthenticationService } from '../services/authentication.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
+
 @Component({
   selector: 'app-thread',
   standalone: true,
@@ -47,16 +48,18 @@ export class ThreadComponent implements OnInit {
   editMessageId = '';
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
+  currentUser: any;
 
   constructor(
     public channelService: ChannelService,
-    private authService: AuthenticationService,
+    public authService: AuthenticationService,
     // public dialog: MatDialog,
     private route: ActivatedRoute,
     private firestore: Firestore,
     private router: Router
   ) {
     this.activeRoute = this.router.url;
+    this.currentUser = this.authService.currentUser;
   }
 
   ngOnInit() {
