@@ -49,6 +49,7 @@ export class ThreadComponent implements OnInit {
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
   currentUser: any;
+  edited: boolean = true;
 
   constructor(
     public channelService: ChannelService,
@@ -120,13 +121,25 @@ export class ThreadComponent implements OnInit {
   }
 
   addAnswer() {
-    const newAnswer: Message = {
+    if(this.isEditing) {
+      const editedAnswer: Message = {
       userName: this.authService.currentUser?.displayName!,
       userAvatar: this.authService.currentUser?.photoURL!,
-      userMessage: this.answer,
+      userMessage: this.editText,
       timestamp: new Date().getTime(),
-    };
-    this.threadAnswers.push(newAnswer);
+      }
+      this.threadAnswers.splice(this.findIndexOfAnswer(editedAnswer), 1, editedAnswer);
+      this.edited = true;
+    } else{
+
+      const newAnswer: Message = {
+        userName: this.authService.currentUser?.displayName!,
+        userAvatar: this.authService.currentUser?.photoURL!,
+        userMessage: this.answer,
+        timestamp: new Date().getTime(),
+      };
+      this.threadAnswers.push(newAnswer);
+    }
     this.saveAnswerInFirestore();
   }
 
@@ -135,6 +148,12 @@ export class ThreadComponent implements OnInit {
       { answers: this.threadAnswers }
     )
     this.answer = '';
+    this.editText = '';
+    this.isEditing = false;
+  }
+
+  findIndexOfAnswer(answer: Message) {
+    return this.threadAnswers.indexOf(answer);
   }
 
   async closeThread() {
