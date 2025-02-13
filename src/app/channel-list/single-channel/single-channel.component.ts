@@ -14,17 +14,12 @@ import {
 import { AddMemberDialogComponent } from '../add-member-dialog/add-member-dialog.component';
 import { DirectMessage } from '../../interfaces/directMessage.interface';
 import { Message } from '../../interfaces/message.interface';
-import { User } from '../../users/user.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ConversationsService } from '../../services/conversations.service';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
-  addDoc,
   doc,
-  documentId,
-  Firestore,
   getDoc,
   getDocs,
   onSnapshot,
@@ -32,10 +27,9 @@ import {
   query,
   updateDoc,
 } from '@angular/fire/firestore';
-import { collection, where } from '@angular/fire/firestore';
-import { UserService } from '../../services/users.service';
+import { collection } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
-import { TooltipPosition, MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ShowMembersDialogComponent } from '../show-members-dialog/show-members-dialog.component';
 
@@ -66,7 +60,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   conversationList: DirectMessage[] = [];
   message = '';
   messageEmpty: boolean = false;
-  currentChannel: any;
+  // currentChannel: any;
   unsubSingleChannel: any;
   unsubMemberInfos: any;
   unsubChannelChat: any;
@@ -82,7 +76,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
-  @ViewChild('messageBoxContainer') private messageBoxContainer: ElementRef | undefined;
 
   constructor(
     private authService: AuthenticationService,
@@ -106,6 +99,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.unsubSingleChannel = this.channelService.subSingleChannel(this.channelService.channelId);
       this.unsubMemberInfos = this.channelService.subMemberInfos();
       this.unsubChannelChat = this.subChannelChat(this.channelService.channelId);
+      this.showEmojiPickerReaction.clear();
     });
   }
 
@@ -113,7 +107,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.unsubSingleChannel();
     this.unsubMemberInfos();
     this.unsubChannelChat();
-    if(this.routeSubscription !== undefined) {
+    if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
     }
   }
@@ -153,7 +147,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       list.forEach((doc: any) => {
         this.channelService.messages.push(this.channelService.toJsonMessage(doc.data(), doc.id));
       });
-      if(this.emojiPickerOpen === false) {
+      if (this.emojiPickerOpen === false) {
         this.cdRef.detectChanges();
         this.scrollToBottom();
       }
@@ -230,7 +224,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.emojiPickerOpen = false;
     }, 500);
   }
-  
+
   async updateEmojiReactions(event: any, messageId: string) {
     this.emojiReactions = await this.getEmojiReactions(messageId);
     const emoji = event.emoji.native;
@@ -318,7 +312,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('document:click', ['$event'])
+  @HostListener('click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
       this.showEmojiPicker = false;
