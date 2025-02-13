@@ -12,6 +12,7 @@ import { AuthenticationService } from '../services/authentication.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
+
 @Component({
   selector: 'app-thread',
   standalone: true,
@@ -47,16 +48,19 @@ export class ThreadComponent implements OnInit {
   editMessageId = '';
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
+  currentUser: any;
+  edited: boolean = true;
 
   constructor(
     public channelService: ChannelService,
-    private authService: AuthenticationService,
+    public authService: AuthenticationService,
     // public dialog: MatDialog,
     private route: ActivatedRoute,
     private firestore: Firestore,
     private router: Router
   ) {
     this.activeRoute = this.router.url;
+    this.currentUser = this.authService.currentUser;
   }
 
   ngOnInit() {
@@ -117,13 +121,25 @@ export class ThreadComponent implements OnInit {
   }
 
   addAnswer() {
-    const newAnswer: Message = {
+    if(this.isEditing) {
+      const editedAnswer: Message = {
       userName: this.authService.currentUser?.displayName!,
       userAvatar: this.authService.currentUser?.photoURL!,
-      userMessage: this.answer,
+      userMessage: this.editText,
       timestamp: new Date().getTime(),
-    };
-    this.threadAnswers.push(newAnswer);
+      }
+      this.threadAnswers.splice(this.findIndexOfAnswer(editedAnswer), 1, editedAnswer);
+      this.edited = true;
+    } else{
+
+      const newAnswer: Message = {
+        userName: this.authService.currentUser?.displayName!,
+        userAvatar: this.authService.currentUser?.photoURL!,
+        userMessage: this.answer,
+        timestamp: new Date().getTime(),
+      };
+      this.threadAnswers.push(newAnswer);
+    }
     this.saveAnswerInFirestore();
   }
 
@@ -132,6 +148,12 @@ export class ThreadComponent implements OnInit {
       { answers: this.threadAnswers }
     )
     this.answer = '';
+    this.editText = '';
+    this.isEditing = false;
+  }
+
+  findIndexOfAnswer(answer: Message) {
+    return this.threadAnswers.indexOf(answer);
   }
 
   async closeThread() {

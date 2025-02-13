@@ -35,7 +35,9 @@
     </div>
 
     <div class="divider">
-      <span class="number-of-answers"> {{ message.answers.length }} Antwort(en) </span>
+      <span class="number-of-answers">
+        {{ message.answers.length }} Antwort(en)
+      </span>
       <hr class="line" />
     </div>
 
@@ -43,7 +45,7 @@
     <div class="divider">
       <hr class="line" />
       @if(isDifferentDay($index)) {
-        <span class="date">{{ answer.timestamp | date }}</span>
+      <span class="date">{{ answer.timestamp | date }}</span>
       }
       <hr class="line" />
     </div>
@@ -61,23 +63,48 @@
           </span>
 
           <div class="reactions">
-            @if (answer.emojiReactions !== undefined || answer.emojiReactions !== null) {
-              @for (emoji of answer.emojiReactions; track $index) {
-              <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}
-              </div>
-              }
-            }
-
-            <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
-              <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.answers.indexOf(answer))"><img
-                  src="./assets/img/add_reaction.svg"></button>
-              <emoji-mart class="emoji-mart reaction-emojis" set="twitter"
-                *ngIf="showEmojiPickerReaction.get(message.answers.indexOf(answer))"
-                (emojiSelect)="addEmojiReaction($event, messageId, $index)" title="Pick your emoji…"></emoji-mart>
+            @if (answer.emojiReactions !== undefined || answer.emojiReactions
+            !== null) { @for (emoji of answer.emojiReactions; track $index) {
+            <div
+              class="emoji-reaction"
+              matTooltip="{{ emoji.users.join(', ') }}"
+            >
+              {{ emoji.emoji + emoji.counter }}
             </div>
+            } }
+
+            <div
+              class="add-emoji-container"
+              #emojiPickerReaction
+              (click)="onClickInside($event)"
+            >
+              <button
+                class="emoji-button"
+                (click)="
+                  toggleEmojiPickerReaction(message.answers.indexOf(answer))
+                "
+              >
+                <img src="./assets/img/add_reaction.svg" />
+              </button>
+              <emoji-mart
+                class="emoji-mart reaction-emojis"
+                set="twitter"
+                *ngIf="
+                  showEmojiPickerReaction.get(message.answers.indexOf(answer))
+                "
+                (emojiSelect)="addEmojiReaction($event, messageId, $index)"
+                title="Pick your emoji…"
+              ></emoji-mart>
+            </div>
+            @if(answer.userName === currentUser.displayName) {
+
             <div class="edit-wrapper" (click)="editMessage(answer)">
               <mat-icon>edit</mat-icon>
+              @if(edited) {
+                <p class="edited">(Bearbeitet)</p>
+              }
             </div>
+            }
           </div>
         </div>
       </div>
@@ -87,30 +114,36 @@
 
   <div class="message-box-wrapper">
     <div class="message-box-container">
-      
       <textarea
-      *ngIf="isEditing"
-      name="message"
-      placeholder="Bearbeiten..."
-      [(ngModel)]="editText"
-    ></textarea>
-    <button *ngIf="isEditing" (click)="saveEditedAnswer()">Speichern</button>
-    <textarea
-      *ngIf="!isEditing"
-      name="message"
-      placeholder="Antworten..."
-      [(ngModel)]="answer"
-    ></textarea> 
-      
-  
+        *ngIf="isEditing"
+        name="message"
+        placeholder="Bearbeiten..."
+        [(ngModel)]="editText"
+      ></textarea>
+      <textarea
+        *ngIf="!isEditing"
+        name="message"
+        placeholder="Antworten..."
+        [(ngModel)]="answer"
+      ></textarea>
 
       <div class="message-box">
         <div class="message-box-icons">
-          <div class="add-emoji-container" #emojiPicker (click)="onClickInside($event)">
-            <button class="emoji-button" (click)="toggleEmojiPicker()"><img
-                src="./assets/img/add_reaction.svg"></button>
-            <emoji-mart class="emoji-mart message-emojis" set="twitter" *ngIf="showEmojiPicker"
-              (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+          <div
+            class="add-emoji-container"
+            #emojiPicker
+            (click)="onClickInside($event)"
+          >
+            <button class="emoji-button" (click)="toggleEmojiPicker()">
+              <img src="./assets/img/add_reaction.svg" />
+            </button>
+            <emoji-mart
+              class="emoji-mart message-emojis"
+              set="twitter"
+              *ngIf="showEmojiPicker"
+              (emojiSelect)="addEmoji($event)"
+              title="Pick your emoji…"
+            ></emoji-mart>
           </div>
         </div>
         <mat-icon class="send-icon" (click)="addAnswer()">send</mat-icon>

@@ -126,34 +126,35 @@ section {
             line-height: 24.55px;
             text-align: left;
           }
-
-          //   .answer-time {
-          //     display: flex;
-          //     justify-content: flex-start;
-          //     gap: 20px;
-
-          //     >p {
-          //       font-size: 18px;
-          //       font-weight: 400;
-          //       color: rgba(83, 90, 241, 1);
-          //       line-height: 19px;
-          //       cursor: pointer;
-
-          //       &:hover {
-          //         color: #535af1;
-          //         font-weight: 800;
-          //       }
-          //     }
-
-          //     >span {
-          //       font-size: 14px;
-          //       font-weight: 400;
-          //       color: rgba(104, 104, 104, 1);
-          //       line-height: 19px;
-          //     }
-          //   }
         }
       }
+    }
+  }
+
+  .add-emoji-container {
+    display: flex;
+    align-items: center;
+    .emoji-button {
+      border: none;
+      border-radius: 50%;
+      height: 24px;
+      width: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+    }
+  }
+
+  .edit-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+    .edited {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(104, 104, 104, 1);
     }
   }
 
@@ -202,10 +203,6 @@ section {
           align-items: center;
           gap: 18px;
           cursor: pointer;
-          // > span {
-          //   border-left: 1px solid #adb0d9;
-          //   height: 40px;
-          // }
         }
       }
 
