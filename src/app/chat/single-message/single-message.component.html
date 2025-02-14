@@ -1,7 +1,7 @@
 <section [ngClass]="{'mobile-container': isMobile}">
   <div class="chat-header">
     <div class="header-content" (click)="showProfileDialog(userId)">
-      @if(user) {
+      @if(user && user.username !== authService.currentUser.displayName) {
       <img src="{{ user.photoURL }}" />
       <span class="active-status"
         [ngStyle]="user.active ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
@@ -10,7 +10,7 @@
       <img src="{{ authService.currentUser.photoURL }}" />
       <span class="active-status"
         [ngStyle]="authService.currentUser !== null ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
-      <p>{{ authService.currentUser.displayName }} (Du)</p>
+      <p>Du</p>
       }
     </div>
   </div>
@@ -40,10 +40,8 @@
               <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
             </div>
 
-            <span class="user-message"
-              [ngStyle]="authService.currentUser.displayName === message.initiatedBy ? {'text-align': 'end', 'border-radius': '30px 0 30px 30px'} : {}">
+            <span class="user-message" [ngStyle]="styleObject(message)">
               {{ message.senderMessage }}
-
             </span>
           </div>
         </div>

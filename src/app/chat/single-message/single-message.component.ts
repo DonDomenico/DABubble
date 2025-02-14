@@ -38,6 +38,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { GeneralViewComponent } from '../../general-view/general-view.component';
 import { MatDrawer } from '@angular/material/sidenav';
+import { Message } from '../../interfaces/message.interface';
 
 @Component({
   selector: 'app-single-message',
@@ -274,4 +275,11 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     event.target.innerWidth < 768 ? this.isMobile = true : this.isMobile = false;
   }
 
+  styleObject(message: any): Object {
+    if(this.authService.currentUser.displayName === message.initiatedBy) {
+      return {'text-align': 'end', 'border-radius': '30px 0 30px 30px', 'backgroundColor': '#797EF3', 'color': 'white'}
+    } else {
+      return {'backgroundColor': '#ECEEFE'}
+    }
+  }
 }
