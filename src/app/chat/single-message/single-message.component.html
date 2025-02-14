@@ -40,7 +40,7 @@
               <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
             </div>
 
-            <span class="user-message" [ngStyle]="styleObject(message)">
+            <span class="user-message" [ngStyle]="authService.currentUser.displayName === message.initiatedBy ? {'textAlign': 'end', 'borderRadius': '30px 0 30px 30px', 'backgroundColor': '#797EF3', 'color': 'white'} : {'backgroundColor': '#ECEEFE'}">
               {{ message.senderMessage }}
             </span>
           </div>

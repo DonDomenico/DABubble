@@ -274,12 +274,4 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   onResize(event: any) {
     event.target.innerWidth < 768 ? this.isMobile = true : this.isMobile = false;
   }
-
-  styleObject(message: any): Object {
-    if(this.authService.currentUser.displayName === message.initiatedBy) {
-      return {'text-align': 'end', 'border-radius': '30px 0 30px 30px', 'backgroundColor': '#797EF3', 'color': 'white'}
-    } else {
-      return {'backgroundColor': '#ECEEFE'}
-    }
-  }
 }

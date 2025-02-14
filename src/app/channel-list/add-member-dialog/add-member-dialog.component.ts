@@ -27,6 +27,7 @@ import { Channel } from '../../interfaces/channel.interface';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { RouterLink } from '@angular/router';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-add-member-dialog',
@@ -42,6 +43,7 @@ import { RouterLink } from '@angular/router';
     ReactiveFormsModule,
     MatInputModule,
     MatAutocompleteModule,
+    NgStyle
   ],
   templateUrl: './add-member-dialog.component.html',
   styleUrl: './add-member-dialog.component.scss',

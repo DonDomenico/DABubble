@@ -7,35 +7,26 @@
   </div>
 
   <div class="user-input">
-    <p>
-      #
-      {{ channel?.name }}
-    </p>
-    <input
-      type="search"
-      [(ngModel)]="user"
-      (keyup)="searchService.searchUsersOnly()"
-      [(ngModel)]="searchService.searchAll"
-      [matAutocomplete]="auto"
-      (click)="clearAlertMessage()"
-    />
+    <p># {{ channel?.name }}</p>
+    <input type="search" [(ngModel)]="user" (keyup)="searchService.searchUsersOnly()"
+      [(ngModel)]="searchService.searchAll" [matAutocomplete]="auto" (click)="clearAlertMessage()" />
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       @for (result of searchService.searchResultsUsers; track result) {
       <mat-option [value]="result.username">{{ result.username }}</mat-option>
       }
     </mat-autocomplete>
-<!-- abfrage ob der user schon zum channel gehoert -->
+    <!-- abfrage ob der user schon zum channel gehoert -->
     <div class="failure-message-container">
       @if (userNotFound) {
       <p class="failure-message">Es konnte kein Nutzer mit diesem Namen gefunden werden.</p>
       }
       @if (alertMessage) {
-        <p class="failure-message">Dieser Nutzer ist bereits in diesem Channel.</p>
-        }
+      <p class="failure-message">Dieser Nutzer ist bereits in diesem Channel.</p>
+      }
     </div>
   </div>
 
   <mat-dialog-actions>
-    <button mat-flat-button (click)="addMember()">Hinzufügen</button>
+    <button mat-flat-button [ngStyle]="{'cursor': !user ? 'not-allowed' : 'pointer'}" [disabled]="!user" (click)="addMember()">Hinzufügen</button>
   </mat-dialog-actions>
 </section>
