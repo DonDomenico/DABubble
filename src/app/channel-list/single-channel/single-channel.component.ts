@@ -73,6 +73,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   dataLoaded: boolean = false;
   routeSubscription: any;
   emojiPickerOpen: boolean = false;
+
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
@@ -340,9 +341,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  // window.addEventListener('resize', () => {
-  //   // We execute the same script as before
-  //   let vh = window.innerHeight * 0.01;
-  //   document.documentElement.style.setProperty('--vh', );
-  // });
+
+
 }

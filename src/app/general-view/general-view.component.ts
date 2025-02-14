@@ -1,11 +1,11 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ThreadComponent } from '../thread/thread.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { SingleMessageComponent } from '../chat/single-message/single-message.component';
 import { SingleChannelComponent } from '../channel-list/single-channel/single-channel.component';
 import { ChannelListComponent } from '../channel-list/channel-list.component';
@@ -29,24 +29,72 @@ import { ChannelService } from '../services/channel.service';
   templateUrl: './general-view.component.html',
   styleUrl: './general-view.component.scss',
 })
-export class GeneralViewComponent {
+export class GeneralViewComponent implements OnInit {
   isMobile: boolean = false;
   hideSideNav: boolean = false;
+  fullView = false;
 
   constructor(public router: Router, public channelService: ChannelService) {
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.checkMobile();
+      }
+    });
     
   }  
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    event.target.innerWidth < 768 ? this.isMobile = true : this.isMobile = false;
+  ngOnInit() {
+    this.checkMobile();
   }
 
+  @HostListener('window:resize', ['$event.target.innerWidth'])
+  onResize(width: number) {
+    this.checkMobile();
+  }
+  checkMobile() {
+    this.isMobile = window.innerWidth < 767;
+  }
 
-  onMobile(event: MouseEvent) {
-    if(this.isMobile && this.router.url.startsWith('/general-view/single-message')) {
-  this.hideSideNav = true;
+  // checkMobile() {
+  //   if (window.innerWidth < 767) {
+  //     this.isMobile = true;
+  //     this.hideSideNav = true;
+  //   } else {
+  //     this.isMobile = false;
+  //     this.hideSideNav = false;
+  //     this.fullView = false;
+  //   }
+  // }
+
+  toggleSideNav() {
+    this.hideSideNav = !this.hideSideNav;
+  }
+
+  handleElementClick() {
+    if (this.isMobile) {
+      this.fullView = true;
+      this.hideSideNav = true;
     }
   }
+
+  navigateToChannelList() {
+    this.router.navigate(['/general-view/channel-list']);
+    if (this.isMobile) {
+      this.fullView = false;
+      this.hideSideNav = true;
+    }
+  }
+
+  // @HostListener('window:resize', ['$event.target.innerWidth'])
+  // onResize(width: number) {
+  //   if (width < 767 && this.router.url.startsWith('/general-view/single-channel/')) {
+  //     this.isMobile = true;
+  //     this.hideSideNav = true;
+  //   } else {
+  //     this.isMobile = false;
+  //     this.hideSideNav = false;
+  //   }
+  // }
 
 }
