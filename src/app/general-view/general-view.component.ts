@@ -48,12 +48,21 @@ export class GeneralViewComponent implements OnInit {
     this.checkMobile();
   }
 
-  @HostListener('window:resize', ['$event.target.innerWidth'])
-  onResize(width: number) {
+  @HostListener('click', ['$event'])
+  onResize(event: MouseEvent) {
     this.checkMobile();
   }
   checkMobile() {
-    this.isMobile = window.innerWidth < 767;
+    if(window.innerWidth < 767 && this.router.url === '/single-channel') {
+     
+      this.navigateToSingleChannel();
+    } else if (window.innerWidth < 767 && this.router.url === '/single-message') {
+
+      this.navigateToSingleMessage();
+      } else {
+        this.isMobile = false;
+        this.hideSideNav = false;
+    }
   }
 
   // checkMobile() {
@@ -71,15 +80,24 @@ export class GeneralViewComponent implements OnInit {
     this.hideSideNav = !this.hideSideNav;
   }
 
-  handleElementClick() {
+ navigateToSingleMessage() {
+    this.router.navigate(['/general-view/single-message']);
     if (this.isMobile) {
-      this.fullView = true;
+      this.fullView = false;
       this.hideSideNav = true;
     }
   }
 
   navigateToChannelList() {
     this.router.navigate(['/general-view/channel-list']);
+    if (this.isMobile) {
+      // this.fullView = false;
+      this.hideSideNav = true;
+    }
+  }
+
+  navigateToSingleChannel() {
+    this.router.navigate(['/general-view/single-channel']);
     if (this.isMobile) {
       this.fullView = false;
       this.hideSideNav = true;

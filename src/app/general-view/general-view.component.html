@@ -55,10 +55,10 @@
     <section>
       <div class="main-chat-container">
         <ng-container *ngIf="router.url.startsWith('/general-view/single-message/')">
-          <app-single-message (click)="handleElementClick()"></app-single-message>
+          <app-single-message></app-single-message>
         </ng-container>
         <ng-container *ngIf="router.url.startsWith('/general-view/single-channel/')">
-          <app-single-channel (click)="handleElementClick()"></app-single-channel>
+          <app-single-channel></app-single-channel>
         </ng-container>
         <ng-container *ngIf="router.url.startsWith('/general-view/channel-list/')">
           <app-channel-list></app-channel-list>
