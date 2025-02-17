@@ -30,11 +30,10 @@ section {
     margin-left: 16px;
     cursor: pointer;
 
-    >p {
+    > p {
       font-size: 24px;
       font-weight: 700;
       line-height: 32.74px;
-
     }
 
     &:hover {
@@ -74,7 +73,7 @@ section {
       margin-left: -40px;
     }
 
-    >p {
+    > p {
       font-size: 20px;
       font-weight: 600;
       line-height: 27.28px;
@@ -83,7 +82,7 @@ section {
     }
   }
 
-  >span {
+  > span {
     cursor: pointer;
     background-color: rgba(236, 238, 254, 1);
     border-radius: 50px;
@@ -100,8 +99,6 @@ section {
     }
   }
 }
-
-
 
 .divider {
   display: flex;
@@ -126,10 +123,10 @@ section {
 
 .messages-container {
   width: 100%;
-  height: calc(var(--vh, 1vh) * 75);;
+  height: calc(var(--vh, 1vh) * 75);
   overflow-y: auto;
 
-  >div:nth-last-child(1) {
+  > div:nth-last-child(1) {
     margin-bottom: 180px;
   }
 }
@@ -152,7 +149,7 @@ section {
 
   .answers-link {
     font-size: 18px;
-    color: #535AF1;
+    color: #535af1;
   }
 }
 
@@ -175,7 +172,7 @@ section {
   gap: 16px;
   cursor: pointer;
 
-  >img {
+  > img {
     width: 70px;
     height: 70px;
     border-radius: 50px;
@@ -192,19 +189,19 @@ section {
       justify-content: flex-start;
       gap: 20px;
 
-      >span {
+      > span {
         font-size: 18px;
         font-weight: 700;
       }
 
-      >p {
+      > p {
         font-size: 14px;
         font-weight: 400;
         color: rgba(104, 104, 104, 1);
       }
     }
 
-    >span {
+    > span {
       background-color: #eceefe;
       border-radius: 0 30px 30px 30px;
       padding: 15px;
@@ -219,7 +216,7 @@ section {
       justify-content: flex-start;
       gap: 20px;
 
-      >p {
+      > p {
         font-size: 18px;
         font-weight: 400;
         color: rgba(83, 90, 241, 1);
@@ -232,7 +229,7 @@ section {
         }
       }
 
-      >span {
+      > span {
         font-size: 14px;
         font-weight: 400;
         color: rgba(104, 104, 104, 1);
@@ -241,7 +238,6 @@ section {
     }
   }
 }
-
 
 .message-box-wrapper {
   // display: flex;
@@ -265,7 +261,7 @@ section {
     background: white;
     margin: 10px 40px;
 
-    >textarea {
+    > textarea {
       width: 100%;
       border: 0;
       border-radius: 20px;
@@ -300,7 +296,6 @@ section {
       }
     }
 
-
     .send-icon {
       width: 30px;
       color: #444df2;
@@ -329,7 +324,7 @@ section {
     background-color: white;
 
     &:hover {
-      background-color: #ECEEFE;
+      background-color: #eceefe;
     }
   }
 
@@ -368,9 +363,13 @@ section {
     width: 48px;
     height: 24px;
     border-radius: 20px;
-    border: 1px solid #ADB0D9;
-    background: #FFFFFF;
+    border: 1px solid #adb0d9;
+    background: #ffffff;
   }
+}
+
+.mobile-btn-arrow-back {
+  display: none;
 }
 
 @media only screen and (max-width: 1130px) {
@@ -384,7 +383,7 @@ section {
 
   .chat-header {
     .dev-team-container {
-      >p {
+      > p {
         font-size: 20px;
         padding: 2px;
         line-height: 20px;
@@ -412,13 +411,12 @@ section {
 
   .chat-header {
     .dev-team-container {
-      >p {
+      > p {
         font-size: 18px;
       }
-
     }
   }
-
+}
   @media only screen and (max-width: 935px) {
     .chat-header {
       .dev-team-container {
@@ -426,11 +424,35 @@ section {
         margin-left: 8px;
       }
     }
-
     .message-box-wrapper {
       margin-left: 5px;
     }
   }
 
-  @media only screen and (max-width: 810px) {}
+  @media only screen and (max-width: 767px) {
+    .chat-header {
+      display: flex;
+      align-items: center;
+      .mobile-btn-arrow-back {
+        display: block;
+        margin-left: 18px;
+      }
+      .avatar-container {
+        display: none;
+      }
+    }
+
+    .message-box-wrapper {
+      margin-left: 0;
+      .message-box-container {
+        width: 85%;
+        max-width: 85%;
+      }
+    }
+  }
+
+@media only screen and (max-width: 490px) {
+ .main-chat-container {
+   margin-left: 0;
+ }
 }

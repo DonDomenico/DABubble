@@ -270,8 +270,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     this.messageEmpty = false;
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    event.target.innerWidth < 768 ? this.isMobile = true : this.isMobile = false;
+  navigateToDashboard() {
+    this.router.navigate(['/general-view/']);
   }
+
 }

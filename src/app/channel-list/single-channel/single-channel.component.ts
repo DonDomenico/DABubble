@@ -17,7 +17,7 @@ import { Message } from '../../interfaces/message.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   doc,
   getDoc,
@@ -84,6 +84,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
+    private router: Router,
     private renderer: Renderer2
   ) { }
 
@@ -341,6 +342,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  navigateToDashboard() {
+    this.router.navigate(['/general-view/']);
+  }
 
 }

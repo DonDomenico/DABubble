@@ -85,12 +85,6 @@ section {
   }
 }
 
-// .hideSideNav {
-//   mat-drawer {
-//     display: none;
-//   }
-// }
-
 @media only screen and (max-width: 767px) {
   .mobile-btn-wrapper {
     display: block;
@@ -101,44 +95,10 @@ section {
   }
 
   mat-drawer {
-    width: 80vw; // später auf 95 setzten
+    width: 95vw; 
   }
-
-/* general-view.component.css */
-
-// .general-view.full-width {
-//   width: 100vw;
-//   overflow: hidden;
-// }
 
 .hideSideNav .side-nav-container {
   display: none;
 }
-
-// .general-view .main-chat-container,
-// .general-view section {
-//   width: 100vw;
-//   height: 100vh;
-// }
-
-// .general-view {
-//   display: flex;
-//   flex-direction: column;
-// }
-
-// .mat-drawer-container {
-//   display: flex;
-//   flex-grow: 1;
-// }
-
-// .full-view .main-chat-container,
-// .full-view section {
-//   width: 100vw;
-//   height: 100vh;
-// }
-
-
-
-
-
 }
