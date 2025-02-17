@@ -10,7 +10,8 @@ import {
   EmailAuthProvider,
   verifyBeforeUpdateEmail,
   setPersistence,
-  browserLocalPersistence
+  browserLocalPersistence,
+  deleteUser
 } from '@angular/fire/auth';
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
@@ -37,7 +38,7 @@ export class AuthenticationService {
 
   constructor() {
     onAuthStateChanged(this.firebaseAuth, user => {
-      if(user) {
+      if (user) {
         this.currentUser = user;
       }
     })
@@ -64,22 +65,22 @@ export class AuthenticationService {
       photoURL: photoUrl,
       active: false
     }).then(() => {
-      console.log('User added to database');
+      console.log('User added to database'); //später löschen
     }).catch((err) => {
       console.error(err);
     })
   }
 
-  showCurrentUser() {
-    onAuthStateChanged(this.firebaseAuth, (user) => {
-      if (user) {
-        this.currentUser = user;
-        console.log('current user: ', user.displayName, user.photoURL); //Testcode, später löschen
-      } else {
-        console.log('No user signed in'); //Testcode, später löschen
-      }
-    });
-  }
+  // showCurrentUser() {
+  //   onAuthStateChanged(this.firebaseAuth, (user) => {
+  //     if (user) {
+  //       this.currentUser = user;
+  //       console.log('current user: ', user.displayName, user.photoURL); //Testcode, später löschen
+  //     } else {
+  //       console.log('No user signed in'); //Testcode, später löschen
+  //     }
+  //   });
+  // }
 
   login(email: string, password: string) {
     signInWithEmailAndPassword(this.firebaseAuth, email, password).then(userCredential => {
@@ -89,8 +90,8 @@ export class AuthenticationService {
         this.userService.setStatusActive(user);
         this.router.navigateByUrl('general-view');
       } else {
-        this.emailVerificationError = 'Email-Adress is not verified';
-        console.log(this.emailVerificationError);
+        this.emailVerificationError = 'Bitte verifizieren Sie Ihr Konto über die zugesendete E-Mail.';
+        console.log(this.emailVerificationError); //Testcode, später löschen
       }
     }).catch(error => {
       if (error.code == 'auth/invalid-credential') {
@@ -103,16 +104,14 @@ export class AuthenticationService {
     })
   }
 
-
   // loginFromLocalStorage() {
-
   // }
 
   async sendMailResetPassword(email: string) {
     const emailInDatabase = query(this.userService.getUserRef(), where('email', '==', email));
     const querySnapshot = await getDocs(emailInDatabase);
 
-    if(!querySnapshot.empty) {
+    if (!querySnapshot.empty) {
       sendPasswordResetEmail(this.firebaseAuth, email);
     } else {
       this.noAccountWithEmail = 'no Account with email';
@@ -186,7 +185,7 @@ export class AuthenticationService {
         console.log('User reauthenticated!');
         userAuthenticated = true;
       }).catch(error => {
-        console.log(error);
+        console.log(error); //später löschen
         if (error.code == 'auth/invalid-credential') {
           this.passwordError = error.code;
         } else if (error.code == 'auth/too-many-requests') {
@@ -212,5 +211,14 @@ export class AuthenticationService {
     if (this.currentUser !== null) {
       updateProfile(this.currentUser, { photoURL: url });
     }
+  }
+
+  async deleteAccount() {
+    deleteUser(this.currentUser).then(() => {
+      console.log('Account deleted: ', this.currentUser);
+      this.router.navigateByUrl('');
+    }).catch((error) => {
+      console.log(error.code);
+    });
   }
 }

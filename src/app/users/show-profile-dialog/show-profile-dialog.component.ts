@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit, Input } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import {
   MatDialogModule,
   MatDialog,
@@ -9,9 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '../../services/users.service';
 import { User } from '../user.interface';
-import { getDoc } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
 import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
+import { ReauthenticateUserDialogComponent } from '../reauthenticate-user-dialog/reauthenticate-user-dialog.component';
 @Component({
   selector: 'app-show-profile-dialog',
   standalone: true,
@@ -19,11 +19,12 @@ import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-
   templateUrl: './show-profile-dialog.component.html',
   styleUrl: './show-profile-dialog.component.scss',
 })
-export class ShowProfileDialogComponent implements OnInit {
+export class ShowProfileDialogComponent {
   authService = inject(AuthenticationService);
   userId: string = '';
   edit = false;
   user: User | undefined;
+  userAuthenticated: boolean = false;
   // @Input() user!: User;
 
   constructor(
@@ -34,31 +35,46 @@ export class ShowProfileDialogComponent implements OnInit {
     this.userId = data.uid;
   }
 
-  async ngOnInit(): Promise<void> {
-    await this.showSingleUser();
-  }
+  // async ngOnInit(): Promise<void> {
+  //   await this.showSingleUser();
+  // }
 
-
-
-  async showSingleUser() {
-    if (this.userId) {
-      const user = await this.userService.getSingleUser(this.userId);
-      if (user) {
-        this.user = user;
-      } else {
-        console.log('No such document!');
-        this.authService.showCurrentUser();
-      }
-    }
-  }
+  // async showSingleUser() {
+  //   if (this.userId) {
+  //     const user = await this.userService.getSingleUser(this.userId);
+  //     if (user) {
+  //       this.user = user;
+  //     } else {
+  //       console.log('No such document!');
+  //     }
+  //   }
+  // }
 
   editUserProfile() {
     this.edit = true;
-    this.authService.showCurrentUser();
     this.dialog.open(EditProfileDialogComponent, {
       data: {
         user: this.authService.currentUser
       }
     })
+  }
+
+  async deleteAccount() {
+    this.authService.currentUser.delete().catch((error: any) => {
+      this.openReauthenticationDialog();
+    }).then(async() => {
+      // await this.userService.deleteUserFromFirestore(this.authService.currentUser);
+      await this.authService.deleteAccount();
+      console.log('Account deleted');
+    })
+  }
+
+  openReauthenticationDialog() {
+    let dialogRef = this.dialog.open(ReauthenticateUserDialogComponent);
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      this.userAuthenticated = await result;
+      console.log(`Dialog result: ${this.userAuthenticated}`);
+    });
   }
 }

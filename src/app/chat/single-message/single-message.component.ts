@@ -89,7 +89,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-
     this.routeSubscription = this.route.children[0].params.subscribe(async (params) => {
       this.conversationId = "";
       this.conversationService.conversationExists = false;
@@ -102,7 +101,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
       this.unsubConversationMessages = this.subConversationMessages();
-   
     });
   }
 
@@ -110,7 +108,9 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     if (this.conversationMessages.length !== 0) {
       this.unsubConversationMessages();
     }
-    this.routeSubscription.unsubscribe();
+    if(this.routeSubscription !== undefined) {
+      this.routeSubscription.unsubscribe();
+    }
   }
 
   async getConversationId() {
@@ -150,6 +150,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       if (!this.conversationService.conversationExists) {
         await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
         this.addMessageText();
+        await this.getConversationId();
+        await this.getConversationMessages();
       } else {
         this.addMessageText();
       }

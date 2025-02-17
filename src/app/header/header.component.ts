@@ -24,9 +24,9 @@ export class HeaderComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  ngOnInit() {
-    this.authService.showCurrentUser();
-  }
+  // ngOnInit() {
+  //   this.authService.showCurrentUser();
+  // }
 
   showUserProfile() {
     const focusedElement = document.activeElement as HTMLElement; // Get the currently focused element

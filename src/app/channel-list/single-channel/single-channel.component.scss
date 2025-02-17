@@ -126,7 +126,7 @@ section {
 
 .messages-container {
   width: 100%;
-  height: calc(var(--vh, 1vh) * 75);;
+  height: calc(var(--vh, 1vh) * 77);;
   overflow-y: auto;
 
   >div:nth-last-child(1) {
@@ -135,6 +135,7 @@ section {
 }
 
 .message-wrapper {
+  display: flex;
   width: 100%;
   padding: 16px 16px 0px 16px;
 
@@ -260,7 +261,7 @@ section {
     border-radius: 20px;
     border: 1px solid #adb0d9;
     position: fixed;
-    bottom: 20px;
+    bottom: 16px;
     // overflow: hidden;
     background: white;
     margin: 10px 40px;

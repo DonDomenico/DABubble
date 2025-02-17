@@ -79,7 +79,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
 
   constructor(
-    private authService: AuthenticationService,
+    public authService: AuthenticationService,
     public channelService: ChannelService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
