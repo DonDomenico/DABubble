@@ -32,7 +32,7 @@ import { ChannelService } from '../services/channel.service';
 export class GeneralViewComponent implements OnInit {
   isMobile: boolean = false;
   hideSideNav: boolean = false;
-  fullView = false;
+  fullView = true;
 
   constructor(public router: Router, public channelService: ChannelService) {
 
@@ -52,29 +52,13 @@ export class GeneralViewComponent implements OnInit {
   onResize(event: MouseEvent) {
     this.checkMobile();
   }
-  checkMobile() {
-    if(window.innerWidth < 767 && this.router.url === '/single-channel') {
-     
-      this.navigateToSingleChannel();
-    } else if (window.innerWidth < 767 && this.router.url === '/single-message') {
 
-      this.navigateToSingleMessage();
-      } else {
-        this.isMobile = false;
-        this.hideSideNav = false;
+  checkMobile() {
+    if (window.innerWidth < 767) {
+      this.isMobile = true;
     }
   }
 
-  // checkMobile() {
-  //   if (window.innerWidth < 767) {
-  //     this.isMobile = true;
-  //     this.hideSideNav = true;
-  //   } else {
-  //     this.isMobile = false;
-  //     this.hideSideNav = false;
-  //     this.fullView = false;
-  //   }
-  // }
 
   toggleSideNav() {
     this.hideSideNav = !this.hideSideNav;
@@ -91,7 +75,7 @@ export class GeneralViewComponent implements OnInit {
   navigateToChannelList() {
     this.router.navigate(['/general-view/channel-list']);
     if (this.isMobile) {
-      // this.fullView = false;
+      this.fullView = false;
       this.hideSideNav = true;
     }
   }
@@ -103,16 +87,5 @@ export class GeneralViewComponent implements OnInit {
       this.hideSideNav = true;
     }
   }
-
-  // @HostListener('window:resize', ['$event.target.innerWidth'])
-  // onResize(width: number) {
-  //   if (width < 767 && this.router.url.startsWith('/general-view/single-channel/')) {
-  //     this.isMobile = true;
-  //     this.hideSideNav = true;
-  //   } else {
-  //     this.isMobile = false;
-  //     this.hideSideNav = false;
-  //   }
-  // }
 
 }
