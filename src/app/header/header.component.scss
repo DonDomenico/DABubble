@@ -88,12 +88,9 @@ header {
   }
 }
 
-// .menu-dropdown {
-//   position: absolute;
-//   top: -980px;
-//   left: -601px;
-
-// }
+.mobile-btn-arrow-back {
+  margin-left: 25px
+}
 
 @media only screen and (max-width: 1175px) {
  .header-aktiv-user {
@@ -122,6 +119,9 @@ header {
 }
 
 @media only screen and (max-width: 767px) {
+  .header-logo {
+  
+  }
   .header-aktiv-user {
     >p {
       display: none;

@@ -5,7 +5,7 @@
       <img src="./assets/img/arrow_back.svg" />
     </div>
 
-    <div class="header-content" (click)="showProfileDialog(userId)">
+     <div class="header-content" (click)="showProfileDialog(userId)">
       @if(user && user.username !== authService.currentUser.displayName) {
       <img src="{{ user.photoURL }}" />
       <span class="active-status"
