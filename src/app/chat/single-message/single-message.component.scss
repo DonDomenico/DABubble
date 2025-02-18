@@ -4,9 +4,6 @@ section {
   background-color: white;
   border-radius: 30px;
   overflow: hidden;
-
-  
-
   // alternative: height 60vh und margin verringern; message-box verkleinern
 }
 
@@ -20,9 +17,10 @@ section {
 }
 
 .mobile-container {
-position:sticky;
-left: 0;
-  overflow: hidden; /* Optional: um überlaufende Inhalte zu verbergen */
+  position: sticky;
+  left: 0;
+  overflow: hidden;
+  /* Optional: um überlaufende Inhalte zu verbergen */
 }
 
 .chat-header {
@@ -331,14 +329,17 @@ left: 0;
   .chat-header {
     display: flex;
     align-items: center;
+
     .mobile-btn-arrow-back {
       display: block;
     }
   }
+
   .input-wrapper {
     margin-left: 0;
     width: 83%;
     max-width: 83%;
+
     .message-owner-container {
       margin: 12px 20px;
 
@@ -349,13 +350,16 @@ left: 0;
         text-align: justify;
       }
     }
+
     .message-box-container {
       margin: 12px 16px;
+
       >textarea {
-      padding: 8px;
-      font-size: 16px;
-      line-height: 19.6px;
+        padding: 8px;
+        font-size: 16px;
+        line-height: 19.6px;
       }
+
       .message-box {
         padding: 8px;
       }

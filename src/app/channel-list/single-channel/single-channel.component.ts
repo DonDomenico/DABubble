@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import {
@@ -73,7 +73,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   dataLoaded: boolean = false;
   routeSubscription: any;
   emojiPickerOpen: boolean = false;
-
+  @Output() showSidenav = new EventEmitter<boolean>();
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
@@ -342,8 +342,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  navigateToDashboard() {
-    this.router.navigate(['/general-view/']);
+  emitToggleSidenav() {
+    this.showSidenav.emit(true);
   }
-
 }

@@ -41,8 +41,8 @@ export class GeneralViewComponent implements OnInit {
         this.checkMobile();
       }
     });
-    
-  }  
+
+  }
 
   ngOnInit() {
     this.checkMobile();
@@ -64,8 +64,7 @@ export class GeneralViewComponent implements OnInit {
     this.hideSideNav = !this.hideSideNav;
   }
 
- navigateToSingleMessage() {
-    this.router.navigate(['/general-view/single-message']);
+  toggleSidenavMobile() {
     if (this.isMobile) {
       this.fullView = false;
       this.hideSideNav = true;
@@ -80,12 +79,22 @@ export class GeneralViewComponent implements OnInit {
     }
   }
 
-  navigateToSingleChannel() {
-    this.router.navigate(['/general-view/single-channel']);
-    if (this.isMobile) {
+  showSidenavMobile() {
+    if(this.isMobile) {
       this.fullView = false;
-      this.hideSideNav = true;
+      this.hideSideNav = false;
     }
   }
 
+  navigateToDashboard() {
+    this.router.navigateByUrl('/general-view');
+  }
+
+  // navigateToSingleChannel() {
+  //   // this.router.navigate(['/general-view/single-channel']);
+  //   if (this.isMobile) {
+  //     this.fullView = false;
+  //     this.hideSideNav = true;
+  //   }
+  // }
 }

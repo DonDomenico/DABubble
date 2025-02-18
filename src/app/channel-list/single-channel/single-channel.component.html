@@ -1,7 +1,7 @@
 <section>
   <div class="chat-header">
-
-    <div class="mobile-btn-arrow-back" (click)="navigateToDashboard()">
+    <!-- arrow-back: anstatt zum dashboard zu routen, wieder das Sidenav anzeigen -->
+    <div class="mobile-btn-arrow-back" (click)="emitToggleSidenav()">
       <img src="./assets/img/arrow_back.svg" />
     </div>
     <div class="dev-team-container" (click)="updateChannel(channelService.channelId)">

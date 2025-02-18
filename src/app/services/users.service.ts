@@ -1,6 +1,6 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { deleteDoc, getDoc, onSnapshot } from "firebase/firestore";
-import { addDoc, collection, doc, Firestore, query, updateDoc, where } from '@angular/fire/firestore';
+import { getDoc, onSnapshot } from "firebase/firestore";
+import { collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
 import { User } from '../users/user.interface';
 
 @Injectable({
@@ -102,14 +102,6 @@ export class UserService implements OnDestroy {
   async setStatusInactive(user: any) {
     await updateDoc(this.getSingleUserRef(user.uid), {
       active: false
-    })
-  }
-
-  async deleteUserFromFirestore(user: User) {
-    deleteDoc(this.getSingleUserRef(user.uid!)).then(() => {
-      console.log('Account deleted from firestore');
-    }).catch(error => {
-      console.log(error.code);
     })
   }
 }

@@ -12,6 +12,7 @@ import { User } from '../user.interface';
 import { AuthenticationService } from '../../services/authentication.service';
 import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 import { ReauthenticateUserDialogComponent } from '../reauthenticate-user-dialog/reauthenticate-user-dialog.component';
+import { ChannelService } from '../../services/channel.service';
 @Component({
   selector: 'app-show-profile-dialog',
   standalone: true,
@@ -21,6 +22,7 @@ import { ReauthenticateUserDialogComponent } from '../reauthenticate-user-dialog
 })
 export class ShowProfileDialogComponent {
   authService = inject(AuthenticationService);
+  channelService = inject(ChannelService)
   userId: string = '';
   edit = false;
   user: User | undefined;
@@ -63,9 +65,8 @@ export class ShowProfileDialogComponent {
     this.authService.currentUser.delete().catch((error: any) => {
       this.openReauthenticationDialog();
     }).then(async() => {
-      // await this.userService.deleteUserFromFirestore(this.authService.currentUser);
+      await this.channelService.removeUserFromChannels(this.authService.currentUser);
       await this.authService.deleteAccount();
-      console.log('Account deleted');
     })
   }
 

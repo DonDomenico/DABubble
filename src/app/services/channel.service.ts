@@ -251,4 +251,14 @@ export class ChannelService {
       member: member || channel.member,
     };
   }
+
+  async removeUserFromChannels(user: User) {
+    const q = query(collection(this.firestore, 'channels'), where('members', 'array-contains', user.uid));
+    const querySnapshot = getDocs(q);
+
+    (await querySnapshot).forEach(doc => {
+      const userIndex = doc.data()['members'].find((user: any, index: number) => user.uid === doc.data()['members'][index]);
+      updateDoc(doc.data()['members'], doc.data()['members'].slice(userIndex, 1));
+    })
+  }
 }
