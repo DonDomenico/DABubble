@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
@@ -9,7 +9,7 @@ import { ShowProfileDialogComponent } from '../users/show-profile-dialog/show-pr
 import { SearchService } from '../services/search.service';
 import { FormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -21,12 +21,26 @@ import { RouterLink } from '@angular/router';
 export class HeaderComponent {
   authService = inject(AuthenticationService);
   searchService = inject(SearchService);
+isMobile = false;
+  constructor(public dialog: MatDialog, public router: Router) {
+  
 
-  constructor(public dialog: MatDialog) {}
+  }
 
   // ngOnInit() {
   //   this.authService.showCurrentUser();
   // }
+
+  ngOnInit() {
+    this.checkMobile();
+  }
+
+  checkMobile() {
+    if (window.innerWidth < 767) {
+      this.isMobile = true;
+    }
+  }
+
 
   showUserProfile() {
     const focusedElement = document.activeElement as HTMLElement; // Get the currently focused element
@@ -36,5 +50,9 @@ export class HeaderComponent {
         user: this.authService.currentUser
       }
     })
+  }
+
+  navigateToDashboard() {
+    window.location.reload();  
   }
 }

@@ -36,4 +36,6 @@ export const routes: Routes = [
     { path: "unauthorized", component: UnauthorizedComponent},
     { path: "imprint", component: ImprintComponent },
     { path: "privacy-policy", component: PrivacyPolicyComponent },
+ 
+
   ];

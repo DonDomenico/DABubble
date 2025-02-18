@@ -342,8 +342,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  navigateToDashboard() {
-    this.router.navigate(['/general-view/']);
-  }
+
 
 }

@@ -1,7 +1,14 @@
 <header>
+  @if(isMobile) {
+
+    <div class="mobile-btn-arrow-back" (click)="navigateToDashboard()">
+      <img src="./assets/img/arrow_back.svg" />
+    </div>
+  }
   <div class="header-logo">
     <img src="./assets/img/logo-dabubble.svg" alt="logo" />
   </div>
+
 
   <div class="search-container">
     <input type="search" placeholder="Code learning durchsuchen"  (keyup)="searchService.search()" [(ngModel)]="searchService.searchText" [matAutocomplete]="auto">

@@ -272,8 +272,4 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     this.messageEmpty = false;
   }
 
-  navigateToDashboard() {
-    this.router.navigate(['/general-view/']);
-  }
-
 }

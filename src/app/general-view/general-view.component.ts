@@ -81,7 +81,8 @@ export class GeneralViewComponent implements OnInit {
   }
 
   navigateToSingleChannel() {
-    this.router.navigate(['/general-view/single-channel']);
+    this.router.navigate(['/single-channel']);
+    
     if (this.isMobile) {
       this.fullView = false;
       this.hideSideNav = true;

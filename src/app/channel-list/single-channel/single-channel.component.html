@@ -1,9 +1,7 @@
 <section>
   <div class="chat-header">
 
-    <div class="mobile-btn-arrow-back" (click)="navigateToDashboard()">
-      <img src="./assets/img/arrow_back.svg" />
-    </div>
+    
     <div class="dev-team-container" (click)="updateChannel(channelService.channelId)">
       <p># {{ getSingleChannel()?.name }}</p>
       <mat-icon>keyboard_arrow_down</mat-icon>
