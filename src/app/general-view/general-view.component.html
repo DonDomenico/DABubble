@@ -1,5 +1,5 @@
 <div class="general-view" [ngClass]="{ 'full-width': fullView }">
-  <app-header></app-header>
+  <app-header [mobileHeader]="mobileHeaderEvent" (showSidenav)="showSidenavMobile()"></app-header>
 
   <mat-drawer-container class="mat-drawer-container" autosize [ngClass]="{ hideSideNav: hideSideNav }">
     <div class="workspace-btn-wrapper">

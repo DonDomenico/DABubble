@@ -1,38 +1,56 @@
 <header>
-  @if(isMobile) {
-
-    <div class="mobile-btn-arrow-back" (click)="navigateToDashboard()">
+  @if(isMenuOpen) {
+  <div
+    class="mobile-header"
+    (click)="emitToggleSidenav()"
+    [ngClass]="{ mobileHeader: true }"
+  >
+    <div class="mobile-btn-arrow-back">
       <img src="./assets/img/arrow_back.svg" />
+      <img src="./assets/img/Workspace logo.svg" />
     </div>
+  </div>
   }
+
   <div class="header-logo">
     <img src="./assets/img/logo-dabubble.svg" alt="logo" />
   </div>
 
-
   <div class="search-container">
-    <input type="search" placeholder="Code learning durchsuchen"  (keyup)="searchService.search()" [(ngModel)]="searchService.searchText" [matAutocomplete]="auto">
+    <input
+      type="search"
+      placeholder="Code learning durchsuchen"
+      (keyup)="searchService.search()"
+      [(ngModel)]="searchService.searchText"
+      [matAutocomplete]="auto"
+    />
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       @for (result of searchService.searchResults; track result) {
-        <mat-option [routerLink]="['/general-view/single-channel/'+ result.docId]" routerLinkActive="router-link-active"  [value]="result.name">{{result.name}} {{result.description}}</mat-option>
+      <mat-option
+        [routerLink]="['/general-view/single-channel/' + result.docId]"
+        routerLinkActive="router-link-active"
+        [value]="result.name"
+        >{{ result.name }} {{ result.description }}</mat-option
+      >
       }
     </mat-autocomplete>
   </div>
 
   <div class="header-aktiv-user">
     @if (authService.currentUser) {
-      <p>{{ authService.currentUser.displayName }}</p>
+    <p>{{ authService.currentUser.displayName }}</p>
     } @else {
-      <p>User Name</p>
-    }
-
-    @if (authService.currentUser?.isAnonymous) {
-      <img src="./assets/img/avatar1.svg" class="user-avatar" />
-    }
-    @else if (authService.currentUser) {
-      <img src="{{ authService.currentUser.photoURL }}" class="user-avatar">
+    <p>User Name</p>
+    } @if (authService.currentUser?.isAnonymous) {
+    <img src="./assets/img/avatar1.svg" class="user-avatar" />
+    } @else if (authService.currentUser) {
+    <img src="{{ authService.currentUser.photoURL }}" class="user-avatar" />
     } @else {
-      <img src="./assets/img/avatar1.svg" class="user-avatar" [matMenuTriggerFor]="menu" />
+    <img
+      src="./assets/img/avatar1.svg"
+      class="user-avatar"
+      [matMenuTriggerFor]="menu"
+    />
     }
     <mat-icon [matMenuTriggerFor]="menu">keyboard_arrow_down</mat-icon>
 

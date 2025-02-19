@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, Input, Output, signal } from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
@@ -10,26 +10,24 @@ import { SearchService } from '../services/search.service';
 import { FormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatInputModule, MatIconModule, MatMenuModule, FormsModule, MatAutocompleteModule, RouterLink],
+  imports: [MatToolbarModule, MatInputModule, MatIconModule, MatMenuModule, FormsModule, MatAutocompleteModule, RouterLink, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
   authService = inject(AuthenticationService);
   searchService = inject(SearchService);
-isMobile = false;
+  isMobile = false;
+  isMenuOpen = false;
+  @Output() showSidenav = new EventEmitter<boolean>();
+  @Input() mobileHeader = new EventEmitter<boolean>();
   constructor(public dialog: MatDialog, public router: Router) {
-  
-
   }
-
-  // ngOnInit() {
-  //   this.authService.showCurrentUser();
-  // }
 
   ngOnInit() {
     this.checkMobile();
@@ -38,6 +36,7 @@ isMobile = false;
   checkMobile() {
     if (window.innerWidth < 767) {
       this.isMobile = true;
+     
     }
   }
 
@@ -52,7 +51,8 @@ isMobile = false;
     })
   }
 
-  navigateToDashboard() {
-    window.location.reload();  
+  emitToggleSidenav() {   
+    this.showSidenav.emit(true);
+    this.isMenuOpen = false;
   }
 }

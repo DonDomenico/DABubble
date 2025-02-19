@@ -275,9 +275,4 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   emitToggleSidenav() {
     this.showSidenav.emit(true);
   }
-
-  // navigateToDashboard() {
-  //   this.router.navigate(['/general-view/']);
-  // }
-
 }

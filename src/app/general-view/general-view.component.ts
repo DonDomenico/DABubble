@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
@@ -33,6 +33,7 @@ export class GeneralViewComponent implements OnInit {
   isMobile: boolean = false;
   hideSideNav: boolean = false;
   fullView = true;
+  mobileHeaderEvent = new EventEmitter<boolean>();
 
   constructor(public router: Router, public channelService: ChannelService) {
 
@@ -84,17 +85,11 @@ export class GeneralViewComponent implements OnInit {
       this.fullView = false;
       this.hideSideNav = false;
     }
+    this.mobileHeaderEvent.emit(true);
   }
 
   navigateToDashboard() {
     this.router.navigateByUrl('/general-view');
   }
 
-  // navigateToSingleChannel() {
-  //   // this.router.navigate(['/general-view/single-channel']);
-  //   if (this.isMobile) {
-  //     this.fullView = false;
-  //     this.hideSideNav = true;
-  //   }
-  // }
 }
