@@ -145,20 +145,21 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
 
   async createConversation() {
     if (this.authService.currentUser) {
-      await this.conversationService.checkConversationExists(this.authService.currentUser?.uid, this.userId);
-
-      if (!this.conversationService.conversationExists) {
-        await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
-        this.addMessageText();
-        await this.getConversationId();
-        await this.getConversationMessages();
-      } else {
-        this.addMessageText();
-      }
+      // await this.conversationService.checkConversationExists(this.authService.currentUser?.uid, this.userId);
+      await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
+      // this.addMessageText();
+      await this.getConversationId();
+      await this.getConversationMessages();
     }
   }
 
-  addMessageText() {
+  // Funktion createConversation() innerhalb von addMessageText aufrufen, falls noch keine Konversation besteht
+  async addMessageText() {
+    await this.conversationService.checkConversationExists(this.authService.currentUser.uid, this.userId);
+    if(!this.conversationService.conversationExists) {
+      await this.createConversation();
+    }
+
     if (this.conversationMessage !== "") {
       const newDirectMessage: DirectMessage = {
         initiatedBy: this.authService.currentUser?.displayName!,
@@ -168,7 +169,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         senderMessage: this.conversationMessage,
         timestamp: new Date().getTime(),
       };
-
       this.conversationService.addNewConversationMessage(newDirectMessage);
       this.conversationMessage = '';
       this.messageEmpty = false;
@@ -225,10 +225,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     }
     const currentMessageDate = new Date(this.conversationMessages[index].timestamp);
     const previousMessageDate = new Date(this.conversationMessages[index - 1].timestamp);
-
     // Vergleiche nur das Datum, nicht die Uhrzeit
     const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
-
     return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
   }
 
@@ -258,9 +256,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
-      
-        this.showEmojiPicker = false;
-       // Setzt das Schließen des Pickers nach einem kurzen Delay
+      this.showEmojiPicker = false;
     }
   }
 

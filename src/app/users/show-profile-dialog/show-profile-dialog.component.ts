@@ -63,8 +63,10 @@ export class ShowProfileDialogComponent {
 
   async deleteAccount() {
     this.authService.currentUser.delete().catch((error: any) => {
-      this.openReauthenticationDialog();
-    }).then(async() => {
+      if (error.code === 'auth/requires-recent-login') {
+        this.openReauthenticationDialog();
+      }
+    }).then(async () => {
       await this.channelService.removeUserFromChannels(this.authService.currentUser);
       await this.authService.deleteAccount();
     })
