@@ -21,6 +21,12 @@
       <div class="first-line">
         <p>Channel-Name</p>
         <span (click)="updateChannelName()">Bearbeiten</span>
+
+
+        <div class="edit-icon" (click)="updateChannelName()">
+          <mat-icon>edit</mat-icon>
+        </div>
+
       </div>
       <p>
         @if(!editName) {
@@ -45,6 +51,11 @@
     <div class="first-line">
       <p>Beschreibung</p>
       <span (click)="updateChannelDescription()">Bearbeiten</span>
+
+      <div class="edit-icon" (click)="updateChannelDescription()">
+        <mat-icon>edit</mat-icon>
+      </div>
+
     </div>
     <span>
 

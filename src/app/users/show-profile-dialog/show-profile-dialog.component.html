@@ -39,6 +39,11 @@
   <div class="username">
     <h2>{{ authService.currentUser.displayName }}</h2>
     <button (click)="editUserProfile()">Bearbeiten</button>
+
+<div class="edit-icon" (click)="editUserProfile()">
+  <mat-icon>edit</mat-icon>
+</div>
+
   </div>
   <div class="email-wrapper">
     <div class="icon-container">
