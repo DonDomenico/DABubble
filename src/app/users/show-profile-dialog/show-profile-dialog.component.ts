@@ -37,20 +37,20 @@ export class ShowProfileDialogComponent {
     this.userId = data.uid;
   }
 
-  // async ngOnInit(): Promise<void> {
-  //   await this.showSingleUser();
-  // }
+  async ngOnInit(): Promise<void> {
+    await this.showSingleUser();
+  }
 
-  // async showSingleUser() {
-  //   if (this.userId) {
-  //     const user = await this.userService.getSingleUser(this.userId);
-  //     if (user) {
-  //       this.user = user;
-  //     } else {
-  //       console.log('No such document!');
-  //     }
-  //   }
-  // }
+  async showSingleUser() {
+    if (this.userId) {
+      const user = await this.userService.getSingleUser(this.userId);
+      if (user) {
+        this.user = user;
+      } else {
+        console.log('No such document!');
+      }
+    }
+  }
 
   editUserProfile() {
     this.edit = true;
