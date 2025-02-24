@@ -59,7 +59,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('drawerSidenav') drawerSidenav: MatDrawer | undefined;
-  @Output() showSidenav = new EventEmitter<boolean>();
+
   userId: string = '';
   user: User | undefined;
   isCurrentUser: boolean = false;
@@ -268,7 +268,4 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     this.messageEmpty = false;
   }
 
-  emitToggleSidenav() {
-    this.showSidenav.emit(true);
-  }
 }

@@ -1,10 +1,5 @@
 <section [ngClass]="{'mobile-container': isMobile}">
   <div class="chat-header">
-
-    <div class="mobile-btn-arrow-back" (click)="emitToggleSidenav()">
-      <img src="./assets/img/arrow_back.svg" />
-    </div>
-
      <div class="header-content" (click)="showProfileDialog(userId)">
       @if(user && user.username !== authService.currentUser.displayName) {
       <img src="{{ user.photoURL }}" />

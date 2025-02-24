@@ -88,14 +88,13 @@ header {
   }
 }
 
-  .mobile-header {
+.mobile-header {
+  margin-left: 36px;
+  .mobile-btn-arrow-back {
     display: flex;
-    margin-left: 25px;
-    .mobile-btn-arrow-back {
-      display: flex;
-      gap: 8px;
-    }
+    gap: 8px;
   }
+}
 
 @media only screen and (max-width: 1175px) {
   .header-aktiv-user {
@@ -131,6 +130,7 @@ header {
   //     display: flex;
   //     gap: 8px;
   //   }
+  // }
   // }
   // .header-logo {
   //   display: none;

@@ -23,12 +23,9 @@ export class HeaderComponent {
   authService = inject(AuthenticationService);
   searchService = inject(SearchService);
   isMobile = false;
-  isMenuOpen = false;
-  @Output() showSidenav = new EventEmitter<boolean>();
-  // @Input() mobileHeader = new EventEmitter<boolean>();
 
-  @Input() mobileHeader: any;
-  @Output() mobileHeaderEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() showSidenav = new EventEmitter<boolean>();
+
   constructor(public dialog: MatDialog, public router: Router) {
   }
 
@@ -39,7 +36,6 @@ export class HeaderComponent {
   checkMobile() {
     if (window.innerWidth < 767) {
       this.isMobile = true;
-    //  this.isMenuOpen = true;
     }
   }
 
@@ -56,6 +52,7 @@ export class HeaderComponent {
 
   emitToggleSidenav() {   
     this.showSidenav.emit(true);
-    this.isMenuOpen = false;
+    this.searchService.mobileHeader = !this.searchService.mobileHeader;
+    this.searchService.logoHeader = !this.searchService.logoHeader;
   }
 }

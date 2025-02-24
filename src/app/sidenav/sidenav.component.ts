@@ -36,7 +36,8 @@ selected!: boolean;
   channelDescription: string = '';
   channelId: string = '';
   routeSubscription: any;
-
+  mobileHeader: boolean = false;
+  logoHeader: boolean = false;
   constructor(private router: Router, public channelService: ChannelService, public searchService: SearchService, private route: ActivatedRoute) {
     this.channelService.getChannels();
     this.unsubscribeChannels = this.channelService.subChannelList();

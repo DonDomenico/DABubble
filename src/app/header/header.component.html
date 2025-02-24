@@ -1,22 +1,17 @@
 <header>
-  @if(isMenuOpen) {
   <div
     class="mobile-header"
     (click)="emitToggleSidenav()"
-    [ngClass]="{ mobileHeader: true }"
+    [ngStyle]="searchService.mobileHeader ? { display: 'none' } : { display: 'flex' }"
   >
     <div class="mobile-btn-arrow-back">
       <img src="./assets/img/arrow_back.svg" />
       <img src="./assets/img/Workspace logo.svg" />
     </div>
   </div>
-  } @else {
-
-    <div class="header-logo">
+    <div class="header-logo" [ngStyle]="searchService.logoHeader ? { display: 'none' } : { display: 'block' }">
       <img src="./assets/img/logo-dabubble.svg" alt="logo" />
     </div>
-  }
-
   <div class="search-container">
     <input
       type="search"

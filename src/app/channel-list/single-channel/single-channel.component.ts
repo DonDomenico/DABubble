@@ -75,7 +75,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   emojiPickerOpen: boolean = false;
   fullViews: boolean = true;
   isMobile: boolean = false;
-  @Output() showSidenav = new EventEmitter<boolean>();
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
@@ -355,7 +354,4 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  emitToggleSidenav() {
-    this.showSidenav.emit(true);
-  }
 }
