@@ -33,7 +33,9 @@ export class GeneralViewComponent implements OnInit {
   isMobile: boolean = false;
   hideSideNav: boolean = false;
   fullView = true;
-  mobileHeaderEvent = new EventEmitter<boolean>();
+  isMenuOpen: boolean = false;
+
+  @Input() mobileHeaderEvent = new EventEmitter<boolean>();
 
   constructor(public router: Router, public channelService: ChannelService) {
 
@@ -85,7 +87,8 @@ export class GeneralViewComponent implements OnInit {
       this.fullView = false;
       this.hideSideNav = false;
     }
-    this.mobileHeaderEvent.emit(true);
+    // this.isMenuOpen = true;
+    // this.mobileHeaderEvent.emit(true);
   }
 
   navigateToDashboard() {

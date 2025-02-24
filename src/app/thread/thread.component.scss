@@ -250,3 +250,15 @@ section {
     color: #adb0d9;
   }
 }
+
+@media only screen and (max-width: 767px) {
+  section {
+    .message-box-wrapper {
+      .message-box-container {
+        width: 60%;
+        max-width: 60%;
+      }
+      
+    }
+  }
+}

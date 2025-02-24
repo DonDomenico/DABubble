@@ -16,7 +16,7 @@
       </div>
     </mat-drawer>
     <section>
-      <div class="main-chat-container">
+      <div class="main-chat-container" [ngStyle]="channelService.hideSingleChannel ? { display: 'none' } : { display: 'block' }">
         @if (router.url.startsWith('/general-view/single-message/')) {
         <app-single-message (showSidenav)="showSidenavMobile()"></app-single-message>
         } @else if (router.url.startsWith('/general-view/single-channel/')) {

@@ -25,7 +25,10 @@ export class HeaderComponent {
   isMobile = false;
   isMenuOpen = false;
   @Output() showSidenav = new EventEmitter<boolean>();
-  @Input() mobileHeader = new EventEmitter<boolean>();
+  // @Input() mobileHeader = new EventEmitter<boolean>();
+
+  @Input() mobileHeader: any;
+  @Output() mobileHeaderEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(public dialog: MatDialog, public router: Router) {
   }
 
@@ -36,7 +39,7 @@ export class HeaderComponent {
   checkMobile() {
     if (window.innerWidth < 767) {
       this.isMobile = true;
-     
+    //  this.isMenuOpen = true;
     }
   }
 
