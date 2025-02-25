@@ -26,8 +26,8 @@ import {
   orderBy,
   query,
   updateDoc,
+  collection
 } from '@angular/fire/firestore';
-import { collection } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -98,7 +98,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       console.log(this.channelService.channelId); //Testcode, später löschen
       await this.channelService.getChannelMembers(this.channelService.channelId);
       await this.getChannelChats(this.channelService.channelId);
-      this.unsubSingleChannel = this.channelService.subSingleChannel(this.channelService.channelId);
+      // this.unsubSingleChannel = this.channelService.subSingleChannel(this.channelService.channelId);
       this.unsubMemberInfos = this.channelService.subMemberInfos();
       this.unsubChannelChat = this.subChannelChat(this.channelService.channelId);
       this.showEmojiPickerReaction.clear();
@@ -106,7 +106,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubSingleChannel();
+    // this.unsubSingleChannel();
     this.unsubMemberInfos();
     this.unsubChannelChat();
     if (this.routeSubscription !== undefined) {
@@ -142,8 +142,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   subChannelChat(channelId: string) {
-    const channelRef = this.channelService.getChannelChatRef(channelId);
-    const q = query(channelRef, orderBy('userTimestamp'));
+    const channelChatRef = this.channelService.getChannelChatRef(channelId);
+    const q = query(channelChatRef, orderBy('userTimestamp'));
     return onSnapshot(q, (list: any) => {
       this.channelService.messages = [];
       list.forEach((doc: any) => {

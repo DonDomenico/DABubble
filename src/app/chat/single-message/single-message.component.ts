@@ -6,11 +6,8 @@ import {
   OnInit,
   inject,
   OnDestroy,
-  AfterViewInit,
-  AfterViewChecked,
   ChangeDetectorRef,
   Renderer2,
-  Input,
   HostListener
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,9 +33,7 @@ import {
 } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
-import { GeneralViewComponent } from '../../general-view/general-view.component';
 import { MatDrawer } from '@angular/material/sidenav';
-import { Message } from '../../interfaces/message.interface';
 
 @Component({
   selector: 'app-single-message',
@@ -67,6 +62,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   conversationMessages: DirectMessage[] = [];
   conversationMessage: string = '';
   conversationId: string = '';
+  unsubConversations: any;
   unsubConversationMessages: any;
   messageEmpty: boolean = false;
   isToday: boolean = false;
@@ -75,6 +71,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   showEmojiPicker: boolean = false;
   routeSubscription: any;
   isMobile: boolean = false;
+  isFirstMessage: boolean = false;
 
   constructor(
     public conversationService: ConversationsService,
@@ -83,9 +80,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private firestore: Firestore,
     private renderer: Renderer2,
-    private cdRef: ChangeDetectorRef,
-    private router: Router,
-    private generalViewComponent: GeneralViewComponent
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -100,22 +95,24 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
-      this.unsubConversationMessages = this.subConversationMessages();
+      // this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
+      // this.unsubConversations = this.conversationService.subConversations();
     });
   }
 
   ngOnDestroy() {
-    if (this.conversationMessages.length !== 0) {
-      this.unsubConversationMessages();
-    }
-    if(this.routeSubscription !== undefined) {
+    // if (this.conversationMessages.length !== 0) {
+    //   this.unsubConversationMessages();
+    // }
+    // this.unsubConversations();
+    if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
     }
   }
 
   async getConversationId() {
     if (this.authService.currentUser !== null) {
-      this.conversationMessages = [];
+      // this.conversationMessages = [];
       const docRef = query(collection(this.firestore, 'conversations'));
       const querySnapshot = await getDocs(docRef);
 
@@ -133,7 +130,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     if (this.conversationId !== "") {
       const q = query(collection(this.firestore, `conversations/${this.conversationId}/messages`), orderBy("timestamp"));
       const querySnapshot = await getDocs(q);
-
+      this.conversationMessages = [];
       querySnapshot.forEach((doc) => {
         this.conversationMessages.push(this.toJsonDirectMessage(doc.data()));
       });
@@ -148,16 +145,15 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       // await this.conversationService.checkConversationExists(this.authService.currentUser?.uid, this.userId);
       await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
       // this.addMessageText();
-      await this.getConversationId();
-      await this.getConversationMessages();
     }
   }
 
   // Funktion createConversation() innerhalb von addMessageText aufrufen, falls noch keine Konversation besteht
   async addMessageText() {
     await this.conversationService.checkConversationExists(this.authService.currentUser.uid, this.userId);
-    if(!this.conversationService.conversationExists) {
+    if (!this.conversationService.conversationExists) {
       await this.createConversation();
+      this.isFirstMessage = true;
     }
 
     if (this.conversationMessage !== "") {
@@ -170,6 +166,10 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         timestamp: new Date().getTime(),
       };
       this.conversationService.addNewConversationMessage(newDirectMessage);
+     
+      await this.getConversationId();
+      await this.getConversationMessages();
+        
       this.conversationMessage = '';
       this.messageEmpty = false;
     } else {
@@ -177,19 +177,22 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     }
   }
 
-  subConversationMessages() {
-    if (this.conversationId !== "") {
-      const conversationRef = this.conversationService.getSingleConversationRef(this.conversationId);
-      const q = query(collection(conversationRef, 'messages'), orderBy("timestamp"));
-      return onSnapshot(q, (list: any) => {
+  async subConversationMessages(conversationId: string) {
+    if(conversationId !== "") {
+      const conversationMessagesRef = this.conversationService.getConversationMessagesRef(conversationId);
+      const q = query(conversationMessagesRef, orderBy("timestamp"));
+      return onSnapshot(q, (querySnapshot: any) => {
         this.conversationMessages = [];
-        list.forEach((doc: any) => {
+        querySnapshot.forEach((doc: any) => {
           this.conversationMessages.push(this.toJsonDirectMessage(doc.data()));
         });
         this.cdRef.detectChanges();
         this.scrollToBottom();
+        console.log('Conversation Messages: ', this.conversationMessages);
       });
-    } return undefined;
+    } else {
+      return undefined;
+    }
   }
 
   toJsonDirectMessage(obj: any): DirectMessage {

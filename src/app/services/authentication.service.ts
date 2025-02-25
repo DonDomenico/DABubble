@@ -5,19 +5,15 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInAnonymously,
-  updateEmail,
   reauthenticateWithCredential,
   EmailAuthProvider,
   verifyBeforeUpdateEmail,
-  setPersistence,
-  browserLocalPersistence,
   deleteUser
 } from '@angular/fire/auth';
-import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
 import { UserService } from './users.service';
-import { doc, Firestore, setDoc } from '@angular/fire/firestore';
-import { collection, getDoc, getDocs, query, updateDoc, where } from '@firebase/firestore';
+import { doc, Firestore, getDocs, query, setDoc, where } from '@angular/fire/firestore';
+import { ConversationsService } from './conversations.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +21,7 @@ import { collection, getDoc, getDocs, query, updateDoc, where } from '@firebase/
 export class AuthenticationService {
   firebaseAuth = inject(Auth);
   userService = inject(UserService);
+  conversationService = inject(ConversationsService);
   router = inject(Router);
   google = new GoogleAuthProvider();
   firestore = inject(Firestore);
@@ -50,6 +47,7 @@ export class AuthenticationService {
       // this.currentUser = response.user;
       await this.saveUserInFirestore(response.user.uid, username, email, photoUrl);
       this.sendVerificationMail();
+      this.conversationService.addNewConversation(response.user.uid, response.user.uid);
       this.router.navigateByUrl('');
     }).catch(error => {
       this.emailAlreadyExists = error.code;

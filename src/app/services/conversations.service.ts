@@ -7,18 +7,30 @@ import {
   Firestore,
   query,
   getDocs,
+  onSnapshot,
 } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConversationsService {
-  unsubConversations: any;
   currentConversationId: string | undefined;
   firestore = inject(Firestore);
   conversationExists: boolean = false;
+  conversations: any[] = [];
+  unsubConversations: any;
 
-  constructor() { }
+  constructor() {
+    // this.getConversations();
+  }
+  
+  ngOnInit() {
+    // this.unsubConversations = this.subConversations();
+  }
+
+  ngOnDestroy() {
+    // this.unsubConversations();
+  }
 
   async addNewConversation(senderId: string, recipientId: string) {
     await addDoc(this.getConversationsRef(), {
@@ -41,7 +53,7 @@ export class ConversationsService {
     });
   }
 
-  addNewConversationMessage(newDirectMessage: DirectMessage) {
+  async addNewConversationMessage(newDirectMessage: DirectMessage) {
     addDoc(
       collection(this.firestore, `conversations/${this.currentConversationId}/messages`),
       {
@@ -63,13 +75,38 @@ export class ConversationsService {
     return doc(this.getConversationsRef(), conversationId);
   }
 
-  // getConversationMessagesRef(conversationId: string) {
-  //   return collection(this.getConversationsRef(), conversationId, 'messages');
-  //   // return collection(this.firestore, `conversations/${ this.currentConversationId}/messages`);
+  getConversationMessagesRef(conversationId: string) {
+    // return collection(this.getConversationsRef(), conversationId, 'messages');
+    return collection(this.firestore, `conversations/${conversationId}/messages`);
+  }
+
+  // subConversations() {
+  //   return onSnapshot(this.getConversationsRef(), conversationList => {
+  //     this.conversations = [];
+  //     conversationList.forEach(doc => {
+  //       this.conversations.push(this.toJsonConversations(doc.data()));
+  //     })
+  //     console.log('Conversations: ', this.conversations);
+  //   })
   // }
 
-  
+  async getConversations() {
+    this.conversations = [];
+    const q = query(collection(this.firestore, 'conversations'));
+    const snapshot = await getDocs(q);
 
+    snapshot.forEach(doc => {
+      this.conversations.push(this.toJsonConversations(doc.data()));
+    })
+    console.log(this.conversations);
+  }
+
+
+  toJsonConversations(obj: any) {
+    return {
+      members: obj.members
+    }
+  }
   // toJsonDirectMessage(obj: any): DirectMessage {
   //   return {
   //     initiatedBy: obj.initiatedBy || '',

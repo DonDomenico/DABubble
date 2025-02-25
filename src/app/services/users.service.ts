@@ -1,6 +1,5 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { getDoc, onSnapshot } from "firebase/firestore";
-import { collection, doc, Firestore, updateDoc } from '@angular/fire/firestore';
+import { collection, doc, Firestore, getDoc, onSnapshot, updateDoc } from '@angular/fire/firestore';
 import { User } from '../users/user.interface';
 
 @Injectable({
@@ -26,9 +25,9 @@ export class UserService implements OnDestroy {
         (error => console.log(error));
     }
   }
-  
+
   async updateUserEmail(user: any, newEmail: string) {
-    if(user && user.uid) {
+    if (user && user.uid) {
       let userRef = this.getSingleUserRef(user.uid);
       await updateDoc(userRef, this.getCleanJson(user, user.displayName, newEmail, user.photoURL)).catch(error => {
         console.log(error);
@@ -37,7 +36,7 @@ export class UserService implements OnDestroy {
   }
 
   async updateUserAvatar(user: any, url: string) {
-    if(user) {
+    if (user) {
       let userRef = this.getSingleUserRef(user.uid);
       await updateDoc(userRef, this.getCleanJson(user, user.displayName, user.email, url))
     }
@@ -69,16 +68,14 @@ export class UserService implements OnDestroy {
       console.log('No such document!');
       return null;
     }
-  } 
-
-
+  }
 
   subUserList() {
     return onSnapshot(this.getUserRef(), userList => {
       this.users = [];
-      userList.forEach(user => {
-        console.log(this.toJson(user.data(), user.id));
-        this.users.push(this.toJson(user.data(), user.id));
+      userList.forEach(doc => {
+        console.log(this.toJson(doc.data(), doc.id));
+        this.users.push(this.toJson(doc.data(), doc.id));
       })
     })
   }
