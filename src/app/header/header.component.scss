@@ -123,22 +123,25 @@ header {
 }
 
 @media only screen and (max-width: 767px) {
-  // .mobile-header {
-  //   display: flex;
-  //   margin-left: 25px;
-  //   .mobile-btn-arrow-back {
-  //     display: flex;
-  //     gap: 8px;
-  //   }
-  // }
-  // }
-  // .header-logo {
-  //   display: none;
-  // }
+  header {
+    height: 80px;
+  }
 
   .header-aktiv-user {
+    .user-avatar {
+      height: 50px;
+      width: 50px;
+    }
     > p {
       display: none;
+    }
+  }
+  .mobile-header {
+    .mobile-btn-arrow-back {
+      .workspace-logo {
+        width: 50px;
+        height: 50px;
+      }
     }
   }
   .search-container {

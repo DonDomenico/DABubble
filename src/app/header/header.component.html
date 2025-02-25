@@ -6,10 +6,10 @@
   >
     <div class="mobile-btn-arrow-back">
       <img src="./assets/img/arrow_back.svg" />
-      <img src="./assets/img/Workspace logo.svg" />
+      <img class="workspace-logo" src="./assets/img/Workspace logo.svg" />
     </div>
   </div>
-    <div class="header-logo" [ngStyle]="searchService.logoHeader ? { display: 'none' } : { display: 'block' }">
+    <div class="header-logo" [ngStyle]="searchService.logoHeader ? { display: 'none' } : { display: 'block' }" (click)="redirectHome()">
       <img src="./assets/img/logo-dabubble.svg" alt="logo" />
     </div>
   <div class="search-container">

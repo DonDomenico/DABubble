@@ -55,4 +55,8 @@ export class HeaderComponent {
     this.searchService.mobileHeader = !this.searchService.mobileHeader;
     this.searchService.logoHeader = !this.searchService.logoHeader;
   }
+
+  redirectHome() {
+    window.location.reload();
+  }
 }
