@@ -5,6 +5,7 @@ import { DialogModule } from '@angular/cdk/dialog';
 import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { CommonModule } from '@angular/common';
+import { SearchService } from '../services/search.service';
 import { ConversationsService } from '../services/conversations.service';
 import { onSnapshot } from '@angular/fire/firestore';
 
@@ -17,6 +18,7 @@ import { onSnapshot } from '@angular/fire/firestore';
 })
 export class UsersComponent {
   authService = inject(AuthenticationService);
+   searchService = inject(SearchService);
   userList: User[] = [];
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   isSingleMessageHidden = false;

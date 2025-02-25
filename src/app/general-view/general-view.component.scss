@@ -6,7 +6,6 @@
 
 
 .mat-drawer-container {
-  // height: 85vh;
   background-color: #eceefe;
 }
 
@@ -19,7 +18,6 @@ section {
 }
 
 .side-nav-container {
-  // height: 100vh;
   background-color: white;
   border-radius: 30px 30px 30px 30px;
   margin-left: 20px;
@@ -27,6 +25,7 @@ section {
 
 .main-chat-container {
   width: 100%;
+  height: 100vh;
   margin-left: 20px;
   margin-right: 20px;
   background-color: white;
@@ -86,6 +85,23 @@ section {
 }
 
 @media only screen and (max-width: 767px) {
+  section {
+    margin-left: 0px;
+    .main-chat-container {
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+  }
+
+  .side-nav-container {
+    margin-left: 0px;
+    border-radius: 0px;
+  }
+
+  .main-chat-container {
+    border-radius: 0px;
+  }
+
   .mobile-btn-wrapper {
     display: block;
   }
@@ -95,10 +111,19 @@ section {
   }
 
   mat-drawer {
-    width: 95vw; 
+    width: 100vw; 
+    margin-left: 0px;
+  }
+
+  .thread-container {
+    width: 100%;
+    height: 100vh;
+    border-radius: 0px;
+    margin-right: 0px;
   }
 
 .hideSideNav .side-nav-container {
   display: none;
 }
+
 }

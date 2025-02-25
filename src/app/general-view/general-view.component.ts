@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
@@ -10,6 +10,7 @@ import { SingleMessageComponent } from '../chat/single-message/single-message.co
 import { SingleChannelComponent } from '../channel-list/single-channel/single-channel.component';
 import { ChannelListComponent } from '../channel-list/channel-list.component';
 import { ChannelService } from '../services/channel.service';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-general-view',
@@ -30,9 +31,13 @@ import { ChannelService } from '../services/channel.service';
   styleUrl: './general-view.component.scss',
 })
 export class GeneralViewComponent implements OnInit {
+  searchService = inject(SearchService);
   isMobile: boolean = false;
   hideSideNav: boolean = false;
   fullView = true;
+  isMenuOpen: boolean = false;
+
+  @Input() mobileHeaderEvent = new EventEmitter<boolean>();
 
   constructor(public router: Router, public channelService: ChannelService) {
 
@@ -84,17 +89,13 @@ export class GeneralViewComponent implements OnInit {
       this.fullView = false;
       this.hideSideNav = false;
     }
+    // this.isMenuOpen = true;
+    // this.mobileHeaderEvent.emit(true);
   }
 
   navigateToDashboard() {
     this.router.navigateByUrl('/general-view');
+    this.searchService.toggleMobileHeader();
   }
 
-  // navigateToSingleChannel() {
-  //   // this.router.navigate(['/general-view/single-channel']);
-  //   if (this.isMobile) {
-  //     this.fullView = false;
-  //     this.hideSideNav = true;
-  //   }
-  // }
 }

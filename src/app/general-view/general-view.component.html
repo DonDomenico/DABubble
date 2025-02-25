@@ -1,5 +1,5 @@
 <div class="general-view" [ngClass]="{ 'full-width': fullView }">
-  <app-header></app-header>
+  <app-header (showSidenav)="showSidenavMobile()"></app-header>
 
   <mat-drawer-container class="mat-drawer-container" autosize [ngClass]="{ hideSideNav: hideSideNav }">
     <div class="workspace-btn-wrapper">
@@ -16,7 +16,7 @@
       </div>
     </mat-drawer>
     <section>
-      <div class="main-chat-container">
+      <div class="main-chat-container" [ngStyle]="channelService.hideSingleChannel ? { display: 'none' } : { display: 'block' }">
         @if (router.url.startsWith('/general-view/single-message/')) {
         <app-single-message (showSidenav)="showSidenavMobile()"></app-single-message>
         } @else if (router.url.startsWith('/general-view/single-channel/')) {

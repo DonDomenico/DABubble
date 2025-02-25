@@ -158,6 +158,7 @@ export class ThreadComponent implements OnInit {
 
   async closeThread() {
     this.channelService.isThreadHidden = !this.channelService.isThreadHidden;
+    this.channelService.hideSingleChannel = false;
     this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
     // this.toggleThread.emit(this.channelService.isThreadHidden);
   }

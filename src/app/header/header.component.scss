@@ -1,9 +1,9 @@
 ::ng-deep .mat-mdc-menu-panel {
-border-radius: 30px 0px 30px 30px !important;
-width: 282px;
-height: 181px;
-padding: 25px !important;
-margin-top: 50px;
+  border-radius: 30px 0px 30px 30px !important;
+  width: 282px;
+  height: 181px;
+  padding: 25px !important;
+  margin-top: 50px;
 }
 
 ::ng-deep .mat-mdc-menu-item-text {
@@ -88,30 +88,34 @@ header {
   }
 }
 
-.mobile-btn-arrow-back {
-  margin-left: 25px
+.mobile-header {
+  margin-left: 36px;
+  .mobile-btn-arrow-back {
+    display: flex;
+    gap: 8px;
+  }
 }
 
 @media only screen and (max-width: 1175px) {
- .header-aktiv-user {
-  >p {
-    font-size: 24px;
-    line-height: 28px;
+  .header-aktiv-user {
+    > p {
+      font-size: 24px;
+      line-height: 28px;
+    }
   }
- }
 }
 @media only screen and (max-width: 1005px) {
   .search-container {
-    >input {
+    > input {
       font-size: 20px;
-      padding: 21px 17px; 
+      padding: 21px 17px;
     }
   }
 }
 
 @media only screen and (max-width: 1005px) {
   .header-logo {
-    >img {
+    > img {
       width: 200px;
       padding-left: 25px;
     }
@@ -119,19 +123,28 @@ header {
 }
 
 @media only screen and (max-width: 767px) {
-  .header-logo {
-  
+  header {
+    height: 80px;
   }
+
   .header-aktiv-user {
-    >p {
+    .user-avatar {
+      height: 50px;
+      width: 50px;
+    }
+    > p {
       display: none;
     }
   }
-    .search-container {
-      display: none;
+  .mobile-header {
+    .mobile-btn-arrow-back {
+      .workspace-logo {
+        width: 50px;
+        height: 50px;
+      }
     }
-    
-    // mat-icon {
-    //   display: none;
-    // }
   }
+  .search-container {
+    display: none;
+  }
+}

@@ -325,11 +325,22 @@ section {
 }
 
 @media only screen and (max-width: 767px) {
-
+  section {
+    border-radius: 0px;
+  }
   .chat-header {
+    height: 78px;
     display: flex;
     align-items: center;
+    padding: 10px 16px;
 
+    .header-content {
+      height: 58px;
+      >p {
+        font-size: 20px;
+        line-height: 29px;
+      }
+    }
     .mobile-btn-arrow-back {
       display: block;
     }
@@ -337,8 +348,8 @@ section {
 
   .input-wrapper {
     margin-left: 0;
-    width: 83%;
-    max-width: 83%;
+    width: 95%;
+    max-width: 95%;
 
     .message-owner-container {
       margin: 12px 20px;

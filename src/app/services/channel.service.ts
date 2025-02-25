@@ -28,7 +28,8 @@ export class ChannelService {
   channelId: string = '';
   isThreadHidden: boolean = true;
   threadId: string = '';
-  
+  hideSingleChannel: boolean = false;
+  isMobile: boolean = false;
   constructor(private router: Router) { }
 
   async saveChannel(
@@ -86,13 +87,21 @@ export class ChannelService {
     );
   }
 
+  checkMobile() {
+    if (window.innerWidth < 767) {
+      this.isMobile = true;
+    }
+  }
+
   showThread() {
+    this.checkMobile();
     setTimeout(() => {
-      if (this.isThreadHidden) {
+      if (this.isThreadHidden && this.isMobile) {
         this.isThreadHidden = false;
+        this.hideSingleChannel = true;
       } else {
-        this.isThreadHidden = true;
-        this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
+        this.isThreadHidden = false;
+        this.hideSingleChannel = false;
       }
     }, 0);
   }

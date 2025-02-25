@@ -73,7 +73,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   dataLoaded: boolean = false;
   routeSubscription: any;
   emojiPickerOpen: boolean = false;
-  @Output() showSidenav = new EventEmitter<boolean>();
+  fullViews: boolean = true;
+  isMobile: boolean = false;
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
@@ -180,7 +181,9 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       channelId: channelId,
+     
     };
+    
     this.dialog.open(UpdateChannelDialogComponent, dialogConfig);
   }
 
@@ -334,15 +337,21 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.messageEmpty = false;
   }
 
+  checkMobile() {
+    if (window.innerWidth < 767) {
+      this.isMobile = true;
+    }
+  }
+
   toggleMessageBoxSize(messageBoxContainer: HTMLDivElement) {
-    if (this.channelService.isThreadHidden) {
+    this.checkMobile();
+    if (this.channelService.isThreadHidden && !this.isMobile) {
       messageBoxContainer.style.width = '30%';
+    } else if (this.channelService.isThreadHidden && this.isMobile) {
+      messageBoxContainer.style.width = '100%';
     } else {
       messageBoxContainer.style.width = '55%';
     }
   }
 
-  emitToggleSidenav() {
-    this.showSidenav.emit(true);
-  }
 }
