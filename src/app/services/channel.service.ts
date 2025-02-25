@@ -1,18 +1,13 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
-  getDoc,
-  getDocs,
-  limit,
-  onSnapshot,
-  orderBy,
-  query,
-} from 'firebase/firestore';
-import {
   addDoc,
   collection,
   doc,
   documentId,
   Firestore,
+  getDocs,
+  onSnapshot,
+  query,
   updateDoc,
   where,
 } from '@angular/fire/firestore';
@@ -69,9 +64,9 @@ export class ChannelService {
     return collection(this.firestore, `channels/${channelId}/chatText`);
   }
 
-  getChannelMessageRef(channelId: string) {
-    return collection(this.firestore, `channels/${channelId}/messages`);
-  }
+  // getChannelMessageRef(channelId: string) {
+  //   return collection(this.firestore, `channels/${channelId}/messages`);
+  // }
 
   async getThreadChatRef(channelId: string, threadId: string) {
     return doc(collection(this.firestore, 'channels', channelId, 'answers'), threadId);

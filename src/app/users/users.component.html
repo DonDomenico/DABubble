@@ -7,7 +7,7 @@
   </div>
 }
 
-@for (user of getList(); track user.uid) {
+@for (user of filteredUsers; track user.uid) {
   <div class="user-container" [routerLink]="['single-message/' + user.uid]" [state]="{ uid: user.uid }"
     routerLinkActive="active" (click)="searchService.toggleMobileHeader()">
     <img src="{{ user.photoURL }}" />

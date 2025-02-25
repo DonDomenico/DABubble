@@ -1,20 +1,16 @@
-import { Component, inject, Output, EventEmitter, Input, ViewChild } from '@angular/core';
-import {MatSidenavModule} from '@angular/material/sidenav';
-
+import { Component, inject, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { UsersComponent } from '../users/users.component';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateChannelDialogComponent } from '../channel-list/create-channel-dialog/create-channel-dialog.component';
-
 import { ChannelService } from '../services/channel.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular/router';
-import { Channel } from '../interfaces/channel.interface';
 import { SearchService } from '../services/search.service';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { GeneralViewComponent } from '../general-view/general-view.component';
-
+import { ConversationsService } from '../services/conversations.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -24,11 +20,11 @@ import { GeneralViewComponent } from '../general-view/general-view.component';
   styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent {
-
   @Output() toggleEvent = new EventEmitter<void>();
-selected!: boolean;
+  selected!: boolean;
   readonly dialog = inject(MatDialog);
-  unsubscribeChannels;
+  unsubscribeChannels: any;
+  unsubConversations: any;
   isChannelListHidden = false;
   isMemberListHidden = false;
   selectedChannelId: string = '';
@@ -42,10 +38,6 @@ selected!: boolean;
     this.channelService.getChannels();
     this.unsubscribeChannels = this.channelService.subChannelList();
   }
-
-
-
-
 
   ngOnChanges(): void {
     this.routeSubscription = this.route.children[0].params.subscribe(params => {
