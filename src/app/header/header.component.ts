@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MobileServiceService } from '../services/mobile.service';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent {
   authService = inject(AuthenticationService);
   searchService = inject(SearchService);
+  mobileService = inject(MobileServiceService);
   isMobile = false;
 
   @Output() showSidenav = new EventEmitter<boolean>();
@@ -52,8 +54,8 @@ export class HeaderComponent {
 
   emitToggleSidenav() {   
     this.showSidenav.emit(true);
-    this.searchService.mobileHeader = !this.searchService.mobileHeader;
-    this.searchService.logoHeader = !this.searchService.logoHeader;
+    this.mobileService.mobileHeader = !this.mobileService.mobileHeader;
+    this.mobileService.logoHeader = !this.mobileService.logoHeader;
   }
 
   redirectHome() {

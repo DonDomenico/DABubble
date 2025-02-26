@@ -355,7 +355,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  emitToggleSidenav() {
-    this.showSidenav.emit(true);
-  }
+  // emitToggleSidenav() {
+  //   this.showSidenav.emit(true);
+  // }
 }

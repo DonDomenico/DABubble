@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { SearchService } from '../services/search.service';
 import { ConversationsService } from '../services/conversations.service';
 import { onSnapshot } from '@angular/fire/firestore';
+import { MobileServiceService } from '../services/mobile.service';
 
 @Component({
   selector: 'app-users',
@@ -18,7 +19,8 @@ import { onSnapshot } from '@angular/fire/firestore';
 })
 export class UsersComponent {
   authService = inject(AuthenticationService);
-   searchService = inject(SearchService);
+  //  searchService = inject(SearchService);
+  mobileService = inject(MobileServiceService);
   userList: User[] = [];
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   isSingleMessageHidden = false;

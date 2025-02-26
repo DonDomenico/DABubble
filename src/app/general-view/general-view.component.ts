@@ -11,6 +11,7 @@ import { SingleChannelComponent } from '../channel-list/single-channel/single-ch
 import { ChannelListComponent } from '../channel-list/channel-list.component';
 import { ChannelService } from '../services/channel.service';
 import { SearchService } from '../services/search.service';
+import { MobileServiceService } from '../services/mobile.service';
 
 @Component({
   selector: 'app-general-view',
@@ -32,6 +33,7 @@ import { SearchService } from '../services/search.service';
 })
 export class GeneralViewComponent implements OnInit {
   searchService = inject(SearchService);
+  mobileService = inject(MobileServiceService);
   isMobile: boolean = false;
   hideSideNav: boolean = false;
   fullView = true;
@@ -41,11 +43,11 @@ export class GeneralViewComponent implements OnInit {
 
   constructor(public router: Router, public channelService: ChannelService) {
 
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.checkMobile();
-      }
-    });
+    // this.router.events.subscribe(event => {
+    //   if (event instanceof NavigationEnd) {
+    //     this.checkMobile();
+    //   }
+    // });
 
   }
 
@@ -53,10 +55,10 @@ export class GeneralViewComponent implements OnInit {
     this.checkMobile();
   }
 
-  @HostListener('click', ['$event'])
-  onResize(event: MouseEvent) {
-    this.checkMobile();
-  }
+  // @HostListener('click', ['$event'])
+  // onResize(event: MouseEvent) {
+  //   this.checkMobile();
+  // }
 
   checkMobile() {
     if (window.innerWidth < 767) {
@@ -73,6 +75,7 @@ export class GeneralViewComponent implements OnInit {
     if (this.isMobile) {
       this.fullView = false;
       this.hideSideNav = true;
+      this.mobileService.toggleMobileHeader();
     }
   }
 
@@ -81,6 +84,7 @@ export class GeneralViewComponent implements OnInit {
     if (this.isMobile) {
       this.fullView = false;
       this.hideSideNav = true;
+      this.mobileService.toggleMobileHeader();
     }
   }
 
@@ -93,9 +97,9 @@ export class GeneralViewComponent implements OnInit {
     // this.mobileHeaderEvent.emit(true);
   }
 
-  navigateToDashboard() {
-    this.router.navigateByUrl('/general-view');
-    this.searchService.toggleMobileHeader();
-  }
+  // navigateToDashboard() {
+  //   this.router.navigateByUrl('/general-view/channel-list');
+  //   this.mobileService.toggleMobileHeader();
+  // }
 
 }
