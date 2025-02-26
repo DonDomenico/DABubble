@@ -73,7 +73,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   dataLoaded: boolean = false;
   routeSubscription: any;
   emojiPickerOpen: boolean = false;
-  @Output() showSidenav = new EventEmitter<boolean>();
   fullViews: boolean = true;
   isMobile: boolean = false;
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
@@ -353,9 +352,5 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     } else {
       messageBoxContainer.style.width = '55%';
     }
-  }
-
-  emitToggleSidenav() {
-    this.showSidenav.emit(true);
   }
 }
