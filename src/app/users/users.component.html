@@ -1,6 +1,6 @@
 @if (authService.currentUser) {
   <div class="user-container" [routerLink]="['single-message/' + authService.currentUser.uid]"
-    [state]="{ uid: authService.currentUser.uid }" routerLinkActive="active" (click)="searchService.toggleMobileHeader()">
+    [state]="{ uid: authService.currentUser.uid }" routerLinkActive="active">
     <img src="{{ authService.currentUser.photoURL }}">
     <span class="active-status" [ngStyle]="authService.currentUser ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
     <p>{{ authService.currentUser.displayName }} (Du)</p>
@@ -9,7 +9,7 @@
 
 @for (user of filteredUsers; track user.uid) {
   <div class="user-container" [routerLink]="['single-message/' + user.uid]" [state]="{ uid: user.uid }"
-    routerLinkActive="active" (click)="searchService.toggleMobileHeader()">
+    routerLinkActive="active">
     <img src="{{ user.photoURL }}" />
     <span class="active-status" [ngStyle]="user.active ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
     <p>{{ user.username }}</p>

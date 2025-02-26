@@ -9,10 +9,10 @@
       </button>
     </div>
     <mat-drawer #drawerSidenav class="side-nav-container" [opened]="!hideSideNav" mode="side"
-      (click)="toggleSidenavMobile()">
-      <app-sidenav></app-sidenav>
+      >
+      <app-sidenav (click)="toggleSidenavMobile()"></app-sidenav>
       <div class="mobile-btn-wrapper">
-        <img src="./assets/img/mobile-btn.svg" (click)="navigateToDashboard()"/>
+        <img src="./assets/img/mobile-btn.svg" (click)="navigateToChannelList()"/>
       </div>
     </mat-drawer>
     <section>

@@ -2,14 +2,14 @@
   <div
     class="mobile-header"
     (click)="emitToggleSidenav()"
-    [ngStyle]="searchService.mobileHeader ? { display: 'none' } : { display: 'flex' }"
+    [ngStyle]="mobileService.mobileHeader ? { display: 'none' } : { display: 'flex' }"
   >
     <div class="mobile-btn-arrow-back">
       <img src="./assets/img/arrow_back.svg" />
       <img class="workspace-logo" src="./assets/img/Workspace logo.svg" />
     </div>
   </div>
-    <div class="header-logo" [ngStyle]="searchService.logoHeader ? { display: 'none' } : { display: 'block' }" (click)="redirectHome()">
+    <div class="header-logo" [ngStyle]="mobileService.logoHeader ? { display: 'none' } : { display: 'block' }" (click)="redirectHome()">
       <img src="./assets/img/logo-dabubble.svg" alt="logo" />
     </div>
   <div class="search-container">

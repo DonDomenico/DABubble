@@ -353,4 +353,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       messageBoxContainer.style.width = '55%';
     }
   }
+
+  // emitToggleSidenav() {
+  //   this.showSidenav.emit(true);
+  // }
 }

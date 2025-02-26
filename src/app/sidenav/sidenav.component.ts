@@ -11,6 +11,7 @@ import { SearchService } from '../services/search.service';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ConversationsService } from '../services/conversations.service';
+import { MobileServiceService } from '../services/mobile.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -21,6 +22,7 @@ import { ConversationsService } from '../services/conversations.service';
 })
 export class SidenavComponent {
   @Output() toggleEvent = new EventEmitter<void>();
+   mobileService = inject(MobileServiceService);
   selected!: boolean;
   readonly dialog = inject(MatDialog);
   unsubscribeChannels: any;
