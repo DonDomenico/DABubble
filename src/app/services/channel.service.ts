@@ -15,12 +15,14 @@ import { Channel } from '../interfaces/channel.interface';
 import { Message } from '../interfaces/message.interface';
 import { User } from '../users/user.interface';
 import { Router } from '@angular/router';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChannelService {
   firestore = inject(Firestore);
+  authService = inject(AuthenticationService);
   channels: Channel[] = [];
   messages: Message[] = [];
   channelMembers: any = [];
@@ -57,7 +59,8 @@ export class ChannelService {
   }
 
   getChannelRef() {
-    return collection(this.firestore, 'channels');
+    const q = query(collection(this.firestore, 'channels'), where('member', 'array-contains', this.authService.currentUser.uid));
+    return q;
   }
 
   getChannelChatRef(channelId: string) {
@@ -158,7 +161,9 @@ export class ChannelService {
   // }
 
   subChannelList() {
-    return onSnapshot(this.getChannelRef(), (channelList) => {
+    const channelRef = this.getChannelRef();
+    // const q = query(channelRef, where('member', 'array-contains', this.authService.currentUser.uid));
+    return onSnapshot(channelRef, (channelList) => {
       this.channels = [];
       channelList.forEach((channel) => {
         console.log(this.toJsonChannel(channel.data(), channel.id)); // später löschen

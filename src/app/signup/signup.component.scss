@@ -65,6 +65,8 @@ mat-card {
       background-color: #eceefe;
       border-radius: 30px;
       outline: none;
+      // transparente border hinzufügen, damit beim Hovern die Schrift nicht verschoben wird
+      border: 1px solid transparent;
 
       &:hover {
         border: 1px solid #686868;
@@ -132,10 +134,12 @@ mat-card {
         width: 18px;
         height: 18px;
       }
-      > span {
+
+      >span {
         font-size: 16px;
         color: #42526e;
-        > a {
+
+        >a {
           text-decoration: none;
           font-size: 18px;
           color: #797ef3;
@@ -155,11 +159,13 @@ mat-card {
   justify-content: center;
   gap: 24px;
   padding-top: 32px;
+
   a {
     font-size: 18px;
     text-decoration: none;
     color: #797ef3;
     padding: 10px 15px;
+
     &:hover {
       cursor: pointer;
       color: #444df2;
@@ -173,7 +179,8 @@ mat-card {
   .create-account {
     position: absolute;
     bottom: 35px;
-    > a {
+
+    >a {
       border: 1px solid #686868;
       border-radius: 30px;
       padding: 8px;
@@ -182,6 +189,7 @@ mat-card {
 
   .content-container {
     padding: 50px 50px 0 50px;
+
     .head {
       justify-content: center;
     }
@@ -189,6 +197,7 @@ mat-card {
 
   mat-card {
     padding: 30px;
+
     .back-arrow {
       left: 25px;
       top: 25px;
@@ -207,10 +216,12 @@ mat-card {
 
   mat-card {
     padding: 20px;
+
     mat-card-title {
       font-size: 32px;
       line-height: 36px;
     }
+
     mat-card-subtitle {
       width: 90%;
       font-size: 16px;
@@ -222,6 +233,7 @@ mat-card {
   .content-container {
     padding: 50px 5px 0 5px;
   }
+
   mat-card {
     width: 98%;
   }
@@ -233,14 +245,18 @@ mat-card {
       font-size: 28px;
       line-height: 34px;
     }
+
     form {
       width: 300px;
+
       .background-image {
         background-position-x: 12px;
       }
+
       .privacy-policy {
         display: none;
       }
+
       input {
         padding: 10px 10px;
         font-size: 16px;
@@ -252,10 +268,12 @@ mat-card {
           font-size: 16px;
         }
       }
+
       .error {
         font-size: 12px;
         line-height: 14px;
       }
+
       button {
         margin-top: 16px;
       }

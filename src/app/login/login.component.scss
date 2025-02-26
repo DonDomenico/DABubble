@@ -45,14 +45,19 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 60px;
+
     >span {
         font-size: 18px;
     }
+
     >a {
         font-size: 18px;
         text-decoration: none;
         color: #797EF3;
         padding: 10px 12px;
+        border: 1px solid transparent;
+
         &:hover {
             cursor: pointer;
             color: #444DF2;
