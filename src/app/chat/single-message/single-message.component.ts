@@ -30,15 +30,17 @@ import {
   query,
   orderBy,
   where,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { MatDrawer } from '@angular/material/sidenav';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-single-message',
   standalone: true,
-  imports: [MatIconModule, CommonModule, FormsModule, DatePipe, PickerModule, NgClass],
+  imports: [MatIconModule, CommonModule, FormsModule, DatePipe, PickerModule, NgClass, MatTooltip],
   templateUrl: './single-message.component.html',
   styleUrl: './single-message.component.scss',
   providers: [
@@ -72,6 +74,11 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   routeSubscription: any;
   isMobile: boolean = false;
   isFirstMessage: boolean = false;
+  emojiPickerOpen: boolean = false;
+  showEmojiPickerReaction: Map<string, boolean> = new Map();
+  emojiReactions: (any | any)[] = [];
+  emojiCounter: number = 0;
+  @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
 
   constructor(
     public conversationService: ConversationsService,
@@ -164,12 +171,13 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         recipientAvatar: this.user?.photoURL!,
         senderMessage: this.conversationMessage,
         timestamp: new Date().getTime(),
+        emojiReactions: [{ emoji: '', counter: 0, users: [] }]
       };
       this.conversationService.addNewConversationMessage(newDirectMessage);
-     
+
       await this.getConversationId();
       await this.getConversationMessages();
-        
+
       this.conversationMessage = '';
       this.messageEmpty = false;
     } else {
@@ -178,7 +186,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   }
 
   async subConversationMessages(conversationId: string) {
-    if(conversationId !== "") {
+    if (conversationId !== "") {
       const conversationMessagesRef = this.conversationService.getConversationMessagesRef(conversationId);
       const q = query(conversationMessagesRef, orderBy("timestamp"));
       return onSnapshot(q, (querySnapshot: any) => {
@@ -202,7 +210,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       recipientAvatar: obj.recipientAvatar || '',
       recipientId: obj.recipientId || '',
       senderMessage: obj.senderMessage || '',
-      timestamp: obj.timestamp || ''
+      timestamp: obj.timestamp || '',
+      emojiReactions: obj.emojiReations || []
     };
   }
 
@@ -245,6 +254,12 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     });
   }
 
+  toggleEmojiPickerReaction(messageId: string) {
+    this.emojiPickerOpen = true;
+    const currentState = this.showEmojiPickerReaction.get(messageId) || false;
+    this.showEmojiPickerReaction.set(messageId, !currentState);
+  }
+
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
@@ -256,10 +271,94 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     this.showEmojiPicker = false;
   }
 
-  @HostListener('document:click', ['$event'])
+  async addEmojiReaction(event: any, messageId: string) {
+    await this.updateEmojiReactions(event, messageId);
+    await this.saveEmojiReactions(messageId);
+    setTimeout(() => {
+      this.emojiPickerOpen = false;
+    }, 500);
+  }
+
+  async updateEmojiReactions(event: any, messageId: string) {
+    this.emojiReactions = await this.getEmojiReactions(messageId);
+    const emoji = event.emoji.native;
+    let emojiInReactions = this.emojiReactions.find(element => emoji === element['emoji']);
+
+    if (emojiInReactions) {
+      this.updateExistingReaction(emojiInReactions, emoji);
+    } else {
+      this.addNewReaction(emoji);
+    }
+  }
+
+  addNewReaction(emoji: string) {
+    let users = [this.authService.currentUser.displayName];
+    this.emojiReactions.push({ 'emoji': emoji, 'counter': 1, 'users': users });
+  }
+
+  updateExistingReaction(emojiInReactions: any, emoji: string) {
+    let index = this.emojiReactions.map(element => element.emoji).indexOf(emoji);
+    if (!emojiInReactions['users'].includes(this.authService.currentUser.displayName)) {
+      this.emojiReactions[index]['counter']++;
+      this.emojiReactions[index].users.push(this.authService.currentUser.displayName);
+    }
+  }
+
+  async saveEmojiReactions(messageId: string) {
+    const docRef = doc(this.firestore, 'conversations', this.conversationId, 'messages', messageId);
+    await updateDoc(docRef, {
+      emojiReactions: this.emojiReactions
+    });
+    this.emojiReactions = [];
+    this.showEmojiPickerReaction.set(messageId, false);
+  }
+
+  async getEmojiReactions(messageId: string) {
+    const docRef = doc(this.firestore, 'conversations', this.conversationId, 'messages', messageId);
+    const docSnapshot = await getDoc(docRef);
+    if (docSnapshot.exists()) {
+      if (docSnapshot.data()['emojiReactions'] === undefined) {
+        return [];
+      } else {
+        return docSnapshot.data()['emojiReactions'];
+      }
+    }
+  }
+
+  async countEmojis(message: DirectMessage, emoji: any) {
+    this.emojiReactions = await this.getEmojiReactions(this.conversationId);
+    let element: any;
+
+    for (let index = 0; index < message.emojiReactions!.length; index++) {
+      element = message.emojiReactions![index];
+      if (element === emoji) {
+        this.emojiCounter++;
+      }
+    }
+
+    this.emojiReactions.filter((emoji: any) => {
+      if (element === emoji) {
+        this.emojiReactions.splice(1, element);
+      }
+    })
+  }
+
+  // @HostListener('document:click', ['$event'])
+  // onDocumentClick(event: MouseEvent) {
+  //   if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
+  //     this.showEmojiPicker = false;
+  //   }
+  // }
+
+  @HostListener('click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
       this.showEmojiPicker = false;
+    } else if (this.showEmojiPickerReaction !== undefined && !this.emojiPickerReactionElement?.nativeElement.contains(event.target)) {
+      for (let index = 0; index < this.conversationMessages.length; index++) {
+        const message = this.conversationMessages[index];
+        this.showEmojiPickerReaction.set(this.conversationId, false);
+      }
     }
   }
 
@@ -274,9 +373,4 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   emitToggleSidenav() {
     this.showSidenav.emit(true);
   }
-
-  // navigateToDashboard() {
-  //   this.router.navigate(['/general-view/']);
-  // }
-
 }

@@ -158,6 +158,7 @@
   align-items: flex-start;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 
   > p {
     width: 80%;
@@ -181,7 +182,9 @@
   }
 }
 
-
+mat-icon {
+  overflow: visible;
+}
 
 @media only screen and (max-width: 995px) {
   .side-nav {

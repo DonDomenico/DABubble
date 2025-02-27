@@ -59,8 +59,7 @@ export class ChannelService {
   }
 
   getChannelRef() {
-    const q = query(collection(this.firestore, 'channels'), where('member', 'array-contains', this.authService.currentUser.uid));
-    return q;
+    return collection(this.firestore, 'channels');
   }
 
   getChannelChatRef(channelId: string) {
@@ -161,9 +160,8 @@ export class ChannelService {
   // }
 
   subChannelList() {
-    const channelRef = this.getChannelRef();
-    // const q = query(channelRef, where('member', 'array-contains', this.authService.currentUser.uid));
-    return onSnapshot(channelRef, (channelList) => {
+    const q = query(this.getChannelRef(), where('member', 'array-contains', this.authService.currentUser.uid));
+    return onSnapshot(q, (channelList) => {
       this.channels = [];
       channelList.forEach((channel) => {
         console.log(this.toJsonChannel(channel.data(), channel.id)); // später löschen

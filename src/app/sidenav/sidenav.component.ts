@@ -37,8 +37,13 @@ export class SidenavComponent {
   mobileHeader: boolean = false;
   logoHeader: boolean = false;
   constructor(private router: Router, public channelService: ChannelService, public searchService: SearchService, private route: ActivatedRoute) {
-    this.channelService.getChannels();
-    this.unsubscribeChannels = this.channelService.subChannelList();
+  }
+  
+  ngOnInit() {
+    setTimeout(() => {
+      // this.channelService.getChannels();
+      this.unsubscribeChannels = this.channelService.subChannelList();
+    }, 800);
   }
 
   ngOnChanges(): void {

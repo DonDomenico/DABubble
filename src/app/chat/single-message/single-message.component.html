@@ -1,6 +1,6 @@
 <section [ngClass]="{'mobile-container': isMobile}">
   <div class="chat-header">
-     <div class="header-content" (click)="showProfileDialog(userId)">
+    <div class="header-content" (click)="showProfileDialog(userId)">
       @if(user && user.username !== authService.currentUser.displayName) {
       <img src="{{ user.photoURL }}" />
       <span class="active-status"
@@ -19,30 +19,45 @@
   @if (dataLoaded) {
   <div id="messages-container" #messagesContainer>
     @for (message of conversationMessages; track $index ) {
-    <div class="message-wrapper">
-      <div class="divider">
-        <hr class="line" />
-        @if(isDifferentDay($index)) {
-        <span class="date">{{ message.timestamp | date }}</span>
-        }
-        <hr class="line" />
-      </div>
+    <div class="divider">
+      <hr class="line" />
+      @if(isDifferentDay($index)) {
+      <span class="date">{{ message.timestamp | date }}</span>
+      }
+      <hr class="line" />
+    </div>
 
-      <div class="message-content"
-        [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
-        <div class="single-message-container"
-          [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
-          <img src="{{ message.senderAvatar }}" class="member-avatar" />
-          <div class="message-content">
-            <div class="name-time"
-              [ngStyle]="{'justify-content': authService.currentUser.displayName === message.initiatedBy ? 'flex-end' : 'flex-start'}">
-              <span>{{ message.initiatedBy }}</span>
-              <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
+    <div class="message-wrapper" [ngStyle]="{'justify-content': authService.currentUser.displayName === message.initiatedBy ? 'flex-end' : 'flex-start'}">
+      <div class="single-message-container" [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
+        <img src="{{ message.senderAvatar }}" class="member-avatar" />
+        <div class="message-content">
+          <div class="name-time"
+            [ngStyle]="{'justify-content': authService.currentUser.displayName === message.initiatedBy ? 'flex-end' : 'flex-start'}">
+            <span>{{ message.initiatedBy }}</span>
+            <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
+          </div>
+
+          <span class="user-message"
+            [ngStyle]="authService.currentUser.displayName === message.initiatedBy ? {'textAlign': 'end', 'borderRadius': '30px 0 30px 30px', 'backgroundColor': '#797EF3', 'color': 'white'} : {'backgroundColor': '#ECEEFE'}">
+            {{ message.senderMessage }}
+          </span>
+          
+          <div class="reactions">
+            <div class="show-emoji-reactions">
+              @if (message.emojiReactions.length > 0) {
+              @for (emoji of message.emojiReactions; track $index) {
+              <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}</div>
+              }
+              }
+    
+              <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
+                <button class="emoji-button" (click)="toggleEmojiPickerReaction(this.conversationId)"><img
+                    src="./assets/img/add_reaction.svg"></button>
+                <emoji-mart class="emoji-mart reaction-emojis" set="twitter"
+                  *ngIf="showEmojiPickerReaction.get(this.conversationId)"
+                  (emojiSelect)="addEmojiReaction($event, this.conversationId)" title="Pick your emoji…"></emoji-mart>
+              </div>
             </div>
-
-            <span class="user-message" [ngStyle]="authService.currentUser.displayName === message.initiatedBy ? {'textAlign': 'end', 'borderRadius': '30px 0 30px 30px', 'backgroundColor': '#797EF3', 'color': 'white'} : {'backgroundColor': '#ECEEFE'}">
-              {{ message.senderMessage }}
-            </span>
           </div>
         </div>
       </div>

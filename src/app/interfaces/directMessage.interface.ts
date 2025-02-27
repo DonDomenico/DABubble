@@ -5,5 +5,5 @@ export interface DirectMessage {
   recipientId: string;
   senderMessage: string;
   timestamp: number;
-  
+  emojiReactions: [{emoji: string, counter: number, users: string[]}];
 }
