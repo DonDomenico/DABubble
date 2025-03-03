@@ -75,9 +75,9 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   emojiPickerOpen: boolean = false;
   isEditing = false;
   editText = '';
+  edited: boolean = false;
   editMessageId = '';
   currentUser: any;
-  edited: boolean = false;
   // editedMessage: any;
   fullViews: boolean = true;
   isMobile: boolean = false;

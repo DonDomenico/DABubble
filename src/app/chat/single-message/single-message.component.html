@@ -49,6 +49,13 @@
               <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}</div>
               }
               }
+
+              <div class="edit-wrapper" (click)="editMessage(message, this.conversationId)">
+                <mat-icon>edit</mat-icon>
+                @if(edited) {
+                  <p class="edited">(Bearbeitet)</p>
+                }
+              </div>
     
               <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
                 <button class="emoji-button" (click)="toggleEmojiPickerReaction(this.conversationId)"><img
@@ -95,7 +102,15 @@
 
     <div class="message-box-container">
       @if(conversationMessages && user) {
-      <textarea id="inputfield" autofocus name="message" placeholder="Nachricht an {{ user.username }}" #input
+
+        <textarea
+        *ngIf="isEditing"
+        name="edited-message"
+        placeholder="Bearbeiten..."
+        [(ngModel)]="editText"
+      ></textarea>
+        
+      <textarea   *ngIf="!isEditing" id="inputfield" autofocus name="message" placeholder="Nachricht an {{ user.username }}" #input
         [(ngModel)]="conversationMessage" (ngModelChange)="hideErrorMessage()"></textarea>
       }
       <div class="message-box">

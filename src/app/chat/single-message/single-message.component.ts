@@ -79,7 +79,10 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   emojiReactions: (any | any)[] = [];
   emojiCounter: number = 0;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
-
+  isEditing = false;
+  editText = '';
+  edited: boolean = false;
+  editMessageId: string = ''; 
   constructor(
     public conversationService: ConversationsService,
     private userService: UserService,
@@ -173,6 +176,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         timestamp: new Date().getTime(),
         emojiReactions: [{ emoji: '', counter: 0, users: [] }]
       };
+
       this.conversationService.addNewConversationMessage(newDirectMessage);
 
       await this.getConversationId();
@@ -180,9 +184,37 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
 
       this.conversationMessage = '';
       this.messageEmpty = false;
-    } else {
+    } else if (this.isEditing) {
+      const editedDirectMessage: DirectMessage = {
+        initiatedBy: this.authService.currentUser?.displayName!,
+        senderAvatar: this.authService.currentUser?.photoURL!,
+        recipientId: this.userId,
+        recipientAvatar: this.user?.photoURL!,
+        senderMessage: this.editText,
+        timestamp: new Date().getTime(),
+        emojiReactions: [{ emoji: '', counter: 0, users: [] }]
+      };
+      this.addEditedConversationMessage(editedDirectMessage, this.editMessageId);
+    }
+    
+    
+    else {
       this.messageEmpty = true;
     }
+  }
+
+  editMessage(conversationMessages: DirectMessage, messageId: string) {
+    this.isEditing = true;
+    this.editText = conversationMessages.senderMessage;
+    this.editMessageId = messageId;
+  }
+
+  async addEditedConversationMessage(editedDirectMessage: DirectMessage, messageId: string) {
+    const docRef = doc(this.firestore, 'conversations', this.conversationId, 'messages', messageId);
+    await updateDoc(docRef, {
+      senderMessage: editedDirectMessage.senderMessage
+    });
+  
   }
 
   async subConversationMessages(conversationId: string) {
@@ -253,6 +285,9 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       data: { uid: userId },
     });
   }
+
+
+
 
   toggleEmojiPickerReaction(messageId: string) {
     this.emojiPickerOpen = true;
