@@ -212,7 +212,8 @@ export class ThreadComponent implements OnInit {
 
   addNewReaction(emoji: string, index: number) {
     let users = [this.authService.currentUser.displayName];
-    this.message.answers[index].emojiReactions = this.message.answers[index].emojiReactions.concat([{'emoji': emoji, 'counter': 1, 'users': users}]);
+    this.emojiReactions.push({ 'emoji': emoji, 'counter': 1, 'users': users });
+    this.message.answers[index]['emojiReactions'] = this.emojiReactions;
   }
 
   updateExistingReaction(emojiInReactions: any, emoji: string, answerIndex: number) {

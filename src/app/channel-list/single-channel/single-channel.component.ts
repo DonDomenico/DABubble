@@ -190,27 +190,24 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.editText = '';
       this.isEditing = false;
     }
-    
+
     else {
       this.messageEmpty = true;
     }
   }
 
   async saveEidtedMessageInFirestore(editedMessage: Message, editMessageId: string) {
- 
-      const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', editMessageId);
-      await updateDoc(docRef, {
-        userMessage: editedMessage.userMessage
-      });
+    const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', editMessageId);
+    await updateDoc(docRef, {
+      userMessage: editedMessage.userMessage
+    });
   }
 
   updateChannel(channelId: string) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       channelId: channelId,
-     
     };
-    
     this.dialog.open(UpdateChannelDialogComponent, dialogConfig);
   }
 
@@ -219,7 +216,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     dialogConfig.data = {
       channelId: this.channelService.channelId,
     };
-
     this.dialog.open(AddMemberDialogComponent, dialogConfig);
   }
 
@@ -228,7 +224,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     dialogConfig.data = {
       channelId: this.channelService.channelId,
     };
-
     this.dialog.open(ShowMembersDialogComponent, dialogConfig);
   }
 
@@ -384,6 +379,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   editMessage(message: Message, messageId: string) {
     this.isEditing = true;
     this.editText = message.userMessage;
-    this.editMessageId = messageId; 
+    this.editMessageId = messageId;
   }
 }
