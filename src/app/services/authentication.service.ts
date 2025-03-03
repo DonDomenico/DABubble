@@ -61,7 +61,8 @@ export class AuthenticationService {
       username: username,
       email: email,
       photoURL: photoUrl,
-      active: false
+      active: false,
+      accountActive: true
     }).then(() => {
       console.log('User added to database'); //später löschen
     }).catch((err) => {
@@ -69,16 +70,16 @@ export class AuthenticationService {
     })
   }
 
-  // showCurrentUser() {
-  //   onAuthStateChanged(this.firebaseAuth, (user) => {
-  //     if (user) {
-  //       this.currentUser = user;
-  //       console.log('current user: ', user.displayName, user.photoURL); //Testcode, später löschen
-  //     } else {
-  //       console.log('No user signed in'); //Testcode, später löschen
-  //     }
-  //   });
-  // }
+  showCurrentUser() {
+    onAuthStateChanged(this.firebaseAuth, (user) => {
+      if (user) {
+        this.currentUser = user;
+        console.log('current user: ', user); //Testcode, später löschen
+      } else {
+        console.log('No user signed in'); //Testcode, später löschen
+      }
+    });
+  }
 
   login(email: string, password: string) {
     signInWithEmailAndPassword(this.firebaseAuth, email, password).then(userCredential => {
@@ -131,8 +132,12 @@ export class AuthenticationService {
     await signInWithPopup(this.firebaseAuth, this.google).then(async result => {
       if (result.user.emailVerified) {
         const emailFound = this.userService.users.filter(user => user.email == result.user.email);
-        if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length == 0) {
-          await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, result.user.photoURL);
+        if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length === 0) {
+          let photoURL = result.user.photoURL
+          if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
+            photoURL = photoURL + '?sz=' + 24;
+          }
+          await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, photoURL);
         } else {
           console.log('User already in database'); //Testcode, später löschen
         }
@@ -148,7 +153,8 @@ export class AuthenticationService {
   guestLogIn() {
     signInAnonymously(this.firebaseAuth).then(result => {
       console.log(result); //Testcode, später löschen
-      updateProfile(result.user, { displayName: 'Guest' });
+      const randomNumberForName = Math.round(Math.random() * 1000);
+      updateProfile(result.user, { displayName: `Guest${randomNumberForName}` });
       this.router.navigateByUrl('general-view');
     }).catch(error => {
       console.log(error); //Testcode, später löschen
@@ -156,7 +162,9 @@ export class AuthenticationService {
   }
 
   async logout() {
-    await this.userService.setStatusInactive(this.currentUser);
+    if(!this.currentUser.displayName.startsWith('Guest')) {
+      await this.userService.setStatusInactive(this.currentUser);
+    }
     signOut(this.firebaseAuth);
     this.currentUser = null;
     this.router.navigateByUrl('');
@@ -212,6 +220,7 @@ export class AuthenticationService {
   }
 
   async deleteAccount() {
+    // accountActive = false
     deleteUser(this.currentUser).then(() => {
       console.log('Account deleted: ', this.currentUser);
       this.router.navigateByUrl('');

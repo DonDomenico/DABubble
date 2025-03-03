@@ -48,6 +48,7 @@ export class ThreadComponent implements OnInit {
   // editMessageId = '';
   currentUser: any;
   edited: boolean = false;
+  answerIndex: number = 0;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
 
@@ -128,10 +129,9 @@ export class ThreadComponent implements OnInit {
       userMessage: this.editText,
       timestamp: new Date().getTime(),
       }
-      this.threadAnswers.splice(this.findIndexOfAnswer(editedAnswer), 1, editedAnswer);
+      this.threadAnswers.splice(this.answerIndex, 1, editedAnswer);
       this.edited = true;
     } else{
-
       const newAnswer: Message = {
         userName: this.authService.currentUser?.displayName!,
         userAvatar: this.authService.currentUser?.photoURL!,
@@ -181,7 +181,7 @@ export class ThreadComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
+  onComponentClick(event: MouseEvent) {
     if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
       this.showEmojiPicker = false;
     } else if (this.showEmojiPickerReaction !== undefined && !this.emojiPickerReactionElement?.nativeElement.contains(event.target)) {
@@ -284,7 +284,7 @@ export class ThreadComponent implements OnInit {
 
   editMessage(answer: any) {
     this.isEditing = true;
+    this.answerIndex = this.findIndexOfAnswer(answer);
     this.editText = answer.userMessage;
   }
-
 }

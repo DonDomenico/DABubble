@@ -4,4 +4,5 @@ export interface User {
     username: string;
     photoURL?: string;
     active?: false;
+    accountActive: boolean;
 }

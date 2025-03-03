@@ -43,7 +43,7 @@ export class SidenavComponent {
     setTimeout(() => {
       // this.channelService.getChannels();
       this.unsubscribeChannels = this.channelService.subChannelList();
-    }, 800);
+    }, 1000);
   }
 
   ngOnChanges(): void {
