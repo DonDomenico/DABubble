@@ -61,7 +61,6 @@
               </span>
 
               @if(authService.currentUser.displayName === message.userName) {
-
                 <div class="edit-wrapper" (click)="editMessage(message, message.docId!)">
                   <mat-icon>edit</mat-icon>
                   @if(edited) {
@@ -69,7 +68,6 @@
                   }
                 </div>
                 }
-
             </div>
 
             <div class="show-emoji-reactions">

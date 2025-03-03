@@ -63,12 +63,13 @@
           </span>
 
           <div class="reactions">
-            @if (answer.emojiReactions !== undefined || answer.emojiReactions !== []) {
-              @for (emoji of answer.emojiReactions; track $index) {
-              <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}
-              </div>
+            <div class="show-emoji-reactions">
+              @if (answer.emojiReactions !== undefined || answer.emojiReactions !== []) {
+                @for (emoji of answer.emojiReactions; track $index) {
+                <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}</div>
+                }
               }
-            }
+            </div>
 
             <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
               <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.answers.indexOf(answer))">
@@ -78,6 +79,7 @@
                 *ngIf="showEmojiPickerReaction.get(message.answers.indexOf(answer))"
                 (emojiSelect)="addEmojiReaction($event, messageId, $index)" title="Pick your emoji…"></emoji-mart>
             </div>
+
             @if(answer.userName === currentUser.displayName) {
             <div class="edit-wrapper" (click)="editMessage(answer)">
               <mat-icon>edit</mat-icon>
@@ -110,7 +112,6 @@
         </div>
         <mat-icon class="send-icon" (click)="addAnswer()">send</mat-icon>
       </div>
-      <!-- } -->
     </div>
   </div>
 </section>
