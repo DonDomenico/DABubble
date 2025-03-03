@@ -34,10 +34,9 @@ export class UsersComponent {
 
   ngOnInit() {
     // this.userService.unsubUserList = this.userService.subUserList();
-    this.unsubConversations = this.subConversations();
-    // setTimeout(() => {
-    //   this.filterUsers();
-    // }, 500);
+    setTimeout(() => {
+      this.unsubConversations = this.subConversations();
+    }, 500);
   }
 
   ngOnDestroy() {

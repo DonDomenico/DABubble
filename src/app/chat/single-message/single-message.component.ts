@@ -102,15 +102,14 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         this.isCurrentUser = true;
       } else this.isCurrentUser = false;
       await this.getConversationMessages();
-      // this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
+      this.showEmojiPickerReaction.clear();
+      this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
       // this.unsubConversations = this.conversationService.subConversations();
     });
   }
 
   ngOnDestroy() {
-    // if (this.conversationMessages.length !== 0) {
-    //   this.unsubConversationMessages();
-    // }
+    // this.unsubConversationMessages();
     // this.unsubConversations();
     if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
@@ -139,7 +138,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       const querySnapshot = await getDocs(q);
       this.conversationMessages = [];
       querySnapshot.forEach((doc) => {
-        this.conversationMessages.push(this.toJsonDirectMessage(doc.data()));
+        this.conversationMessages.push(this.toJsonDirectMessage(doc.data(), doc.id));
       });
     }
     this.dataLoaded = true;
@@ -160,7 +159,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     await this.conversationService.checkConversationExists(this.authService.currentUser.uid, this.userId);
     if (!this.conversationService.conversationExists) {
       await this.createConversation();
-      this.isFirstMessage = true;
+      // this.isFirstMessage = true;
     }
 
     if (this.conversationMessage !== "") {
@@ -170,14 +169,12 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         recipientId: this.userId,
         recipientAvatar: this.user?.photoURL!,
         senderMessage: this.conversationMessage,
-        timestamp: new Date().getTime(),
-        emojiReactions: [{ emoji: '', counter: 0, users: [] }]
+        timestamp: new Date().getTime()
+        // emojiReactions: [{ emoji: '', counter: 0, users: [] }]
       };
       this.conversationService.addNewConversationMessage(newDirectMessage);
-
       await this.getConversationId();
       await this.getConversationMessages();
-
       this.conversationMessage = '';
       this.messageEmpty = false;
     } else {
@@ -185,14 +182,14 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     }
   }
 
-  async subConversationMessages(conversationId: string) {
+  subConversationMessages(conversationId: string) {
     if (conversationId !== "") {
       const conversationMessagesRef = this.conversationService.getConversationMessagesRef(conversationId);
       const q = query(conversationMessagesRef, orderBy("timestamp"));
       return onSnapshot(q, (querySnapshot: any) => {
         this.conversationMessages = [];
         querySnapshot.forEach((doc: any) => {
-          this.conversationMessages.push(this.toJsonDirectMessage(doc.data()));
+          this.conversationMessages.push(this.toJsonDirectMessage(doc.data(), doc.id));
         });
         this.cdRef.detectChanges();
         this.scrollToBottom();
@@ -203,7 +200,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     }
   }
 
-  toJsonDirectMessage(obj: any): DirectMessage {
+  toJsonDirectMessage(obj: any, id: string): DirectMessage {
     return {
       initiatedBy: obj.initiatedBy || '',
       senderAvatar: obj.senderAvatar || '',
@@ -211,7 +208,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       recipientId: obj.recipientId || '',
       senderMessage: obj.senderMessage || '',
       timestamp: obj.timestamp || '',
-      emojiReactions: obj.emojiReations || []
+      emojiReactions: obj.emojiReactions || [],
+      docId: id
     };
   }
 
@@ -283,7 +281,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     this.emojiReactions = await this.getEmojiReactions(messageId);
     const emoji = event.emoji.native;
     let emojiInReactions = this.emojiReactions.find(element => emoji === element['emoji']);
-
+    
     if (emojiInReactions) {
       this.updateExistingReaction(emojiInReactions, emoji);
     } else {
@@ -322,6 +320,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       } else {
         return docSnapshot.data()['emojiReactions'];
       }
+    } else {
+      return [];
     }
   }
 
@@ -351,13 +351,13 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   // }
 
   @HostListener('click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
+  onComponentClick(event: MouseEvent) {
     if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
       this.showEmojiPicker = false;
     } else if (this.showEmojiPickerReaction !== undefined && !this.emojiPickerReactionElement?.nativeElement.contains(event.target)) {
       for (let index = 0; index < this.conversationMessages.length; index++) {
         const message = this.conversationMessages[index];
-        this.showEmojiPickerReaction.set(this.conversationId, false);
+        this.showEmojiPickerReaction.set(message.docId!, false);
       }
     }
   }

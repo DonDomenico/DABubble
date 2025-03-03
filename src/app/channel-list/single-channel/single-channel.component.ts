@@ -85,7 +85,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
-    private router: Router,
     private renderer: Renderer2
   ) { }
 
@@ -318,7 +317,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('click', ['$event'])
-  onDocumentClick(event: MouseEvent) {
+  onComponentClick(event: MouseEvent) {
     if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
       this.showEmojiPicker = false;
     } else if (this.showEmojiPickerReaction !== undefined && !this.emojiPickerReactionElement?.nativeElement.contains(event.target)) {

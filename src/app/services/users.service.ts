@@ -70,6 +70,16 @@ export class UserService implements OnDestroy {
     }
   }
 
+  getAccountStatus(userName: string) {
+    this.users.forEach(user => {
+      if(user.username === userName) {
+        return user.accountActive;
+      } else {
+        return false;
+      }
+    })
+  }
+
   subUserList() {
     return onSnapshot(this.getUserRef(), userList => {
       this.users = [];
@@ -86,7 +96,8 @@ export class UserService implements OnDestroy {
       username: obj.username || "",
       email: obj.email || "",
       photoURL: obj.photoURL || "",
-      active: obj.active
+      active: obj.active,
+      accountActive: obj.accountActive
     }
   }
 

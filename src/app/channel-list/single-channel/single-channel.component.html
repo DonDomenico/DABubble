@@ -62,7 +62,7 @@
             </div>
 
             <div class="show-emoji-reactions">
-              @if (message.emojiReactions!.length > 0) {
+              @if (message.emojiReactions && message.emojiReactions.length > 0) {
                 @for (emoji of message.emojiReactions; track $index) {
                 <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}</div>
                 }

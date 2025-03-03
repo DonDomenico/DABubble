@@ -44,18 +44,18 @@
           
           <div class="reactions">
             <div class="show-emoji-reactions">
-              @if (message.emojiReactions.length > 0) {
-              @for (emoji of message.emojiReactions; track $index) {
-              <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}</div>
-              }
+              @if (message.emojiReactions && message.emojiReactions.length > 0) {
+                @for (emoji of message.emojiReactions; track $index) {
+                <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}</div>
+                }
               }
     
               <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
-                <button class="emoji-button" (click)="toggleEmojiPickerReaction(this.conversationId)"><img
+                <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.docId!)"><img
                     src="./assets/img/add_reaction.svg"></button>
                 <emoji-mart class="emoji-mart reaction-emojis" set="twitter"
-                  *ngIf="showEmojiPickerReaction.get(this.conversationId)"
-                  (emojiSelect)="addEmojiReaction($event, this.conversationId)" title="Pick your emoji…"></emoji-mart>
+                  *ngIf="showEmojiPickerReaction.get(message.docId!)"
+                  (emojiSelect)="addEmojiReaction($event, message.docId!)" title="Pick your emoji…"></emoji-mart>
               </div>
             </div>
           </div>
