@@ -73,6 +73,12 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   dataLoaded: boolean = false;
   routeSubscription: any;
   emojiPickerOpen: boolean = false;
+  isEditing = false;
+  editText = '';
+  editMessageId = '';
+  currentUser: any;
+  edited: boolean = false;
+  // editedMessage: any;
   fullViews: boolean = true;
   isMobile: boolean = false;
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
@@ -171,9 +177,31 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.channelService.addText(newMessage);
       this.message = '';
       this.messageEmpty = false;
-    } else {
+    } else if (this.isEditing) {
+      const editedMessage: Message = {
+        channelId: this.channelService.channelId,
+        userName: this.authService.currentUser?.displayName!,
+        userAvatar: this.authService.currentUser?.photoURL!,
+        userMessage: this.editText,
+        timestamp: new Date().getTime(),
+      }
+      this.saveEidtedMessageInFirestore(editedMessage, this.editMessageId);
+      this.message = '';
+      this.editText = '';
+      this.isEditing = false;
+    }
+    
+    else {
       this.messageEmpty = true;
     }
+  }
+
+  async saveEidtedMessageInFirestore(editedMessage: Message, editMessageId: string) {
+ 
+      const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', editMessageId);
+      await updateDoc(docRef, {
+        userMessage: editedMessage.userMessage
+      });
   }
 
   updateChannel(channelId: string) {
@@ -351,5 +379,11 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     } else {
       messageBoxContainer.style.width = '55%';
     }
+  }
+
+  editMessage(message: Message, messageId: string) {
+    this.isEditing = true;
+    this.editText = message.userMessage;
+    this.editMessageId = messageId; 
   }
 }

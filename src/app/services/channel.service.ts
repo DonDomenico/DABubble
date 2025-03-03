@@ -66,10 +66,6 @@ export class ChannelService {
     return collection(this.firestore, `channels/${channelId}/chatText`);
   }
 
-  // getChannelMessageRef(channelId: string) {
-  //   return collection(this.firestore, `channels/${channelId}/messages`);
-  // }
-
   async getThreadChatRef(channelId: string, threadId: string) {
     return doc(collection(this.firestore, 'channels', channelId, 'answers'), threadId);
   }
@@ -83,11 +79,10 @@ export class ChannelService {
         userMessage: message.userMessage,
         userTimestamp: message.timestamp,
         answers: [],
-        // lastAnswerTime: '',
-        // docId: message.docId,
       }
     );
   }
+
 
   checkMobile() {
     if (window.innerWidth < 767) {

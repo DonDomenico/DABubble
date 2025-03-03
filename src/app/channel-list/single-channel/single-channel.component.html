@@ -59,6 +59,17 @@
                 (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">
                 <mat-icon>comment</mat-icon>
               </span>
+
+              @if(authService.currentUser.displayName === message.userName) {
+
+                <div class="edit-wrapper" (click)="editMessage(message, message.docId!)">
+                  <mat-icon>edit</mat-icon>
+                  @if(edited) {
+                    <p class="edited">(Bearbeitet)</p>
+                  }
+                </div>
+                }
+
             </div>
 
             <div class="show-emoji-reactions">
@@ -84,8 +95,21 @@
 
   <div class="message-box-wrapper">
     <div class="message-box-container" #messageBoxContainer>
-      <textarea name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}" [(ngModel)]="message"
-        (ngModelChange)="hideErrorMessage()"></textarea>
+
+      <textarea
+      *ngIf="isEditing"
+      name="edited-message"
+      placeholder="Bearbeiten..."
+      [(ngModel)]="editText"
+    ></textarea>
+
+      <textarea
+      *ngIf="!isEditing"
+      name="message"
+      placeholder="Nachricht an {{ getSingleChannel()?.name }}"
+      [(ngModel)]="message"
+      (ngModelChange)="hideErrorMessage()"
+    ></textarea>
 
       <div class="message-box">
         <div class="message-box-icons">

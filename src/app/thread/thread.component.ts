@@ -45,11 +45,11 @@ export class ThreadComponent implements OnInit {
   emojiCounter: number = 0;
   isEditing = false;
   editText = '';
-  editMessageId = '';
+  // editMessageId = '';
+  currentUser: any;
+  edited: boolean = false;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
-  currentUser: any;
-  edited: boolean = true;
 
   constructor(
     public channelService: ChannelService,
@@ -285,31 +285,6 @@ export class ThreadComponent implements OnInit {
   editMessage(answer: any) {
     this.isEditing = true;
     this.editText = answer.userMessage;
-    this.editMessageId = this.messageId; 
   }
-
-  saveEditedAnswer() {
-    if (this.editMessageId) {
-
-      updateDoc(doc(this.firestore, `channels/${this.channelId}/chatText/${this.messageId}`),
-      { answers: this.editText }
-    )
-    this.answer = '';
-    this.isEditing = false;
-    this.editMessageId = '';
-
-
-    //   this.firestore
-    //     .collection(`channels/${this.channelId}/chatText/${this.messageId}`) // Passe den Pfad zu deiner Firestore-Sammlung an
-    //     .doc(this.editMessageId)
-    //     .update({ answers: this.editText })
-    //     .then(() => {
-    //       this.isEditing = false;
-    //       this.editText = '';
-    //       this.editMessageId = '';
-    //     });
-    // }
-  }
-}
 
 }
