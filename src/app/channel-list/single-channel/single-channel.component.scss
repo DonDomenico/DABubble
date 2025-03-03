@@ -30,7 +30,7 @@ section {
     margin-left: 16px;
     cursor: pointer;
 
-    > p {
+    >p {
       font-size: 24px;
       font-weight: 700;
       line-height: 32.74px;
@@ -73,7 +73,7 @@ section {
       margin-left: -40px;
     }
 
-    > p {
+    >p {
       font-size: 20px;
       font-weight: 600;
       line-height: 27.28px;
@@ -82,7 +82,7 @@ section {
     }
   }
 
-  > span {
+  >span {
     cursor: pointer;
     background-color: rgba(236, 238, 254, 1);
     border-radius: 50px;
@@ -126,7 +126,7 @@ section {
   height: calc(var(--vh, 1vh) * 77);
   overflow-y: auto;
 
-  > div:nth-last-child(1) {
+  >div:nth-last-child(1) {
     margin-bottom: 180px;
   }
 }
@@ -173,7 +173,7 @@ section {
   gap: 16px;
   cursor: pointer;
 
-  > img {
+  >img {
     width: 70px;
     height: 70px;
     border-radius: 50px;
@@ -190,19 +190,19 @@ section {
       justify-content: flex-start;
       gap: 20px;
 
-      > span {
+      >span {
         font-size: 18px;
         font-weight: 700;
       }
 
-      > p {
+      >p {
         font-size: 14px;
         font-weight: 400;
         color: rgba(104, 104, 104, 1);
       }
     }
 
-    > span {
+    >span {
       background-color: #eceefe;
       border-radius: 0 30px 30px 30px;
       padding: 15px;
@@ -217,7 +217,7 @@ section {
       justify-content: flex-start;
       gap: 20px;
 
-      > p {
+      >p {
         font-size: 18px;
         font-weight: 400;
         color: rgba(83, 90, 241, 1);
@@ -230,7 +230,7 @@ section {
         }
       }
 
-      > span {
+      >span {
         font-size: 14px;
         font-weight: 400;
         color: rgba(104, 104, 104, 1);
@@ -241,28 +241,18 @@ section {
 }
 
 .message-box-wrapper {
-  // display: flex;
-  // justify-content: center;
-  // width: 60%;
-  position: fixed;
-  bottom: 0px;
+  position: relative;
+  bottom: 176px;
   background: white;
-  margin-left: 20px;
-  // border-radius: 30px;
+  padding-top: 4px;
 
   .message-box-container {
-    width: 55%;
-    max-width: 55%;
-    // height: 145px;
     border-radius: 20px;
     border: 1px solid #adb0d9;
-    position: fixed;
-    bottom: 16px;
-    // overflow: hidden;
     background: white;
-    margin: 10px 40px;
+    margin: 4px 40px;
 
-    > textarea {
+    >textarea {
       width: 100%;
       border: 0;
       border-radius: 20px;
@@ -374,17 +364,17 @@ section {
 }
 
 @media only screen and (max-width: 1130px) {
-  .message-box-wrapper {
-    .message-box-container {
-      margin: 10px 10px;
-      width: 50%;
-      max-width: 50%;
-    }
-  }
+  // .message-box-wrapper {
+  //   .message-box-container {
+  //     margin: 10px 10px;
+  //     width: 50%;
+  //     max-width: 50%;
+  //   }
+  // }
 
   .chat-header {
     .dev-team-container {
-      > p {
+      >p {
         font-size: 20px;
         padding: 2px;
         line-height: 20px;
@@ -393,7 +383,7 @@ section {
   }
 }
 
-@media only screen and (max-width: 995px) {
+@media only screen and (max-width: 1000px) {
   .single-message-container {
     width: 90%;
 
@@ -403,21 +393,18 @@ section {
   }
 
   .message-box-wrapper {
-    .message-box-container {
-      margin: 10px 5px;
-      width: 45%;
-      max-width: 45%;
-    }
+    bottom: 124px;
   }
 
   .chat-header {
     .dev-team-container {
-      > p {
+      >p {
         font-size: 18px;
       }
     }
   }
 }
+
 @media only screen and (max-width: 935px) {
   .chat-header {
     .dev-team-container {
@@ -425,6 +412,7 @@ section {
       margin-left: 8px;
     }
   }
+
   .message-box-wrapper {
     margin-left: 5px;
   }
@@ -434,29 +422,34 @@ section {
   section {
     border-radius: 0px;
   }
+
   .chat-header {
     height: 60px;
     display: flex;
     align-items: center;
+
     .dev-team-container {
       width: 65%;
     }
+
     .mobile-btn-arrow-back {
       display: block;
       margin-left: 18px;
     }
+
     .avatar-container {
       display: none;
     }
   }
 
-  .message-box-wrapper {
-    margin-left: 0;
-    .message-box-container {
-      width: 95%;
-      max-width: 95%;
-    }
-  }
+  // .message-box-wrapper {
+  //   margin-left: 0;
+
+  //   .message-box-container {
+  //     width: 95%;
+  //     max-width: 95%;
+  //   }
+  // }
 }
 
 // @media only screen and (max-width: 490px) {

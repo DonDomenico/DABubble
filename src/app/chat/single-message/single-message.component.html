@@ -76,16 +76,8 @@
 
   <div class="input-wrapper">
     <div class="message-owner-container">
-      <!-- <div class="message-owner-content">
-
-        @if(user) {
-        <img src="{{ user.photoURL }}" />
-        <p>{{ user.username }}</p>
-        }
-      </div> -->
-
       @if(!isCurrentUser && user) {
-      <p>
+      <p style="padding-top: 8px;">
         Diese Unterhaltung findet nur zwischen
 
         <span (click)="showProfileDialog(userId)">&#64; {{ user.username }}</span>

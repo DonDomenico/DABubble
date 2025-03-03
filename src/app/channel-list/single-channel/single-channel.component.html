@@ -93,7 +93,6 @@
 
   <div class="message-box-wrapper">
     <div class="message-box-container" #messageBoxContainer>
-
       <textarea
       *ngIf="isEditing"
       name="edited-message"
@@ -101,14 +100,13 @@
       [(ngModel)]="editText"
     ></textarea>
 
-      <textarea
+    <textarea
       *ngIf="!isEditing"
       name="message"
       placeholder="Nachricht an {{ getSingleChannel()?.name }}"
       [(ngModel)]="message"
       (ngModelChange)="hideErrorMessage()"
     ></textarea>
-
       <div class="message-box">
         <div class="message-box-icons">
           <div class="add-emoji-container" #emojiPicker (click)="onClickInside($event)">

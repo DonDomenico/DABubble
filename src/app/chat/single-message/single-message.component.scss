@@ -176,17 +176,16 @@ section {
 }
 
 .input-wrapper {
-  width: 60%;
-  // max-width: 40%;
-  position: fixed;
-  bottom: 0px;
+  position: relative;
+  bottom: 144px;
   background: white;
-  margin-left: 20px;
-  border-radius: 30px;
 }
 
 .message-owner-container {
-  margin: 12px 45px;
+  >p {
+    padding-top: 8px;
+    text-align: center;
+  }
 
   .message-owner-content {
     display: flex;
@@ -234,7 +233,7 @@ section {
   // height: 145px;
   border-radius: 20px;
   border: 1px solid #adb0d9;
-  margin: 10px 40px;
+  margin: 4px 40px;
 
   >textarea {
     width: 100%;
@@ -269,7 +268,6 @@ section {
         height: 40px;
       }
     }
-
 
     .send-icon {
       width: 30px;
@@ -383,21 +381,20 @@ section {
   display: none;
 }
 
-@media only screen and (max-width: 1130px) {
-  .input-wrapper {
-    margin-left: 15px;
-    width: 55%;
-    max-width: 55%;
+@media only screen and (max-width: 1160px) {
+  // .input-wrapper {
+  //   margin-left: 15px;
+  //   width: 55%;
+  //   max-width: 55%;
+  // }
+  .message-owner-container > p {
+    font-size: 16px;
   }
 }
 
 @media only screen and (max-width: 895px) {
-
-  .input-wrapper {
-    margin-left: 15px;
-    width: 50%;
-    max-width: 50%;
-
+  .message-owner-container > p {
+    font-size: 14px;
   }
 }
 
