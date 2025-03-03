@@ -12,7 +12,7 @@
     routerLinkActive="active">
     <img src="{{ user.photoURL }}" />
     <span class="active-status" [ngStyle]="user.active ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
-    @if (!user.accountActive) {
+    @if (user.accountActive === true) {
       <p>{{ user.username }}</p>
     } @else {
       <em>Gelöschter Account</em>

@@ -31,7 +31,7 @@ export class SignupComponent {
 
   async onSubmit() {
     await this.searchEmailInDatabase();
-    if(this.emailInDatabase == false) {
+    if(this.emailInDatabase === false) {
       console.log('form data sent: ', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
       this.formData = this.registerForm.getRawValue();
       this.router.navigate(['signup/select-avatar'], {  state: this.formData } );
@@ -39,7 +39,7 @@ export class SignupComponent {
   }
 
   async searchEmailInDatabase() {
-    const emailFound = this.userService.users.filter(user => user.email == this.registerForm.get('email')?.value);
+    const emailFound = this.userService.users.filter(user => user.email === this.registerForm.get('email')?.value);
     if(emailFound.length != 0) {
       this.emailInDatabase = true;
     }
@@ -51,7 +51,7 @@ export class SignupComponent {
 
   emailAlreadyExists(): ValidatorFn {
     return() : ValidationErrors | null => {
-      const emailValid = this.authService.emailAlreadyExists == '';
+      const emailValid = this.authService.emailAlreadyExists === '';
 
       if(!emailValid) {
         this.authService.emailAlreadyExists = '';
