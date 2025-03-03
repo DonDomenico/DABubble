@@ -1,20 +1,31 @@
-<section [ngClass]="{'mobile-container': isMobile}">
+<section [ngClass]="{ 'mobile-container': isMobile }">
   <div class="chat-header">
     <div class="header-content" (click)="showProfileDialog(userId)">
       @if(user && user.username !== authService.currentUser.displayName) {
       <img src="{{ user.photoURL }}" />
-      <span class="active-status"
-        [ngStyle]="user.active ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
+      <span
+        class="active-status"
+        [ngStyle]="
+          user.active
+            ? { backgroundColor: '#92C83E' }
+            : { backgroundColor: '#686868' }
+        "
+      ></span>
       <p>{{ user.username }}</p>
       } @else if(authService.currentUser) {
       <img src="{{ authService.currentUser.photoURL }}" />
-      <span class="active-status"
-        [ngStyle]="authService.currentUser !== null ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
+      <span
+        class="active-status"
+        [ngStyle]="
+          authService.currentUser !== null
+            ? { backgroundColor: '#92C83E' }
+            : { backgroundColor: '#686868' }
+        "
+      ></span>
       <p>Du</p>
       }
     </div>
   </div>
-
 
   @if (dataLoaded) {
   <div id="messages-container" #messagesContainer>
@@ -27,42 +38,97 @@
       <hr class="line" />
     </div>
 
-    <div class="message-wrapper" [ngStyle]="{'justify-content': authService.currentUser.displayName === message.initiatedBy ? 'flex-end' : 'flex-start'}">
-      <div class="single-message-container" [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.initiatedBy ? 'row-reverse' : 'row'}">
+    <div
+      class="message-wrapper"
+      [ngStyle]="{
+        'justify-content':
+          authService.currentUser.displayName === message.initiatedBy
+            ? 'flex-end'
+            : 'flex-start'
+      }"
+    >
+      <div
+        class="single-message-container"
+        [ngStyle]="{
+          'flex-direction':
+            authService.currentUser.displayName === message.initiatedBy
+              ? 'row-reverse'
+              : 'row'
+        }"
+      >
         <img src="{{ message.senderAvatar }}" class="member-avatar" />
         <div class="message-content">
-          <div class="name-time"
-            [ngStyle]="{'justify-content': authService.currentUser.displayName === message.initiatedBy ? 'flex-end' : 'flex-start'}">
+          <div
+            class="name-time"
+            [ngStyle]="{
+              'justify-content':
+                authService.currentUser.displayName === message.initiatedBy
+                  ? 'flex-end'
+                  : 'flex-start'
+            }"
+          >
             <span>{{ message.initiatedBy }}</span>
-            <p>{{ message.timestamp | date:'HH:mm':'CET' }}</p>
+            <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
           </div>
 
-          <span class="user-message"
-            [ngStyle]="authService.currentUser.displayName === message.initiatedBy ? {'textAlign': 'end', 'borderRadius': '30px 0 30px 30px', 'backgroundColor': '#797EF3', 'color': 'white'} : {'backgroundColor': '#ECEEFE'}">
+          <span
+            class="user-message"
+            [ngStyle]="
+              authService.currentUser.displayName === message.initiatedBy
+                ? {
+                    textAlign: 'end',
+                    borderRadius: '30px 0 30px 30px',
+                    backgroundColor: '#797EF3',
+                    color: 'white'
+                  }
+                : { backgroundColor: '#ECEEFE' }
+            "
+          >
             {{ message.senderMessage }}
           </span>
-          
+
           <div class="reactions">
             <div class="show-emoji-reactions">
-              @if (message.emojiReactions && message.emojiReactions.length > 0) {
-                @for (emoji of message.emojiReactions; track $index) {
-                <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}</div>
-                }
-              }
+              @if (message.emojiReactions && message.emojiReactions.length > 0)
+              { @for (emoji of message.emojiReactions; track $index) {
+              <div
+                class="emoji-reaction"
+                matTooltip="{{ emoji.users.join(', ') }}"
+              >
+                {{ emoji.emoji + emoji.counter }}
+              </div>
+              } } @if(authService.currentUser.displayName ===
+              message.initiatedBy) {
 
-              <div class="edit-wrapper" (click)="editMessage(message, this.conversationId)">
+              <div
+                class="edit-wrapper"
+                (click)="editMessage(message, message.docId!)"
+              >
                 <mat-icon>edit</mat-icon>
                 @if(edited) {
-                  <p class="edited">(Bearbeitet)</p>
+                <p class="edited">(Bearbeitet)</p>
                 }
               </div>
-    
-              <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
-                <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.docId!)"><img
-                    src="./assets/img/add_reaction.svg"></button>
-                <emoji-mart class="emoji-mart reaction-emojis" set="twitter"
+              }
+
+              <div
+                class="add-emoji-container"
+                #emojiPickerReaction
+                (click)="onClickInside($event)"
+              >
+                <button
+                  class="emoji-button"
+                  (click)="toggleEmojiPickerReaction(message.docId!)"
+                >
+                  <img src="./assets/img/add_reaction.svg" />
+                </button>
+                <emoji-mart
+                  class="emoji-mart reaction-emojis"
+                  set="twitter"
                   *ngIf="showEmojiPickerReaction.get(message.docId!)"
-                  (emojiSelect)="addEmojiReaction($event, message.docId!)" title="Pick your emoji…"></emoji-mart>
+                  (emojiSelect)="addEmojiReaction($event, message.docId!)"
+                  title="Pick your emoji…"
+                ></emoji-mart>
               </div>
             </div>
           </div>
@@ -73,29 +139,24 @@
   </div>
   }
 
-
   <div class="input-wrapper">
     <div class="message-owner-container">
-      <!-- <div class="message-owner-content">
 
-        @if(user) {
-        <img src="{{ user.photoURL }}" />
-        <p>{{ user.username }}</p>
-        }
-      </div> -->
 
       @if(!isCurrentUser && user) {
       <p>
         Diese Unterhaltung findet nur zwischen
 
-        <span (click)="showProfileDialog(userId)">&#64; {{ user.username }}</span>
+        <span (click)="showProfileDialog(userId)"
+          >&#64; {{ user.username }}</span
+        >
         und dir statt.
       </p>
       } @if (isCurrentUser) {
       <p>
-        Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos auf
-        oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch gerne
-        Dinge mit dir selbst besprechen.
+        Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine To-dos
+        auf oder bewahre Links und Dateien griffbereit auf. Du kannst hier auch
+        gerne Dinge mit dir selbst besprechen.
       </p>
       }
     </div>
@@ -103,23 +164,41 @@
     <div class="message-box-container">
       @if(conversationMessages && user) {
 
-        <textarea
+      <textarea
         *ngIf="isEditing"
         name="edited-message"
         placeholder="Bearbeiten..."
         [(ngModel)]="editText"
       ></textarea>
-        
-      <textarea   *ngIf="!isEditing" id="inputfield" autofocus name="message" placeholder="Nachricht an {{ user.username }}" #input
-        [(ngModel)]="conversationMessage" (ngModelChange)="hideErrorMessage()"></textarea>
+
+      <textarea
+        *ngIf="!isEditing"
+        id="inputfield"
+        autofocus
+        name="message"
+        placeholder="Nachricht an {{ user.username }}"
+        #input
+        [(ngModel)]="conversationMessage"
+        (ngModelChange)="hideErrorMessage()"
+      ></textarea>
       }
       <div class="message-box">
         <div class="message-box-icons">
-          <div class="emoji-container" #emojiPicker (click)="onClickInside($event)">
-            <button class="emoji-button" (click)="toggleEmojiPicker()"><img
-                src="./assets/img/add_reaction.svg"></button>
-            <emoji-mart class="emoji-mart" set="twitter" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
-              title="Pick your emoji…"></emoji-mart>
+          <div
+            class="emoji-container"
+            #emojiPicker
+            (click)="onClickInside($event)"
+          >
+            <button class="emoji-button" (click)="toggleEmojiPicker()">
+              <img src="./assets/img/add_reaction.svg" />
+            </button>
+            <emoji-mart
+              class="emoji-mart"
+              set="twitter"
+              *ngIf="showEmojiPicker"
+              (emojiSelect)="addEmoji($event)"
+              title="Pick your emoji…"
+            ></emoji-mart>
           </div>
           <mat-icon>alternate_email</mat-icon>
         </div>
