@@ -192,6 +192,11 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         emojiReactions: [{ emoji: '', counter: 0, users: [] }]
       };
       this.addEditedConversationMessage(editedDirectMessage, this.editMessageId);
+      this.conversationMessage = '';
+      this.isEditing = false;
+      this.editText = '';
+      this.messageEmpty = false;
+
     }
     
     
