@@ -83,7 +83,7 @@
             @if(answer.userName === currentUser.displayName) {
             <div class="edit-wrapper" (click)="editMessage(answer)">
               <mat-icon>edit</mat-icon>
-              @if(edited) {
+              @if(answer.edited === true) {
               <p class="edited">(Bearbeitet)</p>
               }
             </div>

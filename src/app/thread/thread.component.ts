@@ -138,7 +138,7 @@ export class ThreadComponent implements OnInit {
       edited: true
       }
       this.threadAnswers.splice(this.answerIndex, 1, editedAnswer);
-      this.edited = true;
+      // this.edited = true;
     } else {
       const newAnswer: Message = {
         userName: this.authService.currentUser?.displayName!,
@@ -156,7 +156,9 @@ export class ThreadComponent implements OnInit {
 
   saveAnswerInFirestore() {
     updateDoc(doc(this.firestore, `channels/${this.channelId}/chatText/${this.messageId}`),
-      { answers: this.threadAnswers }
+      { answers: this.threadAnswers,
+        edited: true
+       }
     )
     this.answer = '';
     this.editText = '';

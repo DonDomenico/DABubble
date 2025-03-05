@@ -172,7 +172,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         recipientId: this.userId,
         recipientAvatar: this.user?.photoURL!,
         senderMessage: this.conversationMessage,
-        timestamp: new Date().getTime()
+        timestamp: new Date().getTime(),
+        edited: false
         // emojiReactions: [{ emoji: '', counter: 0, users: [] }]
       };
 
@@ -189,7 +190,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         recipientAvatar: this.user?.photoURL!,
         senderMessage: this.editText,
         timestamp: new Date().getTime(),
-        emojiReactions: [{ emoji: '', counter: 0, users: [] }]
+        emojiReactions: [{ emoji: '', counter: 0, users: [] }],
+        edited: true
       };
       this.addEditedConversationMessage(editedDirectMessage, this.editMessageId);
       this.conversationMessage = '';
@@ -214,7 +216,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   async addEditedConversationMessage(editedDirectMessage: DirectMessage, messageId: string) {
     const docRef = doc(this.firestore, 'conversations', this.conversationId, 'messages', messageId);
     await updateDoc(docRef, {
-      senderMessage: editedDirectMessage.senderMessage
+      senderMessage: editedDirectMessage.senderMessage,
+      edited: true
     });
   
   }
@@ -248,7 +251,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       senderMessage: obj.senderMessage || '',
       timestamp: obj.timestamp || '',
       emojiReactions: obj.emojiReactions || [],
-      docId: id
+      docId: id,
+      edited: !!(obj.edited)
     };
   }
 

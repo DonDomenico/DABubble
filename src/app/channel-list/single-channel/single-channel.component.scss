@@ -344,6 +344,9 @@ section {
     .edit-wrapper {
       display: flex;
       align-items: center;
+      >p {
+        color: #686868;
+      }
     }
   }
 
