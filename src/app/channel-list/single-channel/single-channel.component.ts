@@ -172,7 +172,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         userMessage: this.message,
         timestamp: new Date().getTime(),
         answers: [],
-        emojiReactions: [{ emoji: '', counter: 0, users: [] }]
+        emojiReactions: [{ emoji: '', counter: 0, users: [] }],
+        edited: false
       };
       this.channelService.addText(newMessage);
       this.message = '';
@@ -184,6 +185,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         userAvatar: this.authService.currentUser?.photoURL!,
         userMessage: this.editText,
         timestamp: new Date().getTime(),
+        edited: true
       }
       this.saveEidtedMessageInFirestore(editedMessage, this.editMessageId);
       this.message = '';
@@ -199,7 +201,8 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   async saveEidtedMessageInFirestore(editedMessage: Message, editMessageId: string) {
     const docRef = doc(this.channelService.firestore, 'channels', this.channelService.channelId, 'chatText', editMessageId);
     await updateDoc(docRef, {
-      userMessage: editedMessage.userMessage
+      userMessage: editedMessage.userMessage,
+      edited: true
     });
   }
 

@@ -204,6 +204,7 @@ export class ChannelService {
       answers: obj.answers || [],
       emojiReactions: obj.emojiReactions || [],
       docId: id,
+      edited: !!(obj.edited) || false,
     };
   }
 

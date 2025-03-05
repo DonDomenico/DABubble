@@ -340,7 +340,11 @@ section {
   .answers {
     display: flex;
     gap: 5px;
-    // align-items: center;
+    align-items: flex-start;
+    .edit-wrapper {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .show-emoji-reactions {

@@ -128,6 +128,7 @@ export class ThreadComponent implements OnInit {
       userAvatar: this.authService.currentUser?.photoURL!,
       userMessage: this.editText,
       timestamp: new Date().getTime(),
+      edited: true
       }
       this.threadAnswers.splice(this.answerIndex, 1, editedAnswer);
       this.edited = true;
@@ -137,6 +138,7 @@ export class ThreadComponent implements OnInit {
         userAvatar: this.authService.currentUser?.photoURL!,
         userMessage: this.answer,
         timestamp: new Date().getTime(),
+        edited: false
       };
       this.threadAnswers.push(newAnswer);
     }
