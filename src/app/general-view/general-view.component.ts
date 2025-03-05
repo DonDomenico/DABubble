@@ -43,25 +43,14 @@ export class GeneralViewComponent implements OnInit {
 
   constructor(public router: Router, public channelService: ChannelService) {
 
-    // this.router.events.subscribe(event => {
-    //   if (event instanceof NavigationEnd) {
-    //     this.checkMobile();
-    //   }
-    // });
-
   }
 
   ngOnInit() {
     this.checkMobile();
   }
 
-  // @HostListener('click', ['$event'])
-  // onResize(event: MouseEvent) {
-  //   this.checkMobile();
-  // }
-
   checkMobile() {
-    if (window.innerWidth < 767) {
+    if (window.innerWidth < 1000) {
       this.isMobile = true;
     }
   }
