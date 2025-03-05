@@ -143,8 +143,10 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     });
     console.log('Channel message: ', this.channelService.messages); //Testcode, später löschen
     this.dataLoaded = true;
-    this.cdRef.detectChanges();
-    this.scrollToBottom();
+    if (this.emojiPickerOpen === false || this.channelService.isThreadHidden === true) {
+      this.cdRef.detectChanges();
+      this.scrollToBottom();
+    }
   }
 
   subChannelChat(channelId: string) {
@@ -155,7 +157,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       list.forEach((doc: any) => {
         this.channelService.messages.push(this.channelService.toJsonMessage(doc.data(), doc.id));
       });
-      if (this.emojiPickerOpen === false) {
+      if (this.emojiPickerOpen === false && this.channelService.isThreadHidden === true) {
         this.cdRef.detectChanges();
         this.scrollToBottom();
       }

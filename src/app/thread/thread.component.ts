@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ViewChild, Inject, Input, OnInit, OnChanges, HostListener, ElementRef } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, Inject, Input, OnInit, OnChanges, HostListener, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ChannelService } from '../services/channel.service';
 import { Channel } from '../interfaces/channel.interface';
@@ -49,16 +49,19 @@ export class ThreadComponent implements OnInit {
   currentUser: any;
   edited: boolean = false;
   answerIndex: number = 0;
+  emojiPickerOpen: boolean = false;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
+  @ViewChild('answersContainer') private answersContainer: ElementRef | undefined;
 
   constructor(
     public channelService: ChannelService,
     public authService: AuthenticationService,
-    // public dialog: MatDialog,
+    private renderer: Renderer2,
     private route: ActivatedRoute,
     private firestore: Firestore,
-    private router: Router
+    private router: Router,
+    private cdRef: ChangeDetectorRef
   ) {
     this.activeRoute = this.router.url;
     this.currentUser = this.authService.currentUser;
@@ -74,6 +77,10 @@ export class ThreadComponent implements OnInit {
       this.dataLoaded = true;
       await this.channelService.getThreadChatRef(this.channelId, this.messageId);
       this.threadAnswers = this.message.answers;
+      if (this.emojiPickerOpen === false) {
+        this.cdRef.detectChanges();
+        this.scrollToBottom();
+      }
     });
 
     this.routerSubscription = this.router.events.subscribe(event => {
@@ -122,7 +129,7 @@ export class ThreadComponent implements OnInit {
   }
 
   addAnswer() {
-    if(this.isEditing) {
+    if (this.isEditing) {
       const editedAnswer: Message = {
       userName: this.authService.currentUser?.displayName!,
       userAvatar: this.authService.currentUser?.photoURL!,
@@ -132,7 +139,7 @@ export class ThreadComponent implements OnInit {
       }
       this.threadAnswers.splice(this.answerIndex, 1, editedAnswer);
       this.edited = true;
-    } else{
+    } else {
       const newAnswer: Message = {
         userName: this.authService.currentUser?.displayName!,
         userAvatar: this.authService.currentUser?.photoURL!,
@@ -143,6 +150,8 @@ export class ThreadComponent implements OnInit {
       this.threadAnswers.push(newAnswer);
     }
     this.saveAnswerInFirestore();
+    this.cdRef.detectChanges();
+    this.scrollToBottom();
   }
 
   saveAnswerInFirestore() {
@@ -162,7 +171,7 @@ export class ThreadComponent implements OnInit {
     this.channelService.isThreadHidden = !this.channelService.isThreadHidden;
     this.channelService.hideSingleChannel = false;
     this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
-    // this.toggleThread.emit(this.channelService.isThreadHidden);
+    this.toggleThread.emit(this.channelService.isThreadHidden);
   }
 
   isDifferentDay(index: number) {
@@ -188,7 +197,6 @@ export class ThreadComponent implements OnInit {
       this.showEmojiPicker = false;
     } else if (this.showEmojiPickerReaction !== undefined && !this.emojiPickerReactionElement?.nativeElement.contains(event.target)) {
       for (let index = 0; index < this.channelService.messages.length; index++) {
-        // const message = this.channelService.messages[index];
         this.showEmojiPickerReaction.set(index!, false);
       }
     }
@@ -197,6 +205,9 @@ export class ThreadComponent implements OnInit {
   async addEmojiReaction(event: any, messageId: string, index: number) {
     await this.updateEmojiReactions(event, messageId, index);
     await this.saveEmojiReactions(messageId, index);
+    setTimeout(() => {
+      this.emojiPickerOpen = false;
+    }, 500);
   }
 
   async updateEmojiReactions(event: any, messageId: string, index: number) {
@@ -265,6 +276,12 @@ export class ThreadComponent implements OnInit {
     })
   }
 
+  private scrollToBottom(): void {
+    if (this.answersContainer && this.answersContainer.nativeElement) {
+      this.renderer.setProperty(this.answersContainer.nativeElement, 'scrollTop', this.answersContainer.nativeElement.scrollHeight);
+    }
+  }
+
   onFocus() {
     this.showEmojiPicker = false;
   }
@@ -274,14 +291,15 @@ export class ThreadComponent implements OnInit {
   }
 
   toggleEmojiPickerReaction(index: number) {
+    this.emojiPickerOpen = true;
     const currentState = this.showEmojiPickerReaction.get(index) || false;
     this.showEmojiPickerReaction.set(index, !currentState);
   }
 
   addEmoji(event: any) {
-    const { message } = this;
-    const text = `${message}${event.emoji.native}`;
-    this.message = text;
+    const { answer } = this;
+    const text = `${answer}${event.emoji.native}`;
+    this.answer = text;
     this.showEmojiPicker = false;
   }
 

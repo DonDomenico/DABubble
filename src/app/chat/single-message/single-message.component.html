@@ -79,12 +79,12 @@
               }
               }
               @if(authService.currentUser.displayName === message.initiatedBy) {
-                <div class="edit-wrapper" (click)="editMessage(message, message.docId!)">
-                  <mat-icon>edit</mat-icon>
-                  @if(edited) {
-                  <p class="edited">(Bearbeitet)</p>
-                  }
-                </div>
+              <div class="edit-wrapper" (click)="editMessage(message, message.docId!)">
+                <mat-icon>edit</mat-icon>
+                @if(edited) {
+                <p class="edited">(Bearbeitet)</p>
+                }
+              </div>
               }
 
               <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
@@ -104,7 +104,7 @@
   </div>
   }
 
-  <div class="input-wrapper">
+  <div class="input-wrapper" [ngStyle]="isCurrentUser ? {'bottom': 166+'px'} : {'bottom': 144+'px'}">
     <div class="message-owner-container">
       @if(!isCurrentUser && user) {
       <p style="padding-top: 8px;">
