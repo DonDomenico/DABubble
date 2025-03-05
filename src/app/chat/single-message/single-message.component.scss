@@ -363,6 +363,14 @@ section {
 
   .show-emoji-reactions {
     display: flex;
+    .edit-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      >p {
+        color: #686868;
+      }
+    }
   }
 
   .emoji-reaction {

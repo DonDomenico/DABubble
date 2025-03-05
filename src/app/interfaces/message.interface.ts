@@ -8,4 +8,5 @@ export interface Message {
   answers?: [];
   emojiReactions?: [{emoji: string, counter: number, users: string[]}];
   docId?: string;
+  edited: boolean;
 }

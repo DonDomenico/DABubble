@@ -7,4 +7,5 @@ export interface DirectMessage {
   timestamp: number;
   emojiReactions?: [{emoji: string, counter: number, users: string[]}];
   docId?: string
+  edited: boolean;
 }

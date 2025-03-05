@@ -1,8 +1,5 @@
 <section>
   <div class="chat-header">
-    <!-- <div class="mobile-btn-arrow-back" (click)="emitToggleSidenav()">
-      <img src="./assets/img/arrow_back.svg" />
-    </div> -->
     <div class="dev-team-container" (click)="updateChannel(channelService.channelId)">
       <p># {{ getSingleChannel()?.name }}</p>
       <mat-icon>keyboard_arrow_down</mat-icon>
@@ -68,13 +65,13 @@
               </span>
 
               @if(authService.currentUser.displayName === message.userName) {
-              <div class="edit-wrapper" (click)="editMessage(message, message.docId!)">
-                <mat-icon>edit</mat-icon>
-                @if(edited) {
-                <p class="edited">(Bearbeitet)</p>
+                <div class="edit-wrapper" (click)="editMessage(message, message.docId!)">
+                  <mat-icon>edit</mat-icon>
+                  @if(message.edited === true) {
+                    <p class="edited">(Bearbeitet)</p>
+                  }
+                </div>
                 }
-              </div>
-              }
             </div>
 
             <div class="show-emoji-reactions">

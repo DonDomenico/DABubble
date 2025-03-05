@@ -131,19 +131,21 @@ export class ThreadComponent implements OnInit {
   addAnswer() {
     if (this.isEditing) {
       const editedAnswer: Message = {
-        userName: this.authService.currentUser?.displayName!,
-        userAvatar: this.authService.currentUser?.photoURL!,
-        userMessage: this.editText,
-        timestamp: new Date().getTime(),
+      userName: this.authService.currentUser?.displayName!,
+      userAvatar: this.authService.currentUser?.photoURL!,
+      userMessage: this.editText,
+      timestamp: new Date().getTime(),
+      edited: true
       }
       this.threadAnswers.splice(this.answerIndex, 1, editedAnswer);
-      this.edited = true;
+      // this.edited = true;
     } else {
       const newAnswer: Message = {
         userName: this.authService.currentUser?.displayName!,
         userAvatar: this.authService.currentUser?.photoURL!,
         userMessage: this.answer,
         timestamp: new Date().getTime(),
+        edited: false
       };
       this.threadAnswers.push(newAnswer);
     }
@@ -154,7 +156,9 @@ export class ThreadComponent implements OnInit {
 
   saveAnswerInFirestore() {
     updateDoc(doc(this.firestore, `channels/${this.channelId}/chatText/${this.messageId}`),
-      { answers: this.threadAnswers }
+      { answers: this.threadAnswers,
+        edited: true
+       }
     )
     this.answer = '';
     this.editText = '';
