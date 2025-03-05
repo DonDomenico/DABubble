@@ -360,7 +360,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   checkMobile() {
-    if (window.innerWidth < 767) {
+    if (window.innerWidth < 1000) {
       this.isMobile = true;
     }
   }
