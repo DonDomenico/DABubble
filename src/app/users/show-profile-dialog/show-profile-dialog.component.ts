@@ -13,10 +13,11 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { EditProfileDialogComponent } from '../edit-profile-dialog/edit-profile-dialog.component';
 import { ReauthenticateUserDialogComponent } from '../reauthenticate-user-dialog/reauthenticate-user-dialog.component';
 import { ChannelService } from '../../services/channel.service';
+import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-show-profile-dialog',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, MatDialogClose, MatButtonModule],
+  imports: [MatIconModule, MatDialogModule, MatDialogClose, MatButtonModule, RouterModule],
   templateUrl: './show-profile-dialog.component.html',
   styleUrl: './show-profile-dialog.component.scss',
 })
@@ -32,7 +33,8 @@ export class ShowProfileDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userService: UserService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
     this.userId = data.uid;
   }
@@ -50,6 +52,12 @@ export class ShowProfileDialogComponent {
         console.log('No such document!');
       }
     }
+  }
+
+  redirectToChat(uid: string) {
+    // this.router.navigate([`general-view/single-message/${uid}`]);
+    this.dialog.closeAll();
+
   }
 
   editUserProfile() {

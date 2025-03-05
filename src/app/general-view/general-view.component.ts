@@ -5,7 +5,7 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ThreadComponent } from '../thread/thread.component';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SingleMessageComponent } from '../chat/single-message/single-message.component';
 import { SingleChannelComponent } from '../channel-list/single-channel/single-channel.component';
 import { ChannelListComponent } from '../channel-list/channel-list.component';
@@ -39,7 +39,7 @@ export class GeneralViewComponent implements OnInit {
   fullView = true;
   isMenuOpen: boolean = false;
 
-  @Input() mobileHeaderEvent = new EventEmitter<boolean>();
+  // @Input() mobileHeaderEvent = new EventEmitter<boolean>();
 
   constructor(public router: Router, public channelService: ChannelService) {
 
@@ -82,13 +82,5 @@ export class GeneralViewComponent implements OnInit {
       this.fullView = false;
       this.hideSideNav = false;
     }
-    // this.isMenuOpen = true;
-    // this.mobileHeaderEvent.emit(true);
   }
-
-  // navigateToDashboard() {
-  //   this.router.navigateByUrl('/general-view/channel-list');
-  //   this.mobileService.toggleMobileHeader();
-  // }
-
 }

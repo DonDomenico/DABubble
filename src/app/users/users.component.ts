@@ -76,9 +76,4 @@ export class UsersComponent {
       }
     }
   }
-
-  // getList(): User[] {
-  //   let users = this.userService.users.filter((user) => user.uid !== this.authService.currentUser?.uid)
-  //   return users;
-  // }
 }
