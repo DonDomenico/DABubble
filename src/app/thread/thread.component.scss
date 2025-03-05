@@ -161,9 +161,9 @@ section {
 
   .message-box-wrapper {
     position: relative;
-    bottom: 157px;
+    bottom: 155px;
     background: white;
-    padding: 4px 8px;
+    padding: 4px 8px 16px 8px;
 
     .message-box-container {
       border-radius: 20px;
@@ -258,7 +258,6 @@ section {
     border-radius: 20px;
     padding: 5px 10px 5px 10px;
     font-size: 18px;
-    // white-space: nowrap;
   }
 
   .number-of-answers {
@@ -267,15 +266,6 @@ section {
   }
 }
 
-@media only screen and (max-width: 1190px) {
-  // .message-box-wrapper {
-  //   .message-box-container {
-  //     width: 95%;
-  //     max-width: 95%;
-  //   }
-
-  // }
-}
 
 @media only screen and (max-width: 1000px) {
   section {
