@@ -12,7 +12,7 @@
     <mat-icon (click)="closeThread()">close</mat-icon>
   </div>
 
-  <div class="messages-container">
+  <div #answersContainer class="messages-container">
     <div class="divider">
       <hr class="line" />
       <span class="date">{{ message.timestamp | date }}</span>

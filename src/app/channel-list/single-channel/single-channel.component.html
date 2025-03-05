@@ -37,49 +37,59 @@
       <hr class="line" />
     </div>
 
-    <div class="message-wrapper" [ngStyle]="{'justify-content': authService.currentUser.displayName === message.userName ? 'flex-end' : 'flex-start'}">
-      <div class="single-message-container" [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.userName ? 'row-reverse' : 'row'}">
+    <div class="message-wrapper"
+      [ngStyle]="{'justify-content': authService.currentUser.displayName === message.userName ? 'flex-end' : 'flex-start'}">
+      <div class="single-message-container"
+        [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.userName ? 'row-reverse' : 'row'}">
         <img src="{{ message.userAvatar }}" class="member-avatar" />
         <div class="message-content">
-          <div class="name-time" [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.userName ? 'row-reverse' : 'row'}">
+          <div class="name-time"
+            [ngStyle]="{'flex-direction': authService.currentUser.displayName === message.userName ? 'row-reverse' : 'row'}">
             <span>{{ message.userName }}</span>
             <p>{{ message.timestamp | date : "HH:mm" : "CET" }}</p>
           </div>
 
-          <span class="user-message" [ngStyle]="authService.currentUser.displayName === message.userName ? {'textAlign': 'end', 'borderRadius': '30px 0 30px 30px', 'backgroundColor': '#797EF3', 'color': 'white'} : {'backgroundColor': '#ECEEFE'}">
+          <span class="user-message"
+            [ngStyle]="authService.currentUser.displayName === message.userName ? {'textAlign': 'end', 'borderRadius': '30px 0 30px 30px', 'backgroundColor': '#797EF3', 'color': 'white'} : {'backgroundColor': '#ECEEFE'}">
             {{ message.userMessage }}
           </span>
 
           <div class="reactions">
             <div class="answers">
               @if (message.answers && message.answers.length > 0) {
-                <span class="answers-link" [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]" (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">{{ message.answers.length }} Antwort(en)</span>
+              <span class="answers-link"
+                [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]"
+                (click)="channelService.showThread()">{{
+                message.answers.length }} Antwort(en)</span>
               }
               <span [routerLink]="['single-channel/' + channelService.channelId + '/thread/' + message.docId]"
-                (click)="channelService.showThread(); toggleMessageBoxSize(messageBoxContainer)">
+                (click)="channelService.showThread()">
                 <mat-icon>comment</mat-icon>
               </span>
 
               @if(authService.currentUser.displayName === message.userName) {
-                <div class="edit-wrapper" (click)="editMessage(message, message.docId!)">
-                  <mat-icon>edit</mat-icon>
-                  @if(edited) {
-                    <p class="edited">(Bearbeitet)</p>
-                  }
-                </div>
+              <div class="edit-wrapper" (click)="editMessage(message, message.docId!)">
+                <mat-icon>edit</mat-icon>
+                @if(edited) {
+                <p class="edited">(Bearbeitet)</p>
                 }
+              </div>
+              }
             </div>
 
             <div class="show-emoji-reactions">
               @if (message.emojiReactions && message.emojiReactions.length > 0) {
-                @for (emoji of message.emojiReactions; track $index) {
-                <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}</div>
-                }
+              @for (emoji of message.emojiReactions; track $index) {
+              <div class="emoji-reaction" matTooltip="{{ emoji.users.join(', ') }}">{{ emoji.emoji + emoji.counter }}
+              </div>
+              }
               }
 
               <div class="add-emoji-container" #emojiPickerReaction (click)="onClickInside($event)">
-                <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.docId!)"><img src="./assets/img/add_reaction.svg"></button>
-                <emoji-mart class="emoji-mart reaction-emojis" set="twitter" *ngIf="showEmojiPickerReaction.get(message.docId!)"
+                <button class="emoji-button" (click)="toggleEmojiPickerReaction(message.docId!)"><img
+                    src="./assets/img/add_reaction.svg"></button>
+                <emoji-mart class="emoji-mart reaction-emojis" set="twitter"
+                  *ngIf="showEmojiPickerReaction.get(message.docId!)"
                   (emojiSelect)="addEmojiReaction($event, message.docId!)" title="Pick your emoji…"></emoji-mart>
               </div>
             </div>
@@ -93,24 +103,14 @@
 
   <div class="message-box-wrapper">
     <div class="message-box-container" #messageBoxContainer>
-      <textarea
-      *ngIf="isEditing"
-      name="edited-message"
-      placeholder="Bearbeiten..."
-      [(ngModel)]="editText"
-    ></textarea>
-
-    <textarea
-      *ngIf="!isEditing"
-      name="message"
-      placeholder="Nachricht an {{ getSingleChannel()?.name }}"
-      [(ngModel)]="message"
-      (ngModelChange)="hideErrorMessage()"
-    ></textarea>
+      <textarea *ngIf="isEditing" name="edited-message" placeholder="Bearbeiten..." [(ngModel)]="editText"></textarea>
+      <textarea *ngIf="!isEditing" name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}"
+        [(ngModel)]="message" (ngModelChange)="hideErrorMessage()"></textarea>
       <div class="message-box">
         <div class="message-box-icons">
           <div class="add-emoji-container" #emojiPicker (click)="onClickInside($event)">
-            <button class="emoji-button" (click)="toggleEmojiPicker()"><img src="./assets/img/add_reaction.svg"></button>
+            <button class="emoji-button" (click)="toggleEmojiPicker()"><img
+                src="./assets/img/add_reaction.svg"></button>
             <emoji-mart class="emoji-mart message-emojis" set="twitter" *ngIf="showEmojiPicker"
               (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
           </div>
