@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { UserService } from './users.service';
 import { doc, Firestore, getDocs, query, setDoc, where } from '@angular/fire/firestore';
 import { ConversationsService } from './conversations.service';
+import { User } from '../users/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +68,7 @@ export class AuthenticationService {
       console.log('User added to database'); //später löschen
     }).catch((err) => {
       console.error(err);
+      // Fehlermeldung auf der Seite anzeigen
     })
   }
 
@@ -74,7 +76,7 @@ export class AuthenticationService {
     onAuthStateChanged(this.firebaseAuth, (user) => {
       if (user) {
         this.currentUser = user;
-        console.log('current user: ', user); //Testcode, später löschen
+        console.log('current user: ', this.currentUser); //Testcode, später löschen
       } else {
         console.log('No user signed in'); //Testcode, später löschen
       }
@@ -133,7 +135,7 @@ export class AuthenticationService {
       if (result.user.emailVerified) {
         const emailFound = this.userService.users.filter(user => user.email == result.user.email);
         if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length === 0) {
-          let photoURL = result.user.photoURL
+          let photoURL = result.user.photoURL;
           if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
             photoURL = photoURL + '?sz=' + 24;
           }
@@ -220,7 +222,6 @@ export class AuthenticationService {
   }
 
   async deleteAccount() {
-    // accountActive = false
     deleteUser(this.currentUser).then(() => {
       console.log('Account deleted: ', this.currentUser);
       this.router.navigateByUrl('');

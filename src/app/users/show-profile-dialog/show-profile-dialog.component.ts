@@ -55,7 +55,7 @@ export class ShowProfileDialogComponent {
   }
 
   redirectToChat(uid: string) {
-    // this.router.navigate([`general-view/single-message/${uid}`]);
+    this.router.navigate([`general-view/single-message/${uid}`]);
     this.dialog.closeAll();
 
   }
@@ -71,14 +71,18 @@ export class ShowProfileDialogComponent {
 
   async deleteAccount() {
     const userId = this.authService.currentUser.uid;
-    this.authService.currentUser.delete().catch((error: any) => {
-      if (error.code === 'auth/requires-recent-login') {
-        this.openReauthenticationDialog();
-      }
-    }).then(async () => {
+    let lastLoginTime = this.authService.currentUser.metadata.lastLoginAt;
+    let now = new Date().getTime();
+    let needsReauth = (now - lastLoginTime) / 60000 > 5 ? true : false;
+
+    if(needsReauth) {
+      this.openReauthenticationDialog();
+    } else {
       await this.channelService.removeUserFromChannels(userId);
       await this.authService.deleteAccount();
-    })
+      this.dialog.closeAll();
+      this.userService.setAccountInactive(userId);
+    }
   }
 
   openReauthenticationDialog() {

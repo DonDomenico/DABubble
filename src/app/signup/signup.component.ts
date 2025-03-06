@@ -5,7 +5,6 @@ import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { UserService } from '../services/users.service';
 
-
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -20,14 +19,13 @@ export class SignupComponent {
   fb = inject(FormBuilder);
   checkbox = new FormControl(false, Validators.requiredTrue);
   emailInDatabase = false;
+  @Output() formData = {};
 
   registerForm = this.fb.nonNullable.group({
     username: ['', Validators.required],
     email: ['', [Validators.required, Validators.email, this.emailAlreadyExists()]],
     password: ['', [Validators.required]]
   })
-
-  @Output() formData = {};
 
   async onSubmit() {
     await this.searchEmailInDatabase();

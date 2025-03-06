@@ -112,4 +112,10 @@ export class UserService implements OnDestroy {
       active: false
     })
   }
+
+  async setAccountInactive(userId: string) {
+    await updateDoc(this.getSingleUserRef(userId), {
+      accountActive: false
+    })
+  }
 }
