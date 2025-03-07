@@ -104,7 +104,7 @@
   </div>
   }
 
-  <div class="input-wrapper" [ngStyle]="isCurrentUser ? {'bottom': 166+'px'} : {'bottom': 144+'px'}">
+  <div [ngClass]="isCurrentUser ? 'input-wrapper' : 'input-wrapper-2'">
     <div class="message-owner-container">
       @if(!isCurrentUser && user) {
       <p style="padding-top: 8px;">
@@ -115,7 +115,8 @@
       </p>
       } @if (isCurrentUser) {
       <p>
-        Dieser Raum ist nur für dich da. Mache dir Notizen oder liste deine To-dos. Du kannst hier auch gerne Dinge mit dir selbst besprechen.
+        Dieser Raum ist nur für dich da. Mache dir Notizen oder liste deine To-dos. Du kannst hier auch gerne Dinge mit
+        dir selbst besprechen.
       </p>
       }
     </div>

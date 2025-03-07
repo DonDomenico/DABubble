@@ -336,6 +336,7 @@ section {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 
   .answers {
     display: flex;
@@ -392,7 +393,7 @@ section {
 
 @media only screen and (max-width: 1000px) {
   .single-message-container {
-    width: 90%;
+    // width: 90%;
 
     .answers-link {
       font-size: 16px;
