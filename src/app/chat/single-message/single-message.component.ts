@@ -198,9 +198,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       this.isEditing = false;
       this.editText = '';
       this.messageEmpty = false;
-
     }
-    
     
     else {
       this.messageEmpty = true;
@@ -219,10 +217,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       senderMessage: editedDirectMessage.senderMessage,
       edited: true
     });
-  
   }
-
-
 
   subConversationMessages(conversationId: string) {
     if (conversationId !== "") {
@@ -294,9 +289,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       data: { uid: userId },
     });
   }
-
-
-
 
   toggleEmojiPickerReaction(messageId: string) {
     this.emojiPickerOpen = true;
@@ -388,13 +380,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       }
     })
   }
-
-  // @HostListener('document:click', ['$event'])
-  // onDocumentClick(event: MouseEvent) {
-  //   if (this.showEmojiPicker && !this.emojiPickerElement?.nativeElement.contains(event.target)) {
-  //     this.showEmojiPicker = false;
-  //   }
-  // }
 
   @HostListener('click', ['$event'])
   onComponentClick(event: MouseEvent) {

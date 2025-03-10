@@ -52,105 +52,105 @@ mat-card {
   mat-card-content {
     width: 100%;
   }
+}
 
-  form {
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .form-field {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    height: 60px;
+    background-color: #eceefe;
+    border-radius: 30px;
+    outline: none;
+    // transparente border hinzufügen, damit beim Hovern die Schrift nicht verschoben wird
+    border: 1px solid transparent;
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      height: 60px;
-      background-color: #eceefe;
+    &:hover {
+      border: 1px solid #686868;
+    }
+
+    &:focus-within {
+      border: 1px solid #535af1;
       border-radius: 30px;
-      outline: none;
-      // transparente border hinzufügen, damit beim Hovern die Schrift nicht verschoben wird
-      border: 1px solid transparent;
+    }
+  }
 
-      &:hover {
-        border: 1px solid #686868;
-      }
+  input {
+    //   width: clamp(360px, 309.09px + 15.91vw, 500px);
+    width: 100%;
+    height: 58px;
+    padding: 18px 32px;
+    text-indent: 48px;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #eceefe;
+    // use border transparent, else the text in the inputfield will be moved on hover due to the added border
+    border: 1px solid transparent;
+    border-radius: 100px;
+    // outline: none is needed here, because when the element is focussed, the User Agent (browser) by default sets an outline.
+    // So, to prevent it, we need to overwright it
+    outline: none;
+  }
 
-      &:focus-within {
-        border: 1px solid #535af1;
-        border-radius: 30px;
-      }
+  .background-image {
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: 24px;
+    background-size: 24px 24px;
+  }
+
+  .name-input {
+    background-image: url("../../assets/img/person_filled.svg");
+  }
+
+  .mail-input {
+    background-image: url("../../assets/img/mail.svg");
+  }
+
+  .password-input {
+    background-image: url("../../assets/img/lock.svg");
+  }
+
+  .error {
+    font-family: "Nunito";
+    color: #ed1e79;
+    padding: 5px 20px;
+    line-height: 18px;
+    // width: clamp(360px, 309.09px + 15.91vw, 500px);
+  }
+
+  .privacy-policy {
+    display: flex;
+    align-items: center;
+    height: 32px;
+    font-size: 16px;
+    gap: 8px;
+    margin-top: 28px;
+
+    .checkbox {
+      width: 18px;
+      height: 18px;
     }
 
-    input {
-      //   width: clamp(360px, 309.09px + 15.91vw, 500px);
-      width: 100%;
-      height: 58px;
-      padding: 18px 32px;
-      text-indent: 48px;
-      font-size: 18px;
-      font-weight: 500;
-      background-color: #eceefe;
-      // use border transparent, else the text in the inputfield will be moved on hover due to the added border
-      border: 1px solid transparent;
-      border-radius: 100px;
-      // outline: none is needed here, because when the element is focussed, the User Agent (browser) by default sets an outline.
-      // So, to prevent it, we need to overwright it
-      outline: none;
-    }
-
-    .background-image {
-      background-repeat: no-repeat;
-      background-position-y: center;
-      background-position-x: 24px;
-      background-size: 24px 24px;
-    }
-
-    .name-input {
-      background-image: url("../../assets/img/person_filled.svg");
-    }
-
-    .mail-input {
-      background-image: url("../../assets/img/mail.svg");
-    }
-
-    .password-input {
-      background-image: url("../../assets/img/lock.svg");
-    }
-
-    .error {
-      font-family: "Nunito";
-      color: #ed1e79;
-      padding: 5px 20px;
-      line-height: 18px;
-      // width: clamp(360px, 309.09px + 15.91vw, 500px);
-    }
-
-    .privacy-policy {
-      display: flex;
-      align-items: center;
-      height: 32px;
+    >span {
       font-size: 16px;
-      gap: 8px;
-      margin-top: 28px;
+      color: #42526e;
 
-      .checkbox {
-        width: 18px;
-        height: 18px;
-      }
-
-      >span {
-        font-size: 16px;
-        color: #42526e;
-
-        >a {
-          text-decoration: none;
-          font-size: 18px;
-          color: #797ef3;
-        }
+      >a {
+        text-decoration: none;
+        font-size: 18px;
+        color: #797ef3;
       }
     }
+  }
 
-    button {
-      width: fit-content;
-      align-self: end;
-    }
+  button {
+    width: fit-content;
+    align-self: end;
   }
 }
 

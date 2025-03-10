@@ -33,9 +33,8 @@
             }
         </div>
 
-        <div class="sign-in-buttons">
-            <button class="button-primary" type="submit" [disabled]="reauthenticateForm.invalid"
-                [style.cursor]="reauthenticateForm.invalid ? 'not-allowed' : 'pointer'">Anmelden</button>
-        </div>
+        <button class="button-primary login-button" type="submit" [disabled]="reauthenticateForm.invalid"
+            [style.cursor]="reauthenticateForm.invalid ? 'not-allowed' : 'pointer'">Anmelden</button>
+
     </form>
 </section>
