@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -82,7 +82,6 @@ export class ChannelService {
       }
     );
   }
-
 
   checkMobile() {
     if (window.innerWidth < 1000) {

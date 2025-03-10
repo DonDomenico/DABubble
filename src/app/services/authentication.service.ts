@@ -12,9 +12,8 @@ import {
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { UserService } from './users.service';
-import { doc, Firestore, getDocs, query, setDoc, where } from '@angular/fire/firestore';
+import { arrayUnion, doc, Firestore, getDocs, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
 import { ConversationsService } from './conversations.service';
-import { User } from '../users/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -45,15 +44,29 @@ export class AuthenticationService {
   async createUser(email: string, username: string, password: string, photoUrl: string) {
     await createUserWithEmailAndPassword(this.firebaseAuth, email, password).then(async (response) => {
       updateProfile(response.user, { displayName: username, photoURL: photoUrl });
-      // this.currentUser = response.user;
       await this.saveUserInFirestore(response.user.uid, username, email, photoUrl);
       this.sendVerificationMail();
-      this.conversationService.addNewConversation(response.user.uid, response.user.uid);
+      this.addInitialConversations(response.user.uid);
+      this.addUserToWelcomeChannel(response.user.uid, 'DTCcKIo8o4tlQw78i1cI');
       this.router.navigateByUrl('');
     }).catch(error => {
       this.emailAlreadyExists = error.code;
       console.log(error); //Testcode, später löschen
     })
+  }
+
+  addInitialConversations(userId: string) {
+    this.conversationService.addNewConversation(userId, userId);
+    this.conversationService.addNewConversation(userId, 'hBEeS6IqIUb8QIlkviFuIqcowNl1');
+    this.conversationService.addNewConversation(userId, 'LNdN79V9tUcvOJ5shJ5cu7hcVoH2');
+  }
+
+  async addUserToWelcomeChannel(userId: string, channelId: string) {
+    if (userId !== undefined) {
+      await updateDoc(doc(this.firestore, 'channels', channelId), {
+        member: arrayUnion(userId),
+      });
+    }
   }
 
   async saveUserInFirestore(uid: string, username: string, email: string, photoUrl: string) {
@@ -136,10 +149,12 @@ export class AuthenticationService {
         const emailFound = this.userService.users.filter(user => user.email == result.user.email);
         if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length === 0) {
           let photoURL = result.user.photoURL;
-          if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
-            photoURL = photoURL + '?sz=' + 24;
-          }
+          // if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
+          //   photoURL = photoURL + '?sz=' + 24;
+          // }
           await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, photoURL);
+          this.addInitialConversations(result.user.uid);
+          this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
         } else {
           console.log('User already in database'); //Testcode, später löschen
         }
@@ -164,7 +179,7 @@ export class AuthenticationService {
   }
 
   async logout() {
-    if(!this.currentUser.displayName.startsWith('Guest')) {
+    if (!this.currentUser.displayName.startsWith('Guest')) {
       await this.userService.setStatusInactive(this.currentUser);
     }
     signOut(this.firebaseAuth);

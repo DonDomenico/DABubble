@@ -81,6 +81,7 @@ export class ShowProfileDialogComponent {
       await this.channelService.removeUserFromChannels(userId);
       await this.authService.deleteAccount();
       this.dialog.closeAll();
+      this.userService.setStatusInactive(userId);
       this.userService.setAccountInactive(userId);
     }
   }

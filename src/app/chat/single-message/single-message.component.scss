@@ -177,7 +177,7 @@ section {
 
 .input-wrapper {
   position: relative;
-  bottom: 164px;
+  bottom: 146px;
   background: white;
 }
 
@@ -397,17 +397,11 @@ section {
   display: none;
 }
 
-// @media only screen and (max-width: 1233px) {
-//   .message-owner-container>p {
-//     font-size: 16px;
-//   }
-// }
-
-// @media only screen and (max-width: 895px) {
-//   .message-owner-container>p {
-//     font-size: 14px;
-//   }
-// }
+@media only screen and (max-width: 1640px) {
+  .input-wrapper {
+    bottom: 164px;
+  }
+}
 
 @media only screen and (max-width: 767px) {
   section {

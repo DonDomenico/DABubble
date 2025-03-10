@@ -1,4 +1,4 @@
-import { Component, Inject, Input, Output } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   MatDialogModule,
   MatDialog,
@@ -26,7 +26,6 @@ import { SearchService } from '../../services/search.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { RouterLink } from '@angular/router';
 import { NgStyle } from '@angular/common';
 
 @Component({
@@ -58,7 +57,6 @@ export class AddMemberDialogComponent {
   channelId: string = '';
   channel: Channel | undefined;
   channelName: string = '';
-  // singleChannelComponent: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -89,7 +87,6 @@ export class AddMemberDialogComponent {
       // show failure message
     } else if (this.user && this.userFound) {
       console.log('User found');
-
       await this.addUserToChannel();
       this.dialog.closeAll();
     }

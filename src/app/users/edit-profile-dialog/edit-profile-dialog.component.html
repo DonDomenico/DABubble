@@ -28,25 +28,27 @@
       </div>
     </div>
 
-    <div>
-      <div class="edit-email">
-        <mat-icon>account_circle</mat-icon>
-        <p>E-Mail-Adresse</p>
-      </div>
-
+    @if (this.authService.currentUser.providerData[0].providerId !== 'google.com') {
       <div>
-        <div>
-          <input class="background-image mail-input" [placeholder]="authService.currentUser?.email"
-            formControlName="email" type="email" [style.color]="editProfileForm.get('email')?.dirty ? 'black' : '#686868'"
-            (ngModelChange)="onInputChange()">
+        <div class="edit-email">
+          <mat-icon>account_circle</mat-icon>
+          <p>E-Mail-Adresse</p>
         </div>
-        @if (editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.value != '') {
-        <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
-        } @else if (emailInDatabase) {
-        <span class="error">Ein Konto mit dieser E-Mail-Adresse existiert bereits.</span>
-        }
+  
+        <div>
+          <div>
+            <input class="background-image mail-input" [placeholder]="authService.currentUser?.email"
+              formControlName="email" type="email" [style.color]="editProfileForm.get('email')?.dirty ? 'black' : '#686868'"
+              (ngModelChange)="onInputChange()">
+          </div>
+          @if (editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.value != '') {
+          <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
+          } @else if (emailInDatabase) {
+          <span class="error">Ein Konto mit dieser E-Mail-Adresse existiert bereits.</span>
+          }
+        </div>
       </div>
-    </div>
+    }
 
     <div class="btn-wrapper">
       <button class="button-secondary" (click)="closeDialog()">Abbrechen</button>

@@ -1,1 +1,24 @@
 @import url('../../signup/choose-profile-image/choose-profile-image.component.scss');
+
+.head {
+    display: flex;
+    
+    >span {
+        cursor: pointer;
+
+        mat-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            cursor: pointer;
+
+            &:hover {
+                color: #535af1;
+                background-color: #eceefe;
+            }
+        }
+    }
+}

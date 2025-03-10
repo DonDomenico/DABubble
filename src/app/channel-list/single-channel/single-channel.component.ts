@@ -17,7 +17,7 @@ import { Message } from '../../interfaces/message.interface';
 import { UpdateChannelDialogComponent } from '../update-channel-dialog/update-channel-dialog.component';
 import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   doc,
   getDoc,
@@ -60,7 +60,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   conversationList: DirectMessage[] = [];
   message = '';
   messageEmpty: boolean = false;
-  // currentChannel: any;
   unsubSingleChannel: any;
   unsubMemberInfos: any;
   unsubChannelChat: any;
@@ -78,7 +77,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   edited: boolean = false;
   editMessageId = '';
   currentUser: any;
-  // editedMessage: any;
   fullViews: boolean = true;
   isMobile: boolean = false;
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
