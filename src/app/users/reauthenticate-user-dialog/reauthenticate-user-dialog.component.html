@@ -36,10 +36,6 @@
         <div class="sign-in-buttons">
             <button class="button-primary" type="submit" [disabled]="reauthenticateForm.invalid"
                 [style.cursor]="reauthenticateForm.invalid ? 'not-allowed' : 'pointer'">Anmelden</button>
-            <div class="input-container">
-                <input type="submit" class="background-image google-logo google-signin" value="Anmelden mit Google"
-                    (click)="authService.signInWithGoogle()">
-            </div>
         </div>
     </form>
 </section>

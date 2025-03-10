@@ -47,7 +47,7 @@ export class ChooseProfileImageComponent {
   }
 
   showSnackBar() {
-    this._snackBar.open('Konto erfolgreich erstellt. Bitte verifizieren Sie ihre Email durch einen Klick auf den zugesendeten Link.', 'Ok', {
+    this._snackBar.open('Konto erfolgreich erstellt. Bitte verifizieren Sie ihre Email-Adresse durch einen Klick auf den zugesendeten Link.', 'Ok', {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
       panelClass: 'snackbar'
