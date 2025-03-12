@@ -157,12 +157,15 @@ export class AuthenticationService {
       } else {
         console.log('User already in database'); //Testcode, später löschen
       }
-      let user = this.userService.users.find((user) => user.uid === result.user.uid);
-      this.userService.setStatusActive(user);
+      setTimeout(() => {
+        let user = this.userService.users.find((user) => user.uid === result.user.uid);
+        this.userService.setStatusActive(user);
+        this.router.navigateByUrl('general-view');
+        // evtl loading spinner einbauen
+      }, 1000);
     }).catch(error => {
       console.log(error); //Testcode, später löschen
     })
-    this.router.navigateByUrl('general-view');
   }
 
   guestLogIn() {
