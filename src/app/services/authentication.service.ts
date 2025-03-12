@@ -145,22 +145,20 @@ export class AuthenticationService {
 
   async signInWithGoogle() {
     await signInWithPopup(this.firebaseAuth, this.google).then(async result => {
-      if (result.user.emailVerified) {
-        const emailFound = this.userService.users.filter(user => user.email == result.user.email);
-        if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length === 0) {
-          let photoURL = result.user.photoURL;
-          // if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
-          //   photoURL = photoURL + '?sz=' + 24;
-          // }
-          await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, photoURL);
-          this.addInitialConversations(result.user.uid);
-          this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
-        } else {
-          console.log('User already in database'); //Testcode, später löschen
-        }
-        let user = this.userService.users.find((user) => user.uid === result.user.uid);
-        this.userService.setStatusActive(user);
+      const emailFound = this.userService.users.filter(user => user.email == result.user.email);
+      if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length === 0) {
+        let photoURL = result.user.photoURL;
+        // if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
+        //   photoURL = photoURL + '?sz=' + 24;
+        // }
+        await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, photoURL);
+        this.addInitialConversations(result.user.uid);
+        this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
+      } else {
+        console.log('User already in database'); //Testcode, später löschen
       }
+      let user = this.userService.users.find((user) => user.uid === result.user.uid);
+      this.userService.setStatusActive(user);
     }).catch(error => {
       console.log(error); //Testcode, später löschen
     })
