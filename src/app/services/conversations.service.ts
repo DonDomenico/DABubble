@@ -8,7 +8,11 @@ import {
   query,
   getDocs,
   onSnapshot,
+  orderBy,
+  where,
+  and,
 } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root',
@@ -16,20 +20,31 @@ import {
 export class ConversationsService {
   currentConversationId: string | undefined;
   firestore = inject(Firestore);
+  auth = inject(Auth);
   conversationExists: boolean = false;
   conversations: any[] = [];
+  conversationMessages: DirectMessage[] = [];
+  newMessages: { conversationId: string, messages: DirectMessage[] }[] = [];
   unsubConversations: any;
+  unsubNewMessages: any;
 
   constructor() {
-    // this.getConversations();
-  }
-  
-  ngOnInit() {
-    // this.unsubConversations = this.subConversations();
+    // setTimeout(() => {
+    //   this.unsubNewMessages = this.subNewMessages();
+    // }, 1000);
+    // setTimeout(() => {
+    //   this.testFn();
+    // }, 1500);
   }
 
-  ngOnDestroy() {
-    // this.unsubConversations();
+  testFn() {
+    for (const message of this.newMessages) {
+      for (const conversation of this.conversations) {
+        if (conversation.members.includes("hBEeS6IqIUb8QIlkviFuIqcowNl1") && message.conversationId === conversation.docId && message.messages.length > 0) {
+          console.log(`New Messages in conversation ${conversation.docId}: `, message.messages)
+        }
+      }
+    }
   }
 
   async addNewConversation(senderId: string, recipientId: string) {
@@ -53,6 +68,32 @@ export class ConversationsService {
     });
   }
 
+  subNewMessages() {
+    this.conversations.forEach(conversation => {
+      this.newMessages = [];
+      return onSnapshot(query(this.getConversationMessagesRef(conversation.docId), where('read', '==', false), where('initiatedBy', '==', this.auth.currentUser?.displayName)), newMessagesList => {
+        const conversationId = conversation.docId;
+        newMessagesList.docs.forEach((message, index) => {
+          if (this.newMessages.length > 0 && this.newMessages.find(message => message.conversationId === conversationId)) {
+            const messageIndex = this.newMessages.findIndex(message => message.conversationId === conversationId);
+            this.newMessages[messageIndex].messages.push(this.toJsonDirectMessage(message.data(), message.id));
+          } else {
+            this.newMessages.push({ 'conversationId': conversationId, 'messages': [this.toJsonDirectMessage(message.data(), message.id)] });
+          }
+        })
+      })
+    })
+  }
+
+  async getConversationMessages(conversationId: string) {
+    this.conversationMessages = [];
+    const q = query(collection(this.firestore, `conversations/${conversationId}/messages`), orderBy("timestamp"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      this.conversationMessages.push(this.toJsonDirectMessage(doc.data(), doc.id));
+    });
+  }
+
   async addNewConversationMessage(newDirectMessage: DirectMessage) {
     addDoc(
       collection(this.firestore, `conversations/${this.currentConversationId}/messages`),
@@ -62,12 +103,11 @@ export class ConversationsService {
         recipientId: newDirectMessage.recipientId,
         recipientAvatar: newDirectMessage.recipientAvatar,
         senderMessage: newDirectMessage.senderMessage,
-        timestamp: newDirectMessage.timestamp
+        timestamp: newDirectMessage.timestamp,
+        read: newDirectMessage.read
       }
     );
   }
-
- 
 
   getConversationsRef() {
     return collection(this.firestore, 'conversations');
@@ -78,19 +118,8 @@ export class ConversationsService {
   }
 
   getConversationMessagesRef(conversationId: string) {
-    // return collection(this.getConversationsRef(), conversationId, 'messages');
     return collection(this.firestore, `conversations/${conversationId}/messages`);
   }
-
-  // subConversations() {
-  //   return onSnapshot(this.getConversationsRef(), conversationList => {
-  //     this.conversations = [];
-  //     conversationList.forEach(doc => {
-  //       this.conversations.push(this.toJsonConversations(doc.data()));
-  //     })
-  //     console.log('Conversations: ', this.conversations);
-  //   })
-  // }
 
   async getConversations() {
     this.conversations = [];
@@ -98,26 +127,30 @@ export class ConversationsService {
     const snapshot = await getDocs(q);
 
     snapshot.forEach(doc => {
-      this.conversations.push(this.toJsonConversations(doc.data()));
+      this.conversations.push(this.toJsonConversations(doc.data(), doc.id));
     })
     console.log(this.conversations);
   }
 
-
-  toJsonConversations(obj: any) {
+  toJsonConversations(obj: any, id: string) {
     return {
-      members: obj.members
+      members: obj.members,
+      docId: id
     }
   }
-  // toJsonDirectMessage(obj: any): DirectMessage {
-  //   return {
-  //     initiatedBy: obj.initiatedBy || '',
-  //     senderAvatar: obj.senderAvatar || '',
-  //     recipientAvatar: obj.recipientAvatar || '',
-  //     recipientId: obj.recipientId || '',
-  //     senderMessage: obj.senderMessage || '',
-  //     timestamp: obj.timestamp || '',
-  //     messageDate: obj.messageDate || '',
-  //   };
-  // }
+
+  toJsonDirectMessage(obj: any, id: string): DirectMessage {
+    return {
+      initiatedBy: obj.initiatedBy || '',
+      senderAvatar: obj.senderAvatar || '',
+      recipientAvatar: obj.recipientAvatar || '',
+      recipientId: obj.recipientId || '',
+      senderMessage: obj.senderMessage || '',
+      timestamp: obj.timestamp || '',
+      emojiReactions: obj.emojiReactions || [],
+      docId: id,
+      edited: !!(obj.edited),
+      read: obj.read
+    };
+  }
 }

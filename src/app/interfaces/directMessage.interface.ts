@@ -8,4 +8,5 @@ export interface DirectMessage {
   emojiReactions?: [{emoji: string, counter: number, users: string[]}];
   docId?: string
   edited: boolean;
+  read?: boolean;
 }

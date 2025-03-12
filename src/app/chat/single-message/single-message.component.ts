@@ -73,7 +73,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   showEmojiPicker: boolean = false;
   routeSubscription: any;
   isMobile: boolean = false;
-  isFirstMessage: boolean = false;
   emojiPickerOpen: boolean = false;
   showEmojiPickerReaction: Map<string, boolean> = new Map();
   emojiReactions: (any | any)[] = [];
@@ -137,12 +136,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
 
   async getConversationMessages() {
     if (this.conversationId !== "") {
-      const q = query(collection(this.firestore, `conversations/${this.conversationId}/messages`), orderBy("timestamp"));
-      const querySnapshot = await getDocs(q);
-      this.conversationMessages = [];
-      querySnapshot.forEach((doc) => {
-        this.conversationMessages.push(this.toJsonDirectMessage(doc.data(), doc.id));
-      });
+      await this.conversationService.getConversationMessages(this.conversationId);
     }
     this.dataLoaded = true;
     this.cdRef.detectChanges();
@@ -151,18 +145,14 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
 
   async createConversation() {
     if (this.authService.currentUser) {
-      // await this.conversationService.checkConversationExists(this.authService.currentUser?.uid, this.userId);
       await this.conversationService.addNewConversation(this.userId, this.authService.currentUser?.uid);
-      // this.addMessageText();
     }
   }
 
-  // Funktion createConversation() innerhalb von addMessageText aufrufen, falls noch keine Konversation besteht
   async addMessageText() {
     await this.conversationService.checkConversationExists(this.authService.currentUser.uid, this.userId);
     if (!this.conversationService.conversationExists) {
       await this.createConversation();
-      // this.isFirstMessage = true;
     }
 
     if (this.conversationMessage !== "") {
@@ -173,8 +163,8 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         recipientAvatar: this.user?.photoURL!,
         senderMessage: this.conversationMessage,
         timestamp: new Date().getTime(),
-        edited: false
-        // emojiReactions: [{ emoji: '', counter: 0, users: [] }]
+        edited: false,
+        read: false
       };
 
       this.conversationService.addNewConversationMessage(newDirectMessage);
@@ -198,9 +188,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       this.isEditing = false;
       this.editText = '';
       this.messageEmpty = false;
-    }
-    
-    else {
+    } else {
       this.messageEmpty = true;
     }
   }
@@ -226,7 +214,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       return onSnapshot(q, (querySnapshot: any) => {
         this.conversationMessages = [];
         querySnapshot.forEach((doc: any) => {
-          this.conversationMessages.push(this.toJsonDirectMessage(doc.data(), doc.id));
+          this.conversationMessages.push(this.conversationService.toJsonDirectMessage(doc.data(), doc.id));
         });
         this.cdRef.detectChanges();
         this.scrollToBottom();
@@ -235,20 +223,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     } else {
       return undefined;
     }
-  }
-
-  toJsonDirectMessage(obj: any, id: string): DirectMessage {
-    return {
-      initiatedBy: obj.initiatedBy || '',
-      senderAvatar: obj.senderAvatar || '',
-      recipientAvatar: obj.recipientAvatar || '',
-      recipientId: obj.recipientId || '',
-      senderMessage: obj.senderMessage || '',
-      timestamp: obj.timestamp || '',
-      emojiReactions: obj.emojiReactions || [],
-      docId: id,
-      edited: !!(obj.edited)
-    };
   }
 
   async getSingleUser(): Promise<User | undefined> {
