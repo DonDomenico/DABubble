@@ -26,12 +26,15 @@ import {
   orderBy,
   query,
   updateDoc,
-  collection
+  collection,
+  where
 } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ShowMembersDialogComponent } from '../show-members-dialog/show-members-dialog.component';
+import { User } from '../../users/user.interface';
+import { UserService } from '../../services/users.service';
 
 @Component({
   selector: 'app-single-channel',
@@ -79,6 +82,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   currentUser: any;
   fullViews: boolean = true;
   isMobile: boolean = false;
+  // memberInfos: any[] = [];
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
@@ -86,6 +90,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   constructor(
     public authService: AuthenticationService,
     public channelService: ChannelService,
+    private userService: UserService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
@@ -101,9 +106,10 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.channelService.channelId = params['id'];
       console.log(this.channelService.channelId); //Testcode, später löschen
       await this.channelService.getChannelMembers(this.channelService.channelId);
+      await this.getChannelMemberInfos();
       await this.getChannelChats(this.channelService.channelId);
       // this.unsubSingleChannel = this.channelService.subSingleChannel(this.channelService.channelId);
-      this.unsubMemberInfos = this.channelService.subMemberInfos();
+      // this.unsubMemberInfos = this.subMemberInfos();
       this.unsubChannelChat = this.subChannelChat(this.channelService.channelId);
       this.showEmojiPickerReaction.clear();
     });
@@ -111,7 +117,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     // this.unsubSingleChannel();
-    this.unsubMemberInfos();
+    // this.unsubMemberInfos();
     this.unsubChannelChat();
     if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
@@ -128,7 +134,17 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         return item.docId == this.channelService.channelId;
       });
     } else {
-      return this.channelService.channels[0];
+      return undefined;
+    }
+  }
+
+  async getChannelMemberInfos() {
+    for (let index = 0; index < this.userService.users.length; index++) {
+      const user = this.userService.users[index];
+      
+      if(user.uid && this.channelService.channelMembers.includes(user.uid)) {
+        this.channelService.memberInfos.push(user);
+      }
     }
   }
 
@@ -162,6 +178,34 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       console.log('CHAT TEXT', this.channelService.messages);
     });
   }
+
+  subSingleChannel(channelId: string) {
+    return onSnapshot(doc(this.channelService.firestore, 'channels', channelId), (channel) => {
+      console.log(channel.data());
+      this.channelService.channelMembers = [];
+      channel.data()!['member'].forEach((member: User) => {
+        this.channelService.channelMembers.push(member);
+      });
+      console.log(this.channelService.channelMembers);
+    });
+  }
+
+  // subMemberInfos() {
+  //   if (this.channelService.channelMembers.length !== 0) {
+  //     this.channelService.memberInfos = [];
+  //     const q = query(
+  //       collection(this.channelService.firestore, 'users'),
+  //       where('uid', 'in', this.channelService.channelMembers)
+  //     );
+  //     return onSnapshot(q, (snapshot) => {
+  //       snapshot.forEach((doc) => {
+  //         this.channelService.memberInfos.push(doc.data());
+  //       });
+  //     });
+  //   } else {
+  //     return undefined;
+  //   }
+  // }
 
   addMessage() {
     if (this.message !== "") {

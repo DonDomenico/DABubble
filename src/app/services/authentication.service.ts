@@ -161,7 +161,7 @@ export class AuthenticationService {
         let user = this.userService.users.find((user) => user.uid === result.user.uid);
         this.userService.setStatusActive(user);
         this.router.navigateByUrl('general-view');
-        // evtl loading spinner einbauen
+        // evtl loading spinner
       }, 1000);
     }).catch(error => {
       console.log(error); //Testcode, später löschen
@@ -183,7 +183,7 @@ export class AuthenticationService {
     if (!this.currentUser.displayName.startsWith('Guest')) {
       await this.userService.setStatusInactive(this.currentUser);
     }
-    signOut(this.firebaseAuth);
+    await signOut(this.firebaseAuth);
     this.currentUser = null;
     this.router.navigateByUrl('');
   }

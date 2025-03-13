@@ -26,7 +26,7 @@ export class ChannelService {
   channels: Channel[] = [];
   messages: Message[] = [];
   channelMembers: any = [];
-  memberInfos: any;
+  memberInfos: any[] = [];
   channelId: string = '';
   isThreadHidden: boolean = true;
   threadId: string = '';
@@ -164,34 +164,33 @@ export class ChannelService {
     });
   }
 
-  subSingleChannel(channelId: string) {
-    return onSnapshot(doc(this.firestore, 'channels', channelId), (channel) => {
-      console.log(channel.data());
-      this.channelMembers = [];
-      channel.data()!['member'].forEach((member: User) => {
-        this.channelMembers.push(member);
-      });
-      console.log(this.channelMembers);
-    });
-  }
+  // subSingleChannel(channelId: string) {
+  //   return onSnapshot(doc(this.firestore, 'channels', channelId), (channel) => {
+  //     console.log(channel.data());
+  //     this.channelMembers = [];
+  //     channel.data()!['member'].forEach((member: User) => {
+  //       this.channelMembers.push(member);
+  //     });
+  //     console.log(this.channelMembers);
+  //   });
+  // }
 
-  subMemberInfos() {
-    if (this.channelMembers.length !== 0) {
-      const q = query(
-        collection(this.firestore, 'users'),
-        where('uid', 'in', this.channelMembers)
-      );
-      this.memberInfos = [];
-
-      return onSnapshot(q, (snapshot) => {
-        snapshot.forEach((doc) => {
-          this.memberInfos.push(doc.data());
-        });
-      });
-    } else {
-      return undefined;
-    }
-  }
+  // subMemberInfos() {
+  //   if (this.channelMembers.length !== 0) {
+  //     this.memberInfos = [];
+  //     const q = query(
+  //       collection(this.firestore, 'users'),
+  //       where('uid', 'in', this.channelMembers)
+  //     );
+  //     return onSnapshot(q, (snapshot) => {
+  //       snapshot.forEach((doc) => {
+  //         this.memberInfos.push(doc.data());
+  //       });
+  //     });
+  //   } else {
+  //     return undefined;
+  //   }
+  // }
 
   toJsonMessage(obj: any, id: string): Message {
     return {

@@ -14,28 +14,28 @@ import { ImprintComponent } from './imprint/imprint.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 export const routes: Routes = [
-    { path: "", component: LoginComponent },
-    { path: "signup", component: SignupComponent},
-    { path: "signup/select-avatar", component: ChooseProfileImageComponent},
-    { path: "send-mail", component: ResetPasswordMailComponent},
-    { path: "general-view", component: GeneralViewComponent,
-      // canMatch: [authGuard],
-      // canActivate: [authGuard],
-      // canMatch: [guardsGuard],
-      children: [
-        { path: "single-channel/:id", component: SingleChannelComponent, 
-          children: [
-            { path: "thread/:id", component: ThreadComponent }
-          ]
-         },
-        // { path: "single-channel/:id/thread", component: ThreadComponent },
-        { path: "single-message/:id", component: SingleMessageComponent },
-        { path: "channel-list", component: ChatComponent }
-      ]
-    },
-    { path: "unauthorized", component: UnauthorizedComponent},
-    { path: "imprint", component: ImprintComponent },
-    { path: "privacy-policy", component: PrivacyPolicyComponent },
- 
-
-  ];
+  { path: "", component: LoginComponent },
+  { path: "signup", component: SignupComponent },
+  { path: "signup/select-avatar", component: ChooseProfileImageComponent },
+  { path: "send-mail", component: ResetPasswordMailComponent },
+  {
+    path: "general-view", component: GeneralViewComponent,
+    // canMatch: [authGuard],
+    // canActivate: [authGuard],
+    // canMatch: [guardsGuard],
+    children: [
+      {
+        path: "single-channel/:id", component: SingleChannelComponent,
+        children: [
+          { path: "thread/:id", component: ThreadComponent }
+        ]
+      },
+      // { path: "single-channel/:id/thread", component: ThreadComponent },
+      { path: "single-message/:id", component: SingleMessageComponent },
+      { path: "channel-list", component: ChatComponent }
+    ]
+  },
+  { path: "unauthorized", component: UnauthorizedComponent },
+  { path: "imprint", component: ImprintComponent },
+  { path: "privacy-policy", component: PrivacyPolicyComponent },
+];
