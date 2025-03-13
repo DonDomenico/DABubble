@@ -162,7 +162,7 @@ export class AuthenticationService {
         this.userService.setStatusActive(user);
         this.router.navigateByUrl('general-view');
         // evtl loading spinner
-      }, 1000);
+      }, 500);
     }).catch(error => {
       console.log(error); //Testcode, später löschen
     })
