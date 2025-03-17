@@ -6,11 +6,10 @@
     </div>
 
     <div class="add-member-container">
-      <div class="avatar-container">
+      <div class="avatar-container" (click)="showMembersDialog()">
         @for (item of channelService.memberInfos; track $index) {
-
         <img src="{{ item['photoURL'] }}" class="avarar-icon" matTooltip="{{ item['username'] }}"
-          [matTooltipPosition]="'below'" (click)="showMembersDialog()" />
+          [matTooltipPosition]="'below'"/>
         }
         <p>{{ channelService.channelMembers.length }}</p>
       </div>
