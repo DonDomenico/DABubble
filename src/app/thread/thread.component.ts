@@ -29,6 +29,7 @@ export class ThreadComponent implements OnInit {
   @Input() channelId!: string;
   @Output() toggleThread: EventEmitter<any> = new EventEmitter();
   messageId: string = '';
+  messageEmpty: boolean = false;
   channel: Channel | undefined;
   channelName: string = '';
   answer = '';
@@ -138,8 +139,7 @@ export class ThreadComponent implements OnInit {
       edited: true
       }
       this.threadAnswers.splice(this.answerIndex, 1, editedAnswer);
-      // this.edited = true;
-    } else {
+    } else if (this.answer !== '') {
       const newAnswer: Message = {
         userName: this.authService.currentUser?.displayName!,
         userAvatar: this.authService.currentUser?.photoURL!,
@@ -148,6 +148,10 @@ export class ThreadComponent implements OnInit {
         edited: false
       };
       this.threadAnswers.push(newAnswer);
+      this.message = '';
+      this.messageEmpty = false;
+    } else {
+      this.messageEmpty = true;
     }
     this.saveAnswerInFirestore();
     this.cdRef.detectChanges();

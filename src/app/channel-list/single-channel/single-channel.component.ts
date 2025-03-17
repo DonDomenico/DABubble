@@ -412,16 +412,16 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleMessageBoxSize(messageBoxContainer: HTMLDivElement) {
-    this.checkMobile();
-    if (this.channelService.isThreadHidden && !this.isMobile) {
-      messageBoxContainer.style.width = '30%';
-    } else if (this.channelService.isThreadHidden && this.isMobile) {
-      messageBoxContainer.style.width = '100%';
-    } else {
-      messageBoxContainer.style.width = '55%';
-    }
-  }
+  // toggleMessageBoxSize(messageBoxContainer: HTMLDivElement) {
+  //   this.checkMobile();
+  //   if (this.channelService.isThreadHidden && !this.isMobile) {
+  //     messageBoxContainer.style.width = '30%';
+  //   } else if (this.channelService.isThreadHidden && this.isMobile) {
+  //     messageBoxContainer.style.width = '100%';
+  //   } else {
+  //     messageBoxContainer.style.width = '55%';
+  //   }
+  // }
 
   editMessage(message: Message, messageId: string) {
     this.isEditing = true;

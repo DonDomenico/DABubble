@@ -1,6 +1,5 @@
 section {
   width: 100%;
-  // height: 100%;
   background-color: white;
   border-radius: 30px;
 
@@ -160,15 +159,16 @@ section {
   }
 
   .message-box-wrapper {
-    position: relative;
-    bottom: 155px;
+    position: fixed;
+    bottom: 0;
     background: white;
-    padding: 4px 8px 16px 8px;
+    width: calc(var(--vw, 1vw) * 28);
 
     .message-box-container {
       border-radius: 20px;
       border: 1px solid #adb0d9;
       background: white;
+      margin: 20px 40px;
 
       > textarea {
         width: 100%;
@@ -273,6 +273,9 @@ section {
 
     .thread-header {
       height: 60px;
+    }
+    .message-box-wrapper {
+      width: calc(var(--vw, 1vw) * 90);
     }
   }
 }

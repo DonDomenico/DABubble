@@ -175,17 +175,18 @@ section {
   }
 }
 
-.input-wrapper {
-  position: relative;
-  bottom: 146px;
+.input-wrapper-2 {
+  width: calc(var(--vw, 1vw) * 67);
+  position: fixed;
+  bottom: 0;
   background: white;
 }
 
-.input-wrapper-2 {
-  position: relative;
-  bottom: 144px;
-  background: white;
-}
+// .input-wrapper-2 {
+//   position: relative;
+//   bottom: 144px;
+//   background: white;
+// }
 
 .message-owner-container {
   >p {
@@ -397,49 +398,33 @@ section {
   display: none;
 }
 
-@media only screen and (max-width: 1640px) {
-  .input-wrapper {
-    bottom: 164px;
-  }
-}
-
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 1000px) {
   section {
     border-radius: 0px;
   }
-
+  
   .chat-header {
     height: 78px;
     display: flex;
     align-items: center;
     padding: 10px 16px;
-
+    
     .header-content {
       height: 58px;
-
+      
       >p {
         font-size: 20px;
         line-height: 29px;
       }
     }
-
+    
     .mobile-btn-arrow-back {
       display: block;
     }
   }
-
-  .input-wrapper {
-    margin-left: 0;
-    // width: 95%;
-    // max-width: 95%;
-    bottom: 104px;
-  }
-
   .input-wrapper-2 {
-    margin-left: 0;
-    // width: 95%;
-    // max-width: 95%;
-    bottom: 84px;
+    width: calc(var(--vw, 1vw) * 90);
+    left: 10px;
   }
 
   .message-owner-container {
@@ -468,24 +453,24 @@ section {
   }
 }
 
-@media only screen and (max-width: 565px) {
-  .input-wrapper {
-    bottom: 116px;
-  }
+// @media only screen and (max-width: 565px) {
+//   .input-wrapper {
+//     bottom: 116px;
+//   }
 
-  .input-wrapper-2 {
-    bottom: 100px;
-  }
-}
+//   .input-wrapper-2 {
+//     bottom: 100px;
+//   }
+// }
 
-@media only screen and (max-width: 420px) {
-  .input-wrapper {
-    bottom: 132px;
-  }
-}
+// @media only screen and (max-width: 420px) {
+//   .input-wrapper {
+//     bottom: 132px;
+//   }
+// }
 
-@media only screen and (max-width: 340px) {
-  .input-wrapper-2 {
-    bottom: 114px;
-  }
-}
+// @media only screen and (max-width: 340px) {
+//   .input-wrapper-2 {
+//     bottom: 114px;
+//   }
+// }

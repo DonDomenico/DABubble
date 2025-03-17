@@ -127,9 +127,9 @@ section {
   height: calc(var(--vh, 1vh) * 77);
   overflow-y: auto;
 
-  // >div:nth-last-child(1) {
-  //   margin-bottom: 180px;
-  // }
+  >div:nth-last-child(1) {
+    margin-bottom: 180px;
+  }
 }
 
 .message-wrapper {
@@ -246,7 +246,7 @@ section {
   // bottom: 176px;
   position: fixed;
   bottom: 0;
-  width: 100%;
+  // width: calc(var(--vw, 1vw) * 67);
   background: white;
   padding-top: 4px;
 
@@ -376,13 +376,6 @@ section {
 }
 
 @media only screen and (max-width: 1130px) {
-  // .message-box-wrapper {
-  //   .message-box-container {
-  //     margin: 10px 10px;
-  //     width: 50%;
-  //     max-width: 50%;
-  //   }
-  // }
 
   .chat-header {
     .dev-team-container {
@@ -397,15 +390,13 @@ section {
 
 @media only screen and (max-width: 1000px) {
   .single-message-container {
-    // width: 90%;
-
     .answers-link {
       font-size: 16px;
     }
   }
 
   .message-box-wrapper {
-    // bottom: 177px;
+    width: calc(var(--vw, 1vw) * 90);
   }
 
   .chat-header {
@@ -415,22 +406,7 @@ section {
       }
     }
   }
-}
 
-@media only screen and (max-width: 935px) {
-  .chat-header {
-    .dev-team-container {
-      gap: 5px;
-      margin-left: 8px;
-    }
-  }
-
-  .message-box-wrapper {
-    margin-left: 5px;
-  }
-}
-
-@media only screen and (max-width: 767px) {
   section {
     border-radius: 0px;
   }
@@ -454,7 +430,4 @@ section {
     }
   }
 
-  .message-box-wrapper {
-    // bottom: 125px;
-  }
 }
