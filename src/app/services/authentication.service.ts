@@ -183,9 +183,11 @@ export class AuthenticationService {
     if (!this.currentUser.displayName.startsWith('Guest')) {
       await this.userService.setStatusInactive(this.currentUser);
     }
-    await signOut(this.firebaseAuth);
-    this.currentUser = null;
-    this.router.navigateByUrl('');
+    setTimeout(async () => {
+      await signOut(this.firebaseAuth);
+      this.currentUser = null;
+      this.router.navigateByUrl('');
+    }, 500);
   }
 
   async updateUsernameInAuth(newName: string) {

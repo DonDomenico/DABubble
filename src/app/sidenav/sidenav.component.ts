@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ConversationsService } from '../services/conversations.service';
 import { MobileServiceService } from '../services/mobile.service';
+import { onSnapshot, query, where } from '@angular/fire/firestore';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -22,7 +24,8 @@ import { MobileServiceService } from '../services/mobile.service';
 })
 export class SidenavComponent {
   @Output() toggleEvent = new EventEmitter<void>();
-   mobileService = inject(MobileServiceService);
+  mobileService = inject(MobileServiceService);
+  authService = inject(AuthenticationService);
   selected!: boolean;
   readonly dialog = inject(MatDialog);
   unsubscribeChannels: any;
@@ -42,8 +45,8 @@ export class SidenavComponent {
   ngOnInit() {
     setTimeout(() => {
       // this.channelService.getChannels();
-      this.unsubscribeChannels = this.channelService.subChannelList();
-    }, 1000);
+      this.unsubscribeChannels = this.subChannelList();
+    }, 800);
   }
 
   ngOnChanges(): void {
@@ -74,5 +77,16 @@ export class SidenavComponent {
 
   openMemberList() {
     this.isMemberListHidden = !this.isMemberListHidden;
+  }
+
+  subChannelList() {
+    const q = query(this.channelService.getChannelRef(), where('member', 'array-contains', this.authService.currentUser.uid));
+    return onSnapshot(q, (channelList) => {
+      this.channelService.channels = [];
+      channelList.forEach((channel) => {
+        console.log(this.channelService.toJsonChannel(channel.data(), channel.id)); // später löschen
+        this.channelService.channels.push(this.channelService.toJsonChannel(channel.data(), channel.id));
+      });
+    });
   }
 }
