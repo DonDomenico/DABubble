@@ -127,9 +127,9 @@ section {
   height: calc(var(--vh, 1vh) * 77);
   overflow-y: auto;
 
-  >div:nth-last-child(1) {
-    margin-bottom: 180px;
-  }
+  // >div:nth-last-child(1) {
+  //   margin-bottom: 180px;
+  // }
 }
 
 .message-wrapper {
@@ -167,7 +167,7 @@ section {
 }
 
 .single-message-container {
-  width: 70%;
+  // width: 70%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -242,8 +242,11 @@ section {
 }
 
 .message-box-wrapper {
-  position: relative;
-  bottom: 176px;
+  // position: relative;
+  // bottom: 176px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   background: white;
   padding-top: 4px;
 
@@ -251,7 +254,7 @@ section {
     border-radius: 20px;
     border: 1px solid #adb0d9;
     background: white;
-    margin: 4px 40px;
+    margin: 20px 40px;
 
     >textarea {
       width: 100%;
@@ -402,7 +405,7 @@ section {
   }
 
   .message-box-wrapper {
-    bottom: 177px;
+    // bottom: 177px;
   }
 
   .chat-header {
@@ -452,6 +455,6 @@ section {
   }
 
   .message-box-wrapper {
-    bottom: 125px;
+    // bottom: 125px;
   }
 }

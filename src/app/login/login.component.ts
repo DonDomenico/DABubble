@@ -4,11 +4,12 @@ import { Validators, ReactiveFormsModule, FormBuilder, ValidatorFn, ValidationEr
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
+import { IntroComponent } from '../intro/intro.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatCardModule, RouterLink, ReactiveFormsModule, MatDividerModule],
+  imports: [MatCardModule, RouterLink, ReactiveFormsModule, MatDividerModule, IntroComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
