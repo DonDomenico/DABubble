@@ -71,9 +71,9 @@ section {
 
 .mobile-btn-wrapper {
   display: none;
-  position: sticky;
-  left: 530px;
-  bottom: 150px;
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
   width: 85px;
   height: 85px;
 

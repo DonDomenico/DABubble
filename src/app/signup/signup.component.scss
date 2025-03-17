@@ -191,6 +191,9 @@ form {
 
     .head {
       justify-content: center;
+      >img {
+        margin-top: 8px;
+      }
     }
   }
 
@@ -230,7 +233,10 @@ form {
 
 @media only screen and (max-width: 483px) {
   .content-container {
-    padding: 50px 5px 0 5px;
+    padding: 35px 5px 0 5px;
+    .head {
+      margin-bottom: 5px;;
+    }
   }
 
   mat-card {
@@ -247,6 +253,7 @@ form {
 
     form {
       width: 300px;
+      gap: 8px;
 
       .background-image {
         background-position-x: 12px;

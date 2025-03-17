@@ -113,25 +113,19 @@ header {
   }
 }
 
-@media only screen and (max-width: 1005px) {
+@media only screen and (max-width: 1000px) {
   .search-container {
     >input {
       font-size: 20px;
       padding: 21px 17px;
     }
   }
-}
-
-@media only screen and (max-width: 1005px) {
   .header-logo {
     >img {
       width: 200px;
       padding-left: 25px;
     }
   }
-}
-
-@media only screen and (max-width: 767px) {
   header {
     height: 80px;
   }

@@ -396,7 +396,7 @@ section {
   }
 
   .message-box-wrapper {
-    width: calc(var(--vw, 1vw) * 90);
+    width: calc(var(--vw, 1vw) * 100) !important;
   }
 
   .chat-header {

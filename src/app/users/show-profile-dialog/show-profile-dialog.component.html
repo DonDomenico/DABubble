@@ -53,10 +53,7 @@
     <p>{{ authService.currentUser.email }}</p>
   </div>
   <div class="delete-account">
-    <div class="icon-container">
-      <mat-icon>delete</mat-icon>
-      <button (click)="deleteAccount()">Konto löschen</button>
-    </div>
+      <button class="button-primary" (click)="deleteAccount()">Konto löschen</button>
   </div>
   }
 </section>

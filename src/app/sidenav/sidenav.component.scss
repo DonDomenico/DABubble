@@ -1,7 +1,3 @@
-// ::ng-deep .mat-drawer {
-//   // height: 85vh;
-
-// }
 
 ::ng-deep .mat-typography p {
   margin: 0 0 0px !important;
@@ -194,18 +190,20 @@ mat-icon {
   overflow: visible;
 }
 
-@media only screen and (max-width: 995px) {
+
+@media only screen and (max-width: 1000px) {
   .side-nav {
     padding: 32px 10px;
   }
-}
-
-@media only screen and (max-width: 767px) {
   .side-nav-header {
     display: none;
   }
 
   .search-container {
     display: block;
+  }
+
+  .channels-container {
+    margin: 25px;
   }
 }
