@@ -150,7 +150,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
 
   async getChannelChats(channelId: string) {
     this.channelService.messages = [];
-    const q = query(collection(this.channelService.firestore, `channels/${channelId}/chatText`), orderBy('userTimestamp'));
+    const q = query(this.channelService.getChannelChatRef(channelId), orderBy('userTimestamp'));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       this.channelService.messages.push(this.channelService.toJsonMessage(doc.data(), doc.id));

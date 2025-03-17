@@ -47,6 +47,14 @@ export class ConversationsService {
     }
   }
 
+  subConversations() {
+    return onSnapshot(query(this.getConversationsRef(), where('members', 'array-contains', this.auth.currentUser?.uid)), conversations => {
+      conversations.forEach(conversation => {
+        this.conversations.push(conversation);
+      })
+    })
+  }
+
   async addNewConversation(senderId: string, recipientId: string) {
     await addDoc(this.getConversationsRef(), {
       members: [senderId, recipientId],
@@ -57,7 +65,7 @@ export class ConversationsService {
   }
 
   async checkConversationExists(senderId: string, recipientId: string) {
-    const q = query(this.getConversationsRef());
+    const q = query(this.getConversationsRef(), where('members', 'array-contains', this.auth.currentUser?.uid));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach(doc => {
@@ -87,7 +95,7 @@ export class ConversationsService {
 
   async getConversationMessages(conversationId: string) {
     this.conversationMessages = [];
-    const q = query(collection(this.firestore, `conversations/${conversationId}/messages`), orderBy("timestamp"));
+    const q = query(this.getConversationMessagesRef(conversationId), orderBy("timestamp"));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       this.conversationMessages.push(this.toJsonDirectMessage(doc.data(), doc.id));
@@ -123,7 +131,7 @@ export class ConversationsService {
 
   async getConversations() {
     this.conversations = [];
-    const q = query(collection(this.firestore, 'conversations'));
+    const q = query(this.getConversationsRef(), where('members', 'array-contains', this.auth.currentUser?.uid));
     const snapshot = await getDocs(q);
 
     snapshot.forEach(doc => {

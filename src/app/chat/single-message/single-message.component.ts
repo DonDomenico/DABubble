@@ -111,7 +111,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.unsubConversationMessages();
+    this.unsubConversationMessages();
     // this.unsubConversations();
     if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
@@ -121,7 +121,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   async getConversationId() {
     if (this.authService.currentUser !== null) {
       // this.conversationMessages = [];
-      const docRef = query(collection(this.firestore, 'conversations'));
+      const docRef = query(collection(this.firestore, 'conversations'), where('members', 'array-contains', this.authService.currentUser.uid));
       const querySnapshot = await getDocs(docRef);
 
       querySnapshot.forEach((doc) => {
@@ -169,7 +169,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
 
       this.conversationService.addNewConversationMessage(newDirectMessage);
       await this.getConversationId();
-      await this.getConversationMessages();
+      // await this.getConversationMessages();
       this.conversationMessage = '';
       this.messageEmpty = false;
     } else if (this.isEditing) {

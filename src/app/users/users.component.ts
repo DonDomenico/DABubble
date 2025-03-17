@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { CommonModule } from '@angular/common';
 import { ConversationsService } from '../services/conversations.service';
-import { getDocs, onSnapshot, query } from '@angular/fire/firestore';
+import { getDocs, onSnapshot, query, where } from '@angular/fire/firestore';
 import { MobileServiceService } from '../services/mobile.service';
 import { DirectMessage } from '../interfaces/directMessage.interface';
 
@@ -42,7 +42,7 @@ export class UsersComponent {
   }
 
   subConversations() {
-    return onSnapshot(this.conversationService.getConversationsRef(), conversationList => {
+    return onSnapshot(query(this.conversationService.getConversationsRef(), where('members', 'array-contains', this.authService.currentUser.uid)), conversationList => {
       this.conversationService.conversations = [];
       conversationList.forEach(doc => {
         this.conversationService.conversations.push(this.conversationService.toJsonConversations(doc.data(), doc.id));
