@@ -153,16 +153,16 @@ export class ChannelService {
   //   });
   // }
 
-  subChannelList() {
-    const q = query(this.getChannelRef(), where('member', 'array-contains', this.authService.currentUser.uid));
-    return onSnapshot(q, (channelList) => {
-      this.channels = [];
-      channelList.forEach((channel) => {
-        console.log(this.toJsonChannel(channel.data(), channel.id)); // später löschen
-        this.channels.push(this.toJsonChannel(channel.data(), channel.id));
-      });
-    });
-  }
+  // subChannelList() {
+  //   const q = query(this.getChannelRef(), where('member', 'array-contains', this.authService.currentUser.uid));
+  //   return onSnapshot(q, (channelList) => {
+  //     this.channels = [];
+  //     channelList.forEach((channel) => {
+  //       console.log(this.toJsonChannel(channel.data(), channel.id)); // später löschen
+  //       this.channels.push(this.toJsonChannel(channel.data(), channel.id));
+  //     });
+  //   });
+  // }
 
   // subSingleChannel(channelId: string) {
   //   return onSnapshot(doc(this.firestore, 'channels', channelId), (channel) => {
