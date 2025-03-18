@@ -12,28 +12,6 @@
       <mat-icon>edit_square</mat-icon>
     </span>
   </div>
-
-  <div class="search-container d-none">
-    <input
-      type="search"
-      placeholder="Gehe zu..."
-      (keyup)="searchService.search()"
-      [(ngModel)]="searchService.searchText"
-      [matAutocomplete]="auto"
-    />
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-      @for (result of searchService.searchResults; track result) {
-      <mat-option
-        [routerLink]="['/general-view/single-channel/' + result.docId]"
-        routerLinkActive="router-link-active"
-        [value]="result.name"
-      >
-        {{ result.name }} {{ result.description }}</mat-option
-      >
-      }
-    </mat-autocomplete>
-  </div>
-
   <div class="channels-container">
     <div class="left-side">
       <mat-icon (click)="openChannelList()">arrow_drop_down</mat-icon>
