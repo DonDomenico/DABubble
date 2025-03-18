@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
   // height: 100vh;
 
   .head {
@@ -177,12 +178,14 @@ form {
 @media only screen and (max-width: 570px) {
   .create-account {
     position: absolute;
-    bottom: 35px;
+    bottom: 0;
+    z-index: 10;
 
-    >a {
-      border: 1px solid #686868;
-      border-radius: 30px;
-      padding: 8px;
+
+    .create-account-link {
+      // border: 1px solid #686868;
+      // border-radius: 30px;
+      padding: 4px;
     }
   }
 
@@ -233,7 +236,7 @@ form {
 
 @media only screen and (max-width: 483px) {
   .content-container {
-    padding: 35px 5px 0 5px;
+    padding: 15px 5px 5px 5px;
     .head {
       margin-bottom: 5px;;
     }

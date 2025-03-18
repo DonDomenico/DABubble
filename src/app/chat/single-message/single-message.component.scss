@@ -8,7 +8,7 @@ section {
 }
 
 #messages-container {
-  height: 70vh;
+  height: 52%;
   overflow-y: scroll;
 
   >div:nth-last-child(1) {
@@ -423,8 +423,8 @@ section {
     }
   }
   .input-wrapper-2 {
-    width: calc(var(--vw, 1vw) * 90);
-    left: 10px;
+    width: calc(var(--vw, 1vw) * 100);
+
   }
 
   .message-owner-container {

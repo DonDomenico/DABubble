@@ -92,30 +92,30 @@
 .logo {
     display: flex;
     position: relative;
-    transform: translate(-50%, -50%);
+    // transform: translate(-50%, -50%);
     animation: fadeIn 0.5s ease-in-out 0.5s forwards;
     z-index: 2;
-    opacity: 0;
+    // opacity: 0;
   }
 
 
-  @keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    25% {
-        opacity: 1;
-        top: 500%;
-        left: 50%;
-        width: 350px;
-    }
-    100% {
-        top: 35px;
-        left: 75px;
-        width: 242px;
-        opacity: 1;
-    }
-  }
+//   @keyframes fadeIn {
+//     0% {
+//         opacity: 0;
+//     }
+//     25% {
+//         opacity: 1;
+//         top: 500%;
+//         left: 50%;
+//         width: 350px;
+//     }
+//     100% {
+//         top: 35px;
+//         left: 75px;
+//         width: 242px;
+//         opacity: 1;
+//     }
+//   }
 
 
 form {

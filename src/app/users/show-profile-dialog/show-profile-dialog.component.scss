@@ -84,7 +84,7 @@ section {
     font-size: 18px;
     font-weight: 400;
     line-height: 24.5px;
-    padding-left: 38px;
+    // padding-left: 38px;
   }
 
   > span {
@@ -183,8 +183,8 @@ section {
 
 @media only screen and (max-width: 520px) {
   section {
-    width: 100%;
+    width: 300px;
     height: 100vh;
-    padding: 40px 40px;
+    padding: 40px 15px;
   }
 }
