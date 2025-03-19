@@ -178,7 +178,7 @@ form {
 @media only screen and (max-width: 570px) {
   .create-account {
     position: absolute;
-    bottom: 0;
+    bottom: 24px;
     z-index: 10;
 
 
@@ -195,7 +195,7 @@ form {
     .head {
       justify-content: center;
       >img {
-        margin-top: 8px;
+        width: 200px;
       }
     }
   }

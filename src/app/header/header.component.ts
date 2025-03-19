@@ -56,6 +56,7 @@ export class HeaderComponent {
     this.showSidenav.emit(true);
     this.mobileService.mobileHeader = !this.mobileService.mobileHeader;
     this.mobileService.logoHeader = !this.mobileService.logoHeader;
+    this.mobileService.searchHeader = !this.mobileService.searchHeader;
   }
 
   redirectHome() {

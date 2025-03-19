@@ -179,15 +179,32 @@ export class AuthenticationService {
     })
   }
 
+  // async logout() {
+  //   if (!this.currentUser.displayName.startsWith('Guest')) {
+  //     await this.userService.setStatusInactive(this.currentUser);
+  //   }
+  //   setTimeout(async () => {
+  //     await signOut(this.firebaseAuth);
+  //     this.currentUser = null;
+  //     this.router.navigateByUrl('');
+  //   }, 500);
+  // }
+
   async logout() {
     if (!this.currentUser.displayName.startsWith('Guest')) {
       await this.userService.setStatusInactive(this.currentUser);
     }
-    setTimeout(async () => {
-      await signOut(this.firebaseAuth);
+    // setTimeout(async () => {
+    //   await signOut(this.firebaseAuth);
+    //   this.currentUser = null;
+    //   this.router.navigateByUrl('');
+    // }, 500);
+    signOut(this.firebaseAuth).then(() => {
       this.currentUser = null;
       this.router.navigateByUrl('');
-    }, 500);
+    }).catch(error => {
+      this.router.navigateByUrl('');
+    })
   }
 
   async updateUsernameInAuth(newName: string) {

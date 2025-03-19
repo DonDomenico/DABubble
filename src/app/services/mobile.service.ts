@@ -7,6 +7,7 @@ export class MobileServiceService {
   mobileHeader: boolean = true;
   logoHeader: boolean = false;
   isMobile: boolean = false;
+  searchHeader: boolean = false;
   constructor() { }
 
 
@@ -21,6 +22,7 @@ export class MobileServiceService {
     if(this.isMobile) {
       this.mobileHeader = !this.mobileHeader;
       this.logoHeader = !this.logoHeader;
+      this.searchHeader = !this.searchHeader;
     }
   }
 }
