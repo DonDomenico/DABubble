@@ -124,13 +124,13 @@ section {
 
 .messages-container {
   width: 100%;
-  // height: calc(var(--vh, 1vh) * 77);
-  height: 70vh;
+  // height: calc(var(--vh, 1vh) * 52);
+  height: 57svh;
   overflow-y: auto;
 
-  >div:nth-last-child(1) {
-    margin-bottom: 100px;
-  }
+  // >div:nth-last-child(1) {
+  //   margin-bottom: 100px;
+  // }
 }
 
 .message-wrapper {
@@ -245,17 +245,17 @@ section {
 .message-box-wrapper {
   // position: relative;
   // bottom: 176px;
-  position: fixed;
-  bottom: 0;
+  // position: fixed;
+  // bottom: 0;
   // width: calc(var(--vw, 1vw) * 67);
-  background: white;
-  padding-top: 4px;
+  // background: white;
+  // padding-top: 4px;
 
   .message-box-container {
     border-radius: 20px;
     border: 1px solid #adb0d9;
     background: white;
-    margin: 20px 40px;
+    margin: 8px 40px;
 
     >textarea {
       width: 100%;
@@ -347,9 +347,11 @@ section {
     display: flex;
     gap: 5px;
     align-items: flex-start;
+
     .edit-wrapper {
       display: flex;
       align-items: center;
+
       >p {
         color: #686868;
       }
@@ -377,7 +379,6 @@ section {
 }
 
 @media only screen and (max-width: 1130px) {
-
   .chat-header {
     .dev-team-container {
       >p {
@@ -390,14 +391,28 @@ section {
 }
 
 @media only screen and (max-width: 1000px) {
+  // .messages-container {
+  //   height: 62vh;
+  // }
+
   .single-message-container {
     .answers-link {
       font-size: 16px;
     }
   }
 
+  // .message-box-wrapper {
+  //   width: calc(var(--vw, 1vw) * 100) !important;
+  // }
   .message-box-wrapper {
-    width: calc(var(--vw, 1vw) * 100) !important;
+    .message-box-container {
+      margin: 4px 8px;
+
+      >textarea {
+        padding: 10px;
+        font-size: 16px;
+      }
+    }
   }
 
   .chat-header {

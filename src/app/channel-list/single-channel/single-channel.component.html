@@ -97,7 +97,7 @@
   </div>
   }
 
-  <div class="message-box-wrapper" [ngStyle]="{'width': channelService.isThreadHidden? '67%' : '40%'}">
+  <div class="message-box-wrapper">
     <div class="message-box-container" #messageBoxContainer>
       <textarea *ngIf="isEditing" name="edited-message" placeholder="Bearbeiten..." [(ngModel)]="editText"></textarea>
       <textarea *ngIf="!isEditing" name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}"

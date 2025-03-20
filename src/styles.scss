@@ -170,12 +170,16 @@ button {
 // html, body { height: 100%; }
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-html,
-body {
-  height: 100vh;
+html {
+  min-height: 100svh;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 body {
+  width: 100%;
   background-color: #eceefe;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -227,10 +231,10 @@ body {
 
 .material-symbols-outlined {
   font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
 }
 
 .error-container-message {
@@ -256,4 +260,12 @@ body {
 
 mat-drawer-content {
   overflow: hidden !important;
+}
+
+@media(max-width: 1000px) {
+  .error-container-message {
+    .error-message-empty {
+      margin-left: 12px;
+    }
+  }
 }

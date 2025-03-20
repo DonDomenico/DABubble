@@ -271,3 +271,9 @@ form {
 ::ng-deep .mat-divider {
     border-top-color: #797EF3 !important;
 }
+
+@media(max-width: 1000px) {
+    mat-card-subtitle {
+        display: none;
+    }
+}

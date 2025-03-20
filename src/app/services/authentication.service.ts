@@ -8,7 +8,9 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   verifyBeforeUpdateEmail,
-  deleteUser
+  deleteUser,
+  signInWithRedirect,
+  getRedirectResult
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { UserService } from './users.service';
@@ -167,6 +169,36 @@ export class AuthenticationService {
       console.log(error); //Testcode, später löschen
     })
   }
+
+  // async signInWithGoogle() {
+  //   await signInWithRedirect(this.firebaseAuth, this.google);
+  //   await getRedirectResult(this.firebaseAuth).then(async result => {
+  //     if (result) {
+  //       const emailFound = this.userService.users.filter(user => user.email == result.user.email);
+  //       if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length === 0) {
+  //         let photoURL = result.user.photoURL;
+  //         // if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
+  //         //   photoURL = photoURL + '?sz=' + 24;
+  //         // }
+  //         await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, photoURL);
+  //         this.addInitialConversations(result.user.uid);
+  //         this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
+  //       } else {
+  //         console.log('User already in database'); //Testcode, später löschen
+  //       }
+  //       setTimeout(() => {
+  //         let user = this.userService.users.find((user) => user.uid === result.user.uid);
+  //         this.userService.setStatusActive(user);
+  //         this.router.navigateByUrl('general-view');
+  //         // evtl loading spinner
+  //       }, 500);
+  //     }
+  //   }).catch(error => {
+  //     console.log(error);
+  //   })
+  // }
+
+
 
   guestLogIn() {
     signInAnonymously(this.firebaseAuth).then(result => {

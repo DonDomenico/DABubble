@@ -6,6 +6,7 @@
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
+  gap: 2svh;
   // height: 100vh;
 
   .head {
@@ -24,6 +25,7 @@ mat-card {
   align-items: center;
   gap: 32px;
   max-width: 700px;
+  width: 100%;
   // max-height: 650px;
 
   .back-arrow {
@@ -157,7 +159,7 @@ form {
   display: flex;
   justify-content: center;
   gap: 24px;
-  padding-top: 32px;
+  // padding-top: 32px;
 
   a {
     font-size: 18px;
@@ -176,19 +178,20 @@ form {
 }
 
 @media only screen and (max-width: 570px) {
-  .create-account {
-    position: absolute;
-    bottom: 24px;
-    z-index: 10;
-
-
-    .create-account-link {
-      // border: 1px solid #686868;
-      // border-radius: 30px;
-      padding: 4px;
-    }
+  .head {
+    flex-direction: column;
   }
 
+  .form-field {
+    margin-bottom: 16px;
+  }
+
+  .create-account-link {
+    // border: 1px solid #686868;
+    // border-radius: 30px;
+    padding: 4px;
+  }
+  
   .content-container {
     padding: 50px 50px 0 50px;
 
@@ -209,9 +212,9 @@ form {
     }
   }
 
-  .footer {
-    display: none;
-  }
+  // .footer {
+  //   display: none;
+  // }
 }
 
 @media only screen and (max-width: 516px) {
@@ -262,9 +265,9 @@ form {
         background-position-x: 12px;
       }
 
-      .privacy-policy {
-        display: none;
-      }
+      // .privacy-policy {
+      //   display: none;
+      // }
 
       input {
         padding: 10px 10px;
