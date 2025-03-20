@@ -98,6 +98,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    // window.addEventListener('resize', this.setDivHeight); // Passt die Höhe bei einer Größenänderung an
     this.routeSubscription = this.route.children[0].params.subscribe(async (params) => {
       this.channelService.channelMembers = [];
       this.channelService.memberInfos = [];
@@ -112,6 +113,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       // this.unsubMemberInfos = this.subMemberInfos();
       this.unsubChannelChat = this.subChannelChat(this.channelService.channelId);
       this.showEmojiPickerReaction.clear();
+      this.setDivHeight(); // Setzt die Höhe beim Laden der Seite
     });
   }
 
@@ -121,6 +123,15 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.unsubChannelChat();
     if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
+    }
+  }
+
+  setDivHeight() {
+    const div = document.getElementById('messages-container');
+    if (div && window.innerWidth < 1000) {
+      div.style.height = `${window.innerHeight - 66 - 145 - 60}px`;
+    } else if(div) {
+      div.style.height = `${window.innerHeight - 120 - 96 - 170}px`;
     }
   }
 

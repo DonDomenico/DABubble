@@ -109,15 +109,15 @@
       @if(!isCurrentUser && user) {
       <p style="padding-top: 8px;">
         Diese Unterhaltung findet nur zwischen
-
         <span (click)="showProfileDialog(userId)">&#64; {{ user.username }}</span>
         und dir statt.
       </p>
       } @if (isCurrentUser) {
-      <p>
-        Dieser Raum ist nur für dich da. Mache dir Notizen oder liste deine To-dos. Du kannst hier auch gerne Dinge mit
-        dir selbst besprechen.
-      </p>
+        @if(isMobile === true) {
+          <p>Hier kannst du Dinge mit dir selbst besprechen, To-Dos auflisten oder Notizen machen.</p>
+        } @else {
+          <p>Dieser Raum ist nur für dich da. Mache dir Notizen oder liste deine To-dos. Du kannst hier auch gerne Dinge mit dir selbst besprechen.</p>
+        }
       }
     </div>
 

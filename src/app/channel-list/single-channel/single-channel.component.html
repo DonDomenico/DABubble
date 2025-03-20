@@ -21,7 +21,7 @@
   </div>
 
   @if (dataLoaded) {
-  <div #messagesContainer class="messages-container">
+  <div #messagesContainer class="messages-container" id="messages-container">
     @for (message of channelService.messages; track $index ) {
     <div class="divider">
       <hr class="line" />

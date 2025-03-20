@@ -44,7 +44,7 @@ section {
 }
 
 .add-member-container {
-  width: 25%;
+  width: 35%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -52,7 +52,7 @@ section {
   margin-right: 16px;
 
   .avatar-container {
-    width: 70%;
+    width: 100%;
     border-radius: 30px;
     display: flex;
     justify-content: flex-end;
@@ -125,7 +125,7 @@ section {
 .messages-container {
   width: 100%;
   // height: calc(var(--vh, 1vh) * 52);
-  height: 57svh;
+  // height: 57svh;
   overflow-y: auto;
 
   // >div:nth-last-child(1) {

@@ -10,7 +10,7 @@ import { IntroComponent } from '../intro/intro.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [MatCardModule, RouterLink, ReactiveFormsModule, MatDividerModule, IntroComponent, CommonModule],
+  imports: [MatCardModule, RouterLink, ReactiveFormsModule, MatDividerModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

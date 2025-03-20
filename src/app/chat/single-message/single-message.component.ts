@@ -106,7 +106,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       await this.getConversationMessages();
       this.showEmojiPickerReaction.clear();
       this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
-      // this.unsubConversations = this.conversationService.subConversations();
+      this.setDivHeight(); // Setzt die Höhe beim Laden der Seite
     });
   }
 
@@ -115,6 +115,16 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     // this.unsubConversations();
     if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
+    }
+  }
+
+  setDivHeight() {
+    const div = document.getElementById('messages-container');
+    if (div && window.innerWidth < 1000) {
+      div.style.height = `${window.innerHeight - 66 - 172 - 66}px`;
+      this.isMobile = true;
+    } else if(div) {
+      div.style.height = `${window.innerHeight - 120 - 80 - 210}px`;
     }
   }
 
