@@ -177,7 +177,7 @@ section {
 }
 
 .input-wrapper-2 {
-  width: 100%;
+  // width: 100%;
   position: fixed;
   bottom: 0;
   background: white;
@@ -190,6 +190,8 @@ section {
 // }
 
 .message-owner-container {
+  max-width: 98%;
+  
   >p {
     padding-top: 8px;
     text-align: center;

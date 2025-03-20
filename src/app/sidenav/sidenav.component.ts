@@ -1,4 +1,4 @@
-import { Component, inject, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, Output, EventEmitter } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { UsersComponent } from '../users/users.component';
 import { MatIcon } from '@angular/material/icon';
@@ -6,11 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateChannelDialogComponent } from '../channel-list/create-channel-dialog/create-channel-dialog.component';
 import { ChannelService } from '../services/channel.service';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLinkActive, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterLinkActive, RouterModule } from '@angular/router';
 import { SearchService } from '../services/search.service';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { ConversationsService } from '../services/conversations.service';
 import { MobileServiceService } from '../services/mobile.service';
 import { onSnapshot, query, where } from '@angular/fire/firestore';
 import { AuthenticationService } from '../services/authentication.service';
@@ -39,14 +38,16 @@ export class SidenavComponent {
   routeSubscription: any;
   mobileHeader: boolean = false;
   logoHeader: boolean = false;
-  constructor(private router: Router, public channelService: ChannelService, public searchService: SearchService, private route: ActivatedRoute) {
+  dataLoaded: boolean = false;
+
+  constructor(public channelService: ChannelService, public searchService: SearchService, private route: ActivatedRoute) {
   }
   
-  ngOnInit() {
-    setTimeout(() => {
-      // this.channelService.getChannels();
-      this.unsubscribeChannels = this.subChannelList();
-    }, 800);
+  async ngOnInit() {
+    await this.channelService.getChannels();
+    this.dataLoaded = true;
+    this.unsubscribeChannels = this.subChannelList();
+    
   }
 
   ngOnChanges(): void {

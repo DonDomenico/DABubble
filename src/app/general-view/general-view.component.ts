@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
@@ -41,12 +41,13 @@ export class GeneralViewComponent implements OnInit {
 
   // @Input() mobileHeaderEvent = new EventEmitter<boolean>();
 
-  constructor(public router: Router, public channelService: ChannelService) {
+  constructor(public router: Router, public channelService: ChannelService, private el: ElementRef) {
 
   }
 
   ngOnInit() {
     this.checkMobile();
+    this.adjustScreenHeight();
   }
 
   checkMobile() {
@@ -55,6 +56,12 @@ export class GeneralViewComponent implements OnInit {
     }
   }
 
+  adjustScreenHeight() {
+    const element = this.el.nativeElement.querySelector('.general-view');
+    if (element) {
+      element.style.height = `${window.innerHeight}px`; // Setzt die Höhe des Elements auf die aktuelle Fensterhöhe
+    }
+  }
 
   toggleSideNav() {
     this.hideSideNav = !this.hideSideNav;

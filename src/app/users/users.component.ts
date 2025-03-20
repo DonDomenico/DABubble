@@ -25,16 +25,17 @@ export class UsersComponent {
   isSingleMessageHidden = false;
   filteredUsers: User[] = [];
   unsubConversations: any;
+  dataLoaded: boolean = false;
 
   constructor(
     public userService: UserService,
     public conversationService: ConversationsService
   ) { }
 
-  ngOnInit() {
-    setTimeout(() => {
-      this.unsubConversations = this.subConversations();
-    }, 500);
+  async ngOnInit() {
+    await this.getUsers();
+    this.unsubConversations = this.subConversations();
+
   }
 
   ngOnDestroy() {
@@ -49,7 +50,20 @@ export class UsersComponent {
       })
       console.log('Conversations: ', this.conversationService.conversations);
       this.filterUsers();
+      // this.dataLoaded = true;
     })
+  }
+
+  async getUsers() {
+    this.userService.users = [];
+    const q = query(this.userService.getUserRef());
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      this.userService.users.push(this.userService.toJson(doc.data(), doc.id));
+    });
+    this.filterUsers();
+    this.dataLoaded = true;
   }
 
   filterUsers() {

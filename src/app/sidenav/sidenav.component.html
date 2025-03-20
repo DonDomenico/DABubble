@@ -28,14 +28,16 @@
 
   <div class="dropdown-content">
     <div class="new-channel-container">
-      @for (channel of channelService.channels; track channel.docId) {
-      <p
-        [routerLink]="['single-channel/' + channel.docId]"
-        [state]="{ id: channel.docId }"
-        routerLinkActive="link-active"
-      >
-        <mat-icon>tag</mat-icon>{{ channel.name }}
-      </p>
+      @if (dataLoaded) {
+        @for (channel of channelService.channels; track channel.docId) {
+        <p
+          [routerLink]="['single-channel/' + channel.docId]"
+          [state]="{ id: channel.docId }"
+          routerLinkActive="link-active"
+        >
+          <mat-icon>tag</mat-icon>{{ channel.name }}
+        </p>
+        }
       }
     </div>
 

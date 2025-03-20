@@ -1,7 +1,7 @@
 .general-view {
   // display: grid;
   // grid-template-rows: 0.5fr 4fr;
-  height: 100lvh;
+  // height: 100svh;
 }
 
 
@@ -72,10 +72,10 @@ section {
 .mobile-btn-wrapper {
   display: none;
   position: fixed;
-  right: 15px;
-  bottom: 15px;
-  width: 85px;
-  height: 85px;
+  right: -10px;
+  bottom: 20px;
+  width: 80px;
+  height: 80px;
 
   >img {
     width: 60px;
@@ -88,14 +88,17 @@ section {
   .main-chat-container {
     margin: 0 10px;
   }
+
   .thread-container {
     margin-right: 10px;
   }
 
 }
-  @media only screen and (max-width: 1000px) {
+
+@media only screen and (max-width: 1000px) {
   section {
     margin-left: 0px;
+
     .main-chat-container {
       margin-left: 0px;
       margin-right: 0px;
@@ -120,7 +123,7 @@ section {
   }
 
   mat-drawer {
-    width: 100vw; 
+    width: 100vw;
     margin-left: 0px;
   }
 
@@ -131,8 +134,8 @@ section {
     margin-right: 0px;
   }
 
-.hideSideNav .side-nav-container {
-  display: none;
-}
+  .hideSideNav .side-nav-container {
+    display: none;
+  }
 
 }

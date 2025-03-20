@@ -120,36 +120,31 @@ header {
 
   .search-container {
     position: absolute;
-    top: 80px;
+    top: 66px;
     left: 0px;
-    width: 100%;
+    width: 98%;
     // height: 80px;
     z-index: 10;
     border-radius: 0px;
-    >input {
-   
-        width: 95%;
-        height: 48px;
-        padding: 8px 24px;
-        margin: 8px;
-        font-size: 17px;
-        border: 1px solid rgb(173, 176, 217);
-        border-radius: 30px;
-        // outline: none;
-        // background-image: url(./../../assets/img/search-icon.svg);
-        // background-repeat: no-repeat;
-        // background-position-x: right;
-        // background-position-y: center;
-        // background-color: transparent;
 
+    >input {
+      width: 95%;
+      height: 48px;
+      padding: 8px 24px;
+      margin: 8px;
+      font-size: 17px;
+      border: 1px solid rgb(173, 176, 217);
+      border-radius: 30px;
     }
   }
+
   .header-logo {
     >img {
       width: 161px;
       padding-left: 16px;
     }
   }
+
   header {
     height: 66px;
   }
@@ -173,8 +168,4 @@ header {
       }
     }
   }
-
-  // .search-container {
-  //   display: none;
-  // }
 }
