@@ -10,10 +10,10 @@ export class MobileServiceService {
   logoHeader: boolean = false;
   isMobile: boolean = false;
   searchHeader: boolean = false;
-  hideSideNav:boolean = false;
+  hideSideNav: boolean = false;
   fullView: boolean = true;
-  constructor() { }
 
+  constructor() { }
 
   checkMobile() {
     if (window.innerWidth < 1000) {
@@ -22,7 +22,7 @@ export class MobileServiceService {
   }
   
   toggleMobileHeader() {
-    this.checkMobile();
+    // this.checkMobile();
     if(this.isMobile) {
       this.mobileHeader = !this.mobileHeader;
       this.logoHeader = !this.logoHeader;
@@ -30,11 +30,15 @@ export class MobileServiceService {
     }
   }
 
-  toggleSearchResult() {
-    if(this.isMobile) {
+  toggleSidenavMobile() {
+    if (this.isMobile) {
       this.fullView = false;
-      this.hideSideNav = true;   
+      this.hideSideNav = true;
+      this.toggleMobileHeader();
     }
-    this.toggleMobileHeader();
+  }
+
+  toggleSearchResult() {
+    
   }
 }

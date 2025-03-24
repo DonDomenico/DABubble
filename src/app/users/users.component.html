@@ -1,24 +1,24 @@
-@if (dataLoaded) {
-  @if (authService.currentUser) {
+@if (authService.currentUser) {
   <div class="user-container" [routerLink]="['single-message/' + authService.currentUser.uid]"
-    [state]="{ uid: authService.currentUser.uid }" routerLinkActive="link-active">
+    [state]="{ uid: authService.currentUser.uid }" routerLinkActive="link-active" (click)="mobileService.toggleSidenavMobile()">
     <img src="{{ authService.currentUser.photoURL }}">
     <span class="active-status"
       [ngStyle]="authService.currentUser ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
     <p>{{ authService.currentUser.displayName }} (Du)</p>
   </div>
   }
-  
+
   @for (user of filteredUsers; track user.uid) {
   <div class="user-container" [routerLink]="['single-message/' + user.uid]" [state]="{ uid: user.uid }"
-    routerLinkActive="link-active">
+    routerLinkActive="link-active" (click)="mobileService.toggleSidenavMobile()">
     @for (conversation of conversationService.conversations; track conversation.docId) {
       @for (message of conversationService.newMessages; track $index) {
-        @if (conversation.members.includes(user.uid) && message.conversationId === conversation.docId && message.messages.length > 0) {
-        <span>{{ message.messages.length }}</span>
+        @if (conversation.members.includes(user.uid) && message.conversationId === conversation.docId &&
+          message.messages.length > 0) {
+          <span>{{ message.messages.length }}</span>
+          }
         }
       }
-    }
     <img src="{{ user.photoURL }}" />
     <span class="active-status"
       [ngStyle]="user.active ? {backgroundColor: '#92C83E'} : {backgroundColor: '#686868'}"></span>
@@ -28,5 +28,4 @@
     <em>Gelöschter Account</em>
     }
   </div>
-}
 }

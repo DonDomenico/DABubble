@@ -1,6 +1,6 @@
 section {
   width: 100%;
-  height: 100vh;
+  // height: 100vh;
   background-color: white;
   border-radius: 30px;
   overflow: hidden;
@@ -177,10 +177,8 @@ section {
 }
 
 .input-wrapper-2 {
-  // width: 100%;
-  position: fixed;
-  bottom: 0;
-  background: white;
+  position: relative;
+  bottom: 0px;
 }
 
 // .input-wrapper-2 {
@@ -425,10 +423,10 @@ section {
       display: block;
     }
   }
-  // .input-wrapper-2 {
-  //   width: 100%;
 
-  // }
+  .input-wrapper-2 {
+    position: absolute;
+  }
 
   .message-owner-container {
     margin: 0px 10px;

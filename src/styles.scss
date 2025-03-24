@@ -171,7 +171,7 @@ button {
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html {
-  min-height: 100svh;
+  // min-height: 100svh;
   overflow-y: auto;
   display: flex;
   align-items: center;
@@ -179,6 +179,7 @@ html {
 }
 
 body {
+  // height: 100lvh;
   width: 100%;
   background-color: #eceefe;
   margin: 0;

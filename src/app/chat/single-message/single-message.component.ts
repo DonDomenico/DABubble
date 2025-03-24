@@ -106,7 +106,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
       await this.getConversationMessages();
       this.showEmojiPickerReaction.clear();
       this.unsubConversationMessages = this.subConversationMessages(this.conversationId);
-      this.setDivHeight(); // Setzt die Höhe beim Laden der Seite
+      this.setDivHeight();
     });
   }
 
@@ -119,12 +119,20 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   }
 
   setDivHeight() {
-    const div = document.getElementById('messages-container');
-    if (div && window.innerWidth < 1000) {
-      div.style.height = `${window.innerHeight - 66 - 172 - 66}px`;
+    const messagesContainer = document.getElementById('messages-container');
+    const section = document.getElementById('section');
+    const inputWrapper = document.getElementById('input-wrapper-2');
+
+    if (messagesContainer && inputWrapper && section && window.innerWidth < 1000) {
+      // messagesContainer.style.height = `${window.innerHeight - 66}px`;
+      let inputWrapperHeigth = inputWrapper.offsetHeight;
+      section.style.height = `${window.innerHeight - 66}px`;
+      messagesContainer.style.height = `${window.innerHeight - 66 - 66 - inputWrapperHeigth}px`;
       this.isMobile = true;
-    } else if(div) {
-      div.style.height = `${window.innerHeight - 120 - 80 - 210}px`;
+    } else if(section && messagesContainer && inputWrapper) {
+      let inputWrapperHeigth = inputWrapper.offsetHeight;
+      section.style.height = `${window.innerHeight - 120}px`;
+      messagesContainer.style.height = `${window.innerHeight - 120 - inputWrapperHeigth - 80}px`;
     }
   }
 

@@ -35,7 +35,7 @@ export class GeneralViewComponent implements OnInit {
   searchService = inject(SearchService);
   mobileService = inject(MobileServiceService);
   isMobile: boolean = false;
-  hideSideNav: boolean = false;
+  // hideSideNav: boolean = false;
   fullView = true;
   isMenuOpen: boolean = false;
 
@@ -46,48 +46,50 @@ export class GeneralViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkMobile();
+    // this.checkMobile();
     this.adjustScreenHeight();
   }
 
-  checkMobile() {
-    if (window.innerWidth < 1000) {
-      this.isMobile = true;
-    }
-  }
+  // checkMobile() {
+  //   if (window.innerWidth < 1000) {
+  //     this.isMobile = true;
+  //   }
+  // }
 
   adjustScreenHeight() {
-    const element = this.el.nativeElement.querySelector('.general-view');
-    if (element) {
-      element.style.height = `${window.innerHeight}px`; // Setzt die Höhe des Elements auf die aktuelle Fensterhöhe
+    const element = this.el.nativeElement.querySelector('.mat-drawer-container');
+    if (element && window.innerWidth < 1000) {
+      element.style.height = `${window.innerHeight - 66}px`; // Setzt die Höhe des Elements auf die aktuelle Fensterhöhe
+    } else if(element) {
+      element.style.height = `${window.innerHeight - 120}px`;
     }
   }
 
   toggleSideNav() {
-    this.hideSideNav = !this.hideSideNav;
+    this.mobileService.hideSideNav = !this.mobileService.hideSideNav;
   }
 
-  toggleSidenavMobile() {
-    if (this.isMobile) {
-      this.mobileService.fullView = false;
-      this.hideSideNav = true;
-      this.mobileService.toggleMobileHeader();
-    }
-  }
+  // toggleSidenavMobile() {
+  //   if (this.isMobile) {
+  //     this.mobileService.fullView = false;
+  //     this.hideSideNav = true;
+  //     this.mobileService.toggleMobileHeader();
+  //   }
+  // }
 
   navigateToChannelList() {
     this.router.navigate(['/general-view/channel-list']);
     if (this.isMobile) {
-      this.mobileService.fullView = false;
-      this.hideSideNav = true;
+      this.fullView = false;
+      this.mobileService.hideSideNav = true;
       this.mobileService.toggleMobileHeader();
     }
   }
 
   showSidenavMobile() {
     if(this.isMobile) {
-      this.mobileService.fullView = false;
-      this.hideSideNav = false;
+      this.fullView = false;
+      this.mobileService.hideSideNav = false;
     }
   }
 }

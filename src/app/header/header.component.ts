@@ -57,6 +57,8 @@ export class HeaderComponent {
     this.mobileService.mobileHeader = !this.mobileService.mobileHeader;
     this.mobileService.logoHeader = !this.mobileService.logoHeader;
     this.mobileService.searchHeader = !this.mobileService.searchHeader;
+    this.mobileService.hideSideNav = !this.mobileService.hideSideNav;
+    this.router.navigateByUrl('/general-view');
     this.searchService.searchText = '';
     // this.mobileService.hideSideNav = false;
   }

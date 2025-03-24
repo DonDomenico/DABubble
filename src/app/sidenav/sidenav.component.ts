@@ -39,15 +39,15 @@ export class SidenavComponent {
   mobileHeader: boolean = false;
   logoHeader: boolean = false;
   dataLoaded: boolean = false;
-
+  
   constructor(public channelService: ChannelService, public searchService: SearchService, private route: ActivatedRoute) {
   }
   
   async ngOnInit() {
+    this.mobileService.checkMobile();
     await this.channelService.getChannels();
     this.dataLoaded = true;
     this.unsubscribeChannels = this.subChannelList();
-    
   }
 
   ngOnChanges(): void {
