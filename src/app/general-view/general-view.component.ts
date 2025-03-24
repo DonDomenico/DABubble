@@ -69,7 +69,7 @@ export class GeneralViewComponent implements OnInit {
 
   toggleSidenavMobile() {
     if (this.isMobile) {
-      this.fullView = false;
+      this.mobileService.fullView = false;
       this.hideSideNav = true;
       this.mobileService.toggleMobileHeader();
     }
@@ -78,7 +78,7 @@ export class GeneralViewComponent implements OnInit {
   navigateToChannelList() {
     this.router.navigate(['/general-view/channel-list']);
     if (this.isMobile) {
-      this.fullView = false;
+      this.mobileService.fullView = false;
       this.hideSideNav = true;
       this.mobileService.toggleMobileHeader();
     }
@@ -86,7 +86,7 @@ export class GeneralViewComponent implements OnInit {
 
   showSidenavMobile() {
     if(this.isMobile) {
-      this.fullView = false;
+      this.mobileService.fullView = false;
       this.hideSideNav = false;
     }
   }

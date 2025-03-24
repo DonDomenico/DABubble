@@ -23,6 +23,7 @@
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       @for (result of searchService.searchResults; track result) {
       <mat-option
+      (click)="mobileService.toggleSearchResult()"
         [routerLink]="['/general-view/single-channel/' + result.docId]"
         routerLinkActive="router-link-active"
         [value]="result.name"

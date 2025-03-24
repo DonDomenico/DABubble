@@ -1,4 +1,5 @@
-<div class="general-view" [ngClass]="{ 'full-width': fullView }">
+<!-- <div class="general-view" [ngClass]="{ 'full-width': fullView }"> -->
+  <div class="general-view" [ngClass]="{ 'full-width': mobileService.fullView }">
   <app-header (showSidenav)="showSidenavMobile()"></app-header>
 
   <mat-drawer-container class="mat-drawer-container" autosize [ngClass]="{ hideSideNav: hideSideNav }">
@@ -10,7 +11,7 @@
     </div>
     <mat-drawer #drawerSidenav class="side-nav-container" [opened]="!hideSideNav" mode="side"
       >
-      <app-sidenav (click)="toggleSidenavMobile()"></app-sidenav>
+      <app-sidenav (click)="toggleSidenavMobile()" [ngStyle]="mobileService.hideSideNav? { display: 'none' } : { display: 'block' }"></app-sidenav>
       <div class="mobile-btn-wrapper">
         <img src="./assets/img/mobile-btn.svg" (click)="navigateToChannelList()"/>
       </div>
@@ -18,7 +19,7 @@
     <section>
       <div class="main-chat-container" [ngStyle]="channelService.hideSingleChannel ? { display: 'none' } : { display: 'block' }">
         @if (router.url.startsWith('/general-view/single-message/')) {
-        <app-single-message (showSidenav)="showSidenavMobile()"></app-single-message>
+        <app-single-message (click)="showSidenavMobile()"></app-single-message>
         } @else if (router.url.startsWith('/general-view/single-channel/')) {
         <app-single-channel (showSidenav)="showSidenavMobile()"></app-single-channel>
         } @else {
