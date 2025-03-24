@@ -79,7 +79,7 @@ export class GeneralViewComponent implements OnInit {
 
   navigateToChannelList() {
     this.router.navigate(['/general-view/channel-list']);
-    if (this.isMobile) {
+    if (this.mobileService.isMobile) {
       this.fullView = false;
       this.mobileService.hideSideNav = true;
       this.mobileService.toggleMobileHeader();
