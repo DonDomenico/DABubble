@@ -36,7 +36,7 @@ export class UsersComponent {
     this.mobileService.checkMobile();
     setTimeout(() => {
       this.unsubConversations = this.subConversations();
-    }, 500);
+    }, 1000);
   }
 
   ngOnDestroy() {

@@ -37,15 +37,15 @@ export class ConversationsService {
     // }, 1500);
   }
 
-  testFn() {
-    for (const message of this.newMessages) {
-      for (const conversation of this.conversations) {
-        if (conversation.members.includes("hBEeS6IqIUb8QIlkviFuIqcowNl1") && message.conversationId === conversation.docId && message.messages.length > 0) {
-          console.log(`New Messages in conversation ${conversation.docId}: `, message.messages)
-        }
-      }
-    }
-  }
+  // testFn() {
+  //   for (const message of this.newMessages) {
+  //     for (const conversation of this.conversations) {
+  //       if (conversation.members.includes("hBEeS6IqIUb8QIlkviFuIqcowNl1") && message.conversationId === conversation.docId && message.messages.length > 0) {
+  //         console.log(`New Messages in conversation ${conversation.docId}: `, message.messages)
+  //       }
+  //     }
+  //   }
+  // }
 
   subConversations() {
     return onSnapshot(query(this.getConversationsRef(), where('members', 'array-contains', this.auth.currentUser?.uid)), conversations => {
@@ -76,22 +76,22 @@ export class ConversationsService {
     });
   }
 
-  subNewMessages() {
-    this.conversations.forEach(conversation => {
-      this.newMessages = [];
-      return onSnapshot(query(this.getConversationMessagesRef(conversation.docId), where('read', '==', false), where('initiatedBy', '==', this.auth.currentUser?.displayName)), newMessagesList => {
-        const conversationId = conversation.docId;
-        newMessagesList.docs.forEach((message, index) => {
-          if (this.newMessages.length > 0 && this.newMessages.find(message => message.conversationId === conversationId)) {
-            const messageIndex = this.newMessages.findIndex(message => message.conversationId === conversationId);
-            this.newMessages[messageIndex].messages.push(this.toJsonDirectMessage(message.data(), message.id));
-          } else {
-            this.newMessages.push({ 'conversationId': conversationId, 'messages': [this.toJsonDirectMessage(message.data(), message.id)] });
-          }
-        })
-      })
-    })
-  }
+  // subNewMessages() {
+  //   this.conversations.forEach(conversation => {
+  //     this.newMessages = [];
+  //     return onSnapshot(query(this.getConversationMessagesRef(conversation.docId), where('read', '==', false), where('initiatedBy', '==', this.auth.currentUser?.displayName)), newMessagesList => {
+  //       const conversationId = conversation.docId;
+  //       newMessagesList.docs.forEach((message, index) => {
+  //         if (this.newMessages.length > 0 && this.newMessages.find(message => message.conversationId === conversationId)) {
+  //           const messageIndex = this.newMessages.findIndex(message => message.conversationId === conversationId);
+  //           this.newMessages[messageIndex].messages.push(this.toJsonDirectMessage(message.data(), message.id));
+  //         } else {
+  //           this.newMessages.push({ 'conversationId': conversationId, 'messages': [this.toJsonDirectMessage(message.data(), message.id)] });
+  //         }
+  //       })
+  //     })
+  //   })
+  // }
 
   async getConversationMessages(conversationId: string) {
     this.conversationMessages = [];

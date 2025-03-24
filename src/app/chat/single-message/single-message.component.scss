@@ -177,10 +177,8 @@ section {
 }
 
 .input-wrapper-2 {
-  width: 62%;
-  position: fixed;
-  bottom: 0;
-  background: white;
+  position: relative;
+  bottom: 0px;
 }
 
 // .input-wrapper-2 {
@@ -427,7 +425,7 @@ section {
   }
 
   .input-wrapper-2 {
-    width: 100%;
+    position: absolute;
   }
 
   .message-owner-container {

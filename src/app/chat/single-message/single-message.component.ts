@@ -121,12 +121,18 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   setDivHeight() {
     const messagesContainer = document.getElementById('messages-container');
     const section = document.getElementById('section');
-    if (messagesContainer && section && window.innerWidth < 1000) {
+    const inputWrapper = document.getElementById('input-wrapper-2');
+
+    if (messagesContainer && inputWrapper && section && window.innerWidth < 1000) {
       // messagesContainer.style.height = `${window.innerHeight - 66}px`;
-      section.style.height = `${window.innerHeight - 66}px`
+      let inputWrapperHeigth = inputWrapper.offsetHeight;
+      section.style.height = `${window.innerHeight - 66}px`;
+      messagesContainer.style.height = `${window.innerHeight - 66 - 66 - inputWrapperHeigth}px`;
       this.isMobile = true;
-    } else if(section) {
+    } else if(section && messagesContainer && inputWrapper) {
+      let inputWrapperHeigth = inputWrapper.offsetHeight;
       section.style.height = `${window.innerHeight - 120}px`;
+      messagesContainer.style.height = `${window.innerHeight - 120 - inputWrapperHeigth - 80}px`;
     }
   }
 

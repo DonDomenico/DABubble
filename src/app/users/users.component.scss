@@ -1,19 +1,15 @@
 .user-container {
-  width: 90%;
+  // width: 90%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 4px 20px 4px 40px;
-  margin: 16px 0;
-  cursor: pointer;
+  padding: 4px 20px 4px 20px;
+  margin: 16px 16px 0px 16px;
   border-radius: 30px;
 
   &:hover {
     background-color: #eceefe;
-  }
-
-  &:active {
-    color: #535af1;
+    cursor: pointer;
   }
 
   >img {
@@ -36,8 +32,8 @@
   background-color: #ECEEFE;
 }
 
-@media only screen and (max-width: 767px) {
-  .user-container {
-    width: 100%;
-    }
-}
+// @media only screen and (max-width: 767px) {
+//   .user-container {
+//     width: 100%;
+//     }
+// }
