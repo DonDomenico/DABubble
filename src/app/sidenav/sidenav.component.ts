@@ -47,7 +47,6 @@ export class SidenavComponent {
     await this.channelService.getChannels();
     this.dataLoaded = true;
     this.unsubscribeChannels = this.subChannelList();
-    
   }
 
   ngOnChanges(): void {

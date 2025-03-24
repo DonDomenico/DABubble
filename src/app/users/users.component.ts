@@ -33,9 +33,9 @@ export class UsersComponent {
   ) { }
 
   async ngOnInit() {
-    await this.getUsers();
-    this.unsubConversations = this.subConversations();
-
+    setTimeout(() => {
+      this.unsubConversations = this.subConversations();
+    }, 500);
   }
 
   ngOnDestroy() {
@@ -50,23 +50,22 @@ export class UsersComponent {
       })
       console.log('Conversations: ', this.conversationService.conversations);
       this.filterUsers();
-      // this.dataLoaded = true;
     })
   }
 
-  async getUsers() {
-    this.userService.users = [];
-    const q = query(this.userService.getUserRef());
+  // async getUsers() {
+  //   this.userService.users = [];
+  //   const q = query(this.userService.getUserRef());
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      this.userService.users.push(this.userService.toJson(doc.data(), doc.id));
-    });
-    this.filterUsers();
-    this.dataLoaded = true;
-  }
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.forEach((doc) => {
+  //     this.userService.users.push(this.userService.toJson(doc.data(), doc.id));
+  //   });
+  //   await this.filterUsers();
+  //   this.dataLoaded = true;
+  // }
 
-  filterUsers() {
+  async filterUsers() {
     this.filteredUsers = [];
     for (let index = 0; index < this.conversationService.conversations.length; index++) {
       const conversation = this.conversationService.conversations[index];

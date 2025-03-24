@@ -127,11 +127,23 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   setDivHeight() {
-    const div = document.getElementById('messages-container');
-    if (div && window.innerWidth < 1000) {
-      div.style.height = `${window.innerHeight - 66 - 145 - 60}px`;
-    } else if(div) {
-      div.style.height = `${window.innerHeight - 120 - 96 - 170}px`;
+    // const div = document.getElementById('messages-container');
+    // if (div && window.innerWidth < 1000) {
+    //   div.style.height = `${window.innerHeight - 66 - 60}px`;
+    // } else if(div) {
+    //   div.style.height = `${window.innerHeight - 120 - 96 - 170}px`;
+    // }
+
+    const messagesContainer = document.getElementById('messages-container');
+    const section = document.getElementById('section');
+    if (messagesContainer && section && window.innerWidth < 1000) {
+      // messagesContainer.style.height = `${window.innerHeight - 66}px`;
+      section.style.height = `${window.innerHeight - 66}px`;
+      messagesContainer.style.height = `${window.innerHeight - 66 - 60 - 145}px`;
+      this.isMobile = true;
+    } else if(section && messagesContainer) {
+      section.style.height = `${window.innerHeight - 120}px`;
+      messagesContainer.style.height = `${window.innerHeight - 120 - 96 - 170}px`;
     }
   }
 

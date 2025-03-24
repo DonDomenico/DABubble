@@ -28,6 +28,10 @@ export class LoginComponent {
     }]
   })
 
+  // ngOnInit() {
+  //   this.authService.handleRedirectLogin();
+  // }
+
   passwordMatchesEmail(): ValidatorFn {
     return() : ValidationErrors | null => {
       const passwordValid = this.authService.passwordError == '';

@@ -57,9 +57,11 @@ export class GeneralViewComponent implements OnInit {
   }
 
   adjustScreenHeight() {
-    const element = this.el.nativeElement.querySelector('.general-view');
-    if (element) {
-      element.style.height = `${window.innerHeight}px`; // Setzt die Höhe des Elements auf die aktuelle Fensterhöhe
+    const element = this.el.nativeElement.querySelector('.mat-drawer-container');
+    if (element && window.innerWidth < 1000) {
+      element.style.height = `${window.innerHeight - 66}px`; // Setzt die Höhe des Elements auf die aktuelle Fensterhöhe
+    } else if(element) {
+      element.style.height = `${window.innerHeight - 120}px`;
     }
   }
 

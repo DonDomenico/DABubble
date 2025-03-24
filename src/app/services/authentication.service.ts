@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import {
   Auth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile,
-  updatePassword,
   GoogleAuthProvider,
   signInWithPopup,
   signInAnonymously,
@@ -10,7 +9,7 @@ import {
   verifyBeforeUpdateEmail,
   deleteUser,
   signInWithRedirect,
-  getRedirectResult
+  getRedirectResult,
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { UserService } from './users.service';
@@ -39,6 +38,7 @@ export class AuthenticationService {
     onAuthStateChanged(this.firebaseAuth, user => {
       if (user) {
         this.currentUser = user;
+        console.log(user);
       }
     })
   }
@@ -59,7 +59,7 @@ export class AuthenticationService {
 
   addInitialConversations(userId: string) {
     this.conversationService.addNewConversation(userId, userId);
-    this.conversationService.addNewConversation(userId, 'hBEeS6IqIUb8QIlkviFuIqcowNl1');
+    this.conversationService.addNewConversation(userId, 'ir5aoTpsgGSx1zgBbHPF36l8C062');
     this.conversationService.addNewConversation(userId, 'LNdN79V9tUcvOJ5shJ5cu7hcVoH2');
   }
 
@@ -171,8 +171,18 @@ export class AuthenticationService {
   }
 
   // async signInWithGoogle() {
-  //   await signInWithRedirect(this.firebaseAuth, this.google);
-  //   await getRedirectResult(this.firebaseAuth).then(async result => {
+  //   console.log("Starting Google sign-in redirect...");
+  //   try {
+  //     this.google.setCustomParameters({ prompt: 'select_account' }); // Erzwingt die Kontowahl
+  //     signInWithRedirect(this.firebaseAuth, this.google);
+  //   } catch (error) {
+  //     console.error("Error during sign-in:", error);
+  //   }
+  // }
+
+  // handleRedirectLogin() {
+  //   try {
+  //     getRedirectResult(this.firebaseAuth).then(result => {
   //     if (result) {
   //       const emailFound = this.userService.users.filter(user => user.email == result.user.email);
   //       if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length === 0) {
@@ -180,7 +190,7 @@ export class AuthenticationService {
   //         // if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
   //         //   photoURL = photoURL + '?sz=' + 24;
   //         // }
-  //         await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, photoURL);
+  //         this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, photoURL);
   //         this.addInitialConversations(result.user.uid);
   //         this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
   //       } else {
@@ -192,10 +202,13 @@ export class AuthenticationService {
   //         this.router.navigateByUrl('general-view');
   //         // evtl loading spinner
   //       }, 500);
+  //     } else {
+  //       console.log('Redirect failed');
   //     }
-  //   }).catch(error => {
-  //     console.log(error);
   //   })
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
   // }
 
 

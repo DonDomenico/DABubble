@@ -1,4 +1,4 @@
-<section [ngClass]="{ 'mobile-container': isMobile }">
+<section [ngClass]="{ 'mobile-container': isMobile }" id="section">
   <div class="chat-header">
     <div class="header-content" (click)="showProfileDialog(userId)">
       @if(user && user.username !== authService.currentUser.displayName) {
@@ -104,7 +104,7 @@
   </div>
   }
 
-  <div [ngClass]="isCurrentUser ? 'input-wrapper' : 'input-wrapper-2'">
+  <div class="input-wrapper-2">
     <div class="message-owner-container">
       @if(!isCurrentUser && user) {
       <p style="padding-top: 8px;">
