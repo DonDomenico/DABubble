@@ -35,7 +35,7 @@ export class GeneralViewComponent implements OnInit {
   searchService = inject(SearchService);
   mobileService = inject(MobileServiceService);
   isMobile: boolean = false;
-  hideSideNav: boolean = false;
+  // hideSideNav: boolean = false;
   fullView = true;
   isMenuOpen: boolean = false;
 
@@ -46,15 +46,15 @@ export class GeneralViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.checkMobile();
+    // this.checkMobile();
     this.adjustScreenHeight();
   }
 
-  checkMobile() {
-    if (window.innerWidth < 1000) {
-      this.isMobile = true;
-    }
-  }
+  // checkMobile() {
+  //   if (window.innerWidth < 1000) {
+  //     this.isMobile = true;
+  //   }
+  // }
 
   adjustScreenHeight() {
     const element = this.el.nativeElement.querySelector('.mat-drawer-container');
@@ -66,22 +66,22 @@ export class GeneralViewComponent implements OnInit {
   }
 
   toggleSideNav() {
-    this.hideSideNav = !this.hideSideNav;
+    this.mobileService.hideSideNav = !this.mobileService.hideSideNav;
   }
 
-  toggleSidenavMobile() {
-    if (this.isMobile) {
-      this.fullView = false;
-      this.hideSideNav = true;
-      this.mobileService.toggleMobileHeader();
-    }
-  }
+  // toggleSidenavMobile() {
+  //   if (this.isMobile) {
+  //     this.fullView = false;
+  //     this.hideSideNav = true;
+  //     this.mobileService.toggleMobileHeader();
+  //   }
+  // }
 
   navigateToChannelList() {
     this.router.navigate(['/general-view/channel-list']);
     if (this.isMobile) {
       this.fullView = false;
-      this.hideSideNav = true;
+      this.mobileService.hideSideNav = true;
       this.mobileService.toggleMobileHeader();
     }
   }
@@ -89,7 +89,7 @@ export class GeneralViewComponent implements OnInit {
   showSidenavMobile() {
     if(this.isMobile) {
       this.fullView = false;
-      this.hideSideNav = false;
+      this.mobileService.hideSideNav = false;
     }
   }
 }

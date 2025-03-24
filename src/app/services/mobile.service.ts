@@ -8,8 +8,10 @@ export class MobileServiceService {
   logoHeader: boolean = false;
   isMobile: boolean = false;
   searchHeader: boolean = false;
-  constructor() { }
+  hideSideNav: boolean = false;
+  fullView: boolean = true;
 
+  constructor() { }
 
   checkMobile() {
     if (window.innerWidth < 1000) {
@@ -18,11 +20,19 @@ export class MobileServiceService {
   }
   
   toggleMobileHeader() {
-    this.checkMobile();
+    // this.checkMobile();
     if(this.isMobile) {
       this.mobileHeader = !this.mobileHeader;
       this.logoHeader = !this.logoHeader;
       this.searchHeader = !this.searchHeader;
+    }
+  }
+
+  toggleSidenavMobile() {
+    if (this.isMobile) {
+      this.fullView = false;
+      this.hideSideNav = true;
+      this.toggleMobileHeader();
     }
   }
 }

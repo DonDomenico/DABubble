@@ -1,16 +1,16 @@
 <div class="general-view" [ngClass]="{ 'full-width': fullView }">
   <app-header (showSidenav)="showSidenavMobile()"></app-header>
 
-  <mat-drawer-container class="mat-drawer-container" autosize [ngClass]="{ hideSideNav: hideSideNav }">
+  <mat-drawer-container class="mat-drawer-container" autosize [ngClass]="{ hideSideNav: mobileService.hideSideNav}">
     <div class="workspace-btn-wrapper">
       <button class="workspace-btn" (click)="toggleSideNav()" type="button" mat-button>
         <mat-icon>dock_to_right</mat-icon>
         <p>Workspace-Menü schließen</p>
       </button>
     </div>
-    <mat-drawer #drawerSidenav class="side-nav-container" [opened]="!hideSideNav" mode="side"
+    <mat-drawer #drawerSidenav class="side-nav-container" [opened]="!mobileService.hideSideNav" mode="side"
       >
-      <app-sidenav (click)="toggleSidenavMobile()"></app-sidenav>
+      <app-sidenav></app-sidenav>
       <div class="mobile-btn-wrapper">
         <img src="./assets/img/mobile-btn.svg" (click)="navigateToChannelList()"/>
       </div>

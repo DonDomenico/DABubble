@@ -33,6 +33,7 @@ export class UsersComponent {
   ) { }
 
   async ngOnInit() {
+    this.mobileService.checkMobile();
     setTimeout(() => {
       this.unsubConversations = this.subConversations();
     }, 500);

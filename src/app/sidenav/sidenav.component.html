@@ -4,11 +4,8 @@
       <img class="workspace-logo" src="./assets/img/Workspace logo.svg" />
       <p>Devspace</p>
     </div>
-    <span
-      class="material-symbols-outlined edit-icon"
-      [routerLink]="['channel-list/']"
-      routerLinkActive="router-link-active"
-    >
+    <span class="material-symbols-outlined edit-icon" [routerLink]="['channel-list/']"
+      routerLinkActive="router-link-active">
       <mat-icon>edit_square</mat-icon>
     </span>
   </div>
@@ -20,35 +17,21 @@
         <p>Channels</p>
       </div>
     </div>
-    <mat-icon class="add-channel-icon" (click)="addChannelDialog()"
-      >add</mat-icon
-    >
+    <mat-icon class="add-channel-icon" (click)="addChannelDialog()">add</mat-icon>
   </div>
   @if (!isChannelListHidden) {
 
   <div class="dropdown-content">
     <div class="new-channel-container">
       @if (dataLoaded) {
-        @for (channel of channelService.channels; track channel.docId) {
-        <p
-          [routerLink]="['single-channel/' + channel.docId]"
-          [state]="{ id: channel.docId }"
-          routerLinkActive="link-active"
-        >
-          <mat-icon>tag</mat-icon>{{ channel.name }}
-        </p>
-        }
+      @for (channel of channelService.channels; track channel.docId) {
+      <p [routerLink]="['single-channel/' + channel.docId]" [state]="{ id: channel.docId }"
+        routerLinkActive="link-active" (click)="mobileService.toggleSidenavMobile()">
+        <mat-icon>tag</mat-icon>{{ channel.name }}
+      </p>
+      }
       }
     </div>
-
-    <!-- <div class="dropdown-content">
-      <div class="new-channel-container">
-        @for (channel of channelService.channels; track channel.docId) {
-          <p (click)="navigateToChannel(channel.docId)" [class.active]="selected">
-            <mat-icon>tag</mat-icon>{{ channel.name }}
-          </p>
-        }
-      </div> -->
 
     <div class="add-channel" (click)="addChannelDialog()">
       <mat-icon class="material-icons-outlined">add_circle</mat-icon>
