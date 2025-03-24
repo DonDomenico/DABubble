@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { ChannelService } from './channel.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MobileServiceService {
+  channelService = inject(ChannelService);
   mobileHeader: boolean = true;
   logoHeader: boolean = false;
   isMobile: boolean = false;
@@ -34,5 +36,9 @@ export class MobileServiceService {
       this.hideSideNav = true;
       this.toggleMobileHeader();
     }
+  }
+
+  toggleSearchResult() {
+    
   }
 }

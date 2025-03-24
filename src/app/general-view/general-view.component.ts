@@ -71,7 +71,7 @@ export class GeneralViewComponent implements OnInit {
 
   // toggleSidenavMobile() {
   //   if (this.isMobile) {
-  //     this.fullView = false;
+  //     this.mobileService.fullView = false;
   //     this.hideSideNav = true;
   //     this.mobileService.toggleMobileHeader();
   //   }

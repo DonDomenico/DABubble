@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, inject, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import {
@@ -35,6 +35,8 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ShowMembersDialogComponent } from '../show-members-dialog/show-members-dialog.component';
 import { User } from '../../users/user.interface';
 import { UserService } from '../../services/users.service';
+import { MobileServiceService } from '../../services/mobile.service';
+
 
 @Component({
   selector: 'app-single-channel',
@@ -59,6 +61,7 @@ import { UserService } from '../../services/users.service';
   ],
 })
 export class SingleChannelComponent implements OnInit, OnDestroy {
+    mobileService = inject(MobileServiceService);
   [x: string]: any;
   conversationList: DirectMessage[] = [];
   message = '';
