@@ -9,7 +9,7 @@ justify-content: center;
 margin: 150px 25px;
     .content-wrapper {
         width: 676px;
-        height: 469px;
+        // height: 469px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -35,3 +35,21 @@ margin: 150px 25px;
         }
     }
 }
+
+@media only screen and (max-width: 1000px) {
+    .imprint-container {
+        margin: 50px 0px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    section {
+        margin: 25px;
+    }
+    .imprint-container {
+        width: 100%;
+        .content-wrapper {
+            padding: 45px 19px;
+        }
+    }
+ }
