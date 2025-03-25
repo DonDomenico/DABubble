@@ -38,7 +38,4 @@ export class MobileServiceService {
     }
   }
 
-  toggleSearchResult() {
-    
-  }
 }

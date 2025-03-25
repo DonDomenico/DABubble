@@ -1,6 +1,8 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 /src/app/firebase-credentials.ts
+/src/app/imprint.component.html
+/src/app/privacy-policy.component.html
 
 # Compiled output
 /dist
