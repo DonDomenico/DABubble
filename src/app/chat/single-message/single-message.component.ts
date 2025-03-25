@@ -125,9 +125,9 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
 
     if (messagesContainer && inputWrapper && section && window.innerWidth < 1000) {
       // messagesContainer.style.height = `${window.innerHeight - 66}px`;
-      let inputWrapperHeigth = inputWrapper.offsetHeight;
+      let inputWrapperHeight = inputWrapper.offsetHeight;
       section.style.height = `${window.innerHeight - 66}px`;
-      messagesContainer.style.height = `${window.innerHeight - 66 - 66 - inputWrapperHeigth}px`;
+      messagesContainer.style.height = `${window.innerHeight - 66 - 66 - inputWrapperHeight}px`;
       this.isMobile = true;
     } else if(section && messagesContainer && inputWrapper) {
       let inputWrapperHeigth = inputWrapper.offsetHeight;
@@ -259,16 +259,16 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     }
   }
 
-  isDifferentDay(index: number) {
-    if (index === 0) {
-      return true; // Datum der ersten Nachricht immer anzeigen
-    }
-    const currentMessageDate = new Date(this.conversationMessages[index].timestamp);
-    const previousMessageDate = new Date(this.conversationMessages[index - 1].timestamp);
-    // Vergleiche nur das Datum, nicht die Uhrzeit
-    const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
-    return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
-  }
+  // isDifferentDay(index: number) {
+  //   if (index === 0) {
+  //     return true; // Datum der ersten Nachricht immer anzeigen
+  //   }
+  //   const currentMessageDate = new Date(this.conversationMessages[index].timestamp);
+  //   const previousMessageDate = new Date(this.conversationMessages[index - 1].timestamp);
+  //   // Vergleiche nur das Datum, nicht die Uhrzeit
+  //   const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
+  //   return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
+  // }
 
   private scrollToBottom(): void {
     if (this.messagesContainer && this.messagesContainer.nativeElement) {

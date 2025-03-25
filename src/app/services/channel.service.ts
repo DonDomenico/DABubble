@@ -67,7 +67,7 @@ export class ChannelService {
   }
 
   async getThreadChatRef(channelId: string, threadId: string) {
-    return doc(collection(this.firestore, 'channels', channelId, 'answers'), threadId);
+    return doc(this.firestore, `channels/${channelId}/chatText/${threadId}`);
   }
 
   addText(message: Message) {

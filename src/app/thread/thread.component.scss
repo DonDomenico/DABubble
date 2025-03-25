@@ -49,12 +49,8 @@ section {
 
   .messages-container {
     width: 100%;
-    height: 75vh;
+    // height: 75vh;
     overflow-y: auto;
-
-    > div:nth-last-child(1) {
-      margin-bottom: 200px;
-    }
 
     .message-wrapper {
       width: 100%;
@@ -95,7 +91,7 @@ section {
       }
 
       .single-message-container {
-        width: 70%;
+        width: 90%;
         display: flex;
         justify-content: flex-start;
         align-items: flex-start;
@@ -159,10 +155,10 @@ section {
   }
 
   .message-box-wrapper {
-    position: fixed;
-    bottom: 0;
-    background: white;
-    width: calc(var(--vw, 1vw) * 28);
+    // position: fixed;
+    // bottom: 0;
+    // background: white;
+    // width: calc(var(--vw, 1vw) * 28);
 
     .message-box-container {
       border-radius: 20px;
@@ -239,12 +235,17 @@ section {
     right: 10%;
     top: 33vh;
   }
+
+  .message-emojis {
+    position: relative;
+    bottom: 25vh;
+  }
 }
 
 .divider {
   display: flex;
   align-items: center;
-  text-align: center;
+  justify-content: center;
   margin: 16px;
 
   .line {

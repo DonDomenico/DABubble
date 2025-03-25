@@ -25,11 +25,14 @@
     @for (message of channelService.messages; track $index ) {
     <div class="divider">
       <hr class="line" />
-
-      @if(isDifferentDay($index)) {
-      <span class="date">{{ message.timestamp | date }}</span>
+      @if ($index < channelService.messages.length) {
+        @if ($index === 0) {
+          <span class="date">{{ message.timestamp | date}}</span>
+        }
+        @else if((message.timestamp | date) !== (channelService.messages[$index-1].timestamp | date)) {
+          <span class="date">{{ message.timestamp | date }}</span>
+        }
       }
-
       <hr class="line" />
     </div>
 

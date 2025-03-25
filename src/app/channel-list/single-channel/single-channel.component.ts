@@ -85,7 +85,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   currentUser: any;
   fullViews: boolean = true;
   isMobile: boolean = false;
-  // memberInfos: any[] = [];
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
@@ -216,23 +215,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     });
   }
 
-  // subMemberInfos() {
-  //   if (this.channelService.channelMembers.length !== 0) {
-  //     this.channelService.memberInfos = [];
-  //     const q = query(
-  //       collection(this.channelService.firestore, 'users'),
-  //       where('uid', 'in', this.channelService.channelMembers)
-  //     );
-  //     return onSnapshot(q, (snapshot) => {
-  //       snapshot.forEach((doc) => {
-  //         this.channelService.memberInfos.push(doc.data());
-  //       });
-  //     });
-  //   } else {
-  //     return undefined;
-  //   }
-  // }
-
   addMessage() {
     if (this.message !== "") {
       const newMessage: Message = {
@@ -261,9 +243,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.message = '';
       this.editText = '';
       this.isEditing = false;
-    }
-
-    else {
+    } else {
       this.messageEmpty = true;
     }
   }
@@ -393,18 +373,18 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.showEmojiPicker = false;
   }
 
-  isDifferentDay(index: number) {
-    if (index === 0) {
-      return true; // Datum der ersten Nachricht immer anzeigen
-    }
-    const currentMessageDate = new Date(this.channelService.messages[index].timestamp);
-    const previousMessageDate = new Date(this.channelService.messages[index - 1].timestamp);
+  // isDifferentDay(index: number) {
+  //   if (index === 0) {
+  //     return true; // Datum der ersten Nachricht immer anzeigen
+  //   }
+  //   const currentMessageDate = new Date(this.channelService.messages[index].timestamp);
+  //   const previousMessageDate = new Date(this.channelService.messages[index - 1].timestamp);
 
-    // Vergleiche nur das Datum, nicht die Uhrzeit
-    const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
+  //   // Vergleiche nur das Datum, nicht die Uhrzeit
+  //   const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
 
-    return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
-  }
+  //   return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
+  // }
 
   private scrollToBottom(): void {
     if (this.messagesContainer && this.messagesContainer.nativeElement) {

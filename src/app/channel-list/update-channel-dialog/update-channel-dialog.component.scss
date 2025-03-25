@@ -5,7 +5,10 @@
 section {
   width: 872px;
   padding: 40px;
+  height: 100svh;
+  overflow: auto;
 }
+
 .dialog-header {
   width: 100%;
   height: 40px;
@@ -14,13 +17,15 @@ section {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+
   .channel-name-container {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 15px;
     padding: 2px 1px 2px 1px;
-    > p {
+
+    >p {
       font-size: 24px;
       font-weight: 700;
       line-height: 32.74px;
@@ -29,7 +34,8 @@ section {
       margin-block-end: 0;
     }
   }
-  > span {
+
+  >span {
     mat-icon {
       width: 40px;
       height: 40px;
@@ -38,6 +44,7 @@ section {
       justify-content: center;
       border-radius: 50px;
       cursor: pointer;
+
       &:hover {
         color: #535af1;
         background-color: #eceefe;
@@ -64,16 +71,19 @@ section {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
+
   .first-line {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    > p {
+
+    >p {
       font-size: 18px;
       font-weight: 700;
       line-height: 24.55px;
     }
-    > span {
+
+    >span {
       font-size: 18px;
       font-weight: 600;
       line-height: 24.55px;
@@ -82,12 +92,14 @@ section {
       transition: font-weight ease-in-out 0.1s;
       transform: translateZ(0);
       will-change: transform;
+
       &:hover {
         font-weight: 800;
       }
     }
   }
-  > input {
+
+  >input {
     width: 100%;
     height: 40px;
     border-radius: 40px;
@@ -98,13 +110,14 @@ section {
 }
 
 .change-description-input {
-    width: 100%;
-    height: 40px;
-    border-radius: 40px;
-    border: 1px solid rgb(173, 176, 217);
-    padding: 18px 20px 18px 20px;
-    outline: 0;
+  width: 100%;
+  height: 40px;
+  border-radius: 40px;
+  border: 1px solid rgb(173, 176, 217);
+  padding: 18px 20px 18px 20px;
+  outline: 0;
 }
+
 .channel-data {
   width: 100%;
   height: 273px;
@@ -114,16 +127,19 @@ section {
   display: flex;
   flex-direction: column;
   gap: 10px;
+
   .first-line {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    > p {
+
+    >p {
       font-size: 18px;
       font-weight: 700;
       line-height: 24.55px;
     }
-    > span {
+
+    >span {
       font-size: 18px;
       font-weight: 600;
       line-height: 24.55px;
@@ -132,22 +148,26 @@ section {
       transition: font-weight ease-in-out 0.1s;
       transform: translateZ(0);
       will-change: transform;
+
       &:hover {
         font-weight: 800;
       }
     }
   }
-  > hr {
+
+  >hr {
     border: 1px solid #adb0d9;
     margin: 15px 0 15px 0;
   }
+
   .owner-wrapper {
-    > p {
+    >p {
       font-size: 18px;
       font-weight: 700;
       line-height: 24.55px;
     }
-    > span {
+
+    >span {
       font-family: Nunito;
       font-size: 24px;
       font-weight: 400;
@@ -161,7 +181,8 @@ section {
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
-  > button {
+
+  >button {
     width: 204px;
     height: 49px;
     outline: none;
@@ -192,6 +213,7 @@ section {
   section {
     width: 500px;
   }
+
   .edit-icon {
     width: 30px;
     height: 30px;
@@ -201,7 +223,7 @@ section {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-  
+
     &:hover {
       color: #535af1;
       background-color: #eceefe;

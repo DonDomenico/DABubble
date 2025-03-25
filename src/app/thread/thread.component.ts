@@ -3,7 +3,7 @@ import { MatIcon } from '@angular/material/icon';
 import { ChannelService } from '../services/channel.service';
 import { Channel } from '../interfaces/channel.interface';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { Firestore, getDoc, doc, addDoc, collection, updateDoc } from '@angular/fire/firestore';
+import { Firestore, getDoc, doc, addDoc, collection, updateDoc, onSnapshot, query, orderBy } from '@angular/fire/firestore';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Message } from '../interfaces/message.interface';
 import { DATE_PIPE_DEFAULT_OPTIONS, DatePipe, CommonModule } from '@angular/common';
@@ -36,7 +36,7 @@ export class ThreadComponent implements OnInit {
   unsubChannelChat: any;
   message: any;
   dataLoaded: boolean = false;
-  threadAnswers: Message[] = [];
+  threadAnswers: any = [];
   activeRoute = '';
   routeSubscription: any;
   routerSubscription: any;
@@ -51,6 +51,7 @@ export class ThreadComponent implements OnInit {
   edited: boolean = false;
   answerIndex: number = 0;
   emojiPickerOpen: boolean = false;
+  unsubThread: any;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
   @ViewChild('answersContainer') private answersContainer: ElementRef | undefined;
@@ -75,13 +76,15 @@ export class ThreadComponent implements OnInit {
         return item.docId == this.channelId;
       })?.name || '';
       this.message = await this.getThreadMessage();
+      // await this.channelService.getThreadChatRef(this.channelId, this.messageId);
+      // this.threadAnswers = this.message.answers;
+      this.unsubThread = this.subThread();
       this.dataLoaded = true;
-      await this.channelService.getThreadChatRef(this.channelId, this.messageId);
-      this.threadAnswers = this.message.answers;
       if (this.emojiPickerOpen === false) {
         this.cdRef.detectChanges();
         this.scrollToBottom();
       }
+      this.setDivHeight();
     });
 
     this.routerSubscription = this.router.events.subscribe(event => {
@@ -94,6 +97,7 @@ export class ThreadComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.unsubThread();
     if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
     }
@@ -101,6 +105,42 @@ export class ThreadComponent implements OnInit {
       this.routerSubscription.unsubscribe();
     }
   }
+
+  setDivHeight() {
+    const messagesContainer = document.getElementById('thread-messages-container');
+    const section = document.getElementById('thread-section');
+    const inputWrapper = document.getElementById('message-box-wrapper');
+
+    if (messagesContainer && inputWrapper && section && window.innerWidth < 1000) {
+      let inputWrapperHeight = inputWrapper.offsetHeight;
+      // messagesContainer.style.height = `${window.innerHeight - 66}px`;
+      section.style.height = `${window.innerHeight - 66}px`;
+      messagesContainer.style.height = `${window.innerHeight - 66 - 60 - inputWrapperHeight}px`;
+    } else if (section && inputWrapper && messagesContainer) {
+      let inputWrapperHeight = inputWrapper.offsetHeight;
+      section.style.height = `${window.innerHeight - 120}px`;
+      messagesContainer.style.height = `${window.innerHeight - 120 - 96 - inputWrapperHeight}px`;
+    }
+  }
+
+  subThread() {
+    return onSnapshot(doc(this.firestore, 'channels', this.channelId, 'chatText', this.messageId), (doc: any) => {
+      this.message = doc.data();
+      this.threadAnswers = this.message.answers;
+      if (this.emojiPickerOpen === false) {
+        this.cdRef.detectChanges();
+        this.scrollToBottom();
+      }
+      console.log('CHAT TEXT', this.threadAnswers);
+    });
+  }
+
+  // toJsonThreadAnswers(obj: any) {
+  //   return {
+  //     eidted: obj.edited,
+
+  //   }
+  // }
 
   async getSingleChannel(): Promise<Channel | undefined> {
     if (this.channelId != undefined) {
@@ -132,11 +172,11 @@ export class ThreadComponent implements OnInit {
   addAnswer() {
     if (this.isEditing) {
       const editedAnswer: Message = {
-      userName: this.authService.currentUser?.displayName!,
-      userAvatar: this.authService.currentUser?.photoURL!,
-      userMessage: this.editText,
-      timestamp: new Date().getTime(),
-      edited: true
+        userName: this.authService.currentUser?.displayName!,
+        userAvatar: this.authService.currentUser?.photoURL!,
+        userMessage: this.editText,
+        timestamp: new Date().getTime(),
+        edited: true
       }
       this.threadAnswers.splice(this.answerIndex, 1, editedAnswer);
     } else if (this.answer !== '') {
@@ -154,15 +194,16 @@ export class ThreadComponent implements OnInit {
       this.messageEmpty = true;
     }
     this.saveAnswerInFirestore();
-    this.cdRef.detectChanges();
-    this.scrollToBottom();
+    // this.cdRef.detectChanges();
+    // this.scrollToBottom();
   }
 
   saveAnswerInFirestore() {
     updateDoc(doc(this.firestore, `channels/${this.channelId}/chatText/${this.messageId}`),
-      { answers: this.threadAnswers,
+      {
+        answers: this.threadAnswers,
         edited: true
-       }
+      }
     )
     this.answer = '';
     this.editText = '';
@@ -180,18 +221,18 @@ export class ThreadComponent implements OnInit {
     this.toggleThread.emit(this.channelService.isThreadHidden);
   }
 
-  isDifferentDay(index: number) {
-    if (index === 0) {
-      return true; // Datum der ersten Nachricht immer anzeigen
-    }
-    const currentMessageDate = new Date(this.channelService.messages[index].timestamp);
-    const previousMessageDate = new Date(this.channelService.messages[index - 1].timestamp);
+  // isDifferentDay(index: number) {
+  //   if (index === 0) {
+  //     return true; // Datum der ersten Nachricht immer anzeigen
+  //   }
+  //   const currentMessageDate = new Date(this.channelService.messages[index].timestamp);
+  //   const previousMessageDate = new Date(this.channelService.messages[index - 1].timestamp);
 
-    // Vergleiche nur das Datum, nicht die Uhrzeit
-    const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
+  //   // Vergleiche nur das Datum, nicht die Uhrzeit
+  //   const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
 
-    return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
-  }
+  //   return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
+  // }
 
   onClickInside(event: MouseEvent) {
     event.stopPropagation();
