@@ -1,5 +1,7 @@
 ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
   border-radius: 30px 30px 30px 30px;
+  
+  height: 95vh;
 }
 
 h2 {
@@ -174,14 +176,14 @@ section {
 
 @media only screen and (max-width: 630px) {
   section {
-    width: 400px;
+    width: 100%;
     padding: 40px 20px;
   }
 }
 
 @media only screen and (max-width: 520px) {
   section {
-    width: 330px;
+    width: 100%;
     padding: 40px 15px;
   }
 }

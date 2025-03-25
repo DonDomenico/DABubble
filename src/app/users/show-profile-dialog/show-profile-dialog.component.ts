@@ -73,7 +73,7 @@ export class ShowProfileDialogComponent {
     const userId = this.authService.currentUser.uid;
     let lastLoginTime = this.authService.currentUser.metadata.lastLoginAt;
     let now = new Date().getTime();
-    let needsReauth = (now - lastLoginTime) / 60000 > 5 ? true : false;
+    let needsReauth = (now - lastLoginTime) / 60000 > 3 ? true : false;
 
     if(needsReauth) {
       this.openReauthenticationDialog();
