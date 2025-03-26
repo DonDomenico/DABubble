@@ -164,7 +164,7 @@ section {
       border-radius: 20px;
       border: 1px solid #adb0d9;
       background: white;
-      margin: 20px 40px;
+      margin: 0px 20px;
 
       > textarea {
         width: 100%;
@@ -232,7 +232,7 @@ section {
 
   .reaction-emojis {
     position: fixed;
-    right: 10%;
+    right: 5%;
     top: 33vh;
   }
 
@@ -274,9 +274,6 @@ section {
 
     .thread-header {
       height: 60px;
-    }
-    .message-box-wrapper {
-      width: calc(var(--vw, 1vw) * 90);
     }
   }
 }

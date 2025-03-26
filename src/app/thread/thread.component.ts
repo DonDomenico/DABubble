@@ -113,7 +113,6 @@ export class ThreadComponent implements OnInit {
 
     if (messagesContainer && inputWrapper && section && window.innerWidth < 1000) {
       let inputWrapperHeight = inputWrapper.offsetHeight;
-      // messagesContainer.style.height = `${window.innerHeight - 66}px`;
       section.style.height = `${window.innerHeight - 66}px`;
       messagesContainer.style.height = `${window.innerHeight - 66 - 60 - inputWrapperHeight}px`;
     } else if (section && inputWrapper && messagesContainer) {
@@ -134,13 +133,6 @@ export class ThreadComponent implements OnInit {
       console.log('CHAT TEXT', this.threadAnswers);
     });
   }
-
-  // toJsonThreadAnswers(obj: any) {
-  //   return {
-  //     eidted: obj.edited,
-
-  //   }
-  // }
 
   async getSingleChannel(): Promise<Channel | undefined> {
     if (this.channelId != undefined) {

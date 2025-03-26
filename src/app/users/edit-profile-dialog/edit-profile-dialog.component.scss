@@ -1,10 +1,11 @@
 @import url('../show-profile-dialog/show-profile-dialog.component.scss');
 
-::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
-  border-radius: 30px 30px 30px 30px;
-  height: 100svh;
-  width: 500px;
-}
+// ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+//   border-radius: 30px 30px 30px 30px;
+//   // height: 100svh;
+//   width: 500px;
+//   overflow-y: auto;
+// }
 
 // section {
 //   width: 500px;

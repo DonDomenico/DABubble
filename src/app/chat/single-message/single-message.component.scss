@@ -302,7 +302,6 @@ section {
   .emoji-mart {
     position: absolute;
     bottom: 1vh;
-    left: 10%;
   }
 
   .emoji-button {
@@ -347,14 +346,9 @@ section {
 
   .reaction-emojis {
     position: fixed;
-    right: 10%;
+    right: 5%;
     top: 33vh;
-  }
-
-  .message-emojis {
-    position: absolute;
-    bottom: 1vh;
-    left: 5%;
+    z-index: 10;
   }
 }
 
