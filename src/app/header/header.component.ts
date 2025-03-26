@@ -12,6 +12,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MobileServiceService } from '../services/mobile.service';
+import { ChannelService } from '../services/channel.service';
 
 @Component({
   selector: 'app-header',
@@ -24,8 +25,9 @@ export class HeaderComponent {
   authService = inject(AuthenticationService);
   searchService = inject(SearchService);
   mobileService = inject(MobileServiceService);
+  channelService = inject (ChannelService);
   isMobile = false;
-
+  @Input()  channelId!: string;
   @Output() showSidenav = new EventEmitter<boolean>();
 
   constructor(public dialog: MatDialog, public router: Router) {
@@ -53,15 +55,23 @@ export class HeaderComponent {
   }
 
   emitToggleSidenav() {   
-    this.showSidenav.emit(true);
-    this.mobileService.mobileHeader = !this.mobileService.mobileHeader;
-    this.mobileService.logoHeader = !this.mobileService.logoHeader;
-    this.mobileService.searchHeader = !this.mobileService.searchHeader;
-    this.mobileService.hideSideNav = !this.mobileService.hideSideNav;
-    this.router.navigateByUrl('/general-view');
-    this.searchService.searchText = '';
+    // if (this.isMobile && this.router.url.startsWith(`/general-view/single-channel/${this.channelId}/thread/`)	)  {
+    //   this.channelService.isThreadHidden = !this.channelService.isThreadHidden;
+    //   this.channelService.hideSingleChannel = false;
+    //   this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
+
+    // } else {
+
+      this.showSidenav.emit(true);
+      this.mobileService.mobileHeader = !this.mobileService.mobileHeader;
+      this.mobileService.logoHeader = !this.mobileService.logoHeader;
+      this.mobileService.searchHeader = !this.mobileService.searchHeader;
+      this.mobileService.hideSideNav = !this.mobileService.hideSideNav;
+      this.router.navigateByUrl('/general-view');
+      this.searchService.searchText = '';
+    }
     // this.mobileService.hideSideNav = false;
-  }
+  // }
 
   redirectHome() {
     window.location.reload();
