@@ -9,8 +9,7 @@ import {
   getDocs,
   onSnapshot,
   orderBy,
-  where,
-  and,
+  where
 } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 
@@ -28,24 +27,7 @@ export class ConversationsService {
   unsubConversations: any;
   unsubNewMessages: any;
 
-  constructor() {
-    // setTimeout(() => {
-    //   this.unsubNewMessages = this.subNewMessages();
-    // }, 1000);
-    // setTimeout(() => {
-    //   this.testFn();
-    // }, 1500);
-  }
-
-  // testFn() {
-  //   for (const message of this.newMessages) {
-  //     for (const conversation of this.conversations) {
-  //       if (conversation.members.includes("hBEeS6IqIUb8QIlkviFuIqcowNl1") && message.conversationId === conversation.docId && message.messages.length > 0) {
-  //         console.log(`New Messages in conversation ${conversation.docId}: `, message.messages)
-  //       }
-  //     }
-  //   }
-  // }
+  constructor() {}
 
   subConversations() {
     return onSnapshot(query(this.getConversationsRef(), where('members', 'array-contains', this.auth.currentUser?.uid)), conversations => {
@@ -60,7 +42,6 @@ export class ConversationsService {
       members: [senderId, recipientId],
     }).then((doc) => {
       this.currentConversationId = doc.id;
-      console.log('Conversation added to database');
     });
   }
 
@@ -75,23 +56,6 @@ export class ConversationsService {
       }
     });
   }
-
-  // subNewMessages() {
-  //   this.conversations.forEach(conversation => {
-  //     this.newMessages = [];
-  //     return onSnapshot(query(this.getConversationMessagesRef(conversation.docId), where('read', '==', false), where('initiatedBy', '==', this.auth.currentUser?.displayName)), newMessagesList => {
-  //       const conversationId = conversation.docId;
-  //       newMessagesList.docs.forEach((message, index) => {
-  //         if (this.newMessages.length > 0 && this.newMessages.find(message => message.conversationId === conversationId)) {
-  //           const messageIndex = this.newMessages.findIndex(message => message.conversationId === conversationId);
-  //           this.newMessages[messageIndex].messages.push(this.toJsonDirectMessage(message.data(), message.id));
-  //         } else {
-  //           this.newMessages.push({ 'conversationId': conversationId, 'messages': [this.toJsonDirectMessage(message.data(), message.id)] });
-  //         }
-  //       })
-  //     })
-  //   })
-  // }
 
   async getConversationMessages(conversationId: string) {
     this.conversationMessages = [];
@@ -137,7 +101,6 @@ export class ConversationsService {
     snapshot.forEach(doc => {
       this.conversations.push(this.toJsonConversations(doc.data(), doc.id));
     })
-    console.log(this.conversations);
   }
 
   toJsonConversations(obj: any, id: string) {

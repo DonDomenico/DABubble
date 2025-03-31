@@ -22,7 +22,6 @@ export class MobileServiceService {
   }
   
   toggleMobileHeader() {
-    // this.checkMobile();
     if(this.isMobile) {
       this.mobileHeader = !this.mobileHeader;
       this.logoHeader = !this.logoHeader;
@@ -37,5 +36,4 @@ export class MobileServiceService {
       this.toggleMobileHeader();
     }
   }
-
 }

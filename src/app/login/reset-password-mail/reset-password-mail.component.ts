@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
-import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, FormControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
@@ -48,7 +48,6 @@ export class ResetPasswordMailComponent {
       if(!accountExists) {
         this.authService.noAccountWithEmail = '';
       }
-
       return !accountExists ? {noAccount: true} : null;
     }
   }

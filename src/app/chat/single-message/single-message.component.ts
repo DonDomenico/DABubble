@@ -19,7 +19,7 @@ import { User } from '../../users/user.interface';
 import { DirectMessage } from '../../interfaces/directMessage.interface';
 import { ShowProfileDialogComponent } from '../../users/show-profile-dialog/show-profile-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   collection,
   doc,
@@ -112,7 +112,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubConversationMessages();
-    // this.unsubConversations();
     if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
     }
@@ -124,7 +123,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
     const inputWrapper = document.getElementById('input-wrapper-2');
 
     if (messagesContainer && inputWrapper && section && window.innerWidth < 1000) {
-      // messagesContainer.style.height = `${window.innerHeight - 66}px`;
       let inputWrapperHeight = inputWrapper.offsetHeight;
       section.style.height = `${window.innerHeight - 66}px`;
       messagesContainer.style.height = `${window.innerHeight - 66 - 66 - inputWrapperHeight}px`;
@@ -138,7 +136,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
 
   async getConversationId() {
     if (this.authService.currentUser !== null) {
-      // this.conversationMessages = [];
       const docRef = query(collection(this.firestore, 'conversations'), where('members', 'array-contains', this.authService.currentUser.uid));
       const querySnapshot = await getDocs(docRef);
 
@@ -187,7 +184,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
 
       this.conversationService.addNewConversationMessage(newDirectMessage);
       await this.getConversationId();
-      // await this.getConversationMessages();
       this.conversationMessage = '';
       this.messageEmpty = false;
     } else if (this.isEditing) {
@@ -236,7 +232,6 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         });
         this.cdRef.detectChanges();
         this.scrollToBottom();
-        console.log('Conversation Messages: ', this.conversationMessages);
       });
     } else {
       return undefined;
@@ -251,24 +246,12 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
         this.user = this.userService.toJson(userDoc.data(), userDoc.id);
         return this.user;
       } else {
-        console.log('No such document!');
         return undefined;
       }
     } else {
       return undefined;
     }
   }
-
-  // isDifferentDay(index: number) {
-  //   if (index === 0) {
-  //     return true; // Datum der ersten Nachricht immer anzeigen
-  //   }
-  //   const currentMessageDate = new Date(this.conversationMessages[index].timestamp);
-  //   const previousMessageDate = new Date(this.conversationMessages[index - 1].timestamp);
-  //   // Vergleiche nur das Datum, nicht die Uhrzeit
-  //   const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
-  //   return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
-  // }
 
   private scrollToBottom(): void {
     if (this.messagesContainer && this.messagesContainer.nativeElement) {

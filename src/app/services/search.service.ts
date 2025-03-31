@@ -16,15 +16,12 @@ export class SearchService {
   searchAll: string = '';
   searchResults: Channel[] = [];
   searchResultsUsers: User[] = [];
-  // mobileHeader: boolean = true;
-  // logoHeader: boolean = false;
-  // isMobile: boolean = false;
+
   constructor() {}
 
   async search() {
     if (this.searchText !== '') {
       await this.searchChannels();
-      console.log('Channels found: ', this.searchResults);
     } else if (this.searchText === '') {
       this.searchResults = [];
     }
@@ -37,8 +34,6 @@ export class SearchService {
       } else if (this.searchAll.startsWith('#')) {
         await this.searchChannelsOnly();
       }
-      console.log('Channels found: ', this.searchResults);
-      console.log('Users found: ', this.searchResultsUsers);
     } else {
       this.searchResults = [];
       this.searchResultsUsers = [];
@@ -48,7 +43,6 @@ export class SearchService {
   async searchUsersOnly() {
     if (this.searchAll !== '') {
       await this.searchUsers();
-      console.log('Users found: ', this.searchResultsUsers);
     } else if (this.searchAll === '') {
       this.searchResultsUsers = [];
     }
@@ -116,5 +110,4 @@ export class SearchService {
       }
     }
   }
-
 }

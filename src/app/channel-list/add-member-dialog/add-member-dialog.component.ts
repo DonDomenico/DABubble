@@ -74,19 +74,14 @@ export class AddMemberDialogComponent {
   }
 
   async addMember() {
-    console.log('WHAT', this.user);
-    console.log(this.data.channelId);
     await this.getUserId();
     await this.userInDatabase();
     await this.IsUserInChannel();
 
     if (this.user && this.userInChannel) {
       this.alertMessage = true;
-      console.log('User already in channel');
       this.userInChannel = false;
-      // show failure message
     } else if (this.user && this.userFound) {
-      console.log('User found');
       await this.addUserToChannel();
       this.dialog.closeAll();
     }
@@ -130,7 +125,6 @@ export class AddMemberDialogComponent {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data()['uid']);
       this.userId = doc.data()['uid'];
     });
   }
@@ -160,7 +154,6 @@ export class AddMemberDialogComponent {
           channelSnapshot.id
         );
       } else {
-        console.log('No such document!');
         return undefined;
       }
     } else {

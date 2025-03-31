@@ -10,23 +10,19 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule } from '@angular/forms';
 import { ChannelService } from '../../../services/channel.service';
 import { User } from '../../../users/user.interface';
 import { UserService } from '../../../services/users.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
-  MatChipEditedEvent,
-  MatChipGrid,
   MatChipInputEvent,
   MatChipsModule,
 } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   Firestore,
-  arrayRemove,
-  arrayUnion,
   collection,
   deleteDoc,
   doc,
@@ -36,7 +32,7 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { SearchService } from '../../../services/search.service';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AuthenticationService } from '../../../services/authentication.service';
 @Component({
   selector: 'app-add-new-people-dialog',
@@ -70,21 +66,18 @@ export class AddNewPeopleDialogComponent {
   channelId: string = '';
   users: User[] = [];
   username: string = '';
-
   searchAll: string = '';
   userFound: boolean = false;
   selectedUsers: any[] = [];
   readonly announcer = inject(LiveAnnouncer);
   currentUser = this.authenticationService.currentUser;
   @ViewChild('chipInput') chipInput: ElementRef | undefined;
- 
-
 
   constructor(
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private firestore: Firestore
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.channelName = this.data.name;
@@ -97,20 +90,15 @@ export class AddNewPeopleDialogComponent {
     if (index < 0) {
       return;
     }
-  
     this.selectedUsers.splice(index, 1);
-// upadate arrey selectedUsers
-this.selectedUsers = [...this.selectedUsers];
+    this.selectedUsers = [...this.selectedUsers];
   }
-
-
 
   async getUserId() {
     const q = query(this.userService.getUserRef());
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data()['uid']);
       this.users.push(doc.data()['uid']);
     });
   }
@@ -123,7 +111,6 @@ this.selectedUsers = [...this.selectedUsers];
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data()['channelId']);
       this.channelId = doc.id;
     });
   }
@@ -142,7 +129,6 @@ this.selectedUsers = [...this.selectedUsers];
     this.addCurrenUserToArray();
     await this.userInDatabase();
     if (this.selectedUsers && this.userFound) {
-      console.log('User found');
       await this.getSingleUserId();
       await this.addUserToChannel();
       this.dialog.closeAll();
@@ -157,7 +143,6 @@ this.selectedUsers = [...this.selectedUsers];
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-      console.log(doc.data()['uid']);
       this.userId = doc.id;
     });
   }
@@ -169,7 +154,7 @@ this.selectedUsers = [...this.selectedUsers];
     });
   }
 
-   addCurrenUserToArray() {
+  addCurrenUserToArray() {
     this.selectedUsers.push(
       {
         uid: this.currentUser.uid,
@@ -199,20 +184,11 @@ this.selectedUsers = [...this.selectedUsers];
 
   addNewMember(newMember: any) {
     if (newMember && !this.selectedUsers.includes(newMember)) {
-
       this.selectedUsers.push(newMember);
-
-      console.log('channel members', this.selectedUsers);
     }
-    // clear input
   }
-  
-    clear(event: MatChipInputEvent): void {
 
-  
-      event.chipInput!.clear();
-    }
-  
-
-
+  clear(event: MatChipInputEvent): void {
+    event.chipInput!.clear();
+  }
 }

@@ -21,17 +21,14 @@ export class UserService implements OnDestroy {
   async updateUsername(user: any, newName: string) {
     if (user && user.uid) {
       let userRef = this.getSingleUserRef(user.uid);
-      await updateDoc(userRef, this.getCleanJson(user, newName, user.email, user.photoURL)).catch
-        (error => console.log(error));
+      await updateDoc(userRef, this.getCleanJson(user, newName, user.email, user.photoURL));
     }
   }
 
   async updateUserEmail(user: any, newEmail: string) {
     if (user && user.uid) {
       let userRef = this.getSingleUserRef(user.uid);
-      await updateDoc(userRef, this.getCleanJson(user, user.displayName, newEmail, user.photoURL)).catch(error => {
-        console.log(error);
-      })
+      await updateDoc(userRef, this.getCleanJson(user, user.displayName, newEmail, user.photoURL));
     }
   }
 
@@ -72,7 +69,6 @@ export class UserService implements OnDestroy {
     if (userDoc.exists()) {
       return this.toJson(userDoc.data() as User, userDoc.id);
     } else {
-      console.log('No such document!');
       return null;
     }
   }
@@ -91,7 +87,6 @@ export class UserService implements OnDestroy {
     return onSnapshot(this.getUserRef(), userList => {
       this.users = [];
       userList.forEach(doc => {
-        console.log(this.toJson(doc.data(), doc.id));
         this.users.push(this.toJson(doc.data(), doc.id));
       })
     })

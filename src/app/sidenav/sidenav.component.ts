@@ -85,7 +85,6 @@ export class SidenavComponent {
     return onSnapshot(q, (channelList) => {
       this.channelService.channels = [];
       channelList.forEach((channel) => {
-        console.log(this.channelService.toJsonChannel(channel.data(), channel.id)); // später löschen
         this.channelService.channels.push(this.channelService.toJsonChannel(channel.data(), channel.id));
       });
     });

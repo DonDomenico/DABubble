@@ -1,5 +1,4 @@
-<!-- <div class="general-view" [ngClass]="{ 'full-width': fullView }"> -->
-  <div class="general-view" [ngClass]="{ 'full-width': mobileService.fullView }">
+<div class="general-view" [ngClass]="{ 'full-width': mobileService.fullView }">
   <app-header (showSidenav)="showSidenavMobile()"></app-header>
 
   <mat-drawer-container class="mat-drawer-container" autosize [ngClass]="{ hideSideNav: mobileService.hideSideNav}">
@@ -9,15 +8,15 @@
         <p>Workspace-Menü schließen</p>
       </button>
     </div>
-    <mat-drawer #drawerSidenav class="side-nav-container" [opened]="!mobileService.hideSideNav" mode="side"
-      >
+    <mat-drawer #drawerSidenav class="side-nav-container" [opened]="!mobileService.hideSideNav" mode="side">
       <app-sidenav></app-sidenav>
       <div class="mobile-btn-wrapper">
-        <img src="./assets/img/mobile-btn.svg" (click)="navigateToChannelList()"/>
+        <img src="./assets/img/mobile-btn.svg" (click)="navigateToChannelList()" />
       </div>
     </mat-drawer>
     <section>
-      <div class="main-chat-container" [ngStyle]="channelService.hideSingleChannel ? { display: 'none' } : { display: 'block' }">
+      <div class="main-chat-container"
+        [ngStyle]="channelService.hideSingleChannel ? { display: 'none' } : { display: 'block' }">
         @if (router.url.startsWith('/general-view/single-message/')) {
         <app-single-message (click)="showSidenavMobile()"></app-single-message>
         } @else if (router.url.startsWith('/general-view/single-channel/')) {
@@ -26,7 +25,8 @@
         <app-channel-list></app-channel-list>
         }
       </div>
-      <div class="thread-container" [ngStyle]="channelService.isThreadHidden ? { display: 'none' } : { display: 'block' }">
+      <div class="thread-container"
+        [ngStyle]="channelService.isThreadHidden ? { display: 'none' } : { display: 'block' }">
         <app-thread *ngIf="!channelService.isThreadHidden" [channelId]="channelService.channelId"></app-thread>
       </div>
     </section>

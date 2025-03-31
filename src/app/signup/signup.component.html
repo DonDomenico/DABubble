@@ -47,7 +47,6 @@
                         <span class="error">Das Passwort muss aus mindestens 6 Zeichen bestehen.</span>
                     }
                 </div>
-                <!-- Fehlermeldung anzeigen, wenn das Passwort zu schwach ist -->
                  
                 <div class="privacy-policy">
                     <input type="checkbox" class="checkbox" [formControl]="checkbox">
@@ -63,7 +62,4 @@
         <a [routerLink]="['/imprint']">Impressum</a>
         <a [routerLink]="['/privacy-policy']">Datenschutz</a>
     </div>
-
-    <!-- <button (click)="authService.showCurrentUser()">Show current user</button>
-    <button (click)="authService.logout()">Logout</button> -->
 </div>
