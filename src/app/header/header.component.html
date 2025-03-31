@@ -1,11 +1,15 @@
 <header>
   <div
     class="mobile-header"
-    (click)="emitToggleSidenav()"
+  
     [ngStyle]="mobileService.mobileHeader ? { display: 'none' } : { display: 'flex' }"
   >
+
     <div class="mobile-btn-arrow-back">
-      <img src="./assets/img/arrow_back.svg" />
+      @if (channelService.isThreadHidden) {
+        
+        <img   (click)="emitToggleSidenav()" src="./assets/img/arrow_back.svg" />
+      } 
       <img class="workspace-logo" src="./assets/img/Workspace logo.svg" />
     </div>
   </div>
