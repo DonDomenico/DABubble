@@ -14,6 +14,7 @@ import { ChannelService } from '../../services/channel.service';
 import { Channel } from '../../interfaces/channel.interface';
 import { AuthenticationService } from '../../services/authentication.service';
 import { AddNewPeopleDialogComponent } from './add-new-people-dialog/add-new-people-dialog.component';
+import { collection, Firestore, getDocs, query } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -33,11 +34,12 @@ import { AddNewPeopleDialogComponent } from './add-new-people-dialog/add-new-peo
 export class CreateChannelDialogComponent {
   @Output() newChannelEvent = new EventEmitter<string>();
   authService = inject(AuthenticationService);
+  firestore = inject(Firestore);
 
   constructor(
     private channelService: ChannelService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   name = '';
   description = '';
@@ -63,17 +65,21 @@ export class CreateChannelDialogComponent {
         channel.owner,
         channel.member
       );
-   
-   this.addNewPeopleDialog();
-      // this.dialog.closeAll();
+      this.addNewPeopleDialog();
     } else {
       this.alertMessage = true;
     }
   }
 
   async doesChannelNameExist() {
-    for (let index = 0; index < this.channelService.channels.length; index++) {
-      const element = this.channelService.channels[index].name;
+    let channels: Channel[] = [];
+    const q = query(collection(this.firestore, 'channels'));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      channels.push(this.channelService.toJsonChannel(doc.data(), doc.id));
+    });
+    for (let index = 0; index < channels.length; index++) {
+      const element = channels[index].name;
       if (this.name === element) {
         this.channelNameFound = true;
         this.alertMessage = true;
@@ -94,9 +100,9 @@ export class CreateChannelDialogComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       name: this.name,
-   
+
     };
     this.dialog.open(AddNewPeopleDialogComponent, dialogConfig);
-    
+
   }
 }

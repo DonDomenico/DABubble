@@ -211,16 +211,33 @@ export class AuthenticationService {
   //   }
   // }
 
-
-
   guestLogIn() {
-    signInAnonymously(this.firebaseAuth).then(result => {
-      console.log(result); //Testcode, später löschen
-      const randomNumberForName = Math.round(Math.random() * 1000);
-      updateProfile(result.user, { displayName: `Guest${randomNumberForName}` });
-      this.router.navigateByUrl('general-view');
+    signInAnonymously(this.firebaseAuth).then(async result => {
+        const randomNumberForName = Math.round(Math.random() * 1000);
+        const guestName = `Guest${randomNumberForName}`;
+        updateProfile(result.user, { displayName: guestName, photoURL: './assets/img/avatar1.svg' });
+        await this.saveGuestInFirestore(result.user.uid, guestName, './assets/img/avatar1.svg');
+        this.addInitialConversations(result.user.uid);
+        this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
+        console.log(result); //Testcode, später löschen
+        this.router.navigateByUrl('general-view');
     }).catch(error => {
       console.log(error); //Testcode, später löschen
+    })
+  }
+
+  async saveGuestInFirestore(uid: string, username: string, photoUrl: string) {
+    setDoc(doc(this.firestore, "users", uid), {
+      uid: uid,
+      username: username,
+      photoUrl: photoUrl,
+      active: false,
+      accountActive: true
+    }).then(() => {
+      console.log('User added to database'); //später löschen
+    }).catch((err) => {
+      console.error(err);
+      // Fehlermeldung auf der Seite anzeigen
     })
   }
 

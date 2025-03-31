@@ -59,6 +59,7 @@ export class EditProfileDialogComponent {
     if(newEmail !== this.data.user.email) {
       this.openReauthenticationDialog(newEmail);
     }
+    this.closeDialog();
   }
 
   closeDialog() {

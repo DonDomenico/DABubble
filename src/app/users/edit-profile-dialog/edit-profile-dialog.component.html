@@ -18,7 +18,7 @@
         <mat-icon>account_circle</mat-icon>
         <p>Vollständiger Name</p>
       </div>
-      
+
       <div>
         <div class="input-container">
           <input type="text" class="background-image name-input" [placeholder]="authService.currentUser?.displayName"
@@ -28,7 +28,8 @@
       </div>
     </div>
 
-    @if (this.authService.currentUser.providerData[0].providerId !== 'google.com') {
+    @if (this.authService.currentUser.providerData[0] !== undefined) {
+      @if (this.authService.currentUser.providerData[0].providerId !== 'google.com') {
       <div>
         <div class="edit-email">
           <mat-icon>account_circle</mat-icon>
@@ -38,8 +39,8 @@
         <div>
           <div>
             <input class="background-image mail-input" [placeholder]="authService.currentUser?.email"
-              formControlName="email" type="email" [style.color]="editProfileForm.get('email')?.dirty ? 'black' : '#686868'"
-              (ngModelChange)="onInputChange()">
+              formControlName="email" type="email"
+              [style.color]="editProfileForm.get('email')?.dirty ? 'black' : '#686868'" (ngModelChange)="onInputChange()">
           </div>
           @if (editProfileForm.get('email')?.invalid && editProfileForm.get('email')?.value != '') {
           <span class="error">Diese E-Mail-Adresse ist leider ungültig.</span>
@@ -48,12 +49,14 @@
           }
         </div>
       </div>
+      }
     }
 
     <div class="btn-wrapper">
       <button class="button-secondary" (click)="closeDialog()">Abbrechen</button>
-      <button class="button-primary" (click)="saveChanges()" [disabled]="checkFormValidity() || editProfileForm.get('email')?.invalid"
-      [style.cursor]="checkFormValidity() || editProfileForm.get('email')?.invalid ? 'not-allowed' : 'pointer'">Speichern</button>
+      <button class="button-primary" (click)="saveChanges()"
+        [disabled]="(checkFormValidity() || editProfileForm.get('email')?.invalid) && !authService.currentUser.isAnonymous"
+        [style.cursor]="(checkFormValidity() || editProfileForm.get('email')?.invalid) && !authService.currentUser.isAnonymous ? 'not-allowed' : 'pointer'">Speichern</button>
     </div>
   </form>
 </section>

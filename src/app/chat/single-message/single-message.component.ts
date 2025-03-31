@@ -170,7 +170,7 @@ export class SingleMessageComponent implements OnInit, OnDestroy {
   async addMessageText() {
     await this.conversationService.checkConversationExists(this.authService.currentUser.uid, this.userId);
     if (!this.conversationService.conversationExists) {
-      await this.createConversation();
+      this.createConversation();
     }
 
     if (this.conversationMessage !== "") {

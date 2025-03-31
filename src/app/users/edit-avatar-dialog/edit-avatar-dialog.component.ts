@@ -19,6 +19,9 @@ export class EditAvatarDialogComponent {
 
   changeAvatar() {
     this.authService.updateAvatar(this.avatarService.profileImg);
+    if(this.authService.currentUser.isAnonymous) {
+      this.userService.updateGuestAvatar(this.authService.currentUser, this.avatarService.profileImg);
+    }
     this.userService.updateUserAvatar(this.authService.currentUser, this.avatarService.profileImg);
     this.dialogRef.close();
   }

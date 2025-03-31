@@ -38,9 +38,9 @@
     <p>{{ authService.currentUser.displayName }}</p>
     } @else {
     <p>User Name</p>
-    } @if (authService.currentUser?.isAnonymous) {
-    <img src="./assets/img/avatar1.svg" class="user-avatar" />
-    } @else if (authService.currentUser) {
+    } 
+    
+    @if (authService.currentUser) {
     <img src="{{ authService.currentUser.photoURL }}" class="user-avatar" />
     } @else {
     <img

@@ -42,6 +42,13 @@ export class UserService implements OnDestroy {
     }
   }
 
+  async updateGuestAvatar(user: any, src: string) {
+    if(user) {
+      let userRef = this.getSingleUserRef(user.uid);
+      await updateDoc(userRef, {photoURL: src});
+    }
+  }
+
   getCleanJson(user: any, username: string, email: string, photoURL: string) {
     return {
       uid: user.uid,
