@@ -104,7 +104,8 @@
     <div class="message-box-container" #messageBoxContainer>
       <textarea *ngIf="isEditing" name="edited-message" placeholder="Bearbeiten..." [(ngModel)]="editText"></textarea>
       <textarea *ngIf="!isEditing" name="message" placeholder="Nachricht an {{ getSingleChannel()?.name }}"
-        [(ngModel)]="message" (ngModelChange)="hideErrorMessage()"></textarea>
+      [(ngModel)]="message" (ngModelChange)="hideErrorMessage()"></textarea>
+
       <div class="message-box">
         <div class="message-box-icons">
           <div class="add-emoji-container" #emojiPicker (click)="onClickInside($event)">
@@ -113,7 +114,21 @@
             <emoji-mart class="emoji-mart message-emojis" set="twitter" *ngIf="showEmojiPicker"
               (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
           </div>
-          <mat-icon>alternate_email</mat-icon>
+
+          <button class="mention-button" mat-icon-button [matMenuTriggerFor]="aboveMenu">
+            <mat-icon>alternate_email</mat-icon>
+          </button>
+
+          <mat-menu #aboveMenu="matMenu">
+            <ng-container *ngFor="let result of channelService.memberInfos; trackBy: trackByFn">
+              <button mat-menu-item (click)="insertMention(result.username)">
+                <div class="user-result">
+                  <p>{{ result.username }}</p>
+                </div>
+              </button>
+            </ng-container>
+          </mat-menu>
+          
         </div>
         <mat-icon class="send-icon" (click)="addMessage()">send</mat-icon>
       </div>

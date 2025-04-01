@@ -36,6 +36,9 @@ import { ShowMembersDialogComponent } from '../show-members-dialog/show-members-
 import { User } from '../../users/user.interface';
 import { UserService } from '../../services/users.service';
 import { MobileServiceService } from '../../services/mobile.service';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { SearchService } from '../../services/search.service';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 
 
 @Component({
@@ -49,7 +52,9 @@ import { MobileServiceService } from '../../services/mobile.service';
     MatTooltipModule,
     DatePipe,
     PickerModule,
-    RouterModule
+    MatAutocompleteModule,
+    RouterModule,
+    MatMenuModule
   ],
   templateUrl: './single-channel.component.html',
   styleUrl: './single-channel.component.scss',
@@ -85,19 +90,24 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   currentUser: any;
   fullViews: boolean = true;
   isMobile: boolean = false;
+
   @ViewChild('messagesContainer') private messagesContainer: ElementRef | undefined;
   @ViewChild('emojiPicker') private emojiPickerElement: ElementRef | undefined;
   @ViewChild('emojiPickerReaction') private emojiPickerReactionElement: ElementRef | undefined;
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger | undefined;
 
   constructor(
     public authService: AuthenticationService,
     public channelService: ChannelService,
+    public searchService: SearchService,
     private userService: UserService,
     private route: ActivatedRoute,
     public dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
     private renderer: Renderer2
   ) { }
+
+  
 
   ngOnInit() {
     // window.addEventListener('resize', this.setDivHeight); // Passt die Höhe bei einer Größenänderung an
@@ -129,12 +139,7 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   setDivHeight() {
-    // const div = document.getElementById('messages-container');
-    // if (div && window.innerWidth < 1000) {
-    //   div.style.height = `${window.innerHeight - 66 - 60}px`;
-    // } else if(div) {
-    //   div.style.height = `${window.innerHeight - 120 - 96 - 170}px`;
-    // }
+
 
     const messagesContainer = document.getElementById('messages-container');
     const section = document.getElementById('section');
@@ -215,6 +220,24 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  trackByFn(index: number, item: any): any {
+    return item.id || index; 
+  }
+  
+
+  insertMention(username: string): void {
+    if (this.message) {
+      this.message += ` @${username}`;
+    } else {
+      this.message = `@${username}`;
+    }
+    const textarea = document.querySelector('textarea[name="message"]') as HTMLTextAreaElement;
+    if (textarea) {
+      textarea.focus();
+    }
+  }
+  
   addMessage() {
     if (this.message !== "") {
       const newMessage: Message = {

@@ -16,9 +16,6 @@ export class SearchService {
   searchAll: string = '';
   searchResults: Channel[] = [];
   searchResultsUsers: User[] = [];
-  // mobileHeader: boolean = true;
-  // logoHeader: boolean = false;
-  // isMobile: boolean = false;
   constructor() {}
 
   async search() {

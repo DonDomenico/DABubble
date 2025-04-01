@@ -29,6 +29,7 @@ export class HeaderComponent {
   isMobile = false;
   @Input()  channelId!: string;
   @Output() showSidenav = new EventEmitter<boolean>();
+  isUserSearch: boolean = false;
 
   constructor(public dialog: MatDialog, public router: Router) {
   }
@@ -54,14 +55,20 @@ export class HeaderComponent {
     })
   }
 
+  onKeyUp(event: KeyboardEvent): void { 
+    const input = (event.target as HTMLInputElement).value; 
+    if (input.startsWith('@')) { 
+      this.isUserSearch = true;
+     } else if (input.startsWith('#')) { 
+      this.isUserSearch = false;
+     } else {
+      this.isUserSearch = false;
+     }
+     this.searchService.searchUsersAndChannels();
+
+   } 
+
   emitToggleSidenav() {   
-    // if (this.isMobile && this.router.url.startsWith(`/general-view/single-channel/${this.channelId}/thread/`)	)  {
-    //   this.channelService.isThreadHidden = !this.channelService.isThreadHidden;
-    //   this.channelService.hideSingleChannel = false;
-    //   this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
-
-    // } else {
-
       this.showSidenav.emit(true);
       this.mobileService.mobileHeader = !this.mobileService.mobileHeader;
       this.mobileService.logoHeader = !this.mobileService.logoHeader;
@@ -70,8 +77,7 @@ export class HeaderComponent {
       this.router.navigateByUrl('/general-view');
       this.searchService.searchText = '';
     }
-    // this.mobileService.hideSideNav = false;
-  // }
+
 
   redirectHome() {
     window.location.reload();

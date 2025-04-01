@@ -124,13 +124,8 @@ section {
 
 .messages-container {
   width: 100%;
-  // height: calc(var(--vh, 1vh) * 52);
-  // height: 57svh;
   overflow-y: auto;
 
-  // >div:nth-last-child(1) {
-  //   margin-bottom: 100px;
-  // }
 }
 
 .message-wrapper {
@@ -168,7 +163,6 @@ section {
 }
 
 .single-message-container {
-  // width: 70%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -240,6 +234,20 @@ section {
       }
     }
   }
+}
+
+.mention-button {
+  border: none;
+  background: none;
+  > mat-icon {
+    color: #666666;
+    width: 25px;
+  }
+
+}
+
+.user-result {
+  font-size: 18px;
 }
 
 .message-box-wrapper {

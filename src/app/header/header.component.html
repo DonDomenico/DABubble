@@ -20,20 +20,40 @@
     <input
       type="search"
       placeholder="Code learning durchsuchen"
-      (keyup)="searchService.search()"
-      [(ngModel)]="searchService.searchText"
+      (keyup)="onKeyUp($event)"
+      [(ngModel)]="searchService.searchAll"
       [matAutocomplete]="auto"
     />
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      @if (!isUserSearch) {
       @for (result of searchService.searchResults; track result) {
       <mat-option
       (click)="mobileService.toggleSidenavMobile()"
         [routerLink]="['/general-view/single-channel/' + result.docId]"
         routerLinkActive="router-link-active"
-        [value]="result.name"
-        >{{ result.name }} {{ result.description }}</mat-option
+        [value]="result.name"        >
+        <div>
+          <p>   {{ result.name }} </p>
+          <p>   {{ result.description }}</p>
+        </div>
+     </mat-option
       >
       }
+    } 
+    @if (isUserSearch) {
+      @for (result of searchService.searchResultsUsers; track result) {
+
+        <mat-option
+          [routerLink]="['/general-view/single-message/' + result.uid]"
+          routerLinkActive="router-link-active"
+          [value]="[result.username, result.email]" >
+          <div class="user-result">
+            <p>{{ result.username }}</p>
+            <p>{{ result.email }}</p>
+          </div>
+        </mat-option>
+        }}
+    
     </mat-autocomplete>
   </div>
 
