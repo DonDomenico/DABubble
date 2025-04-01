@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 
-
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -11,6 +9,5 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  
   title = 'dabubble';
 }

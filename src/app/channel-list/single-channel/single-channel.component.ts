@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, inject, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, inject, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import {
@@ -25,9 +25,7 @@ import {
   onSnapshot,
   orderBy,
   query,
-  updateDoc,
-  collection,
-  where
+  updateDoc
 } from '@angular/fire/firestore';
 import { AuthenticationService } from '../../services/authentication.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -110,28 +108,21 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   
 
   ngOnInit() {
-    // window.addEventListener('resize', this.setDivHeight); // Passt die Höhe bei einer Größenänderung an
     this.routeSubscription = this.route.children[0].params.subscribe(async (params) => {
       this.channelService.channelMembers = [];
       this.channelService.memberInfos = [];
       this.channelService.messages = [];
-      console.log(params); //Testcode, später löschen
       this.channelService.channelId = params['id'];
-      console.log(this.channelService.channelId); //Testcode, später löschen
       await this.channelService.getChannelMembers(this.channelService.channelId);
       await this.getChannelMemberInfos();
       await this.getChannelChats(this.channelService.channelId);
-      // this.unsubSingleChannel = this.channelService.subSingleChannel(this.channelService.channelId);
-      // this.unsubMemberInfos = this.subMemberInfos();
       this.unsubChannelChat = this.subChannelChat(this.channelService.channelId);
       this.showEmojiPickerReaction.clear();
-      this.setDivHeight(); // Setzt die Höhe beim Laden der Seite
+      this.setDivHeight();
     });
   }
 
   ngOnDestroy() {
-    // this.unsubSingleChannel();
-    // this.unsubMemberInfos();
     this.unsubChannelChat();
     if (this.routeSubscription !== undefined) {
       this.routeSubscription.unsubscribe();
@@ -139,12 +130,16 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
   }
 
   setDivHeight() {
-
+    // const div = document.getElementById('messages-container');
+    // if (div && window.innerWidth < 1000) {
+    //   div.style.height = `${window.innerHeight - 66 - 60}px`;
+    // } else if(div) {
+    //   div.style.height = `${window.innerHeight - 120 - 96 - 170}px`;
+    // }
 
     const messagesContainer = document.getElementById('messages-container');
     const section = document.getElementById('section');
     if (messagesContainer && section && window.innerWidth < 1000) {
-      // messagesContainer.style.height = `${window.innerHeight - 66}px`;
       section.style.height = `${window.innerHeight - 66}px`;
       messagesContainer.style.height = `${window.innerHeight - 66 - 60 - 145}px`;
       this.isMobile = true;
@@ -185,7 +180,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     querySnapshot.forEach((doc) => {
       this.channelService.messages.push(this.channelService.toJsonMessage(doc.data(), doc.id));
     });
-    console.log('Channel message: ', this.channelService.messages); //Testcode, später löschen
     this.dataLoaded = true;
     if (this.emojiPickerOpen === false || this.channelService.isThreadHidden === true) {
       this.cdRef.detectChanges();
@@ -205,18 +199,15 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
         this.scrollToBottom();
       }
-      console.log('CHAT TEXT', this.channelService.messages);
     });
   }
 
   subSingleChannel(channelId: string) {
     return onSnapshot(doc(this.channelService.firestore, 'channels', channelId), (channel) => {
-      console.log(channel.data());
       this.channelService.channelMembers = [];
       channel.data()!['member'].forEach((member: User) => {
         this.channelService.channelMembers.push(member);
       });
-      console.log(this.channelService.channelMembers);
     });
   }
 
@@ -396,19 +387,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
     this.showEmojiPicker = false;
   }
 
-  // isDifferentDay(index: number) {
-  //   if (index === 0) {
-  //     return true; // Datum der ersten Nachricht immer anzeigen
-  //   }
-  //   const currentMessageDate = new Date(this.channelService.messages[index].timestamp);
-  //   const previousMessageDate = new Date(this.channelService.messages[index - 1].timestamp);
-
-  //   // Vergleiche nur das Datum, nicht die Uhrzeit
-  //   const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
-
-  //   return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
-  // }
-
   private scrollToBottom(): void {
     if (this.messagesContainer && this.messagesContainer.nativeElement) {
       this.renderer.setProperty(this.messagesContainer.nativeElement, 'scrollTop', this.messagesContainer.nativeElement.scrollHeight);
@@ -440,17 +418,6 @@ export class SingleChannelComponent implements OnInit, OnDestroy {
       this.isMobile = true;
     }
   }
-
-  // toggleMessageBoxSize(messageBoxContainer: HTMLDivElement) {
-  //   this.checkMobile();
-  //   if (this.channelService.isThreadHidden && !this.isMobile) {
-  //     messageBoxContainer.style.width = '30%';
-  //   } else if (this.channelService.isThreadHidden && this.isMobile) {
-  //     messageBoxContainer.style.width = '100%';
-  //   } else {
-  //     messageBoxContainer.style.width = '55%';
-  //   }
-  // }
 
   editMessage(message: Message, messageId: string) {
     this.isEditing = true;

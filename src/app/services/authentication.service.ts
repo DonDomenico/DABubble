@@ -7,9 +7,7 @@ import {
   reauthenticateWithCredential,
   EmailAuthProvider,
   verifyBeforeUpdateEmail,
-  deleteUser,
-  signInWithRedirect,
-  getRedirectResult,
+  deleteUser
 } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { UserService } from './users.service';
@@ -38,7 +36,6 @@ export class AuthenticationService {
     onAuthStateChanged(this.firebaseAuth, user => {
       if (user) {
         this.currentUser = user;
-        console.log(user);
       }
     })
   }
@@ -53,7 +50,6 @@ export class AuthenticationService {
       this.router.navigateByUrl('');
     }).catch(error => {
       this.emailAlreadyExists = error.code;
-      console.log(error); //Testcode, später löschen
     })
   }
 
@@ -79,49 +75,34 @@ export class AuthenticationService {
       photoURL: photoUrl,
       active: false,
       accountActive: true
-    }).then(() => {
-      console.log('User added to database'); //später löschen
-    }).catch((err) => {
-      console.error(err);
-      // Fehlermeldung auf der Seite anzeigen
     })
   }
 
-  showCurrentUser() {
-    onAuthStateChanged(this.firebaseAuth, (user) => {
-      if (user) {
-        this.currentUser = user;
-        console.log('current user: ', this.currentUser); //Testcode, später löschen
-      } else {
-        console.log('No user signed in'); //Testcode, später löschen
-      }
-    });
-  }
+  // showCurrentUser() {
+  //   onAuthStateChanged(this.firebaseAuth, (user) => {
+  //     if (user) {
+  //       this.currentUser = user;
+  //     }
+  //   });
+  // }
 
   login(email: string, password: string) {
     signInWithEmailAndPassword(this.firebaseAuth, email, password).then(userCredential => {
       if (userCredential.user.emailVerified) {
-        console.log('Sign in successful | Username: ', userCredential.user.displayName); //Testcode, später löschen
         let user = this.userService.users.find((user) => user.uid === userCredential.user.uid);
         this.userService.setStatusActive(user);
         this.router.navigateByUrl('general-view');
       } else {
         this.emailVerificationError = 'Bitte verifizieren Sie Ihr Konto über die zugesendete E-Mail.';
-        console.log(this.emailVerificationError); //Testcode, später löschen
       }
     }).catch(error => {
       if (error.code == 'auth/invalid-credential') {
         this.passwordError = error.code;
-        console.log('Password Error: ', this.passwordError); //Testcode, später löschen
       } else if (error.code == 'auth/too-many-requests') {
         this.tooManyRequests = error.code;
-        console.log('Request Error: ', this.tooManyRequests); //Testcode, später löschen
       }
     })
   }
-
-  // loginFromLocalStorage() {
-  // }
 
   async sendMailResetPassword(email: string) {
     const emailInDatabase = query(this.userService.getUserRef(), where('email', '==', email));
@@ -136,12 +117,7 @@ export class AuthenticationService {
 
   sendVerificationMail() {
     if (this.currentUser) {
-      sendEmailVerification(this.currentUser)
-        .then(() => {
-          console.log('Verification Mail sent'); //Testcode, später löschen
-        }).catch(error => {
-          console.log(error.code); //Testcode, später löschen
-        });
+      sendEmailVerification(this.currentUser);
     }
   }
 
@@ -150,79 +126,27 @@ export class AuthenticationService {
       const emailFound = this.userService.users.filter(user => user.email == result.user.email);
       if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length === 0) {
         let photoURL = result.user.photoURL;
-        // if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
-        //   photoURL = photoURL + '?sz=' + 24;
-        // }
         await this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, photoURL);
         this.addInitialConversations(result.user.uid);
         this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
-      } else {
-        console.log('User already in database'); //Testcode, später löschen
       }
       setTimeout(() => {
         let user = this.userService.users.find((user) => user.uid === result.user.uid);
         this.userService.setStatusActive(user);
         this.router.navigateByUrl('general-view');
-        // evtl loading spinner
       }, 500);
-    }).catch(error => {
-      console.log(error); //Testcode, später löschen
     })
   }
 
-  // async signInWithGoogle() {
-  //   console.log("Starting Google sign-in redirect...");
-  //   try {
-  //     this.google.setCustomParameters({ prompt: 'select_account' }); // Erzwingt die Kontowahl
-  //     signInWithRedirect(this.firebaseAuth, this.google);
-  //   } catch (error) {
-  //     console.error("Error during sign-in:", error);
-  //   }
-  // }
-
-  // handleRedirectLogin() {
-  //   try {
-  //     getRedirectResult(this.firebaseAuth).then(result => {
-  //     if (result) {
-  //       const emailFound = this.userService.users.filter(user => user.email == result.user.email);
-  //       if (result.user.email && result.user.displayName && result.user.photoURL && emailFound.length === 0) {
-  //         let photoURL = result.user.photoURL;
-  //         // if ((photoURL.indexOf('googleusercontent.com') != -1) || (photoURL.indexOf('ggpht.com') != -1)) {
-  //         //   photoURL = photoURL + '?sz=' + 24;
-  //         // }
-  //         this.saveUserInFirestore(result.user.uid, result.user.displayName, result.user.email, photoURL);
-  //         this.addInitialConversations(result.user.uid);
-  //         this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
-  //       } else {
-  //         console.log('User already in database'); //Testcode, später löschen
-  //       }
-  //       setTimeout(() => {
-  //         let user = this.userService.users.find((user) => user.uid === result.user.uid);
-  //         this.userService.setStatusActive(user);
-  //         this.router.navigateByUrl('general-view');
-  //         // evtl loading spinner
-  //       }, 500);
-  //     } else {
-  //       console.log('Redirect failed');
-  //     }
-  //   })
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
   guestLogIn() {
     signInAnonymously(this.firebaseAuth).then(async result => {
-        const randomNumberForName = Math.round(Math.random() * 1000);
-        const guestName = `Guest${randomNumberForName}`;
-        updateProfile(result.user, { displayName: guestName, photoURL: './assets/img/avatar1.svg' });
-        await this.saveGuestInFirestore(result.user.uid, guestName, './assets/img/avatar1.svg');
-        this.addInitialConversations(result.user.uid);
-        this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
-        console.log(result); //Testcode, später löschen
-        this.router.navigateByUrl('general-view');
-    }).catch(error => {
-      console.log(error); //Testcode, später löschen
+      const randomNumberForName = Math.round(Math.random() * 1000);
+      const guestName = `Guest${randomNumberForName}`;
+      updateProfile(result.user, { displayName: guestName, photoURL: './assets/img/avatar1.svg' });
+      await this.saveGuestInFirestore(result.user.uid, guestName, './assets/img/avatar1.svg');
+      this.addInitialConversations(result.user.uid);
+      this.addUserToWelcomeChannel(result.user.uid, 'DTCcKIo8o4tlQw78i1cI');
+      this.router.navigateByUrl('general-view');
     })
   }
 
@@ -233,34 +157,13 @@ export class AuthenticationService {
       photoUrl: photoUrl,
       active: false,
       accountActive: true
-    }).then(() => {
-      console.log('User added to database'); //später löschen
-    }).catch((err) => {
-      console.error(err);
-      // Fehlermeldung auf der Seite anzeigen
     })
   }
-
-  // async logout() {
-  //   if (!this.currentUser.displayName.startsWith('Guest')) {
-  //     await this.userService.setStatusInactive(this.currentUser);
-  //   }
-  //   setTimeout(async () => {
-  //     await signOut(this.firebaseAuth);
-  //     this.currentUser = null;
-  //     this.router.navigateByUrl('');
-  //   }, 500);
-  // }
 
   async logout() {
     if (!this.currentUser.displayName.startsWith('Guest')) {
       await this.userService.setStatusInactive(this.currentUser);
     }
-    // setTimeout(async () => {
-    //   await signOut(this.firebaseAuth);
-    //   this.currentUser = null;
-    //   this.router.navigateByUrl('');
-    // }, 500);
     signOut(this.firebaseAuth).then(() => {
       this.currentUser = null;
       this.router.navigateByUrl('');
@@ -273,11 +176,7 @@ export class AuthenticationService {
     if (this.currentUser !== null && newName) {
       updateProfile(this.currentUser, {
         displayName: newName
-      }).then(() => {
-        console.log('Username updated')
-      }).catch((error) => {
-        console.error(error)
-      });
+      })
     }
   }
 
@@ -287,10 +186,8 @@ export class AuthenticationService {
 
     if (this.currentUser !== null) {
       await reauthenticateWithCredential(this.currentUser, credentials).then(() => {
-        console.log('User reauthenticated!');
         userAuthenticated = true;
       }).catch(error => {
-        console.log(error); //später löschen
         if (error.code == 'auth/invalid-credential') {
           this.passwordError = error.code;
         } else if (error.code == 'auth/too-many-requests') {
@@ -304,11 +201,7 @@ export class AuthenticationService {
 
   async updateEmailAddress(newEmail: string) {
     if (this.currentUser !== null) {
-      await verifyBeforeUpdateEmail(this.currentUser, newEmail).then(() => {
-        console.log('Verification Mail sent');
-      }).catch(error => {
-        console.log(error)
-      });
+      await verifyBeforeUpdateEmail(this.currentUser, newEmail);
     }
   }
 
@@ -320,10 +213,7 @@ export class AuthenticationService {
 
   async deleteAccount() {
     deleteUser(this.currentUser).then(() => {
-      console.log('Account deleted: ', this.currentUser);
       this.router.navigateByUrl('');
-    }).catch((error) => {
-      console.log(error.code);
-    });
+    })
   }
 }

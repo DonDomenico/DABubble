@@ -1,29 +1,20 @@
 <header>
-  <div
-    class="mobile-header"
-  
-    [ngStyle]="mobileService.mobileHeader ? { display: 'none' } : { display: 'flex' }"
-  >
-
+  <div class="mobile-header" [ngStyle]="mobileService.mobileHeader ? { display: 'none' } : { display: 'flex' }">
     <div class="mobile-btn-arrow-back">
       @if (channelService.isThreadHidden) {
-        
-        <img   (click)="emitToggleSidenav()" src="./assets/img/arrow_back.svg" />
-      } 
+
+      <img (click)="emitToggleSidenav()" src="./assets/img/arrow_back.svg" />
+      }
       <img class="workspace-logo" src="./assets/img/Workspace logo.svg" />
     </div>
   </div>
-    <div class="header-logo" [ngStyle]="mobileService.logoHeader ? { display: 'none' } : { display: 'block' }" (click)="redirectHome()">
-      <img src="./assets/img/logo-dabubble.svg" alt="logo" />
-    </div>
+  <div class="header-logo" [ngStyle]="mobileService.logoHeader ? { display: 'none' } : { display: 'block' }"
+    (click)="redirectHome()">
+    <img src="./assets/img/logo-dabubble.svg" alt="logo" />
+  </div>
   <div class="search-container" [ngStyle]="mobileService.searchHeader ? { display: 'none' } : { display: 'block' }">
-    <input
-      type="search"
-      placeholder="Code learning durchsuchen"
-      (keyup)="onKeyUp($event)"
-      [(ngModel)]="searchService.searchAll"
-      [matAutocomplete]="auto"
-    />
+    <input type="search" placeholder="Code learning durchsuchen" (keyup)="onKeyUp($event)"
+      [(ngModel)]="searchService.searchAll" [matAutocomplete]="auto" />
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
       @if (!isUserSearch) {
       @for (result of searchService.searchResults; track result) {
@@ -62,16 +53,12 @@
     <p>{{ authService.currentUser.displayName }}</p>
     } @else {
     <p>User Name</p>
-    } 
-    
+    }
+
     @if (authService.currentUser) {
     <img src="{{ authService.currentUser.photoURL }}" class="user-avatar" />
     } @else {
-    <img
-      src="./assets/img/avatar1.svg"
-      class="user-avatar"
-      [matMenuTriggerFor]="menu"
-    />
+    <img src="./assets/img/avatar1.svg" class="user-avatar" [matMenuTriggerFor]="menu" />
     }
     <mat-icon [matMenuTriggerFor]="menu">keyboard_arrow_down</mat-icon>
 

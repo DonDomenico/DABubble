@@ -43,7 +43,6 @@ export class UpdateChannelDialogComponent {
   constructor(
     public channelService: ChannelService,
     public dialog: MatDialog,
-    private route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public authenticationService: AuthenticationService
   ) {}
@@ -60,9 +59,7 @@ export class UpdateChannelDialogComponent {
 
   async getSingleChannel(): Promise<Channel | undefined> {
     if (this.channelId != undefined) {
-      const channelRef = this.channelService.getSingleChannelRef(
-        this.channelId
-      );
+      const channelRef = this.channelService.getSingleChannelRef(this.channelId);
       const channelSnapshot = await getDoc(channelRef);
       if (channelSnapshot.exists()) {
         return this.channelService.toJsonChannel(
@@ -70,7 +67,6 @@ export class UpdateChannelDialogComponent {
           channelSnapshot.id
         );
       } else {
-        console.log('No such document!');
         return undefined;
       }
     } else {
@@ -103,9 +99,7 @@ export class UpdateChannelDialogComponent {
 
   async getNewChannelName() {
     if (this.channelId != undefined) {
-      const channelRef = this.channelService.getSingleChannelRef(
-        this.channelId
-      );
+      const channelRef = this.channelService.getSingleChannelRef(this.channelId);
       const channelSnapshot = await getDoc(channelRef);
       if (channelSnapshot.exists()) {
         return this.channelService.toJsonChannel(
@@ -113,7 +107,6 @@ export class UpdateChannelDialogComponent {
           channelSnapshot.id
         );
       } else {
-        console.log('No such document!');
         return undefined;
       }
     } else {
@@ -140,8 +133,6 @@ export class UpdateChannelDialogComponent {
       );
     }
     this.edit = true;
-
-    console.log('Channel-Description gespeichert');
     this.isChannelDescriptionHidden = false;
     await this.getNewChannelName();
   }
@@ -156,7 +147,6 @@ export class UpdateChannelDialogComponent {
     this.channelService.memberInfos = this.channelService.memberInfos.filter(
       (member: { uid: any }) => member.uid !== currentUser.uid
     );
-
     this.dialog.closeAll();
   }
 }

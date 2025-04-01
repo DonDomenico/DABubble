@@ -1,4 +1,4 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -70,11 +70,7 @@ export class EditProfileDialogComponent {
     if(this.editProfileForm.get('username')?.value !== "" || this.editProfileForm.get('email')?.value !== "") {
       try {
         await this.userService.updateUsername(this.user as User, newUserName);
-        console.log('User profile saved successfully');
-  
-      } catch (error) {
-        console.error('Error saving user profile: ', error);
-      }
+      } catch (error) {}
     }
   }
 
@@ -82,11 +78,7 @@ export class EditProfileDialogComponent {
     if(this.editProfileForm.get('username')?.value !== "" || this.editProfileForm.get('email')?.value !== "") {
       try {
         await this.userService.updateUserEmail(this.user as User, newEmail);
-        console.log('User profile saved successfully');
-  
-      } catch (error) {
-        console.error('Error saving user profile: ', error);
-      }
+      } catch (error) {}
     }
   }
 
@@ -121,17 +113,13 @@ export class EditProfileDialogComponent {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       this.userAuthenticated = await result;
-      console.log(`Dialog result: ${this.userAuthenticated}`);
 
       if(this.userAuthenticated === true) {
         await this.authService.updateEmailAddress(newEmail);
         this.showSnackBar();
-        // await this.authService.logoutAfterChangingEmail(this.data.user.email);
         if(this.authService.emailChanged === true) {
-          this.updateUserEmailInFirestore(newEmail); // should only be called, if the verification-link was clicked
+          this.updateUserEmailInFirestore(newEmail);
         }
-        // check if user has clicked on the verification link and log him out automatically
-        // this.authService.currentUser?.reload();
       }
     });
   }

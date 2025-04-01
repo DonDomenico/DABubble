@@ -30,7 +30,6 @@ export class SignupComponent {
   async onSubmit() {
     await this.searchEmailInDatabase();
     if(this.emailInDatabase === false) {
-      console.log('form data sent: ', this.registerForm.value, this.registerForm.valid); // Testcode, später löschen
       this.formData = this.registerForm.getRawValue();
       this.router.navigate(['signup/select-avatar'], {  state: this.formData } );
     }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, inject, Input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
@@ -9,7 +9,7 @@ import { ShowProfileDialogComponent } from '../users/show-profile-dialog/show-pr
 import { SearchService } from '../services/search.service';
 import { FormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MobileServiceService } from '../services/mobile.service';
 import { ChannelService } from '../services/channel.service';
@@ -31,8 +31,7 @@ export class HeaderComponent {
   @Output() showSidenav = new EventEmitter<boolean>();
   isUserSearch: boolean = false;
 
-  constructor(public dialog: MatDialog, public router: Router) {
-  }
+  constructor(public dialog: MatDialog, public router: Router) {}
 
   ngOnInit() {
     this.checkMobile();
@@ -43,7 +42,6 @@ export class HeaderComponent {
       this.isMobile = true;
     }
   }
-
 
   showUserProfile() {
     const focusedElement = document.activeElement as HTMLElement; // Get the currently focused element
@@ -77,7 +75,6 @@ export class HeaderComponent {
       this.router.navigateByUrl('/general-view');
       this.searchService.searchText = '';
     }
-
 
   redirectHome() {
     window.location.reload();

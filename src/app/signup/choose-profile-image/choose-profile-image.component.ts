@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Router, RouterModule } from '@angular/router';
 import { AuthenticationService } from '../../services/authentication.service';
@@ -25,14 +25,7 @@ export class ChooseProfileImageComponent {
   formData;
 
   constructor(private _snackBar: MatSnackBar, private router: Router, public avatarService: AvatarsService) {
-    console.log('form data received: ', this.router.getCurrentNavigation()?.extras.state);
     this.formData = this.router.getCurrentNavigation()?.extras.state;
-  }
-
-  showFormData() {
-    if(this.formData) {
-      console.log(this.formData['username'], this.formData['email']);
-    }
   }
 
   async submit() {

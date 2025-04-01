@@ -28,7 +28,6 @@ export class ShowProfileDialogComponent {
   edit = false;
   user: User | undefined;
   userAuthenticated: boolean = false;
-  // @Input() user!: User;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -48,8 +47,6 @@ export class ShowProfileDialogComponent {
       const user = await this.userService.getSingleUser(this.userId);
       if (user) {
         this.user = user;
-      } else {
-        console.log('No such document!');
       }
     }
   }
@@ -91,7 +88,6 @@ export class ShowProfileDialogComponent {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       this.userAuthenticated = await result;
-      console.log(`Dialog result: ${this.userAuthenticated}`);
     });
   }
 }

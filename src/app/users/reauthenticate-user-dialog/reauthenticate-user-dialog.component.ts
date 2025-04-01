@@ -24,7 +24,6 @@ export class ReauthenticateUserDialogComponent {
 
   async reauthenticateUser(email: string, password: string) {
     let userAuthenticated = await this.authService.reauthenticateUser(email, password);
-    // show success message
     if(userAuthenticated === true) {
       this.dialogRef.close(true);
     }

@@ -1,17 +1,16 @@
-import { Component, Output, EventEmitter, ViewChild, Inject, Input, OnInit, OnChanges, HostListener, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, Input, OnInit, HostListener, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { ChannelService } from '../services/channel.service';
 import { Channel } from '../interfaces/channel.interface';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { Firestore, getDoc, doc, addDoc, collection, updateDoc, onSnapshot, query, orderBy } from '@angular/fire/firestore';
-import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+import { Firestore, getDoc, doc, updateDoc, onSnapshot } from '@angular/fire/firestore';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { Message } from '../interfaces/message.interface';
 import { DATE_PIPE_DEFAULT_OPTIONS, DatePipe, CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
-
 
 @Component({
   selector: 'app-thread',
@@ -46,7 +45,6 @@ export class ThreadComponent implements OnInit {
   emojiCounter: number = 0;
   isEditing = false;
   editText = '';
-  // editMessageId = '';
   currentUser: any;
   edited: boolean = false;
   answerIndex: number = 0;
@@ -76,8 +74,6 @@ export class ThreadComponent implements OnInit {
         return item.docId == this.channelId;
       })?.name || '';
       this.message = await this.getThreadMessage();
-      // await this.channelService.getThreadChatRef(this.channelId, this.messageId);
-      // this.threadAnswers = this.message.answers;
       this.unsubThread = this.subThread();
       this.dataLoaded = true;
       if (this.emojiPickerOpen === false) {
@@ -89,8 +85,6 @@ export class ThreadComponent implements OnInit {
 
     this.routerSubscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        // Schließe oder setze den Zustand zurück, wenn die Route gewechselt wird.
-        console.log('Route wird gewechselt'); // später löschen
         this.channelService.isThreadHidden = true;
       }
     });
@@ -130,7 +124,6 @@ export class ThreadComponent implements OnInit {
         this.cdRef.detectChanges();
         this.scrollToBottom();
       }
-      console.log('CHAT TEXT', this.threadAnswers);
     });
   }
 
@@ -141,7 +134,6 @@ export class ThreadComponent implements OnInit {
       if (channelSnapshot.exists()) {
         return this.channelService.toJsonChannel(channelSnapshot.data(), channelSnapshot.id);
       } else {
-        console.log('No such document!');
         return undefined;
       }
     } else {
@@ -149,14 +141,12 @@ export class ThreadComponent implements OnInit {
     }
   }
 
-  // get message that was clicked
   async getThreadMessage() {
     const messageRef = doc(this.firestore, "channels", this.channelId, "chatText", this.messageId);
     const messageSnapshot = await getDoc(messageRef);
     if (messageSnapshot.exists()) {
       return this.channelService.toJsonMessage(messageSnapshot.data(), messageSnapshot.id);
     } else {
-      console.log('No such document!');
       return undefined;
     }
   }
@@ -186,8 +176,6 @@ export class ThreadComponent implements OnInit {
       this.messageEmpty = true;
     }
     this.saveAnswerInFirestore();
-    // this.cdRef.detectChanges();
-    // this.scrollToBottom();
   }
 
   saveAnswerInFirestore() {
@@ -212,19 +200,6 @@ export class ThreadComponent implements OnInit {
     this.router.navigateByUrl(`/general-view/single-channel/${this.channelId}`);
     this.toggleThread.emit(this.channelService.isThreadHidden);
   }
-
-  // isDifferentDay(index: number) {
-  //   if (index === 0) {
-  //     return true; // Datum der ersten Nachricht immer anzeigen
-  //   }
-  //   const currentMessageDate = new Date(this.channelService.messages[index].timestamp);
-  //   const previousMessageDate = new Date(this.channelService.messages[index - 1].timestamp);
-
-  //   // Vergleiche nur das Datum, nicht die Uhrzeit
-  //   const isSameDay = currentMessageDate.toLocaleDateString() === previousMessageDate.toLocaleDateString();
-
-  //   return !isSameDay; // Zeige Datum nur an, wenn der Tag anders ist
-  // }
 
   onClickInside(event: MouseEvent) {
     event.stopPropagation();

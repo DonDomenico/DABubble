@@ -6,9 +6,8 @@ import { RouterModule } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 import { CommonModule } from '@angular/common';
 import { ConversationsService } from '../services/conversations.service';
-import { getDocs, onSnapshot, query, where } from '@angular/fire/firestore';
+import { onSnapshot, query, where } from '@angular/fire/firestore';
 import { MobileServiceService } from '../services/mobile.service';
-import { DirectMessage } from '../interfaces/directMessage.interface';
 
 @Component({
   selector: 'app-users',
@@ -20,7 +19,6 @@ import { DirectMessage } from '../interfaces/directMessage.interface';
 export class UsersComponent {
   authService = inject(AuthenticationService);
   mobileService = inject(MobileServiceService);
-  // userList: User[] = [];
   @Output() toggleSingleMessage: EventEmitter<any> = new EventEmitter();
   isSingleMessageHidden = false;
   filteredUsers: User[] = [];
@@ -49,22 +47,9 @@ export class UsersComponent {
       conversationList.forEach(doc => {
         this.conversationService.conversations.push(this.conversationService.toJsonConversations(doc.data(), doc.id));
       })
-      console.log('Conversations: ', this.conversationService.conversations);
       this.filterUsers();
     })
   }
-
-  // async getUsers() {
-  //   this.userService.users = [];
-  //   const q = query(this.userService.getUserRef());
-
-  //   const querySnapshot = await getDocs(q);
-  //   querySnapshot.forEach((doc) => {
-  //     this.userService.users.push(this.userService.toJson(doc.data(), doc.id));
-  //   });
-  //   await this.filterUsers();
-  //   this.dataLoaded = true;
-  // }
 
   async filterUsers() {
     this.filteredUsers = [];

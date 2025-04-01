@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { FormsModule, Validators, ReactiveFormsModule, FormBuilder, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormsModule, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AuthenticationService } from '../../services/authentication.service';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Router, RouterModule } from '@angular/router';

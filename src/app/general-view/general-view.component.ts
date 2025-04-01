@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../header/header.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
@@ -35,26 +35,14 @@ export class GeneralViewComponent implements OnInit {
   searchService = inject(SearchService);
   mobileService = inject(MobileServiceService);
   isMobile: boolean = false;
-  // hideSideNav: boolean = false;
   fullView = true;
   isMenuOpen: boolean = false;
 
-  // @Input() mobileHeaderEvent = new EventEmitter<boolean>();
-
-  constructor(public router: Router, public channelService: ChannelService, private el: ElementRef) {
-
-  }
+  constructor(public router: Router, public channelService: ChannelService, private el: ElementRef) {}
 
   ngOnInit() {
-    // this.checkMobile();
     this.adjustScreenHeight();
   }
-
-  // checkMobile() {
-  //   if (window.innerWidth < 1000) {
-  //     this.isMobile = true;
-  //   }
-  // }
 
   adjustScreenHeight() {
     const element = this.el.nativeElement.querySelector('.mat-drawer-container');

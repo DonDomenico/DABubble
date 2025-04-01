@@ -12,6 +12,4 @@ import { RouterModule } from '@angular/router';
   styleUrl: './chat.component.scss'
 })
 export class ChatComponent {
-
-  
 }
